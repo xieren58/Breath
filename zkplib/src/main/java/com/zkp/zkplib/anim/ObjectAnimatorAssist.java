@@ -5,7 +5,6 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
-import android.support.annotation.StringDef;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -20,6 +19,8 @@ import android.view.animation.OvershootInterpolator;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.StringDef;
 
 import static com.zkp.zkplib.anim.ObjectAnimatorAssist.ObjectAnimatorType.ALPHA;
 import static com.zkp.zkplib.anim.ObjectAnimatorAssist.ObjectAnimatorType.ROTATION;
