@@ -7,13 +7,12 @@ import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.Log;
 import android.view.View;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.Px;
 import androidx.core.view.ViewCompat;
 
 /**
@@ -23,61 +22,59 @@ import androidx.core.view.ViewCompat;
 @SuppressLint("ViewConstructor")
 public class FanProgressBar extends View {
 
+    /** 默认时长 */
     private static final long DEFAULT_DURATION = 5000;
 
-    private Builder mBuilder;
-    //当前进度
-    private float mProgress = 0;
-    // 实心圆画笔
-    private Paint mPaintCir;
-    // 扇形画笔
-    private Paint mPaintArc;
-    // 扇形指定的矩形范围
-    private RectF mOval;
+    /** 控件宽高 */
     private int mW;
     private int mH;
-    private long mAnimDuration;
+    /** 当前扇形扫过的进度（度数） */
+    private float mProgress;
+    private long mAnimDuration = DEFAULT_DURATION;
+
+    private RectF mOval;
+    private Paint mPaintCir;
+    private Paint mPaintArc;
+
+    private Builder mBuilder;
     private ValueAnimator mValueAnimator;
 
     public FanProgressBar(Context context, Builder builder) {
         super(context, null);
         mBuilder = builder;
-        initBuilder();
         initPaint();
-        initRect();
-    }
-
-    private void initBuilder() {
-        if (mBuilder == null) {
-            throw new NullPointerException("FanProgressBar");
-        }
-
-        if (mBuilder.getWidth() <= 0 || mBuilder.getHeight() <= 0) {
-            throw new IllegalArgumentException("FanProgressBar");
-        }
-
-        mAnimDuration = mBuilder.getAnimDuration();
-        if (mAnimDuration <= 0) {
-            mAnimDuration = DEFAULT_DURATION;
-        }
+        initBuilder();
     }
 
     private void initPaint() {
         mPaintCir = new Paint();
         mPaintCir.setAntiAlias(true);
-        mPaintCir.setColor(mBuilder.getCirColor());
+        mPaintCir.setColor(Color.RED);
         // 默认是fill
         mPaintCir.setStyle(Paint.Style.FILL);
 
         mPaintArc = new Paint();
         mPaintArc.setAntiAlias(true);
-        mPaintArc.setColor(mBuilder.getArcColor());
+        mPaintArc.setColor(Color.YELLOW);
     }
 
-    private void initRect() {
-        mOval = new RectF(0, 0,
-                mBuilder.getWidth(),
-                mBuilder.getHeight());
+    private void initBuilder() {
+        if (mBuilder != null) {
+            mAnimDuration = mBuilder.getAnimDuration();
+            if (mAnimDuration <= 0) {
+                mAnimDuration = DEFAULT_DURATION;
+            }
+
+            int arcColor = mBuilder.getArcColor();
+            if (arcColor != -1) {
+                mPaintArc.setColor(arcColor);
+            }
+
+            int cirColor = mBuilder.getCirColor();
+            if (cirColor != -1) {
+                mPaintCir.setColor(cirColor);
+            }
+        }
     }
 
     public void startAnim() {
@@ -94,8 +91,9 @@ public class FanProgressBar extends View {
 
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
+            // [0,1]
             float animatedValue = (float) animation.getAnimatedValue();
-            Log.i("打印信息", "onAnimationUpdate: " + animatedValue);
+            Log.i("FanProgressBar", "onAnimationUpdate: " + animatedValue);
             // 一个圆360°
             mProgress = animatedValue * 360;
             ViewCompat.postInvalidateOnAnimation(FanProgressBar.this);
@@ -122,54 +120,31 @@ public class FanProgressBar extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        Log.i("FanProgressBar", "onDraw: ");
         // 背景色
-        canvas.drawCircle(mW / 2f, mH / 2f, mW / 2f, mPaintCir);
+        // 减去1f是因为让前景比背景大，盖住背景。在不-1f的情况下会出现背景边，暂时不知道是什么问题导致的？？！！
+        canvas.drawCircle(mW / 2f, mH / 2f, mW / 2f - 1f, mPaintCir);
         // 前景色
         canvas.drawArc(mOval, -90, mProgress, true, mPaintArc);
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(mBuilder.getWidth(), mBuilder.getHeight());
-    }
-
-    @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        Log.i("FanProgressBar", "onSizeChanged: ");
         mW = w;
         mH = h;
+
+        mOval = new RectF(0, 0, mW, mH);
     }
 
     public static class Builder {
 
-        @Px
-        int width;
-        @Px
-        int height;
-        @ColorInt
-        int cirColor;
-        @ColorInt
-        int arcColor;
-
+        int cirColor = -1;
+        int arcColor = -1;
         long animDuration;
 
         EventListener mEventListener;
-
-        int getWidth() {
-            return width;
-        }
-
-        public void setWidth(int width) {
-            this.width = width;
-        }
-
-        int getHeight() {
-            return height;
-        }
-
-        public void setHeight(int height) {
-            this.height = height;
-        }
 
         int getCirColor() {
             return cirColor;
