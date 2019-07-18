@@ -17,10 +17,11 @@ import androidx.core.view.ViewCompat;
 
 /**
  * Created b Zwp on 2019/7/17.
+ * 扇形进度view
  */
 
 @SuppressLint("ViewConstructor")
-public class FanProgressBar extends View {
+public class FanProgressView extends View {
 
     /** 默认时长 */
     private static final long DEFAULT_DURATION = 5000;
@@ -39,7 +40,7 @@ public class FanProgressBar extends View {
     private Builder mBuilder;
     private ValueAnimator mValueAnimator;
 
-    public FanProgressBar(Context context, Builder builder) {
+    public FanProgressView(Context context, Builder builder) {
         super(context, null);
         mBuilder = builder;
         initPaint();
@@ -96,7 +97,7 @@ public class FanProgressBar extends View {
             Log.i("FanProgressBar", "onAnimationUpdate: " + animatedValue);
             // 一个圆360°
             mProgress = animatedValue * 360;
-            ViewCompat.postInvalidateOnAnimation(FanProgressBar.this);
+            ViewCompat.postInvalidateOnAnimation(FanProgressView.this);
         }
     };
 
