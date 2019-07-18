@@ -193,19 +193,27 @@ public class GesturesManager extends GestureDetector.SimpleOnGestureListener {
 
                 int minSize = 0;
                 int type = UpType.TYPE_STATIC_LIFT;
+
+                // 抬起:正常抬起;甩动(fling)抬起
+
                 switch (mMoveType) {
                     case MoveType.TYPE_LEFT_TO_RIGHT: {
                         if (mDataListener != null) {
+                            // 获取抬起滑动最小间隔
                             minSize = mDataListener.getLeftToRightMinSize();
                         }
 
                         if (mVelocityX > 0) {
+                            // 和原本的滑动方向相同,甩动抬起(一般业务层的逻辑都是展示)
                             type = UpType.TYPE_FLING_CONSISTENT_WITH_MOVE_TYPE;
                         } else if (mVelocityX < 0) {
+                            // 和原本的滑动方向不相同,甩动抬起(一般业务层的逻辑都是隐藏)
                             type = UpType.TYPE_FLING_OPPOSITE_OF_MOVE_TYPE;
                         } else if (diffX > 0 && diffX >= minSize) {
+                            // 非甩动抬起,和原本的滑动方向相同(看diff > 0就知道),且滑动间隔大于指定的最小值
                             type = UpType.TYPE_FLING_CONSISTENT_WITH_MOVE_TYPE;
                         } else if (diffX < 0 && Math.abs(diffX) >= minSize) {
+                            // 非甩动抬起,和原本的滑动方向不相同
                             type = UpType.TYPE_FLING_OPPOSITE_OF_MOVE_TYPE;
                         }
                         break;
