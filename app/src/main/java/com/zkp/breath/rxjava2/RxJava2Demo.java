@@ -2,6 +2,8 @@ package com.zkp.breath.rxjava2;
 
 import android.util.Log;
 
+import com.blankj.utilcode.util.ThreadUtils;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -13,8 +15,9 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created b Zwp on 2019/7/18.
  */
-public class Demo {
+public class RxJava2Demo {
 
+    // 基本使用
     public void demo1() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
 
@@ -49,25 +52,33 @@ public class Demo {
         });
     }
 
+    // observeOn和subscribe
     public void demo2() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
 
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                Log.i("demo2", "subscribe: " + ThreadUtils.isMainThread());
 
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onNext(3);
+                emitter.onComplete();
             }
-        }).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        }).subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
                 .subscribe(new Observer<Integer>() {
 
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        Log.i("demo2", "onSubscribe: " + ThreadUtils.isMainThread());
                     }
 
                     @Override
                     public void onNext(Integer integer) {
-
+                        Log.i("demo2",
+                                "onNext: " + ThreadUtils.isMainThread() + ",integer:" + integer);
                     }
 
                     @Override
@@ -77,9 +88,13 @@ public class Demo {
 
                     @Override
                     public void onComplete() {
-
+                        Log.i("demo2", "onComplete: " + ThreadUtils.isMainThread());
                     }
                 });
+    }
+
+    public void demo3() {
+
     }
 }
 
