@@ -7,9 +7,11 @@ import com.blankj.utilcode.util.ThreadUtils;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -18,7 +20,7 @@ import io.reactivex.schedulers.Schedulers;
 public class RxJava2Demo {
 
     // 基本使用
-    public void demo1() {
+    public void basicUse() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
 
             @Override
@@ -32,33 +34,33 @@ public class RxJava2Demo {
 
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d("demo1", "onSubscribe");
+                Log.d("basicUse", "onSubscribe");
             }
 
             @Override
             public void onNext(Integer integer) {
-                Log.d("demo1", "onNext:" + integer);
+                Log.d("basicUse", "onNext:" + integer);
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.d("demo1", "onError:" + e.toString());
+                Log.d("basicUse", "onError:" + e.toString());
             }
 
             @Override
             public void onComplete() {
-                Log.d("demo1", "onComplete:");
+                Log.d("basicUse", "onComplete:");
             }
         });
     }
 
     // observeOn和subscribe
-    public void demo2() {
+    public void threadSwitch() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
 
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
-                Log.i("demo2", "subscribe: " + ThreadUtils.isMainThread());
+                Log.i("threadSwitch", "subscribe: " + ThreadUtils.isMainThread());
 
                 emitter.onNext(1);
                 emitter.onNext(2);
@@ -72,12 +74,12 @@ public class RxJava2Demo {
 
                     @Override
                     public void onSubscribe(Disposable d) {
-                        Log.i("demo2", "onSubscribe: " + ThreadUtils.isMainThread());
+                        Log.i("threadSwitch", "onSubscribe: " + ThreadUtils.isMainThread());
                     }
 
                     @Override
                     public void onNext(Integer integer) {
-                        Log.i("demo2",
+                        Log.i("threadSwitch",
                                 "onNext: " + ThreadUtils.isMainThread() + ",integer:" + integer);
                     }
 
@@ -88,13 +90,98 @@ public class RxJava2Demo {
 
                     @Override
                     public void onComplete() {
-                        Log.i("demo2", "onComplete: " + ThreadUtils.isMainThread());
+                        Log.i("threadSwitch", "onComplete: " + ThreadUtils.isMainThread());
                     }
                 });
     }
 
-    public void demo3() {
+    public void map() {
+        Observable.create(new ObservableOnSubscribe<Integer>() {
 
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onNext(3);
+                emitter.onComplete();
+            }
+        }).map(new Function<Integer, Integer>() {
+
+            @Override
+            public Integer apply(Integer integer) throws Exception {
+                return integer + 1;
+            }
+        }).subscribe(new Observer<Integer>() {
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                Log.d("map", "onSubscribe");
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                Log.d("map", "onNext:" + integer);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d("map", "onError:" + e.toString());
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d("map", "onComplete:");
+            }
+        });
+    }
+
+    public void flatMap() {
+        Observable.create(new ObservableOnSubscribe<Integer>() {
+
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onNext(3);
+                emitter.onComplete();
+            }
+        }).flatMap(new Function<Integer, ObservableSource<Integer>>() {
+
+            @Override
+            public ObservableSource<Integer> apply(Integer integer) throws Exception {
+
+                return Observable.create(new ObservableOnSubscribe<Integer>() {
+
+                    @Override
+                    public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                        emitter.onNext(integer + 1);
+                        emitter.onNext(integer + 2);
+                        emitter.onNext(integer + 3);
+                    }
+                });
+            }
+        }).subscribe(new Observer<Integer>() {
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                Log.d("map", "onSubscribe");
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                Log.d("map", "onNext:" + integer);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d("map", "onError:" + e.toString());
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d("map", "onComplete:");
+            }
+        });
     }
 }
 
