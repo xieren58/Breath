@@ -11,11 +11,14 @@ import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created b Zwp on 2019/7/18.
+ * https://www.jianshu.com/p/464fa025229e
+ * 详细讲解可观看这位大佬的文章
  */
 public class RxJava2Demo {
 
@@ -34,22 +37,22 @@ public class RxJava2Demo {
 
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d("basicUse", "onSubscribe");
+                Log.i("basicUse", "onSubscribe");
             }
 
             @Override
             public void onNext(Integer integer) {
-                Log.d("basicUse", "onNext:" + integer);
+                Log.i("basicUse", "onNext:" + integer);
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.d("basicUse", "onError:" + e.toString());
+                Log.i("basicUse", "onError:" + e.toString());
             }
 
             @Override
             public void onComplete() {
-                Log.d("basicUse", "onComplete:");
+                Log.i("basicUse", "onComplete:");
             }
         });
     }
@@ -115,22 +118,22 @@ public class RxJava2Demo {
 
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d("map", "onSubscribe");
+                Log.i("map", "onSubscribe");
             }
 
             @Override
             public void onNext(Integer integer) {
-                Log.d("map", "onNext:" + integer);
+                Log.i("map", "onNext:" + integer);
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.d("map", "onError:" + e.toString());
+                Log.i("map", "onError:" + e.toString());
             }
 
             @Override
             public void onComplete() {
-                Log.d("map", "onComplete:");
+                Log.i("map", "onComplete:");
             }
         });
     }
@@ -145,43 +148,102 @@ public class RxJava2Demo {
                 emitter.onNext(3);
                 emitter.onComplete();
             }
-        }).flatMap(new Function<Integer, ObservableSource<Integer>>() {
+        }).flatMap(new Function<Integer, ObservableSource<String>>() {
 
             @Override
-            public ObservableSource<Integer> apply(Integer integer) throws Exception {
+            public ObservableSource<String> apply(Integer integer) throws Exception {
 
-                return Observable.create(new ObservableOnSubscribe<Integer>() {
+                return Observable.create(new ObservableOnSubscribe<String>() {
 
                     @Override
-                    public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
-                        emitter.onNext(integer + 1);
-                        emitter.onNext(integer + 2);
-                        emitter.onNext(integer + 3);
+                    public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+                        emitter.onNext("first:" + integer + "_1");
+                        emitter.onNext("second:" + integer + "_2");
+                        emitter.onNext("thrid:" + integer + "_3");
                     }
                 });
             }
-        }).subscribe(new Observer<Integer>() {
+        }).subscribe(new Observer<String>() {
 
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d("map", "onSubscribe");
+                Log.i("flatMap", "onSubscribe");
             }
 
             @Override
-            public void onNext(Integer integer) {
-                Log.d("map", "onNext:" + integer);
+            public void onNext(String integer) {
+                Log.i("flatMap", "onNext:" + integer);
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.d("map", "onError:" + e.toString());
+                Log.i("flatMap", "onError:" + e.toString());
             }
 
             @Override
             public void onComplete() {
-                Log.d("map", "onComplete:");
+                Log.i("flatMap", "onComplete:");
             }
         });
+    }
+
+    public void zip() {
+        Observable<Integer> integerObservable = Observable
+                .create(new ObservableOnSubscribe<Integer>() {
+
+                    @Override
+                    public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                        emitter.onNext(1);
+                        emitter.onNext(2);
+                        emitter.onNext(3);
+                        emitter.onComplete();
+                    }
+                });
+
+        Observable<String> stringObservable = Observable
+                .create(new ObservableOnSubscribe<String>() {
+
+                    @Override
+                    public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+                        emitter.onNext("A");
+                        emitter.onNext("B");
+                        emitter.onNext("C");
+                        emitter.onNext("D");
+                        emitter.onComplete();
+                    }
+                });
+
+        Observable.zip(integerObservable, stringObservable,
+                new BiFunction<Integer, String, String>() {
+
+                    @Override
+                    public String apply(Integer integer, String s) throws Exception {
+                        return integer + s;
+                    }
+                })
+
+                .subscribe(new Observer<String>() {
+
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.i("zip", "onSubscribe");
+                    }
+
+                    @Override
+                    public void onNext(String integer) {
+                        Log.i("zip", "onNext:" + integer);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("zip", "onError:" + e.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i("zip", "onComplete:");
+                    }
+                });
     }
 }
 
