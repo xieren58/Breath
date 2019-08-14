@@ -23,13 +23,13 @@ public class CView extends View {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        Log.i("CView", "dispatchTouchEvent: ");
+        Log.i("EventLog", "CViwe_dispatchTouchEvent: ");
         return super.dispatchTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.i("CView", "onTouchEvent: ");
+        Log.i("EventLog", "CViwe_onTouchEvent: ");
         return super.onTouchEvent(event);
     }
 }

@@ -23,13 +23,14 @@ public class BViwe extends View {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        Log.i("BViwe", "dispatchTouchEvent: ");
+        Log.i("EventLog", "BViwe_dispatchTouchEvent: ");
         return super.dispatchTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.i("BViwe", "onTouchEvent: ");
-        return super.onTouchEvent(event);
+        Log.i("EventLog", "BViwe_onTouchEvent: ");
+//        return super.onTouchEvent(event);
+        return true;
     }
 }
