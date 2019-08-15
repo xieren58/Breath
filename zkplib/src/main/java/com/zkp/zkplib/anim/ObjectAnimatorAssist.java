@@ -73,12 +73,12 @@ public class ObjectAnimatorAssist {
 
         switch (mBuilder.getAnimatorType()) {
 
-            case ObjectAnimatorType.SCALE_X:
-            case ObjectAnimatorType.SCALE_Y:
-            case ObjectAnimatorType.ALPHA:
+            case SCALE_X:
+            case SCALE_Y:
+            case ALPHA:
             case ROTATION:
-            case ObjectAnimatorType.TRANSLATION_X:
-            case ObjectAnimatorType.TRANSLATION_Y:
+            case TRANSLATION_X:
+            case TRANSLATION_Y:
                 animator();
                 break;
 
