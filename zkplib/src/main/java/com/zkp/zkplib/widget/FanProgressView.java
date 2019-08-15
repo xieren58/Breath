@@ -171,7 +171,7 @@ public class FanProgressView extends View {
             this.animDuration = animDuration;
         }
 
-        EventListener getEventListener() {
+        public EventListener getEventListener() {
             return mEventListener;
         }
 
