@@ -1,4 +1,4 @@
-package com.zkp.breath.views;
+package com.zkp.breath.views.events;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -11,25 +11,26 @@ import androidx.annotation.Nullable;
 /**
  * Created b Zwp on 2019/8/13.
  */
-public class CView extends View {
+public class BViwe extends View {
 
-    public CView(Context context) {
+    public BViwe(Context context) {
         this(context, null);
     }
 
-    public CView(Context context, @Nullable AttributeSet attrs) {
+    public BViwe(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        Log.i("EventLog", "CViwe_dispatchTouchEvent: ");
+        Log.i("EventLog", "BViwe_dispatchTouchEvent: ");
         return super.dispatchTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.i("EventLog", "CViwe_onTouchEvent: ");
-        return super.onTouchEvent(event);
+        Log.i("EventLog", "BViwe_onTouchEvent: ");
+//        return super.onTouchEvent(event);
+        return true;
     }
 }

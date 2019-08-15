@@ -1,4 +1,4 @@
-package com.zkp.breath.views;
+package com.zkp.breath.views.events;
 
 import android.os.Bundle;
 
