@@ -105,6 +105,7 @@ public class ObjectAnimatorAssist {
         if (mBuilder.getAnimatorUpdateListener() != null) {
             animator.addUpdateListener(mBuilder.getAnimatorUpdateListener());
         }
+        animator.setStartDelay(mBuilder.getStartDelay());
         animator.start();
     }
 
