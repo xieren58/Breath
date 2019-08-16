@@ -33,12 +33,18 @@ public class RoundRectProgress extends View {
     private float mProgress;
     private float mLength;
     private Path mDst;
+    private int mW;
+    private int mH;
+    private final RectF mBorderRectF;
+    private final Paint mBorderPaint;
+    private final Paint mCenterPaint;
 
     public RoundRectProgress(Context context, Builder builder) {
         super(context);
         mBuilder = builder;
 
         mRectF = new RectF();
+        mBorderRectF = new RectF();
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -59,6 +65,16 @@ public class RoundRectProgress extends View {
         mBgPaint.setStrokeJoin(Paint.Join.ROUND);
         mBgPaint.setStrokeWidth(builder.getStrokeWidth());
 
+        mBorderPaint = new Paint();
+        mBorderPaint.setAntiAlias(true);
+        mBorderPaint.setColor(Color.RED);
+        mBorderPaint.setStyle(Style.STROKE);
+
+        mCenterPaint = new Paint();
+        mCenterPaint.setAntiAlias(true);
+        mCenterPaint.setColor(Color.BLUE);
+        mCenterPaint.setStyle(Style.STROKE);
+
         mRadiusXy = builder.getRadiusXy();
         mPathMeasure = new PathMeasure();
         mPath = new Path();
@@ -68,6 +84,9 @@ public class RoundRectProgress extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         Log.i(TAG, "onSizeChanged: （" + w + "," + h + ")");
+        mW = w;
+        mH = h;
+
         int centerX = (int) (w / 2f);
         int centerY = (int) (h / 2f);
 
@@ -77,6 +96,11 @@ public class RoundRectProgress extends View {
         mRectF.top = strokeWidth / 2f;
         mRectF.right = w - (strokeWidth / 2f);
         mRectF.bottom = h - (strokeWidth / 2f);
+
+        mBorderRectF.left = 0;
+        mBorderRectF.top = 0;
+        mBorderRectF.right = w;
+        mBorderRectF.bottom = h;
 
         if (mBuilder.isRectFlag()) {
             directionRule(w, h, centerX, centerY, strokeWidth);
@@ -183,33 +207,34 @@ public class RoundRectProgress extends View {
      */
     protected void roundDirectionRule(int w, int h, int centerX, int centerY, int strokeWidth) {
 
-        float halfStrokeWidth = strokeWidth / 2f;
+        float left = mRectF.left;
+        float right = mRectF.right;
+        float top = mRectF.top;
+        float bottom = mRectF.bottom;
 
         switch (mBuilder.getDirection()) {
             case Direction.TOP_CENTER_CW:
-
-                mPath.moveTo(centerX, strokeWidth / 2f);
-                mPath.lineTo(w - mRadiusXy * 2f, strokeWidth / 2f);
-                mPath.arcTo(new RectF(w - mRadiusXy * 2f, strokeWidth / 2f,
-                        w - (strokeWidth / 2f), mRadiusXy * 2f), -90, 90);
-                mPath.lineTo(w - (strokeWidth / 2f), h - (mRadiusXy * 2f));
-
-                mPath.arcTo(new RectF(w - mRadiusXy * 2f, h - mRadiusXy * 2f,
-                        w - (strokeWidth / 2f), h - strokeWidth / 2f), 0, 90);
-
-                mPath.lineTo(mRadiusXy * 2f, h - strokeWidth / 2f);
-
-
-                mPath.arcTo(new RectF(strokeWidth / 2f, h - mRadiusXy * 2f,
-                        mRadiusXy * 2f, h - strokeWidth / 2f), 90, 180);
-
-
-
-
-
+                mPath.moveTo(centerX, top);
+                mPath.lineTo(right - mRadiusXy, top);
+                mPath.quadTo(right, top, right, top + mRadiusXy);
+                mPath.lineTo(right, bottom - mRadiusXy);
+                mPath.quadTo(right, bottom, right - mRadiusXy, bottom);
+                mPath.lineTo(left + mRadiusXy, bottom);
+                mPath.quadTo(left, bottom, left, bottom - mRadiusXy);
+                mPath.lineTo(left, top + mRadiusXy);
+                mPath.quadTo(left, top, left + mRadiusXy, top);
                 mPath.close();
                 break;
             case Direction.TOP_CENTER_CCW:
+                mPath.moveTo(centerX, top);
+                mPath.lineTo(mRadiusXy, top);
+                mPath.quadTo(left, top, left, mRadiusXy - (strokeWidth / 2f));
+                mPath.lineTo(left, h - mRadiusXy);
+                mPath.quadTo(left, bottom, mRadiusXy, bottom);
+                mPath.lineTo(w - mRadiusXy, bottom);
+                mPath.quadTo(right, bottom, right, h - mRadiusXy);
+                mPath.lineTo(right, mRadiusXy);
+                mPath.quadTo(right, top, w - mRadiusXy, top);
                 mPath.close();
                 break;
 
@@ -218,7 +243,7 @@ public class RoundRectProgress extends View {
                 break;
 
             case Direction.LEFT_CENTER_CCW:
-                mPath.lineTo(halfStrokeWidth, halfStrokeWidth);
+                mPath.close();
                 break;
 
             case Direction.RIGHT_CENTER_CW:
@@ -246,11 +271,25 @@ public class RoundRectProgress extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.save();
-        canvas.drawRoundRect(mRectF, mRadiusXy, mRadiusXy, mBgPaint);
+
+//        canvas.drawRect(mBorderRectF, mBorderPaint);
+
+        if (mBuilder.isRectFlag()) {
+            canvas.drawRect(mRectF, mBgPaint);
+        } else {
+            canvas.drawRoundRect(mRectF, mRadiusXy, mRadiusXy, mBgPaint);
+        }
         mDst.reset();
         float stopD = mProgress / 100f * mLength;
         mPathMeasure.getSegment(0, stopD, mDst, true);
         canvas.drawPath(mDst, mPaint);
+
+//        if (mBuilder.isRectFlag()) {
+//            canvas.drawRect(mRectF, mCenterPaint);
+//        } else {
+//            canvas.drawRoundRect(mRectF, mRadiusXy, mRadiusXy, mCenterPaint);
+//        }
+
         canvas.restore();
     }
 
