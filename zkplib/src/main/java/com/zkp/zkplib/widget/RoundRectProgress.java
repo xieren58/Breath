@@ -239,26 +239,80 @@ public class RoundRectProgress extends View {
                 break;
 
             case Direction.LEFT_CENTER_CW:
+                mPath.moveTo(left, centerY);
+                mPath.lineTo(left, top + mRadiusXy);
+                mPath.quadTo(left, top, left + mRadiusXy, top);
+                mPath.lineTo(right - mRadiusXy, top);
+                mPath.quadTo(right, top, right, top + mRadiusXy);
+                mPath.lineTo(right, bottom - mRadiusXy);
+                mPath.quadTo(right, bottom, right - mRadiusXy, bottom);
+                mPath.lineTo(left + mRadiusXy, bottom);
+                mPath.quadTo(left, bottom, left, bottom - mRadiusXy);
                 mPath.close();
                 break;
 
             case Direction.LEFT_CENTER_CCW:
+                mPath.moveTo(left, centerY);
+                mPath.lineTo(left, h - mRadiusXy);
+                mPath.quadTo(left, bottom, mRadiusXy, bottom);
+                mPath.lineTo(w - mRadiusXy, bottom);
+                mPath.quadTo(right, bottom, right, h - mRadiusXy);
+                mPath.lineTo(right, mRadiusXy);
+                mPath.quadTo(right, top, w - mRadiusXy, top);
+                mPath.lineTo(mRadiusXy, top);
+                mPath.quadTo(left, top, left, mRadiusXy - (strokeWidth / 2f));
                 mPath.close();
                 break;
 
             case Direction.RIGHT_CENTER_CW:
+                mPath.moveTo(right, centerY);
+                mPath.lineTo(right, bottom - mRadiusXy);
+                mPath.quadTo(right, bottom, right - mRadiusXy, bottom);
+                mPath.lineTo(left + mRadiusXy, bottom);
+                mPath.quadTo(left, bottom, left, bottom - mRadiusXy);
+                mPath.lineTo(left, top + mRadiusXy);
+                mPath.quadTo(left, top, left + mRadiusXy, top);
+                mPath.lineTo(right - mRadiusXy, top);
+                mPath.quadTo(right, top, right, top + mRadiusXy);
                 mPath.close();
                 break;
 
             case Direction.RIGHT_CENTER_CCW:
+                mPath.moveTo(right, centerY);
+                mPath.lineTo(right, mRadiusXy);
+                mPath.quadTo(right, top, w - mRadiusXy, top);
+                mPath.lineTo(mRadiusXy, top);
+                mPath.quadTo(left, top, left, mRadiusXy - (strokeWidth / 2f));
+                mPath.lineTo(left, h - mRadiusXy);
+                mPath.quadTo(left, bottom, mRadiusXy, bottom);
+                mPath.lineTo(w - mRadiusXy, bottom);
+                mPath.quadTo(right, bottom, right, h - mRadiusXy);
                 mPath.close();
                 break;
 
             case Direction.BOTTOM_CENTER_CW:
+                mPath.moveTo(centerX, bottom);
+                mPath.lineTo(left + mRadiusXy, bottom);
+                mPath.quadTo(left, bottom, left, bottom - mRadiusXy);
+                mPath.lineTo(left, top + mRadiusXy);
+                mPath.quadTo(left, top, left + mRadiusXy, top);
+                mPath.lineTo(right - mRadiusXy, top);
+                mPath.quadTo(right, top, right, top + mRadiusXy);
+                mPath.lineTo(right, bottom - mRadiusXy);
+                mPath.quadTo(right, bottom, right - mRadiusXy, bottom);
                 mPath.close();
                 break;
 
             case Direction.BOTTOM_CENTER_CCW:
+                mPath.moveTo(centerX, bottom);
+                mPath.lineTo(w - mRadiusXy, bottom);
+                mPath.quadTo(right, bottom, right, h - mRadiusXy);
+                mPath.lineTo(right, mRadiusXy);
+                mPath.quadTo(right, top, w - mRadiusXy, top);
+                mPath.lineTo(mRadiusXy, top);
+                mPath.quadTo(left, top, left, mRadiusXy - (strokeWidth / 2f));
+                mPath.lineTo(left, h - mRadiusXy);
+                mPath.quadTo(left, bottom, mRadiusXy, bottom);
                 mPath.close();
                 break;
 
