@@ -422,6 +422,13 @@ public class RoundRectProgress extends View {
         int RIGHT_CENTER_CCW = 5;
         int BOTTOM_CENTER_CW = 6;
         int BOTTOM_CENTER_CCW = 7;
+
+        int top_left_cw = 8;
+        int top_left_ccw = 9;
+
+        int bottom_left_cw = 10;
+        int bottom_left_ccw = 11;
+
     }
 }
 
