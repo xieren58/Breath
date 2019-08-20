@@ -6,6 +6,7 @@ import androidx.annotation.ColorInt;
 
 /**
  * Created b Zwp on 2019/8/20.
+ * 相当于在xml定义
  */
 public class RectDrawableBGAssist {
 
