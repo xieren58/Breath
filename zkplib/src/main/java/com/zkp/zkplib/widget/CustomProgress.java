@@ -19,6 +19,30 @@ import androidx.annotation.IntDef;
 
 /**
  * Created b Zwp on 2019/5/27.
+ * <p>eg:</p>
+ * <pre>
+ *         CustomProgress.Builder builder = new Builder();
+ *         builder.setStrokeWidth(20);
+ *         builder.setRadiusXy(100);
+ *         builder.setRectFlag(true);
+ *         builder.setDirection(Direction.LEFT_BOTTOM_CW);
+ *         builder.setBgColor(Color.BLACK);
+ *         builder.setFgColor(Color.YELLOW);
+ *         CustomProgress roundCustomProgress = new CustomProgress(context, builder);
+ *         RelativeLayout.LayoutParams layoutParams = new LayoutParams(800, 500);
+ *         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+ *         父View.addView(roundCustomProgress, layoutParams);
+ *
+ *         ValueAnimator valueAnimator = ObjectAnimator.ofFloat(0, 100);
+ *         valueAnimator.setDuration(2000);
+ *         valueAnimator.addUpdateListener(animation -> {
+ *             float animatedValue = (float) animation.getAnimatedValue();
+ *             Log.i("animatedValue ", "onCreate: " + animatedValue);
+ *             roundCustomProgress.setProgress(animatedValue);
+ *         });
+ *         valueAnimator.setStartDelay(2000);
+ *         valueAnimator.start();
+ * </pre>
  */
 public class CustomProgress extends View {
 
@@ -78,6 +102,7 @@ public class CustomProgress extends View {
 
         int strokeWidth = mBuilder.getStrokeWidth();
 
+        // 画笔的笔触宽度是向两端扩展出去的
         mRectF.left = strokeWidth / 2f;
         mRectF.top = strokeWidth / 2f;
         mRectF.right = w - (strokeWidth / 2f);
@@ -95,6 +120,7 @@ public class CustomProgress extends View {
         }
 
         mPathMeasure.setPath(mPath, true);
+
         mLength = mPathMeasure.getLength();
         mDst = new Path();
     }
