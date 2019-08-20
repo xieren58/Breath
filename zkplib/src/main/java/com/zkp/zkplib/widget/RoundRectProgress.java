@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Join;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
@@ -51,10 +52,11 @@ public class RoundRectProgress extends View {
         int fgColor = builder.getFgColor();
         mPaint.setColor(fgColor == -1 ? Color.WHITE : fgColor);
         mPaint.setStyle(Style.STROKE);
+        // 画笔的笔触的形状
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeJoin(Paint.Join.ROUND);
-        // +1是覆盖掉背景色，防止四边遗留背景色线
-        mPaint.setStrokeWidth(builder.getStrokeWidth() + 1f);
+        // 两条边交界处的形状
+        mPaint.setStrokeJoin(Join.ROUND);
+        mPaint.setStrokeWidth(builder.getStrokeWidth());
 
         mBgPaint = new Paint();
         mBgPaint.setAntiAlias(true);
@@ -62,7 +64,7 @@ public class RoundRectProgress extends View {
         mBgPaint.setColor(bgColor == -1 ? 0x4DFFFFFF : bgColor);
         mBgPaint.setStyle(Style.STROKE);
         mBgPaint.setStrokeCap(Paint.Cap.ROUND);
-        mBgPaint.setStrokeJoin(Paint.Join.ROUND);
+        mBgPaint.setStrokeJoin(Join.ROUND);
         mBgPaint.setStrokeWidth(builder.getStrokeWidth());
 
         mBorderPaint = new Paint();
@@ -103,7 +105,7 @@ public class RoundRectProgress extends View {
         mBorderRectF.bottom = h;
 
         if (mBuilder.isRectFlag()) {
-            directionRule(w, h, centerX, centerY, strokeWidth);
+            rectDirectionRule(w, h, centerX, centerY, strokeWidth);
         } else {
             roundDirectionRule(w, h, centerX, centerY, strokeWidth);
         }
@@ -121,7 +123,7 @@ public class RoundRectProgress extends View {
     /**
      * 方向规则，可重写该方法自定义或者扩充
      */
-    protected void directionRule(int w, int h, int centerX, int centerY, int strokeWidth) {
+    protected void rectDirectionRule(int w, int h, int centerX, int centerY, int strokeWidth) {
 
         // 画笔从中间向两端扩展stroke
         float halfStrokeWidth = strokeWidth / 2f;
@@ -388,9 +390,6 @@ public class RoundRectProgress extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.save();
-
-//        canvas.drawRect(mBorderRectF, mBorderPaint);
-
         if (mBuilder.isRectFlag()) {
             canvas.drawRect(mRectF, mBgPaint);
         } else {
@@ -400,13 +399,6 @@ public class RoundRectProgress extends View {
         float stopD = mProgress / 100f * mLength;
         mPathMeasure.getSegment(0, stopD, mDst, true);
         canvas.drawPath(mDst, mPaint);
-
-//        if (mBuilder.isRectFlag()) {
-//            canvas.drawRect(mRectF, mCenterPaint);
-//        } else {
-//            canvas.drawRoundRect(mRectF, mRadiusXy, mRadiusXy, mCenterPaint);
-//        }
-
         canvas.restore();
     }
 
@@ -490,6 +482,7 @@ public class RoundRectProgress extends View {
         int BOTTOM_CENTER_CW = 6;
         int BOTTOM_CENTER_CCW = 7;
 
+        // 只有矩形才有下面的选项才有效果
         int LEFT_TOP_CW = 8;
         int LEFT_TOP_CCW = 9;
         int RIGHT_TOP_CW = 10;
