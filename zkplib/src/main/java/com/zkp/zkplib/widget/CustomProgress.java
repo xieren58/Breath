@@ -20,27 +20,23 @@ import androidx.annotation.IntDef;
 /**
  * Created b Zwp on 2019/5/27.
  */
-public class RoundRectProgress extends View {
+public class CustomProgress extends View {
 
-    private static final String TAG = RoundRectProgress.class.getName();
+    private static final String TAG = CustomProgress.class.getName();
 
-    private final Builder mBuilder;
+    private PathMeasure mPathMeasure;
+    private Builder mBuilder;
     private Paint mBgPaint;
     private Paint mPaint;
-    private RectF mRectF;
     private Path mPath;
+    private Path mDst;
+    private RectF mBorderRectF;
+    private RectF mRectF;
     private int mRadiusXy;
-    private PathMeasure mPathMeasure;
     private float mProgress;
     private float mLength;
-    private Path mDst;
-    private int mW;
-    private int mH;
-    private final RectF mBorderRectF;
-    private final Paint mBorderPaint;
-    private final Paint mCenterPaint;
 
-    public RoundRectProgress(Context context, Builder builder) {
+    public CustomProgress(Context context, Builder builder) {
         super(context);
         mBuilder = builder;
 
@@ -67,16 +63,6 @@ public class RoundRectProgress extends View {
         mBgPaint.setStrokeJoin(Join.ROUND);
         mBgPaint.setStrokeWidth(builder.getStrokeWidth());
 
-        mBorderPaint = new Paint();
-        mBorderPaint.setAntiAlias(true);
-        mBorderPaint.setColor(Color.RED);
-        mBorderPaint.setStyle(Style.STROKE);
-
-        mCenterPaint = new Paint();
-        mCenterPaint.setAntiAlias(true);
-        mCenterPaint.setColor(Color.BLUE);
-        mCenterPaint.setStyle(Style.STROKE);
-
         mRadiusXy = builder.getRadiusXy();
         mPathMeasure = new PathMeasure();
         mPath = new Path();
@@ -86,8 +72,6 @@ public class RoundRectProgress extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         Log.i(TAG, "onSizeChanged: （" + w + "," + h + ")");
-        mW = w;
-        mH = h;
 
         int centerX = (int) (w / 2f);
         int centerY = (int) (h / 2f);
@@ -120,10 +104,7 @@ public class RoundRectProgress extends View {
         invalidate();
     }
 
-    /**
-     * 方向规则，可重写该方法自定义或者扩充
-     */
-    protected void rectDirectionRule(int w, int h, int centerX, int centerY, int strokeWidth) {
+    private void rectDirectionRule(int w, int h, int centerX, int centerY, int strokeWidth) {
 
         // 画笔从中间向两端扩展stroke
         float halfStrokeWidth = strokeWidth / 2f;
@@ -204,6 +185,10 @@ public class RoundRectProgress extends View {
                 mPath.lineTo(w - halfStrokeWidth, halfStrokeWidth);
                 mPath.lineTo(w - halfStrokeWidth, h - (halfStrokeWidth));
                 mPath.lineTo(halfStrokeWidth, h - (halfStrokeWidth));
+                mPath.close();
+
+                // 相当于上面的逻辑，矩形定死起始点，其他的起始点不能使用这种方法，即便在此之前用moveto也不生效
+//                mPath.addRect(mRectF, Path.Direction.CW);
                 break;
 
             case Direction.LEFT_TOP_CCW:
@@ -212,6 +197,9 @@ public class RoundRectProgress extends View {
                 mPath.lineTo(w - halfStrokeWidth, h - (halfStrokeWidth));
                 mPath.lineTo(w - halfStrokeWidth, halfStrokeWidth);
                 mPath.close();
+
+                // 相当于上面的逻辑，矩形定死起始点，其他的起始点不能使用这种方法，即便在此之前用moveto也不生效
+//                mPath.addRect(mRectF, Path.Direction.CCW);
                 break;
 
             case Direction.LEFT_BOTTOM_CW:
@@ -267,10 +255,7 @@ public class RoundRectProgress extends View {
         }
     }
 
-    /**
-     * 方向规则，可重写该方法自定义或者扩充
-     */
-    protected void roundDirectionRule(int w, int h, int centerX, int centerY, int strokeWidth) {
+    private void roundDirectionRule(int w, int h, int centerX, int centerY, int strokeWidth) {
 
         float left = mRectF.left;
         float right = mRectF.right;
@@ -404,11 +389,21 @@ public class RoundRectProgress extends View {
 
     public static class Builder {
 
+        /** 背景色 */
         int bgColor = -1;
+        /** 前景色 */
         int fgColor = -1;
+        /** 边框宽度 */
         int strokeWidth;
+        /** 半径 */
         int radiusXy;
+        /** 是否为矩形 */
         boolean rectFlag;
+        /**
+         * 方向
+         *
+         * @see Direction
+         */
         @Direction
         int direction;
 
