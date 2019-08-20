@@ -198,64 +198,65 @@ public class RoundRectProgress extends View {
                 break;
 
             case Direction.LEFT_TOP_CW:
-                mPath.moveTo(w - halfStrokeWidth, halfStrokeWidth);
+                mPath.moveTo(halfStrokeWidth, halfStrokeWidth);
+                mPath.lineTo(w - halfStrokeWidth, halfStrokeWidth);
                 mPath.lineTo(w - halfStrokeWidth, h - (halfStrokeWidth));
                 mPath.lineTo(halfStrokeWidth, h - (halfStrokeWidth));
-                mPath.lineTo(halfStrokeWidth, halfStrokeWidth);
-                mPath.close();
                 break;
 
             case Direction.LEFT_TOP_CCW:
-                mPath.moveTo(w - halfStrokeWidth, halfStrokeWidth);
-                mPath.lineTo(halfStrokeWidth, halfStrokeWidth);
+                mPath.moveTo(halfStrokeWidth, halfStrokeWidth);
                 mPath.lineTo(halfStrokeWidth, h - (halfStrokeWidth));
                 mPath.lineTo(w - halfStrokeWidth, h - (halfStrokeWidth));
+                mPath.lineTo(w - halfStrokeWidth, halfStrokeWidth);
                 mPath.close();
                 break;
 
             case Direction.LEFT_BOTTOM_CW:
-                mPath.moveTo(halfStrokeWidth, halfStrokeWidth);
-                mPath.lineTo(halfStrokeWidth, h - (halfStrokeWidth));
-                mPath.lineTo(w - halfStrokeWidth, h - (halfStrokeWidth));
+                mPath.moveTo(halfStrokeWidth, h - (halfStrokeWidth));
+                mPath.lineTo(halfStrokeWidth, halfStrokeWidth);
                 mPath.lineTo(w - halfStrokeWidth, halfStrokeWidth);
+                mPath.lineTo(w - halfStrokeWidth, h - (halfStrokeWidth));
+                mPath.close();
                 break;
 
             case Direction.LEFT_BOTTOM_CCW:
-                mPath.moveTo(halfStrokeWidth, halfStrokeWidth);
-                mPath.lineTo(w - halfStrokeWidth, halfStrokeWidth);
+                mPath.moveTo(halfStrokeWidth, h - (halfStrokeWidth));
                 mPath.lineTo(w - halfStrokeWidth, h - (halfStrokeWidth));
-                mPath.lineTo(halfStrokeWidth, h - (halfStrokeWidth));
+                mPath.lineTo(w - halfStrokeWidth, halfStrokeWidth);
+                mPath.lineTo(halfStrokeWidth, halfStrokeWidth);
+                mPath.close();
                 break;
 
             case Direction.RIGHT_TOP_CW:
-                mPath.moveTo(w - halfStrokeWidth, h - (halfStrokeWidth));
+                mPath.moveTo(w - halfStrokeWidth, halfStrokeWidth);
+                mPath.lineTo(w - halfStrokeWidth, h - (halfStrokeWidth));
                 mPath.lineTo(halfStrokeWidth, h - (halfStrokeWidth));
                 mPath.lineTo(halfStrokeWidth, halfStrokeWidth);
-                mPath.lineTo(w - halfStrokeWidth, halfStrokeWidth);
                 mPath.close();
                 break;
 
             case Direction.RIGHT_TOP_CCW:
-                mPath.moveTo(w - halfStrokeWidth, h - (halfStrokeWidth));
-                mPath.lineTo(w - halfStrokeWidth, halfStrokeWidth);
+                mPath.moveTo(w - halfStrokeWidth, halfStrokeWidth);
                 mPath.lineTo(halfStrokeWidth, halfStrokeWidth);
                 mPath.lineTo(halfStrokeWidth, h - (halfStrokeWidth));
+                mPath.lineTo(w - halfStrokeWidth, h - (halfStrokeWidth));
                 mPath.close();
                 break;
 
             case Direction.RIGHT_BOTTOM_CW:
-                mPath.moveTo(halfStrokeWidth, h - (halfStrokeWidth));
+                mPath.moveTo(w - halfStrokeWidth, h - (halfStrokeWidth));
+                mPath.lineTo(halfStrokeWidth, h - (halfStrokeWidth));
                 mPath.lineTo(halfStrokeWidth, halfStrokeWidth);
                 mPath.lineTo(w - halfStrokeWidth, halfStrokeWidth);
-                mPath.lineTo(w - halfStrokeWidth, h - (halfStrokeWidth));
                 mPath.close();
                 break;
 
             case Direction.RIGHT_BOTTOM_CCW:
-                mPath.moveTo(halfStrokeWidth, h - (halfStrokeWidth));
-                mPath.lineTo(w - halfStrokeWidth, h - (halfStrokeWidth));
+                mPath.moveTo(w - halfStrokeWidth, h - (halfStrokeWidth));
                 mPath.lineTo(w - halfStrokeWidth, halfStrokeWidth);
                 mPath.lineTo(halfStrokeWidth, halfStrokeWidth);
+                mPath.lineTo(halfStrokeWidth, h - (halfStrokeWidth));
                 mPath.close();
                 break;
 
@@ -472,7 +473,11 @@ public class RoundRectProgress extends View {
     @IntDef({Direction.TOP_CENTER_CW, Direction.TOP_CENTER_CCW,
             Direction.LEFT_CENTER_CW, Direction.LEFT_CENTER_CCW,
             Direction.RIGHT_CENTER_CW, Direction.RIGHT_CENTER_CCW,
-            Direction.BOTTOM_CENTER_CW, Direction.BOTTOM_CENTER_CCW})
+            Direction.BOTTOM_CENTER_CW, Direction.BOTTOM_CENTER_CCW,
+            Direction.LEFT_TOP_CW, Direction.LEFT_TOP_CCW,
+            Direction.RIGHT_TOP_CW, Direction.RIGHT_TOP_CCW,
+            Direction.LEFT_BOTTOM_CW, Direction.LEFT_BOTTOM_CCW,
+            Direction.RIGHT_BOTTOM_CW, Direction.RIGHT_BOTTOM_CCW})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Direction {
 
