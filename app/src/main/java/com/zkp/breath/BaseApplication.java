@@ -1,11 +1,11 @@
 package com.zkp.breath;
 
-import android.app.Application;
+import androidx.multidex.MultiDexApplication;
 
 /**
  * Created b Zwp on 2019/7/25.
  */
-public class BaseApplication extends Application {
+public class BaseApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {
