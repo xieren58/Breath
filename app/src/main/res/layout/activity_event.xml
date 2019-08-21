@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.zkp.breath.views.events.AViewGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/a_vg"
+    android:layout_width="700dp"
+    android:layout_height="700dp"
+    android:background="@color/colorAccent">
+
+    <com.zkp.breath.views.events.BViwe
+        android:id="@+id/b_v"
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:background="@color/colorPrimaryDark" />
+
+    <com.zkp.breath.views.events.CView
+        android:id="@+id/c_v"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="#FFFFFFFF" />
+
+</com.zkp.breath.views.events.AViewGroup>
