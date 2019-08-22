@@ -2,6 +2,7 @@ package com.zkp.breath.review;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -98,6 +99,18 @@ public class Demo {
         List<String> subList = stringList.subList(0, stringList.size());
         subList.add("c++");
         System.out.println(stringList.toString());
+
+        System.out.println();
+        System.out.println("===========HashSet===========");
+
+        // 无序且不可重复。LinkHashSet有序且不可重复
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.add("1");
+        hashSet.add("2");
+        hashSet.add("3");
+        System.out.println(hashSet.toString());
+
+
 
     }
 }
