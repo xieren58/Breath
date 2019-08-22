@@ -68,6 +68,11 @@ public class Demo {
         Integer[] integers1 = integerArrayList.toArray(new Integer[3]);
         Integer[] integers2 = integerArrayList.toArray(new Integer[2]);
         System.out.println(Arrays.equals(integers1, integers2));    // 源码最终调用元素的equals()方法
+        Integer[] srcTempIntegers = {1, 2, 3};
+        Integer[] dstTempIntegers = new Integer[srcTempIntegers.length];
+        // 集合的toArray()方法内部就是调用了System.arraycopy()
+        System.arraycopy(srcTempIntegers, 0, dstTempIntegers, 0, dstTempIntegers.length);
+        System.out.println(new ArrayList<>(Arrays.asList(srcTempIntegers)).toString());
         System.out.println();
 
         Integer[] integers = {1, 2, 3};
@@ -93,8 +98,6 @@ public class Demo {
         List<String> subList = stringList.subList(0, stringList.size());
         subList.add("c++");
         System.out.println(stringList.toString());
-
-
 
     }
 }
