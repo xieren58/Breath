@@ -21,6 +21,7 @@ public class SerializableDemo {
         System.out.println(bea);
 
         //Write Obj to File
+        // 只指定的文件名会生成到当前工程目录下
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("D:/tempTR.txt"))) {
             oos.writeObject(bea);
         } catch (IOException e) {
