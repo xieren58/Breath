@@ -20,5 +20,11 @@ public class StringAndSB {
         System.out.println("丢3" + s2.toString().equals(s1));
         // false,StringBuffer的toString()会new出一个String，new出来的内存地址一定不相等
         System.out.println("丢4" + (s2.toString() == s1));
+
+        String str1 ="123";
+        // 看源码，0直接返回本身
+        System.out.println("123" == str1.substring(0)); //3,true
+        // 其余会返回一个新new出来的对象
+        System.out.println("23" == str1.substring(1));  //4,false
     }
 }
