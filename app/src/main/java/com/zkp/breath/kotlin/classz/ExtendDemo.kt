@@ -1,4 +1,4 @@
-package com.zkp.breath.designpattern
+package com.zkp.breath.kotlin.classz
 
 // 关键字open添加在class关键字前面表示该类是一个可被继承的类（开放类，父类，超类）
 open class BaseClass {
@@ -103,7 +103,7 @@ interface B {
     fun b() { print("b") }
 }
 
-class C() : A() , B{
+class C() : A() , B {
     override fun f() {
         super<A>.f()//调用 A.f()
         super<B>.f()//调用 B.f()
