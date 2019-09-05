@@ -144,6 +144,16 @@ class C4 : C3() {
 }
 
 
+// =====================================================
+// =====================================================
+
+fun Any?.toString(): String {
+    if (this == null) return "null"
+    // 空检测之后，“this”会自动转换为非空类型，所以下面的 toString()
+    // 解析为 Any 类的成员函数
+    return toString()
+}
+
 fun main(args: Array<String>) {
     val ele: H = J()
     ele.p()     // 输出"J.p",动态解析就是和java的多态一样
@@ -190,5 +200,12 @@ fun main(args: Array<String>) {
     C3().caller(D3())   // 输出 "D.foo in C"
     C4().caller(D3())  // 输出 "D.foo in C1" —— 分发接收者虚拟解析
     C3().caller(D1())  // 输出 "D.foo in C" —— 扩展接收者静态解析
+    println()
+
+    // =====================================================
+    // =====================================================
+
+    val t = null
+    println(t.toString())   // "null"
 
 }
