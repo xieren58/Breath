@@ -47,9 +47,23 @@ enum class Person1(var code: Int) {
 
 fun main(args: Array<String>) {
     val color: Color = Color.BLUE
+    println("获取枚举值的完整包名： ${Color.BLUE.declaringClass}")
+
+    val enumValueOf = enumValueOf<Color>("RED")
+    println("库函数方法获取指定名字的枚举值: ${enumValueOf.name}")
+
+    // 和枚举类特有的方法values的作用一样
+    val enumValues = enumValues<Color>()
+    for ((index, value) in enumValues.withIndex()) {
+        println("库函数方法()_the element at $index is $value")
+    }
 
     // 以数组的形式，返回枚举值
-    println(Color.values())
+    val values = Color.values()
+    for ((index, value) in values.withIndex()) {
+        println("the element at $index is $value")
+    }
+
     // 转换指定 name 为枚举值，若未匹配成功，会抛出IllegalArgumentException
     println(Color.valueOf("RED"))
     // 获取枚举名称
