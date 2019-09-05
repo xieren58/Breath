@@ -70,6 +70,8 @@ fun main(args: Array<String>) {
     println(color.name)
     // 获取枚举值在所有枚举数组中定义的顺序
     println(color.ordinal)
+    // 比较顺序。0表示相等，负数表示前者先于后者，正数反之
+    println(Color.BLUE.compareTo(Color.RED))
 
 
     // 重写的枚举类中声明的方法，可以被其实例调用
