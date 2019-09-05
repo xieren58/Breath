@@ -1,9 +1,18 @@
 package com.zkp.breath.kotlin.classz
 
+
+class NestedClass {
+
+    class StaticClass {
+
+    }
+}
+
 // 知识点2
 class Outer {
     private val bar: Int = 1
     var v = "成员属性"
+
     /**嵌套内部类**/
     inner class Inner {
         fun foo() = bar  // 访问外部类成员
@@ -70,12 +79,17 @@ interface TestInterFace {
 
 // 知识点4
 open class Foo {
-    open fun f() { println("Foo.f()") }
+    open fun f() {
+        println("Foo.f()")
+    }
+
     open val x: Int get() = 1
 }
 
 class Bar : Foo() {
-    override fun f() { /* …… */ }
+    override fun f() { /* …… */
+    }
+
     override val x: Int get() = 0
 
     inner class Baz {
@@ -93,5 +107,9 @@ fun main(args: Array<String>) {
     println(demo) //   1
     val demo2 = Outer().Inner().innerTest()
     println(demo2)
+
+
+    // 创建嵌套类的实例（相当于java的静态内部类）
+    val staticClass = NestedClass.StaticClass()
 
 }
