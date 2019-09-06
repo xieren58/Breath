@@ -68,6 +68,17 @@ class MethodClass {
      */
     var test5 = fun(x: Int, y: Int) = x + y
 
+
+    fun add(x: Int, y: Int): Int {
+        return x + y
+    }
+
+    // 改写 （简写）
+    var add = { x: Int, y: Int -> x + y }
+    // 声明比较详细的写法
+// add1的类型为字面函数(Int, Int) -> Int，接受两个Int参数，返回值为Int
+    var add1: (Int, Int) -> Int = { x: Int, y: Int -> x + y }
+
 }
 
 
@@ -76,6 +87,12 @@ fun isEven(a: Int) = a % 2 == 0
 fun comboTwoValue(a: Int, b: Int, method: (a: Int, b: Int) -> Int): Int {
     return method(a, b)
 }
+
+fun isOdd(x: Int) = x % 2 != 0
+
+fun customPrint(b: Boolean) {}
+
+fun customPrint(b: (Int) -> Boolean) {}
 
 fun main() {
 
@@ -125,9 +142,12 @@ fun main() {
     val lock21 = methodClass.lock2(1, body2)
     println()
 
-    println(methodClass.test3(1,2))
-    println(methodClass.test4(1,2))
-    println(methodClass.test5(1,2))
+    println(methodClass.test3(1, 2))
+    println(methodClass.test4(1, 2))
+    println(methodClass.test5(1, 2))
+    println()
+
+    println(methodClass.add(1, 2))
     println()
 
     // 引用方式1, ”::"一元操作符要写在函数名前面，圆括号包裹
@@ -141,5 +161,14 @@ fun main() {
     comboTwoValue(3, 4, Math::min)
     comboTwoValue(3, 4, { a, b -> Math.min(a, b) })
     println()
+
+
+    // 普通的方法调用
+    customPrint(isOdd(555))
+    // 函数引用，这里的::isOdd是函数类型b : (Int) -> Boolean的一个值
+    customPrint(::isOdd)
+    // 用一个变量存放函数引用也是可以的
+    val kFunction1 = ::isOdd
+    customPrint(kFunction1)
 
 }
