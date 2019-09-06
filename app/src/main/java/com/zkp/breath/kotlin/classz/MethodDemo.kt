@@ -1,6 +1,17 @@
 package com.zkp.breath.kotlin.classz
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.nio.file.Files
+import java.nio.file.Paths
+
 class MethodClass {
+
+    var s = ""
+
+    fun printlnS() {
+        println("打印属性s: ${s}")
+    }
 
     // 可变参数
     fun f1(vararg range: Int) {
@@ -79,6 +90,59 @@ class MethodClass {
 // add1的类型为字面函数(Int, Int) -> Int，接受两个Int参数，返回值为Int
     var add1: (Int, Int) -> Int = { x: Int, y: Int -> x + y }
 
+    fun myLet(s: String): Int {
+        // let : 默认当前这个对象作为闭包的it参数，返回值是函数里面的最后一行。
+        s.let {
+            // 其实这里省略了it : Stirng ->
+            print(it)  // it指代调用者
+            return 999  // 这里的返回是直接返回到外层方法
+        }
+    }
+
+    fun myLet2(s: String): Int {
+        // 也可以使用return 接返回值。
+        return s.let {
+            print(it)
+            999
+        }
+    }
+
+    fun with(s: String) {
+        // 一个对象设置很多属性的时候势必要写多次对象名，使用with可以省略，链式模式思想
+        with(s) {
+            trim()
+            toUpperCase()
+            hashCode()
+            toString()
+        }
+    }
+
+    fun run() {
+//        run: 和apply很像，只不过run函数可以使用最后一行作为返回，apply则返回调用者自身，run就是with和let的组合扩展
+
+        // labdm类型，且返回值为String
+        val block: ArrayList<String>.() ->String = {
+            add("1")    // 可以省略书写对象
+            add("2")
+            add("3")
+            println(this.joinToString())
+            ""    // 最后一行作为返回，和labdmm类型的返回值类型一致
+        }
+        // run存在返回，后面可以接着跟方法
+        ArrayList<String>().run(block).toUpperCase()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun use() {
+        val newInputStream = Files.newInputStream(Paths.get(""))
+        val byte = newInputStream.use ({ newInputStream.read() })
+    }
+
+    fun repeat() {
+        // 执行次数重复执行一个闭包（和for效果一样，比for更加简洁）
+        repeat(8){ println("重复执行8次")}
+    }
+
 }
 
 
@@ -149,6 +213,10 @@ fun main() {
 
     println(methodClass.add(1, 2))
     println()
+
+    // apply: 可以认为是进行初始化操作的书写区域，返回值是调用者本身，有点链式模式的意味
+    methodClass.apply { s = "字符串" }.printlnS()
+
 
     // 引用方式1, ”::"一元操作符要写在函数名前面，圆括号包裹
     arrayOf(3, 4, 5).filter(::isEven)
