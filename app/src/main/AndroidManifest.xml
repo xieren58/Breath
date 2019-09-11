@@ -10,7 +10,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,13 +21,18 @@
         <activity android:name=".views.events.EventActivity" />
         <activity android:name=".component.activity.ActivityB" />
         <activity android:name=".component.activity.ActivityA" />
+        <service
+            android:name=".component.service.IntentServiceB"
+            android:exported="false"></service>
 
+        <service
+            android:name=".component.service.ServiceA"
+            android:enabled="true"
+            android:exported="true" />
     </application>
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-
 
 </manifest>
