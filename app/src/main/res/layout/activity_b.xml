@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".component.activity.ActivityB">
 
+    <Button
+        android:id="@+id/btn_activity_b"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="后退" />
+
 </android.support.constraint.ConstraintLayout>
