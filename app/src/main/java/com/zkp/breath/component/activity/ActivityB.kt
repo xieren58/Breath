@@ -3,8 +3,8 @@ package com.zkp.breath.component.activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.zkp.breath.R
 
 class ActivityB : AppCompatActivity() {
