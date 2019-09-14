@@ -7,52 +7,62 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.os.PersistableBundle
+import android.os.RemoteException
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
-import com.zkp.breath.R
+import com.zkp.breath.Book
+import com.zkp.breath.BookController
 import com.zkp.breath.component.service.ServiceA
+
 
 class ActivityA : AppCompatActivity(), View.OnClickListener {
 
     val TAG = localClassName
+    lateinit var intentServiceA: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_a)
+        setContentView(com.zkp.breath.R.layout.activity_a)
         Log.i(TAG, "onCreate()")
 
-        val btn1 = findViewById<Button>(R.id.btn_activity_a1)
-        val btn2 = findViewById<Button>(R.id.btn_activity_a2)
-        val btn3 = findViewById<Button>(R.id.btn_service_a1)
-        val btn4 = findViewById<Button>(R.id.btn_service_a2)
+        val btn1 = findViewById<Button>(com.zkp.breath.R.id.btn_activity_a1)
+        val btn2 = findViewById<Button>(com.zkp.breath.R.id.btn_activity_a2)
+        val btn3 = findViewById<Button>(com.zkp.breath.R.id.btn_service_a1)
+        val btn4 = findViewById<Button>(com.zkp.breath.R.id.btn_service_a2)
+        val btn5 = findViewById<Button>(com.zkp.breath.R.id.btn_service_remote)
         btn1.setOnClickListener(this)
         btn2.setOnClickListener(this)
         btn3.setOnClickListener(this)
         btn4.setOnClickListener(this)
+        btn5.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btn_activity_a1 -> {
+            com.zkp.breath.R.id.btn_activity_a1 -> {
                 startActivityForResult(Intent(this, ActivityB::class.java), RequestCode.ActivityACode)
             }
-            R.id.btn_activity_a2 -> {
+            com.zkp.breath.R.id.btn_activity_a2 -> {
                 startActivity(Intent(this, ActivityB::class.java))
             }
-            R.id.btn_service_a1 -> {
-                startService(Intent(this, ServiceA::class.java))
+            com.zkp.breath.R.id.btn_service_a1 -> {
+                intentServiceA = Intent(this, ServiceA::class.java)
+                startService(intentServiceA)
             }
-            R.id.btn_service_a2 -> {
-                bindService(Intent(this, ServiceA::class.java), ServiceConnectionImp, Context.BIND_AUTO_CREATE)
+            com.zkp.breath.R.id.btn_service_a2 -> {
+                bindService(Intent(this, ServiceA::class.java), serviceConnectionImp, Context.BIND_AUTO_CREATE)
+            }
+            com.zkp.breath.R.id.btn_service_remote -> {
+                bindService(Intent(this, ServiceA::class.java), remoteServiceConnectionImp, Context.BIND_AUTO_CREATE)
             }
             else -> ToastUtils.showShort("else")
         }
     }
 
-    private val ServiceConnectionImp = object : ServiceConnection {
+    private val serviceConnectionImp = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             if (service is ServiceA.BinderImp) {
                 Log.i(TAG, "name: ${name.toString()}")
@@ -61,9 +71,33 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
+
+        }
+    }
+
+
+    private val remoteServiceConnectionImp = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+
+            try {
+                val libraryManager = BookController.Stub.asInterface(service)
+                val bookList = libraryManager.bookList
+                for (b in bookList) {
+                    Log.i(TAG, "$b")
+                }
+
+                val temp = Book("新增")
+                libraryManager.addBookInOut(temp)
+            } catch (e: RemoteException) {
+                e.printStackTrace()
+            }
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
     }
+
 
     override fun onRestart() {
         super.onRestart()
@@ -111,6 +145,9 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onDestroy() {
+        stopService(intentServiceA)
+        unbindService(serviceConnectionImp)
+        unbindService(remoteServiceConnectionImp)
         super.onDestroy()
         Log.i(TAG, "onDestroy()")
     }

@@ -21,6 +21,7 @@
         <activity android:name=".views.events.EventActivity" />
         <activity android:name=".component.activity.ActivityB" />
         <activity android:name=".component.activity.ActivityA" />
+
         <service
             android:name=".component.service.IntentServiceB"
             android:exported="false"></service>
@@ -29,7 +30,13 @@
             android:name=".component.service.ServiceA"
             android:enabled="true"
             android:exported="true" />
+
+        <service
+            android:name=".AIDLService"
+            android:process=":remote" />
+
     </application>
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
