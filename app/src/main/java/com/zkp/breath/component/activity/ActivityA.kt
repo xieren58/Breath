@@ -1,7 +1,11 @@
 package com.zkp.breath.component.activity
 
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
@@ -9,6 +13,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.R
+import com.zkp.breath.component.service.ServiceA
 
 class ActivityA : AppCompatActivity(), View.OnClickListener {
 
@@ -19,16 +24,44 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_a)
         Log.i(TAG, "onCreate()")
 
-        val btn = findViewById<Button>(R.id.btn_activity_a)
-        btn.setOnClickListener(this)
+        val btn1 = findViewById<Button>(R.id.btn_activity_a1)
+        val btn2 = findViewById<Button>(R.id.btn_activity_a2)
+        val btn3 = findViewById<Button>(R.id.btn_service_a1)
+        val btn4 = findViewById<Button>(R.id.btn_service_a2)
+        btn1.setOnClickListener(this)
+        btn2.setOnClickListener(this)
+        btn3.setOnClickListener(this)
+        btn4.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btn_activity_a -> {
+            R.id.btn_activity_a1 -> {
                 startActivityForResult(Intent(this, ActivityB::class.java), RequestCode.ActivityACode)
             }
+            R.id.btn_activity_a2 -> {
+                startActivity(Intent(this, ActivityB::class.java))
+            }
+            R.id.btn_service_a1 -> {
+                startService(Intent(this, ServiceA::class.java))
+            }
+            R.id.btn_service_a2 -> {
+                bindService(Intent(this, ServiceA::class.java), ServiceConnectionImp, Context.BIND_AUTO_CREATE)
+            }
             else -> ToastUtils.showShort("else")
+        }
+    }
+
+    private val ServiceConnectionImp = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            if (service is ServiceA.BinderImp) {
+                Log.i(TAG, "name: ${name.toString()}")
+                service.send(ServiceA.Code1, null)
+            }
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
     }
 

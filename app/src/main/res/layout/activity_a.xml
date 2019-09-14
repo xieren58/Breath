@@ -7,9 +7,31 @@
     tools:context=".component.activity.ActivityA">
 
     <Button
-        android:id="@+id/btn_activity_a"
+        android:id="@+id/btn_activity_a1"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:text="按钮" />
+        android:text="result跳转ActivityB" />
+
+    <Button
+        android:id="@+id/btn_activity_a2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="普通跳转ActivityB"
+        app:layout_constraintTop_toBottomOf="@id/btn_activity_a1" />
+
+    <Button
+        android:id="@+id/btn_service_a1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="start跳转ServiceA"
+        app:layout_constraintTop_toBottomOf="@id/btn_activity_a2" />
+
+    <Button
+        android:id="@+id/btn_service_a2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="bind跳转ServiceA"
+        app:layout_constraintTop_toBottomOf="@id/btn_service_a1" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
