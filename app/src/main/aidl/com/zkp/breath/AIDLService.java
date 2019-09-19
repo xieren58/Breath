@@ -3,8 +3,6 @@ package com.zkp.breath;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.RemoteException;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,20 +39,20 @@ public class AIDLService extends Service {
 
     private final BookController.Stub stub = new BookController.Stub() {
 
-        @Override
-        public List<Book> getBookList() throws RemoteException {
-            return bookList;
-        }
-
-        @Override
-        public void addBookInOut(Book book) throws RemoteException {
-            if (book != null) {
-                book.setName("服务器改了新书的名字 InOut");
-                bookList.add(book);
-            } else {
-                Log.e(TAG, "接收到了一个空对象 InOut");
-            }
-        }
+//        @Override
+//        public List<Book> getBookList() throws RemoteException {
+//            return bookList;
+//        }
+//
+//        @Override
+//        public void addBookInOut(Book book) throws RemoteException {
+//            if (book != null) {
+//                book.setName("服务器改了新书的名字 InOut");
+//                bookList.add(book);
+//            } else {
+//                Log.e(TAG, "接收到了一个空对象 InOut");
+//            }
+//        }
 
     };
 

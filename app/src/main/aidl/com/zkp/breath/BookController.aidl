@@ -4,7 +4,7 @@ import com.zkp.breath.Book;
 
 
 interface BookController {
-    List<Book> getBookList();
+//    List<Book> getBookList();
 
-    void addBookInOut(inout Book book);
+//    void addBookInOut(inout Book book);
 }

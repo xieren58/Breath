@@ -7,14 +7,11 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.os.PersistableBundle
-import android.os.RemoteException
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
-import com.zkp.breath.Book
-import com.zkp.breath.BookController
 import com.zkp.breath.component.service.ServiceA
 
 
@@ -79,18 +76,18 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
     private val remoteServiceConnectionImp = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
 
-            try {
-                val libraryManager = BookController.Stub.asInterface(service)
-                val bookList = libraryManager.bookList
-                for (b in bookList) {
-                    Log.i(TAG, "$b")
-                }
-
-                val temp = Book("新增")
-                libraryManager.addBookInOut(temp)
-            } catch (e: RemoteException) {
-                e.printStackTrace()
-            }
+//            try {
+//                val libraryManager = BookController.Stub.asInterface(service)
+//                val bookList = libraryManager.bookList
+//                for (b in bookList) {
+//                    Log.i(TAG, "$b")
+//                }
+//
+//                val temp = Book("新增")
+//                libraryManager.addBookInOut(temp)
+//            } catch (e: RemoteException) {
+//                e.printStackTrace()
+//            }
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
