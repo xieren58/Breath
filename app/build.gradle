@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
     compileSdkVersion 28
@@ -30,6 +31,14 @@ android {
             java.srcDirs = ['src/main/java', 'src/main/aidl']
         }
     }
+
+    greendao {
+        schemaVersion 1 //数据库版本号
+        daoPackage 'com.zkp.breath.database.greendao.entitydao' // 设置DaoMaster、DaoSession、Dao 包名
+        targetGenDir 'src.main.java'//设置DaoMaster、DaoSession、Dao目录,请注意，这里路径用.不要用/
+        generateTests false //设置为true以自动生成单元测试。
+        targetGenDirTests 'src/main/java' //应存储生成的单元测试的基本目录。默认为 src / androidTest / java。
+    }
 }
 
 dependencies {
@@ -51,8 +60,16 @@ dependencies {
 
     implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation 'com.jakewharton:butterknife:10.1.0'
+
+    implementation 'org.greenrobot:greendao:3.2.2' // add library
+
+    implementation 'com.github.bumptech.glide:glide:3.8.0'
+
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 }
 repositories {
     mavenCentral()
