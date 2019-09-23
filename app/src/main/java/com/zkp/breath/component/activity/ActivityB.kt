@@ -67,7 +67,7 @@ class ActivityB : AppCompatActivity(), View.OnClickListener {
         Log.i(TAG, "onPause()")
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         // 在onStop（）方法前调用，但和onPause没有时序关系
         super.onSaveInstanceState(outState)
         Log.i(TAG, "onSaveInstanceState()")

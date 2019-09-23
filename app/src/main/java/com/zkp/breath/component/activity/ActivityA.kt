@@ -126,7 +126,7 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
         Log.i(TAG, "onPause()")
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Log.i(TAG, "onSaveInstanceState()")
     }
