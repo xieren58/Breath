@@ -4,6 +4,9 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Condition 就可以明确的指定唤醒的线程
+ */
 public class ConditionDemo {
 
     // AQS，同步队列
