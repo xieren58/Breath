@@ -1,7 +1,10 @@
 package com.zkp.breath.review;
 
+import com.zkp.breath.review.bean.HashMapBean;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -110,7 +113,14 @@ public class Demo {
         hashSet.add("3");
         System.out.println(hashSet.toString());
 
-
+        // 添加final的对象作为key，防止修改成员变量导致hashcode出现问题
+        HashMap<HashMapBean, Integer> hashMapBeanIntegerHashMap = new HashMap<>();
+        final HashMapBean hashMapBean1 = new HashMapBean("N1", 1);
+        final HashMapBean hashMapBean2 = new HashMapBean("N2", 2);
+        final HashMapBean hashMapBean3 = new HashMapBean("N3", 3);
+        hashMapBeanIntegerHashMap.put(hashMapBean1, 1);
+        hashMapBeanIntegerHashMap.put(hashMapBean2, 2);
+        hashMapBeanIntegerHashMap.put(hashMapBean3, 3);
 
     }
 }
