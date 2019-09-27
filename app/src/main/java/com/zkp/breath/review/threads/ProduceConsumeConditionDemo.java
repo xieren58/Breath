@@ -4,6 +4,9 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Lock实现并发多线程的生产者消费者demo
+ */
 public class ProduceConsumeConditionDemo {
 
     private static final int MAX_PRODUCT = 20;
@@ -50,7 +53,7 @@ public class ProduceConsumeConditionDemo {
             }
             this.product++;
             System.out.println(Thread.currentThread().getName() + "生产者生产第" + this.product + "个产品.");
-            consumeCondition.signal();
+            consumeCondition.signal();  // 指定唤醒消费者的等待队列，而synchronized关键字只有一个队列且不能指定
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -72,7 +75,7 @@ public class ProduceConsumeConditionDemo {
 
             System.out.println(Thread.currentThread().getName() + "消费者取走了第" + this.product + "个产品.");
             this.product--;
-            produceCondition.signal();
+            produceCondition.signal();  // 指定唤醒生产者的等待队列，而synchronized关键字只有一个队列且不能指定
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
