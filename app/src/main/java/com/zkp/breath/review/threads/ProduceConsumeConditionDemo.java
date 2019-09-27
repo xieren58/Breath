@@ -46,13 +46,11 @@ public class ProduceConsumeConditionDemo {
         try {
             while (this.product >= MAX_PRODUCT) {
                 System.out.println("产品已满,请稍候再生产");
-                consumeCondition.signalAll();
                 produceCondition.await();
             }
             this.product++;
             System.out.println(Thread.currentThread().getName() + "生产者生产第" + this.product + "个产品.");
-            produceCondition.signalAll();
-            consumeCondition.signalAll();
+            consumeCondition.signal();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -69,14 +67,12 @@ public class ProduceConsumeConditionDemo {
         try {
             while (this.product == MIN_PRODUCT) {
                 System.out.println("缺货,稍候再取");
-                produceCondition.signalAll();
                 consumeCondition.await(); // 释放锁和让出cpu执行权
             }
 
             System.out.println(Thread.currentThread().getName() + "消费者取走了第" + this.product + "个产品.");
             this.product--;
-            produceCondition.signalAll();
-            consumeCondition.signalAll();
+            produceCondition.signal();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
@@ -95,12 +91,12 @@ public class ProduceConsumeConditionDemo {
         @Override
         public void run() {
             while (true) {
-//                try {
-//                    Thread.sleep(1500);
-                produceConsumeDemo.produceByCondition();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    Thread.sleep(1000);
+                    produceConsumeDemo.produceByCondition();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -117,12 +113,12 @@ public class ProduceConsumeConditionDemo {
         public void run() {
 
             while (true) {
-//                try {
-//                    Thread.sleep(1000);
-                produceConsumeDemo.consumeByCondition();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    Thread.sleep(1000);
+                    produceConsumeDemo.consumeByCondition();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
         }
