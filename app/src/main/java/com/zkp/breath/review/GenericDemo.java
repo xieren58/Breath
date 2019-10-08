@@ -20,8 +20,22 @@ public class GenericDemo {
         consumerSuper(numbers1);
         consumerSuper(numbers2);
 
+        // 避免这种写法！！！！！！！
+        // 和list1，list2是同个作用
+        ArrayList list = new ArrayList<String>();
+        ArrayList<Object> list1 = new ArrayList<>();
+        ArrayList list2 = new ArrayList();
+        list.add(1);
+        list.add(new Object());
+        try {
+            Object o = list.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println();
         System.out.println();
+
+
         /**
          * 由于在程序中定义的 ArrayList 泛型类型实例化为 Integer 的对象，
          * 如果直接调用 add 方法则只能存储整形数据，不过当我们利用反射调用 add 方法时就可以存储字符串，
