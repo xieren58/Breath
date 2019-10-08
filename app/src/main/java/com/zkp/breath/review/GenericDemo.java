@@ -1,5 +1,7 @@
 package com.zkp.breath.review;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,23 @@ public class GenericDemo {
 
         System.out.println();
         System.out.println();
-
+        /**
+         * 由于在程序中定义的 ArrayList 泛型类型实例化为 Integer 的对象，
+         * 如果直接调用 add 方法则只能存储整形数据，不过当我们利用反射调用 add 方法时就可以存储字符串，
+         * 因为 Integer 泛型实例在编译之后被擦除了，只保留了原始类型 Object，所以自然可以插入。
+         */
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(1);
+        Class<? extends ArrayList> aClass = arrayList.getClass();
+        try {
+            Method method = aClass.getMethod("add", Object.class);
+            method.invoke(arrayList, "abc");
+            for (int i = 0; i < arrayList.size(); i++) {
+                System.out.println(arrayList.get(i));
+            }
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -103,5 +121,6 @@ public class GenericDemo {
             this.c = c;
         }
     }
+
 
 }
