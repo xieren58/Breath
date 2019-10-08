@@ -8,8 +8,10 @@ import java.util.List;
 public class GenericDemo {
 
     public static void main(String[] args) {
-        List<? extends Number> integers1 = new ArrayList<Integer>();
-        List<? extends Number> integers2 = new ArrayList<Number>();
+        List<Integer> integers1 = new ArrayList<>();
+        integers1.add(1);
+        List<Number> integers2 = new ArrayList<>();
+        integers2.add(2);
         producerExtends(integers1);
         producerExtends(integers2);
 
@@ -32,7 +34,7 @@ public class GenericDemo {
             Method method = aClass.getMethod("add", Object.class);
             method.invoke(arrayList, "abc");
             for (int i = 0; i < arrayList.size(); i++) {
-                System.out.println(arrayList.get(i));
+                System.out.println("集合:" + arrayList.get(i));
             }
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
