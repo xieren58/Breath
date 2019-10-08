@@ -16,6 +16,10 @@ public class GenericDemo {
         consumerSuper(numbers1);
         consumerSuper(numbers2);
 
+        System.out.println();
+        System.out.println();
+
+
     }
 
     /**
@@ -60,4 +64,42 @@ public class GenericDemo {
             e.printStackTrace();
         }
     }
+
+    private static class Bean<T> {
+        private T t;
+
+        public T getT() {
+            return t;
+        }
+
+        public void setT(T t) {
+            this.t = t;
+        }
+
+        // 泛型静态方法不能使用类的泛型类型，原因和static比类先加载。
+        public static <U> U f(U u) {
+            return u;
+        }
+    }
+
+    /**
+     * 元组其实是关系数据库中的一个学术名词，一条记录就是一个元组，一个表就是一个关系，纪录组成表，
+     * 元组生成关系，这就是关系数据库的核心理念。java借助泛型实现元组
+     *
+     * @param <A>
+     * @param <B>
+     * @param <C>
+     */
+    private static class Triplet<A, B, C> {
+        private A a;
+        private B b;
+        private C c;
+
+        public Triplet(A a, B b, C c) {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+        }
+    }
+
 }
