@@ -39,6 +39,7 @@ public class GenericDemo {
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
+
     }
 
     /**
