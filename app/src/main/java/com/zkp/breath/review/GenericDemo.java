@@ -19,7 +19,6 @@ public class GenericDemo {
         System.out.println();
         System.out.println();
 
-
     }
 
     /**
@@ -66,6 +65,9 @@ public class GenericDemo {
     }
 
     private static class Bean<T> {
+
+        // 编译后泛型会被擦除，替换为非泛型上边界，如果没有指定边界则为 Object 类型，如不想被擦除为 Object 类型时不要忘了添加上边界操作等
+        // 相当于：private Object t;
         private T t;
 
         public T getT() {
