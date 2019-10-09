@@ -12,7 +12,7 @@ import android.widget.FrameLayout;
  * 2.三个方法默认返回值情况下，down事件经过三个方法，当onTouchEvent()方法没有消费DOWN事件则剩余事件不会传入，反之
  * move和up事件经过dispatchTouchEvent和onTouchEvent方法。
  * 3.三个方法默认返回值且有子view情况下，down事件经过本类的dispatchTouchEvent和onInterceptTouchEvent，然后经过
- * 子view的dispatchTouchEvent和当onTouchEvent，最后才是奔雷的onTouchEvent。
+ * 子view的dispatchTouchEvent和当onTouchEvent，最后才是本类的onTouchEvent。
  * 4.父view分发事件给子view，会从最后添加【addView()】的view开始分发，在ui上看就是盖在最上面的view，然后判断当前
  * 子view的canViewReceivePointerEvents（）和isTransformedTouchPointInView（），如果不满足则跳过该view，
  * 即不分发到该子view。

@@ -1,13 +1,17 @@
 package com.zkp.breath.review;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GenericDemo {
 
     public static void main(String[] args) {
-        List<? extends Number> integers1 = new ArrayList<Integer>();
-        List<? extends Number> integers2 = new ArrayList<Number>();
+        List<Integer> integers1 = new ArrayList<>();
+        integers1.add(1);
+        List<Number> integers2 = new ArrayList<>();
+        integers2.add(2);
         producerExtends(integers1);
         producerExtends(integers2);
 
@@ -15,6 +19,40 @@ public class GenericDemo {
         List<? super Integer> numbers2 = new ArrayList<Integer>();
         consumerSuper(numbers1);
         consumerSuper(numbers2);
+
+        // 避免这种写法！！！！！！！
+        // 和list1，list2是同个作用
+        ArrayList list = new ArrayList<String>();
+        ArrayList<Object> list1 = new ArrayList<>();
+        ArrayList list2 = new ArrayList();
+        list.add(1);
+        list.add(new Object());
+        try {
+            Object o = list.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println();
+        System.out.println();
+
+
+        /**
+         * 由于在程序中定义的 ArrayList 泛型类型实例化为 Integer 的对象，
+         * 如果直接调用 add 方法则只能存储整形数据，不过当我们利用反射调用 add 方法时就可以存储字符串，
+         * 因为 Integer 泛型实例在编译之后被擦除了，只保留了原始类型 Object，所以自然可以插入。
+         */
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(1);
+        Class<? extends ArrayList> aClass = arrayList.getClass();
+        try {
+            Method method = aClass.getMethod("add", Object.class);
+            method.invoke(arrayList, "abc");
+            for (int i = 0; i < arrayList.size(); i++) {
+                System.out.println("集合:" + arrayList.get(i));
+            }
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -60,4 +98,46 @@ public class GenericDemo {
             e.printStackTrace();
         }
     }
+
+    private static class Bean<T> {
+
+        // 编译后泛型会被擦除，替换为非泛型上边界，如果没有指定边界则为 Object 类型，如不想被擦除为 Object 类型时不要忘了添加上边界操作等
+        // 相当于：private Object t;
+        private T t;
+
+        public T getT() {
+            return t;
+        }
+
+        public void setT(T t) {
+            this.t = t;
+        }
+
+        // 泛型静态方法不能使用类的泛型类型，原因和static比类先加载。
+        public static <U> U f(U u) {
+            return u;
+        }
+    }
+
+    /**
+     * 元组其实是关系数据库中的一个学术名词，一条记录就是一个元组，一个表就是一个关系，纪录组成表，
+     * 元组生成关系，这就是关系数据库的核心理念。java借助泛型实现元组
+     *
+     * @param <A>
+     * @param <B>
+     * @param <C>
+     */
+    private static class Triplet<A, B, C> {
+        private A a;
+        private B b;
+        private C c;
+
+        public Triplet(A a, B b, C c) {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+        }
+    }
+
+
 }
