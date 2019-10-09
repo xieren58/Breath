@@ -21,6 +21,7 @@
         <activity android:name=".views.events.EventActivity" />
         <activity android:name=".component.activity.ActivityB" />
         <activity android:name=".component.activity.ActivityA" />
+        <activity android:name=".tim.TimActivity" />
 
         <service
             android:name=".component.service.IntentServiceB"
