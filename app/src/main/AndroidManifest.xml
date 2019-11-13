@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zkp.breath">
 
+<!--  Manifest提示GoogleAppIndexingWarning  https://www.jianshu.com/p/ba43bf1ba7c2-->
+
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
