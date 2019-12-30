@@ -82,6 +82,11 @@ public class MmkvDemo {
         System.out.println("MMKV_mmkv root: " + rootDir);
     }
 
+    private void cusSpecilFilesDir(Context context, String dirName) {
+        String dir = context.getFilesDir().getAbsolutePath() + "/" + dirName;
+        MMKV kv = MMKV.mmkvWithID("testCustomDir", dir);
+    }
+
     /**
      * MMKV 提供了 importFromSharedPreferences() 函数，可以比较方便地迁移数据过来。
      * <p>
