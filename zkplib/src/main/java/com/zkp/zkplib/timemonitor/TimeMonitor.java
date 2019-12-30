@@ -4,6 +4,9 @@ import android.util.Log;
 
 import java.util.HashMap;
 
+/**
+ * 耗时监视器对象，记录整个过程的耗时情况，可以用在很多需要统计的地方，比如Activity的启动耗时和Fragment的启动耗时。
+ */
 public class TimeMonitor {
 
     private final String TAG = TimeMonitor.class.getSimpleName();

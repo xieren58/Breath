@@ -2,6 +2,9 @@ package com.zkp.zkplib.timemonitor;
 
 import java.util.HashMap;
 
+/**
+ * 采用单例管理各个耗时统计的数据。
+ */
 public class TimeMonitorManager {
 
     private static TimeMonitorManager mTimeMonitorManager = null;

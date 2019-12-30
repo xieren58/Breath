@@ -1,5 +1,8 @@
 package com.zkp.zkplib.timemonitor;
 
+/**
+ * 打点配置类，用于统计各阶段的耗时，便于代码的维护和管理。
+ */
 public class TimeMonitorConfig {
 
     // 应用启动耗时
