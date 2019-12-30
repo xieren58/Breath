@@ -2,6 +2,7 @@ package com.zkp.breath.mmkv;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.tencent.mmkv.MMKV;
 
@@ -73,6 +74,12 @@ public class MmkvDemo {
         // 如果业务需要多进程访问，那么在初始化的时候加上标志位 MMKV.MULTI_PROCESS_MODE：
         MMKV mmkv = MMKV.mmkvWithID("InterProcessKV", MMKV.MULTI_PROCESS_MODE);
         mmkv.encode("bool", true);
+    }
+
+    private void cusDir(Context context, String dirName) {
+        String dir = context.getFilesDir().getAbsolutePath() + "/" + dirName;
+        String rootDir = MMKV.initialize(dir);
+        Log.i("MMKV", "mmkv root: " + rootDir);
     }
 
     /**
