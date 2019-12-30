@@ -47,7 +47,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
 
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
@@ -77,6 +77,9 @@ dependencies {
 
     // 测试集成腾讯云IM（tuikit版本，包含UI）
     implementation 'com.tencent.imsdk:tuikit:4.5.45'
+
+    // sp升级版框架（基于内存映射原理）
+    implementation 'com.tencent:mmkv:1.0.23'
 }
 repositories {
     mavenCentral()
