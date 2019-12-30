@@ -76,12 +76,24 @@ public class MmkvDemo {
         mmkv.encode("bool", true);
     }
 
+    /**
+     * MMKV 默认把文件存放在$(FilesDir)/mmkv/目录。
+     *
+     * @param context
+     * @param dirName
+     */
     private void cusDir(Context context, String dirName) {
         String dir = context.getFilesDir().getAbsolutePath() + "/" + dirName;
         String rootDir = MMKV.initialize(dir);
         System.out.println("MMKV_mmkv root: " + rootDir);
     }
 
+    /**
+     * MMKV 甚至支持自定义某个文件的目录
+     *
+     * @param context
+     * @param dirName
+     */
     private void cusSpecilFilesDir(Context context, String dirName) {
         String dir = context.getFilesDir().getAbsolutePath() + "/" + dirName;
         MMKV kv = MMKV.mmkvWithID("testCustomDir", dir);
