@@ -6,7 +6,6 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.zkp.breath.tim.TimActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,9 +22,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mBind = ButterKnife.bind(this);
-
-        Intent intent = new Intent(this, TimActivity.class);
-        startActivity(intent);
     }
 
     @Override
