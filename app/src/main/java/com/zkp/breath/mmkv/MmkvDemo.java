@@ -79,7 +79,7 @@ public class MmkvDemo {
     private void cusDir(Context context, String dirName) {
         String dir = context.getFilesDir().getAbsolutePath() + "/" + dirName;
         String rootDir = MMKV.initialize(dir);
-        Log.i("MMKV", "mmkv root: " + rootDir);
+        System.out.println("MMKV_mmkv root: " + rootDir);
     }
 
     /**
