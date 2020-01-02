@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <!--
+            CollapsingToolbarLayout需要作为AppBarLayout的子View才会有效，同时还需要注意它的3种flag。
+            layout_collapseMode属性：
+            1.pin:当CollapsingToolbarLayout完全收缩之后，设置该Flag的View会保留在屏幕当中。
+            2.parallax:设置该Flag的View会跟内容滚动，可以通过setParallaxMultiplier方法来设置视图差比率，其中0表示
+                       毫无视图差，完全跟内容滚动同步；1表示View完全不动。默认的视图差为0.5。
+            -->
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher"
+                app:layout_collapseMode="parallax" />
+
+            <!--指定了高度，但是title默认会在父布局的左下角,只有Toolbar和CollapsingToolbarLayout配合才有-->
+            <androidx.appcompat.widget.Toolbar
+                app:title="Title"
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#FF9800"
+                app:layout_collapseMode="pin" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
