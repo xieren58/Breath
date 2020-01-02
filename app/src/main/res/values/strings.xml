@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Breath</string>
+    <string name="appbar_scrolling_view_behavior">test</string>
 </resources>

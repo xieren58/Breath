@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zkp.breath">
 
-<!--  Manifest提示GoogleAppIndexingWarning  https://www.jianshu.com/p/ba43bf1ba7c2-->
+    <!--  Manifest提示GoogleAppIndexingWarning  https://www.jianshu.com/p/ba43bf1ba7c2-->
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -27,6 +27,7 @@
         <activity android:name=".component.activity.EventActivity" />
         <activity android:name=".component.activity.ActivityB" />
         <activity android:name=".component.activity.ActivityA" />
+        <activity android:name=".component.activity.ActivityCoordinator" />
 
         <service
             android:name=".component.service.IntentServiceB"
