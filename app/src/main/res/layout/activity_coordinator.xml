@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- CoordinatorLayout的app:layout_behavior属性不仅仅协助联动，而且还是接管了child的三大流程 -->
+
     <!--
     AppBarLayout继承自LinearLayout，布局方向为垂直方向，可以让你定制当某个可滚动View的滚动手势发生变化时（NestedScrollView或者
     实现了NestedScrollView机制的其它控件，比如：RecyclerView），其内部的子View使用layout_scrollFlags属性实现何种
