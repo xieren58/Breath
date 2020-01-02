@@ -4,6 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--
+    AppBarLayout继承自LinearLayout，布局方向为垂直方向，可以让你定制当某个可滚动View的滚动手势发生变化时（NestedScrollView或者
+    实现了NestedScrollView机制的其它控件，比如：RecyclerView），其内部的子View使用layout_scrollFlags属性实现何种
+    动作（如跟着一起滚动、保持不动等等）
+
+    layout_scrollFlags属性值：
+    1.scroll：值设为scroll的View会跟随滚动事件一起发生移动。就是当指定的ScrollView发生滚动时，该View也跟随一起滚动
+              ，就好像这个View也是属于这个ScrollView一样。
+    2.enterAlways：当ScrollView下拉滚动时该View会马上相应往下滚动，不考虑ScrollView是否在滚动到最顶部还是哪里。
+                   （猜想就是拦击滚动事件先响应，等全部显示则不拦截滚动事件）
+    3.exitUntilCollapsed：当ScrollView上拉时由View去执行滑动，直到滑动最小高度后，把这个滑动事件“还”回去，
+                          让ScrollView内部去上滑。配合属性android:minHeight使用
+    4.enterAlwaysCollapsed：是enterAlways的附加选项，一般跟enterAlways一起使用，它是指，View在往下“出现”的时候，
+                            首先是enterAlways效果，当View的高度达到最小高度时，View就暂时不去往下滚动，
+                            直到ScrollView滑动到顶部不再滑动时，View再继续往下滑动，直到滑到View的顶部结束。
+                            配合属性android:minHeight使用。（app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" ）
+    5.snap：简单理解，就是Child View滚动比例的一个吸附效果。也就是说，Child View不会存在局部显示的情况，
+            滚动Child View的部分高度，当我们松开手指时，Child View要么向上全部滚出屏幕，要么向下全部滚进屏幕，有点类似ViewPager的左右滑动
+    6.snapMargins:
+    -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -20,6 +40,7 @@
             android:background="#FF00FF" />
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!-- app:layout_behavior="@string/appbar_scrolling_view_behavior"不加则AppBarLayout会失效 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
