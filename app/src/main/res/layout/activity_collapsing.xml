@@ -30,12 +30,12 @@
 
             <!--指定了高度，但是title默认会在父布局的左下角,只有Toolbar和CollapsingToolbarLayout配合才有-->
             <androidx.appcompat.widget.Toolbar
-                app:title="Title"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="#FF9800"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin"
+                app:title="Title" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
