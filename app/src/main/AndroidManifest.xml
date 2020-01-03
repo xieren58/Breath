@@ -28,6 +28,7 @@
         <activity android:name=".component.activity.ActivityB" />
         <activity android:name=".component.activity.ActivityA" />
         <activity android:name=".component.activity.ActivityCoordinator" />
+        <activity android:name=".component.activity.ActivitySplash" />
 
         <service
             android:name=".component.service.IntentServiceB"
