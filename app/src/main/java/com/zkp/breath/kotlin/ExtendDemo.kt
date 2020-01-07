@@ -7,6 +7,8 @@ open class BaseClass {
     // 属性添加open关键字表示可被子类重写
     open val s2 = "s2"
     open var s3 = "s3"
+    open var s4 = "s4"
+    open var s5 = "s5"
 
     // 方法前添加open关键字表示可被子类重写
     open fun f() {
@@ -35,6 +37,11 @@ open class SonClass : BaseClass() {
     override var s3: String
         get() = super.s3
         set(value) {}
+
+    // 相当于上面s3的写法，只是上面的写法get/set都需要显示声明，这里的set就不用写
+    override var s4: String = super.s4
+
+    override var s5: String = ""
 
     override fun f() {
         println("SonClass重写的f()")
@@ -94,16 +101,26 @@ class SonClass4 : BaseClass3() {
 
 // 知识点14
 open class A {
-    open fun f () { print("A") }
-    fun a() { print("a") }
+    open fun f() {
+        print("A")
+    }
+
+    fun a() {
+        print("a")
+    }
 }
 
 interface B {
-    fun f() { print("B") } //接口的成员变量默认是 open 的
-    fun b() { print("b") }
+    fun f() {
+        print("B")
+    } //接口的成员变量默认是 open 的
+
+    fun b() {
+        print("b")
+    }
 }
 
-class C() : A() , B {
+class C() : A(), B {
     override fun f() {
         super<A>.f()//调用 A.f()
         super<B>.f()//调用 B.f()
