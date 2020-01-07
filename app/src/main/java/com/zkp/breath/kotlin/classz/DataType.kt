@@ -43,6 +43,7 @@ fun typeConversion() {
     val l = 1L + 3 // Long + Int => Long，内部其实调用了Long做相应的数学操作符重载
 }
 
+// 不同于 Java 的是，字符不属于数值类型，是一个独立的数据类型
 fun char() {
     val c: Char = '我'
     // 支持的几个转义字符
