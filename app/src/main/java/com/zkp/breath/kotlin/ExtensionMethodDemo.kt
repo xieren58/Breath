@@ -152,7 +152,7 @@ class C4 : C3() {
 // =====================================================
 // =====================================================
 
-fun Any?.toString(): String {
+fun String?.toString(): String {
     if (this == null) return "null"
     // 空检测之后，“this”会自动转换为非空类型，所以下面的 toString()
     // 解析为 Any 类的成员函数
@@ -210,7 +210,11 @@ fun main(args: Array<String>) {
     // =====================================================
     // =====================================================
 
-    val t = null
-    println(t.toString())   // "null"
+    // 调用的是扩展函数，因为我们声明为可null类型。（和重载的含义相似）
+    val t: String? = ""
+    println(t.toString())
 
+    // 调用的是Any的toString()
+    val tt = ""
+    println(tt.toString())
 }
