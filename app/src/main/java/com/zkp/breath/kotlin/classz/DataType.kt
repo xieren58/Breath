@@ -1,5 +1,8 @@
 package com.zkp.breath.kotlin.classz
 
+/**
+ * 常见数据类型，kotlin无java的基本类型
+ */
 fun main() {
     val i: Int = 1
     val l: Long = 1L
