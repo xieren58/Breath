@@ -123,6 +123,7 @@ class Demo13 {
     // 提供get/set方法必须马上初始化，不允许在init（）中初始化。因为get/set方法都需要知道该属性的类型
     var s4: String = ""
         // field 关键词只能用于属性的get/set访问器
+        // 在kotlin中，属性名=value会被编译器翻译成调用setter方法进而形成递归死循环,所以在get/set中kotlin提供了field关键字用于解决这个问题
         get() = field.toUpperCase()
         set(value) {
             if (value == "哈哈") {
