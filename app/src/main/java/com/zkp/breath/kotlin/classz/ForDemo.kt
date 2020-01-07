@@ -27,7 +27,7 @@ fun main() {
 
     for (i in 1..4) print(i) // 输出“1234”
 
-    for (i in 4 downTo 1) print(i)
+    for (i in 4 downTo 1) print(i)  // 逆向输出4321
 
     val x = 20
     if (x in 1..10) { // 等同于 1 <= i && i <= 10
