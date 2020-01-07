@@ -3,6 +3,7 @@ package com.zkp.breath.kotlin
 
 class NestedClass {
 
+    // 嵌套类，相当于java的静态内部类
     class StaticClass {
 
     }
@@ -13,10 +14,11 @@ class Outer {
     private val bar: Int = 1
     var v = "成员属性"
 
-    /**嵌套内部类**/
+    /**嵌套内部类，相当于成员内部类**/
     inner class Inner {
         fun foo() = bar  // 访问外部类成员
         fun innerTest() {
+            // 为了消除歧义，要访问来自外部作用域的 this，我们使用this@label，其中 @label 是一个 代指 this 来源的标签。
             var o = this@Outer //获取外部类的成员变量
             println("内部类可以引用外部类的成员，例如：" + o.v)
         }
@@ -32,7 +34,6 @@ class Test {
             //var zz = this@Test
             // print(zz.v)
             print(v)  // 个人感觉就是类似上面的写法，只是帮我们自动转换了而已
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
         // 匿名内部类声明的方法，只能匿名内部类内部调用，外部无法调用
@@ -48,7 +49,7 @@ class Test {
     fun function() {
         // 方式1，成员匿名内部类
         setInterFace(ss)
-        // 方式2，局部匿名内部类
+        // 方式2，局部匿名内部类，采用对象表达式来创建接口对象，即匿名内部类的实例。
         setInterFace(object : TestInterFace {
             override fun test() {
 
