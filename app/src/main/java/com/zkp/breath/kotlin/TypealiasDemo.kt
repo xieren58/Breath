@@ -1,4 +1,4 @@
-package com.zkp.breath.kotlin.classz
+package com.zkp.breath.kotlin
 
 // 类型别名Demo
 

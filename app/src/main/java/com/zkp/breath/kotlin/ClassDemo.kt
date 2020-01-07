@@ -1,4 +1,4 @@
-package com.zkp.breath.kotlin.classz
+package com.zkp.breath.kotlin
 
 // 编译期常量,相当于java的静态常量
 // 没有自定义 getter (即默认隐式get访问器)

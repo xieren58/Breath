@@ -1,4 +1,4 @@
-package com.zkp.breath.kotlin.classz
+package com.zkp.breath.kotlin
 
 // 关键字open添加在class关键字前面表示该类是一个可被继承的类（开放类，父类，超类）
 open class BaseClass {

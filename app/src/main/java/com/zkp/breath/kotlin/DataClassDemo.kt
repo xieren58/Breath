@@ -1,4 +1,4 @@
-package com.zkp.breath.kotlin.classz
+package com.zkp.breath.kotlin
 
 data class DataClass(val s: String, var i: Int) {
 }

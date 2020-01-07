@@ -1,4 +1,4 @@
-package com.zkp.breath.kotlin.classz
+package com.zkp.breath.kotlin
 
 class Box<T>(t: T) {
     // 类型为泛型

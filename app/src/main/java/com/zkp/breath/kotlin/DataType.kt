@@ -1,4 +1,4 @@
-package com.zkp.breath.kotlin.classz
+package com.zkp.breath.kotlin
 
 /**
  * 常见数据类型，kotlin无java的基本类型

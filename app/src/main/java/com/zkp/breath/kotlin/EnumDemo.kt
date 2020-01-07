@@ -1,4 +1,4 @@
-package com.zkp.breath.kotlin.classz
+package com.zkp.breath.kotlin
 
 enum class Color1 {
     RED, BLACK, BLUE, GREEN, WHITE
