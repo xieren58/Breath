@@ -26,6 +26,9 @@ class AsImp2 : AS {
     }
 }
 
+/**
+ * 接口中的属性只能是抽象的，不允许初始化值
+ */
 interface A1 {
     var a: String
         get() = "我们"
@@ -33,6 +36,8 @@ interface A1 {
 
     val bb: String
         get() = "你们"
+
+    var name: String
 }
 
 class B1 : A1 {
@@ -42,6 +47,8 @@ class B1 : A1 {
     override val bb: String
         get() = super.bb
 
+    // 父类的name没有重写get，所以这里不能调用super.name，因为这样是无效的，相当于无重写
+    override var name: String = ""
 }
 
 // 知识点5
