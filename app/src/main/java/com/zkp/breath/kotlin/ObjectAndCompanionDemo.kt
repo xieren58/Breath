@@ -1,6 +1,8 @@
 package com.zkp.breath.kotlin
 
-// 对象
+/**
+ * 对象和伴生对象
+ */
 
 class ObjectClass {
     // Private function, so the return type is the annoymouse object type
