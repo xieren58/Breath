@@ -9,7 +9,7 @@ fun main() {
     // val arrayOfNulls: Array<String?> = arrayOfNulls(3) // 另外一种写法
     // 设置对应角标的值的不同写法
     arrayOfNulls.set(0, "a")
-    arrayOfNulls[1] = "b"
+    arrayOfNulls[1] = "b"   // 重置了get/set方法
     arrayOfNulls[2] = "c"
     arrayOfNulls.forEach { println("字符串数组内容: " + it) }
     println()
