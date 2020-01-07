@@ -55,8 +55,7 @@ open class SonClass : BaseClass() {
 
 class GrandChildClass : SonClass() {
     // 父类的属性有override关键字，也可表示可被重写
-    override val s2: String
-        get() = super.s2
+    override val s2: String = super.s2
 
     // 父类的属性有override关键字，也可表示可被重写
     override var s3: String
