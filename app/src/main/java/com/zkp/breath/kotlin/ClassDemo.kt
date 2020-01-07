@@ -116,11 +116,13 @@ class Demo13 {
 
     var s: String = "哈哈"
     var s1: String
+    // lateinit 只能修饰var的非空数据类型的属性，必须指定类型，因为lateinit的作用知识延迟初始化
     lateinit var s2: String
     val s3: String = ""
 
     // 提供get/set方法必须马上初始化，不允许在init（）中初始化。因为get/set方法都需要知道该属性的类型
     var s4: String = ""
+        // field 关键词只能用于属性的get/set访问器
         get() = field.toUpperCase()
         set(value) {
             if (value == "哈哈") {
@@ -136,6 +138,10 @@ class Demo13 {
 
     init {
         s1 = "你好s2"
+    }
+
+    fun setup() {
+        s2 = ""
     }
 
 }
