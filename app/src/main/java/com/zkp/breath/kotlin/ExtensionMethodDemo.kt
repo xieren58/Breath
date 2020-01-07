@@ -1,5 +1,10 @@
 package com.zkp.breath.kotlin
 
+/**
+ * 扩展函数
+ * 例子很有代表性
+ */
+
 open class H {
     open fun p() = println("H.p")
 }
@@ -12,6 +17,7 @@ class J : H() {
 // =====================================================
 
 open class Particle
+
 class Electron : Particle()
 
 open class Element(val name: String = "") {
@@ -33,8 +39,6 @@ open class Element(val name: String = "") {
 
 open class NobleGas(name: String) : Element(name) {
 
-    //  三个方法的名字都是一致的，但是三个方法隶属的类是不同的，所以不会冲突
-
     override fun Particle.react(name: String) {
         println("$name 与粒子发生反应")
     }
@@ -43,7 +47,8 @@ open class NobleGas(name: String) : Element(name) {
         println("$name 与电子发生反应")
     }
 
-    fun react(p: Electron) {      // 重载，因为父类已经有了一个同名方法
+    // 重载，因为父类已经有了一个同名方法
+    fun react(p: Electron) {
         p.react(name)
     }
 }
