@@ -2,6 +2,9 @@ package com.zkp.breath.kotlin.classz
 
 fun main() {
     val s = "abc"
+    // 重写了get/set方法
+    print(s[0])
+    print(s.get(0))
     for (c in s) {
         println("遍历字符: $c")
     }
