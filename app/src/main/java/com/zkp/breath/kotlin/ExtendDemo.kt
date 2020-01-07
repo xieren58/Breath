@@ -1,5 +1,10 @@
 package com.zkp.breath.kotlin
 
+
+/**
+ * 1.子类继承父类时，不能有跟父类同名的变量，除非父类中该变量为 private，或者父类中该变量为 open 并且子类用 override 关键字重写
+ */
+
 // 关键字open添加在class关键字前面表示该类是一个可被继承的类（开放类，父类，超类）
 open class BaseClass {
     var s = "s"
