@@ -87,9 +87,18 @@ class ClassDemo9 constructor(s: String) {
     val n: String = s
     var n1: String = s
 
+    // val和var修饰的属性必须声明的时候就初始化或者在init()中初始化（且在init()初始化的属性必须指明数据类型）
+    val n2: String
+    var n3 = ""
+    val n4: String? = ""
+    var n5: String?
+
     // 初始化代码块（相当于主构函数的方法体）
     // 主构函数的参数可以在此代码块中出现
     init {
+        n2 = ""
+        n5 = ""
+
         println("初始化代码块")
         // (知识点)字符串模板 : $符号后面加上属性/变量
         // 字符串模板相当于java中的打印信息引用变量的形式。即： println("调用主构函数的参数s:" + s)
