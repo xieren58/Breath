@@ -1,5 +1,7 @@
 package com.zkp.breath.kotlin
 
+import android.annotation.SuppressLint
+
 // 编译期常量,相当于java的静态常量
 // 没有自定义 getter (即默认隐式get访问器)
 const val CONST = 22
@@ -116,6 +118,8 @@ class Demo13 {
     var s1: String
     lateinit var s2: String
     val s3: String = ""
+
+    // 提供get/set方法必须马上初始化，不允许在init（）中初始化。因为get/set方法都需要知道该属性的类型
     var s4: String = ""
         get() = field.toUpperCase()
         set(value) {
@@ -125,6 +129,10 @@ class Demo13 {
                 field = "小于"
             }
         }
+
+    val s5: String = "wo"
+        get() = field.toUpperCase()
+
 
     init {
         s1 = "你好s2"
@@ -137,4 +145,7 @@ fun main(args: Array<String>) {
     // kotlin创建对象：val/var修饰符  变量名 = 类名（主构或者次构参数值）。
     // java创建对象： private/public修饰符 变量名 = new关键字 类名（构造函数参数值）。会java的同学一看就感觉和kotlin创建对象的方式其实很像
     val classDemo9 = ClassDemo9(1)
+
+    val demo13 = Demo13()
+    println("demo13的属性s4：${demo13.s4}")
 }
