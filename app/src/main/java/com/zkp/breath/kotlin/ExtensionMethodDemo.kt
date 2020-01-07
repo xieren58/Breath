@@ -159,6 +159,16 @@ fun String?.toString(): String {
     return toString()
 }
 
+// ======================================================
+// ======================================================
+
+// 扩展属性
+// 扩展属性允许定义在类或者kotlin文件中，不允许定义在函数中，扩展属性不能有初始化器（没有后端字段field），
+    // 只能由显式提供的 setter 定义，扩展属性只能被声明为 val
+val <T> List<T>.lastIndex: Int
+    get() = size
+
+
 fun main(args: Array<String>) {
     val ele: H = J()
     ele.p()     // 输出"J.p",动态解析就是和java的多态一样
