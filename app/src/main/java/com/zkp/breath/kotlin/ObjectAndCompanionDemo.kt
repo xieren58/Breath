@@ -2,6 +2,7 @@ package com.zkp.breath.kotlin
 
 /**
  * 对象和伴生对象
+ * 1.伴生对象相当于java工具类的作用
  */
 
 class ObjectClass {
@@ -89,4 +90,7 @@ fun main() {
     }
 
     println(tempObject.muFuntion())
+
+    // 伴生对象的调用方式和java调用静态方法是一样的
+    println(Four.function())
 }
