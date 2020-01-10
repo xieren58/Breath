@@ -164,9 +164,59 @@ fun String?.toString(): String {
 
 // 扩展属性
 // 扩展属性允许定义在类或者kotlin文件中，不允许定义在函数中，扩展属性不能有初始化器（没有后端字段field），
-    // 只能由显式提供的 setter 定义，扩展属性只能被声明为 val
+// 只能由显式提供的 setter 定义，扩展属性只能被声明为 val
 val <T> List<T>.lastIndex: Int
     get() = size
+
+// ======================================================
+// ======================================================
+
+class MyClass {
+
+    companion object {
+
+        val myClassField1: Int = 1
+        var myClassField2 = "this is myClassField2"
+
+        fun companionFun1() {
+            println("this is 1st companion function.")
+            // 伴生对象相当于java的静态成员（实际不是），所以这里看成静态方法，静态方法不能调用成员方法，
+            // 所以这里调用的是顶层方法
+            foo()
+        }
+
+        // 伴生对象的成员函数
+        fun companionFun2() {
+            println("this is 2st companion function.")
+            companionFun1()
+        }
+    }
+
+    // 类内伴生对象扩展函数
+    fun MyClass.Companion.foo() {
+        println("伴随对象的扩展函数（内部）")
+    }
+
+    // 成员函数
+    fun test2() {
+        // 类内的其它函数优先引用类内扩展的伴随对象函数，即对于类内其它成员函数来说，类内扩展屏蔽类外扩展
+        MyClass.foo()
+    }
+
+    // 主构函数方法体
+    init {
+        test2()
+    }
+}
+
+// 伴生对象的扩展函数
+fun MyClass.Companion.foo() {
+    println("伴随对象的扩展函数")
+}
+
+// 伴生对现象的扩展变量
+val MyClass.Companion.no: Int
+    get() = 10
 
 
 fun main(args: Array<String>) {
@@ -227,4 +277,10 @@ fun main(args: Array<String>) {
     // 调用的是Any的toString()
     val tt = ""
     println(tt.toString())
+
+    // =====================================================
+    // =====================================================
+
+    println("no:${MyClass.no}")
+    MyClass.foo()
 }
