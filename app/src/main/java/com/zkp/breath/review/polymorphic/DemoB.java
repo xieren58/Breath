@@ -2,21 +2,19 @@ package com.zkp.breath.review.polymorphic;
 
 public class DemoB {
 
-    public static class DemoA {
-        // 重载
-        public boolean equals(DemoA other) {
-            System.out.println("use Demo equals.");
-            return true;
-        }
+    // 重载
+    public boolean equals(DemoB other) {
+        System.out.println("use Demo equals.");
+        return true;
     }
 
     public static void main(String[] args) {
 
-        Object obj1 = new DemoA();   // 多态
-        Object obj2 = new DemoA();   // 多态
+        Object obj1 = new DemoB();   // 多态
+        Object obj2 = new DemoB();   // 多态
 
-        DemoA obj3 = new DemoA();
-        DemoA obj4 = new DemoA();
+        DemoB obj3 = new DemoB();
+        DemoB obj4 = new DemoB();
 
         // 多态，编译看左边，检查到子类没有重写，所以最终调用了Object的equals方法（比较的是内存地址），所以判断条件为false
         if (obj1.equals(obj2)) {
