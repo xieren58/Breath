@@ -55,6 +55,7 @@ public class SynchronizedDemo {
         thread2.start();
     }
 
+    // 锁是该类的对象
     private synchronized void f1() {
         System.out.println("f1: " + Thread.currentThread().getName());
 
@@ -66,13 +67,14 @@ public class SynchronizedDemo {
 
     }
 
+    // 锁是该类的对象
     private void f2() {
         synchronized (this) {
             System.out.println("f2: " + Thread.currentThread().getName());
         }
     }
 
-
+    // 锁是class，不同对象共有一个class
     private void f3() {
         synchronized (SynchronizedDemo.class) {
             System.out.println("f3: " + Thread.currentThread().getName());
@@ -87,6 +89,7 @@ public class SynchronizedDemo {
         System.out.println("f3: " + Thread.currentThread().getName() + "endSleep");
     }
 
+    // 锁是class，不同对象共有一个class
     private void f4() {
         synchronized (SynchronizedDemo.class) {
             System.out.println("f4: " + Thread.currentThread().getName());
