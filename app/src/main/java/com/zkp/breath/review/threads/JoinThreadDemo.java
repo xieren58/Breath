@@ -22,7 +22,8 @@ public class JoinThreadDemo {
 
             if (joinFlag) {
                 try {
-                    thread.join();
+                    // 调用join()所在的线程会进入wait
+                    thread.join();  // 这句代码处于A线程，所以A线程会进入wait
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
