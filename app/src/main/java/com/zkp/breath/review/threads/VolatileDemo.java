@@ -19,9 +19,6 @@ public class VolatileDemo {
             i++;
         }
 
-        // 执行线程中断
-//        Thread thread = Thread.currentThread();
-//        thread.interrupt();
         System.out.println("中断了。。。");
     }
 
@@ -44,16 +41,24 @@ public class VolatileDemo {
             e.printStackTrace();
         }
 
-        new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 System.out.println("执行设置标志进行中断");
                 volatileDemo.shutdown();
             }
-        }).start();
+        });
+        thread.start();
 
+        System.out.println("执行睡眠2");
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("是否处于活动状态：" + thread.isAlive());
 
     }
-
 
 }
