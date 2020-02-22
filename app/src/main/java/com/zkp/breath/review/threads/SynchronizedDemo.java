@@ -102,6 +102,9 @@ public class SynchronizedDemo {
             if (flag) {
                 System.out.println("f5: " + Thread.currentThread().getName() + ",flag:true");
                 System.out.println("f5: " + Thread.currentThread().getName() + ",startSleep");
+                if (Thread.holdsLock(this)) {   // 能够知道当前是哪条线程持有锁
+                    System.out.println("f5: " + Thread.currentThread().getName() + "线程在指定对象上保持监视器锁");
+                }
                 try {
                     Thread.sleep(4000);
                 } catch (InterruptedException e) {
