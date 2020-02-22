@@ -1,13 +1,10 @@
 package com.zkp.breath.review.threads.atomic;
 
 
-import com.zkp.breath.R;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 原子性类是一种乐观锁（无阻塞，不用进行线程的上下文切换），相对于synchronized悲观锁（阻塞，要进行线程的上下文切换开销）
@@ -17,12 +14,6 @@ public class AtomicDemoA {
 
     public static void main(String[] args) throws InterruptedException {
         t1();
-        t2();
-    }
-
-
-    private static void t2() {
-
     }
 
     private static void t1() throws InterruptedException {
@@ -79,8 +70,5 @@ public class AtomicDemoA {
             }
         }
     }
-
-
-
 
 }
