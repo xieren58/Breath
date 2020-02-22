@@ -37,7 +37,8 @@ public class AtomicDemo {
 
         @Override
         public void run() {
-            f1();
+//            f1();
+            f2();
         }
 
         // 方式1
@@ -45,6 +46,22 @@ public class AtomicDemo {
             for (int i = 0, len = 50; i < len; i++) {
                 int get = ai.incrementAndGet();
                 System.out.println("线程: " + Thread.currentThread().getName() + ",原子类的值：" + get);
+            }
+        }
+
+        // 方式2
+        private void f2() {
+            for (int i = 0; i < 50; i++) {
+                // 要加死循环，保证当次操作完成
+                for (; ; ) {
+                    int current = ai.get();
+                    int next = current + 1;
+                    if (ai.compareAndSet(current, next)) {
+                        System.out.println("线程: " + Thread.currentThread().getName() + ",原子类的值：" + ai.get());
+                        // 退出当次死循环
+                        break;
+                    }
+                }
             }
         }
 
