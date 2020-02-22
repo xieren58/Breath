@@ -1,17 +1,31 @@
-package com.zkp.breath.review.threads;
+package com.zkp.breath.review.threads.atomic;
 
+
+import com.zkp.breath.R;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 原子性类是一种乐观锁（无阻塞，不用进行线程的上下文切换），相对于synchronized悲观锁（阻塞，要进行线程的上下文切换开销）
- * 原子类会使用循环和CAS（内部是Unsafe在操作）保证多线程同步
+ * 原子类内部调用Unsafe类，而自增等方法使用了unsafe的自旋（有退出的无判断条件循环）和CAS保证线程安全
  */
-public class AtomicDemo {
+public class AtomicDemoA {
 
     public static void main(String[] args) throws InterruptedException {
+        t1();
+        t2();
+    }
+
+
+    private static void t2() {
+
+    }
+
+    private static void t1() throws InterruptedException {
         AtomicInteger ai = new AtomicInteger();
 
         List<Thread> list = new ArrayList<>();
@@ -64,7 +78,9 @@ public class AtomicDemo {
                 }
             }
         }
-
     }
+
+
+
 
 }
