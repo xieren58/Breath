@@ -5,7 +5,17 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class LockDemo {
+/**
+ * ReentrantLock类，实现了Lock接口，是一种可重入的独占锁。
+ * <p>
+ * ReentrantLock类的其中一个构造器提供了指定公平策略 / 非公平策略的功能，默认为非公平策略。
+ * 公平策略：在多个线程争用锁的情况下，公平策略倾向于将访问权授予等待时间最长的线程。也就是说，
+ * 相当于有一个线程等待队列，先进入等待队列的线程后续会先获得锁，这样按照“先来后到”的原则，对于每一个等待线程都是公平的。
+ * 非公平策略：在多个线程争用锁的情况下，能够最终获得锁的线程是随机的（由底层OS调度）。
+ * <p>
+ * 注意：一般情况下，使用公平策略的程序在多线程访问时，总体吞吐量（即速度很慢，常常极其慢）比较低，因为此时在线程调度上面的开销比较大。
+ */
+public class ReentrantLockDemo {
 
     private final Lock lock = new ReentrantLock();
     private final ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
@@ -14,52 +24,16 @@ public class LockDemo {
 //        t1();
 //        t2();
 //        t3();
-//        t4();
-        t5(2);
+        t4();
     }
 
-    private static void t5(int flag) {
-        LockDemo lockDemo = new LockDemo();
 
-        switch (flag) {
-            case 1:
-                // 读读
-                Thread thread1 = new Thread(new ReadRunnableImp(lockDemo));
-                Thread thread2 = new Thread(new ReadRunnableImp(lockDemo));
-                thread1.setName("LockDemo_read_Thread1");
-                thread2.setName("LockDemo_read_Thread2");
-                thread1.start();
-                thread2.start();
-                break;
-            case 2:
-                // 读写
-                Thread thread3 = new Thread(new ReadRunnableImp(lockDemo));
-                Thread thread4 = new Thread(new WriteRunnableImp(lockDemo));
-                thread3.setName("LockDemo_read_Thread3");
-                thread4.setName("LockDemo_write_Thread4");
-                thread3.start();
-                thread4.start();
-                break;
-            case 3:
-                // 写写
-                Thread thread5 = new Thread(new WriteRunnableImp(lockDemo));
-                Thread thread6 = new Thread(new WriteRunnableImp(lockDemo));
-                thread5.setName("LockDemo_write_Thread5");
-                thread6.setName("LockDemo_write_Thread6");
-                thread5.start();
-                thread6.start();
-                break;
-            default:
-                break;
-        }
-
-    }
 
     private static void t4() {
-        LockDemo lockDemo = new LockDemo();
+        ReentrantLockDemo reentrantLockDemo = new ReentrantLockDemo();
 
-        Thread thread1 = new Thread(new RunnableImp3(lockDemo, true));
-        Thread thread2 = new Thread(new RunnableImp3(lockDemo, false));
+        Thread thread1 = new Thread(new RunnableImp3(reentrantLockDemo, true));
+        Thread thread2 = new Thread(new RunnableImp3(reentrantLockDemo, false));
         thread1.setName("LockDemo_Thread1");
         thread2.setName("LockDemo_Thread2");
         thread1.start();
@@ -75,10 +49,10 @@ public class LockDemo {
     }
 
     private static void t3() {
-        LockDemo lockDemo = new LockDemo();
+        ReentrantLockDemo reentrantLockDemo = new ReentrantLockDemo();
 
-        Thread thread1 = new Thread(new RunnableImp2(lockDemo, true));
-        Thread thread2 = new Thread(new RunnableImp2(lockDemo, false));
+        Thread thread1 = new Thread(new RunnableImp2(reentrantLockDemo, true));
+        Thread thread2 = new Thread(new RunnableImp2(reentrantLockDemo, false));
         thread1.setName("LockDemo_Thread1");
         thread2.setName("LockDemo_Thread2");
         thread1.start();
@@ -95,10 +69,10 @@ public class LockDemo {
     }
 
     private static void t2() {
-        LockDemo lockDemo = new LockDemo();
+        ReentrantLockDemo reentrantLockDemo = new ReentrantLockDemo();
 
-        Thread thread1 = new Thread(new RunnableImp1(lockDemo, true));
-        Thread thread2 = new Thread(new RunnableImp1(lockDemo, false));
+        Thread thread1 = new Thread(new RunnableImp1(reentrantLockDemo, true));
+        Thread thread2 = new Thread(new RunnableImp1(reentrantLockDemo, false));
         thread1.setName("LockDemo_Thread1");
         thread2.setName("LockDemo_Thread2");
         thread1.start();
@@ -106,10 +80,10 @@ public class LockDemo {
     }
 
     private static void t1() {
-        LockDemo lockDemo = new LockDemo();
+        ReentrantLockDemo reentrantLockDemo = new ReentrantLockDemo();
 
-        Thread thread1 = new Thread(new RunnableImp(lockDemo, true));
-        Thread thread2 = new Thread(new RunnableImp(lockDemo, false));
+        Thread thread1 = new Thread(new RunnableImp(reentrantLockDemo, true));
+        Thread thread2 = new Thread(new RunnableImp(reentrantLockDemo, false));
         thread1.setName("LockDemo_Thread1");
         thread2.setName("LockDemo_Thread2");
         thread1.start();
@@ -204,82 +178,53 @@ public class LockDemo {
         }
     }
 
-    private void read() {
-        String name = Thread.currentThread().getName();
-
-        reentrantReadWriteLock.readLock().lock();
-        try {
-            long start = System.currentTimeMillis();
-            while (System.currentTimeMillis() - start <= 1) {
-                System.out.println(name + "正在进行读操作");
-            }
-            System.out.println(name + "读操作完毕");
-        } finally {
-            reentrantReadWriteLock.readLock().unlock();
-        }
-    }
-
-    private void write() {
-        String name = Thread.currentThread().getName();
-
-        reentrantReadWriteLock.writeLock().lock();
-        try {
-            long start = System.currentTimeMillis();
-            while (System.currentTimeMillis() - start <= 1) {
-                System.out.println(name + "正在进行写操作");
-            }
-            System.out.println(name + "写操作完毕");
-        } finally {
-            reentrantReadWriteLock.writeLock().unlock();
-        }
-    }
 
     private static class RunnableImp implements Runnable {
 
-        private final LockDemo lockDemo;
+        private final ReentrantLockDemo reentrantLockDemo;
         private final boolean flag;
 
-        private RunnableImp(LockDemo lockDemo, boolean flag) {
-            this.lockDemo = lockDemo;
+        private RunnableImp(ReentrantLockDemo reentrantLockDemo, boolean flag) {
+            this.reentrantLockDemo = reentrantLockDemo;
             this.flag = flag;
         }
 
         @Override
         public void run() {
-            lockDemo.lockMethod(flag);
+            reentrantLockDemo.lockMethod(flag);
         }
     }
 
     private static class RunnableImp1 implements Runnable {
 
-        private final LockDemo lockDemo;
+        private final ReentrantLockDemo reentrantLockDemo;
         private final boolean flag;
 
-        private RunnableImp1(LockDemo lockDemo, boolean flag) {
-            this.lockDemo = lockDemo;
+        private RunnableImp1(ReentrantLockDemo reentrantLockDemo, boolean flag) {
+            this.reentrantLockDemo = reentrantLockDemo;
             this.flag = flag;
         }
 
         @Override
         public void run() {
-            lockDemo.tryLockMethod(flag);
+            reentrantLockDemo.tryLockMethod(flag);
         }
     }
 
     private static class RunnableImp2 implements Runnable {
 
-        private final LockDemo lockDemo;
+        private final ReentrantLockDemo reentrantLockDemo;
         private final boolean flag;
 
-        private RunnableImp2(LockDemo lockDemo, boolean flag) {
-            this.lockDemo = lockDemo;
+        private RunnableImp2(ReentrantLockDemo reentrantLockDemo, boolean flag) {
+            this.reentrantLockDemo = reentrantLockDemo;
             this.flag = flag;
         }
 
         @Override
         public void run() {
             try {
-                lockDemo.tryLockByTimeMethod(flag);
+                reentrantLockDemo.tryLockByTimeMethod(flag);
                 if (!flag) {
                     System.out.println(Thread.currentThread().getName() + ": 哈哈哈");
                 }
@@ -292,18 +237,18 @@ public class LockDemo {
 
     private static class RunnableImp3 implements Runnable {
 
-        private final LockDemo lockDemo;
+        private final ReentrantLockDemo reentrantLockDemo;
         private final boolean flag;
 
-        private RunnableImp3(LockDemo lockDemo, boolean flag) {
-            this.lockDemo = lockDemo;
+        private RunnableImp3(ReentrantLockDemo reentrantLockDemo, boolean flag) {
+            this.reentrantLockDemo = reentrantLockDemo;
             this.flag = flag;
         }
 
         @Override
         public void run() {
             try {
-                lockDemo.lockInterruptiblyMethod(flag);
+                reentrantLockDemo.lockInterruptiblyMethod(flag);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 System.out.println(Thread.currentThread().getName() + "被中断");
@@ -311,32 +256,6 @@ public class LockDemo {
         }
     }
 
-    private static class ReadRunnableImp implements Runnable {
 
-        private final LockDemo lockDemo;
-
-        private ReadRunnableImp(LockDemo lockDemo) {
-            this.lockDemo = lockDemo;
-        }
-
-        @Override
-        public void run() {
-            lockDemo.read();
-        }
-    }
-
-    private static class WriteRunnableImp implements Runnable {
-
-        private final LockDemo lockDemo;
-
-        private WriteRunnableImp(LockDemo lockDemo) {
-            this.lockDemo = lockDemo;
-        }
-
-        @Override
-        public void run() {
-            lockDemo.write();
-        }
-    }
 
 }
