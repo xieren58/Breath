@@ -2,7 +2,11 @@ package com.zkp.breath.review.threads.locks;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class ReentrantReadWriteLockDemo {
+/**
+ * 该类在内部实现了具体独占锁特点的写锁，以及具有共享锁特点的读锁。
+ * 读写互斥，写写互斥，读读不互斥。
+ */
+public class ReentrantReadWriteLockDemoA {
 
     private final ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
 
@@ -11,7 +15,7 @@ public class ReentrantReadWriteLockDemo {
     }
 
     private static void t1(int flag) {
-        ReentrantReadWriteLockDemo reentrantLockDemo = new ReentrantReadWriteLockDemo();
+        ReentrantReadWriteLockDemoA reentrantLockDemo = new ReentrantReadWriteLockDemoA();
 
         switch (flag) {
             case 1:
@@ -80,9 +84,9 @@ public class ReentrantReadWriteLockDemo {
 
     private static class ReadRunnableImp implements Runnable {
 
-        private final ReentrantReadWriteLockDemo reentrantLockDemo;
+        private final ReentrantReadWriteLockDemoA reentrantLockDemo;
 
-        private ReadRunnableImp(ReentrantReadWriteLockDemo reentrantLockDemo) {
+        private ReadRunnableImp(ReentrantReadWriteLockDemoA reentrantLockDemo) {
             this.reentrantLockDemo = reentrantLockDemo;
         }
 
@@ -94,9 +98,9 @@ public class ReentrantReadWriteLockDemo {
 
     private static class WriteRunnableImp implements Runnable {
 
-        private final ReentrantReadWriteLockDemo reentrantLockDemo;
+        private final ReentrantReadWriteLockDemoA reentrantLockDemo;
 
-        private WriteRunnableImp(ReentrantReadWriteLockDemo reentrantLockDemo) {
+        private WriteRunnableImp(ReentrantReadWriteLockDemoA reentrantLockDemo) {
             this.reentrantLockDemo = reentrantLockDemo;
         }
 

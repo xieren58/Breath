@@ -13,21 +13,21 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * 相当于有一个线程等待队列，先进入等待队列的线程后续会先获得锁，这样按照“先来后到”的原则，对于每一个等待线程都是公平的。
  * 非公平策略：在多个线程争用锁的情况下，能够最终获得锁的线程是随机的（由底层OS调度）。
  * <p>
- * 注意：一般情况下，使用公平策略的程序在多线程访问时，总体吞吐量（即速度很慢，常常极其慢）比较低，因为此时在线程调度上面的开销比较大。
+ * 注意：
+ * 1.一般情况下，使用公平策略的程序在多线程访问时，总体吞吐量（即速度很慢，常常极其慢）比较低，因为此时在线程调度上面的开销比较大。
+ * 2.在遇到异常的时候不会自动释放锁，所以要在try-catch中的finally语块中调用释放
+ * 3.当线程持有lock锁，没有手动释放锁就进行sleep后其他线程是无法获取锁的。
  */
 public class ReentrantLockDemo {
 
     private final Lock lock = new ReentrantLock();
-    private final ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
 
     public static void main(String[] args) {
-//        t1();
+        t1();
 //        t2();
 //        t3();
-        t4();
+//        t4();
     }
-
-
 
     private static void t4() {
         ReentrantLockDemo reentrantLockDemo = new ReentrantLockDemo();
@@ -157,6 +157,7 @@ public class ReentrantLockDemo {
     }
 
     private void lockInterruptiblyMethod(boolean flag) throws InterruptedException {
+        //就是如果锁不可用，那么当前正在等待的线程是可以被中断的
         lock.lockInterruptibly();
         try {
             int result = 0;
@@ -255,7 +256,6 @@ public class ReentrantLockDemo {
             }
         }
     }
-
 
 
 }
