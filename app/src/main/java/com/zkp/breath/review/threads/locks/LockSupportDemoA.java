@@ -7,7 +7,10 @@ import java.util.concurrent.locks.LockSupport;
 
 /***
  * LockSupport类的核心方法其实就两个：park()和unark()，其中park()方法用来阻塞当前调用线程，unpark()方法用于唤醒指定线程。
- * 这其实和Object类的wait()和signial()方法有些类似，但是LockSupport的这两种方法从语意上讲比Object类的方法更清晰，而且可以针对指定线程进行阻塞和唤醒。
+ *
+ * 与wait，notify的区别：
+ * 1. wait，notify必须要在synchronized修饰的同步代码块中，而LockSupport在任何地方调用都行。
+ * 2. notify唤醒只能随机唤醒，而unpark可以指定唤醒线程。
  */
 public class LockSupportDemoA {
 
