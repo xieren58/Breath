@@ -1,4 +1,4 @@
-package com.zkp.breath.review.threads;
+package com.zkp.breath.review.threads.locks;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
