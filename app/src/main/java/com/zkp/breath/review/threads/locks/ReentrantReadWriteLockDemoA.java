@@ -5,6 +5,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * 该类在内部实现了具体独占锁特点的写锁，以及具有共享锁特点的读锁。
  * 读写互斥，写写互斥，读读不互斥。
+ * ReentrantReadWriteLock使得多个读线程同时持有读锁（只要写锁未被占用），而写锁是独占的。
  */
 public class ReentrantReadWriteLockDemoA {
 
