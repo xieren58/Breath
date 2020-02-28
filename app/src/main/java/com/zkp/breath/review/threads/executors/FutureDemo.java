@@ -8,6 +8,8 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
+ * https://segmentfault.com/a/1190000016767676
+ *
  * 将任务包裹一层，能够获取到执行结果
  */
 public class FutureDemo {
