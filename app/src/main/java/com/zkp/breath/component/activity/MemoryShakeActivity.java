@@ -55,9 +55,9 @@ public class MemoryShakeActivity extends AppCompatActivity {
             int[] sorted = getSorted(lotsOfInts[i]);
             //拼接打印
             for (int j = 0; j < lotsOfInts[i].length; j++) {
-                rowAsStr += sorted[j];
+                rowAsStr += sorted[j]; // 一直再new字符串
                 if (j < (lotsOfInts[i].length - 1)) {
-                    rowAsStr += ", ";   // 一直再new字符串
+                    rowAsStr += ", ";
                 }
             }
         }
