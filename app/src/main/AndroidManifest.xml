@@ -30,6 +30,7 @@
         <activity android:name=".component.activity.ActivityCoordinator" />
         <activity android:name=".component.activity.ActivitySplash" />
         <activity android:name=".component.activity.MemoryShakeActivity" />
+        <activity android:name=".component.activity.MvcActivity" />
 
         <service
             android:name=".component.service.IntentServiceB"
