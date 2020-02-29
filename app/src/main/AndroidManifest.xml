@@ -29,10 +29,11 @@
         <activity android:name=".component.activity.ActivityA" />
         <activity android:name=".component.activity.ActivityCoordinator" />
         <activity android:name=".component.activity.ActivitySplash" />
+        <activity android:name=".component.activity.MemoryShakeActivity" />
 
         <service
             android:name=".component.service.IntentServiceB"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <service
             android:name=".component.service.ServiceA"
