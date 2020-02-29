@@ -31,6 +31,7 @@
         <activity android:name=".component.activity.ActivitySplash" />
         <activity android:name=".component.activity.MemoryShakeActivity" />
         <activity android:name=".component.activity.MvcActivity" />
+        <activity android:name=".component.activity.MvpActivity" />
 
         <service
             android:name=".component.service.IntentServiceB"
