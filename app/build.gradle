@@ -41,6 +41,11 @@ android {
         generateTests false //设置为true以自动生成单元测试。
         targetGenDirTests 'src/main/java' //应存储生成的单元测试的基本目录。默认为 src / androidTest / java。
     }
+
+    // MVVM框架所需，进行v和vm的双向自动响应的绑定
+    dataBinding{
+        enabled true
+    }
 }
 
 dependencies {
