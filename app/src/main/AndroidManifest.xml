@@ -34,6 +34,10 @@
         <activity android:name=".component.activity.MvpActivity" />
 
         <service
+            android:name=".component.service.IntentServiceA"
+            android:exported="false" />
+
+        <service
             android:name=".component.service.IntentServiceB"
             android:exported="false" />
 
