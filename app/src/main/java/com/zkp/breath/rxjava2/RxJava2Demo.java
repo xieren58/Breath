@@ -19,6 +19,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -27,12 +28,16 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class RxJava2Demo {
 
-    // 基本使用
-    public void basicUse() {
+    /**
+     * 基本使用
+     * 注意: 只有当上游和下游建立连接之后, 上游才会开始发送事件. 也就是调用了subscribe() 方法之后才开始发送事件.
+     */
+    public static void basicUse() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
 
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                // 2
                 emitter.onNext(1);
                 emitter.onNext(2);
                 emitter.onNext(3);
@@ -42,28 +47,55 @@ public class RxJava2Demo {
 
             @Override
             public void onSubscribe(Disposable d) {
+                // 1
                 Log.i("basicUse", "onSubscribe");
             }
 
             @Override
             public void onNext(Integer integer) {
+                // 3
                 Log.i("basicUse", "onNext:" + integer);
             }
 
             @Override
             public void onError(Throwable e) {
+                // 4
                 Log.i("basicUse", "onError:" + e.toString());
             }
 
             @Override
             public void onComplete() {
+                // 4
                 Log.i("basicUse", "onComplete:");
             }
         });
     }
 
+    public static void consumer() {
+        Observable<Integer> observable = Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                Log.i("consumer", "Observable thread is : " + Thread.currentThread().getName());
+                Log.i("consumer", "emit 1");
+                emitter.onNext(1);
+            }
+        });
+
+        Consumer<Integer> consumer = new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.i("consumer", "Observer thread is :" + Thread.currentThread().getName());
+                Log.i("consumer", "onNext: " + integer);
+            }
+        };
+
+        observable.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(consumer);
+    }
+
     // observeOn和subscribe
-    public void threadSwitch() {
+    public static void threadSwitch() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
 
             @Override
@@ -76,8 +108,9 @@ public class RxJava2Demo {
                 emitter.onComplete();
             }
         }).subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(Schedulers.newThread())
-                .observeOn(Schedulers.io())
+                // 下游设置多个线程以最后一句为准,所以下面是运行在RxCachedThreadScheduler线程上面
+                .observeOn(Schedulers.newThread())  // RxNewThreadScheduler
+                .observeOn(Schedulers.io()) // RxCachedThreadScheduler
                 .subscribe(new Observer<Integer>() {
 
                     @Override
@@ -88,7 +121,7 @@ public class RxJava2Demo {
                     @Override
                     public void onNext(Integer integer) {
                         Log.i("threadSwitch",
-                                "onNext: " + ThreadUtils.isMainThread() + ",integer:" + integer);
+                                "onNext: " + Thread.currentThread().getName() + ",integer:" + integer);
                     }
 
                     @Override
@@ -98,12 +131,12 @@ public class RxJava2Demo {
 
                     @Override
                     public void onComplete() {
-                        Log.i("threadSwitch", "onComplete: " + ThreadUtils.isMainThread());
+                        Log.i("threadSwitch", "onComplete: " + Thread.currentThread().getName());
                     }
                 });
     }
 
-    public void map() {
+    public static void map() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
 
             @Override
@@ -143,7 +176,7 @@ public class RxJava2Demo {
         });
     }
 
-    public void flatMap() {
+    public static void flatMap() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
 
             @Override
@@ -192,7 +225,7 @@ public class RxJava2Demo {
         });
     }
 
-    public void zip() {
+    public static void zip() {
         Observable<Integer> integerObservable = Observable
                 .create(new ObservableOnSubscribe<Integer>() {
 
@@ -252,7 +285,7 @@ public class RxJava2Demo {
     }
 
     // 背压
-    public void backbress() {
+    public static void backbress() {
         Flowable.create(new FlowableOnSubscribe<Integer>() {
 
             @Override
