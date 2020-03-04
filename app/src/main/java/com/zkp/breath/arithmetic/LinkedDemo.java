@@ -1,6 +1,7 @@
 package com.zkp.breath.arithmetic;
 
 // 单链表反转
+// https://www.cnblogs.com/mwl523/p/10749144.html
 public class LinkedDemo {
 
     public static void main(String[] args) {
@@ -38,7 +39,7 @@ public class LinkedDemo {
 
     // 2.新建链表,头节点插入法
     public static Node reverseList2(Node<Integer> head) {
-        Node<Integer> dummy = new Node(-1, null);
+        Node<Integer> dummy = new Node<>(-1, null);
         Node pCur = head;
         while (pCur != null) {
             Node pNex = pCur.next;
