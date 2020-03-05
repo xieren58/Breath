@@ -7,8 +7,9 @@ import java.lang.reflect.Proxy;
 
 /**
  * Created b Zwp on 2019/7/17.
+ * 设计核心思想：实现同一个接口，用一个可扩展和可修改的类去包裹一个不改变不扩展的类。
  */
-public class Client {
+public class ProxyDemo {
 
     public static void main(String[] args) {
 //        staticProxy();
