@@ -17,7 +17,7 @@ import com.zkp.breath.component.service.ServiceA
 
 class ActivityA : AppCompatActivity(), View.OnClickListener {
 
-    val TAG = localClassName
+    val TAG = ActivityA::class.simpleName
     lateinit var intentServiceA: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {

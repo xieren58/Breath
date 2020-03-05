@@ -11,7 +11,7 @@ import com.zkp.breath.R
 
 class ActivityB : AppCompatActivity(), View.OnClickListener {
 
-    val TAG = localClassName
+    val TAG = ActivityB::class.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
