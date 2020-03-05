@@ -15,8 +15,8 @@ public class ProxyISubject implements ISubject {
 
     @Override
     public void function() {
-        Log.i("ProxyISubject", "function: 扩展代码1");
+        System.out.println("ProxyISubject_function: 扩展代码1");
         mISubject.function();
-        Log.i("ProxyISubject", "function: 扩展代码2");
+        System.out.println("ProxyISubject_function: 扩展代码2");
     }
 }

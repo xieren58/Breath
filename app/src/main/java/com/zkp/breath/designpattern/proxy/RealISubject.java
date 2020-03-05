@@ -9,6 +9,6 @@ public class RealISubject implements ISubject {
 
     @Override
     public void function() {
-        Log.i("RealISubject", "function: ");
+        System.out.println("RealISubject_function");
     }
 }
