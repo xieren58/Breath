@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.blankj.utilcode.util.ServiceUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.component.service.ServiceA
 
@@ -19,6 +20,9 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
 
     val TAG = ActivityA::class.simpleName
     lateinit var intentServiceA: Intent
+    var isBindServiceConnectionImp = false
+    var isBindRemoteServiceConnectionImp = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +54,13 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
                 startService(intentServiceA)
             }
             com.zkp.breath.R.id.btn_service_a2 -> {
-                bindService(Intent(this, ServiceA::class.java), serviceConnectionImp, Context.BIND_AUTO_CREATE)
+                bindService(Intent(this, ServiceA::class.java),
+                        serviceConnectionImp, Context.BIND_AUTO_CREATE)
+                isBindServiceConnectionImp = true
             }
             com.zkp.breath.R.id.btn_service_remote -> {
                 bindService(Intent(this, ServiceA::class.java), remoteServiceConnectionImp, Context.BIND_AUTO_CREATE)
+                isBindRemoteServiceConnectionImp = true
             }
             else -> ToastUtils.showShort("else")
         }
@@ -142,9 +149,9 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onDestroy() {
-        stopService(intentServiceA)
-        unbindService(serviceConnectionImp)
-        unbindService(remoteServiceConnectionImp)
+        if (::intentServiceA.isInitialized) stopService(intentServiceA)
+        if (isBindServiceConnectionImp) unbindService(serviceConnectionImp)
+        if (isBindRemoteServiceConnectionImp) unbindService(remoteServiceConnectionImp)
         super.onDestroy()
         Log.i(TAG, "onDestroy()")
     }
