@@ -1,4 +1,4 @@
-package com.zkp.breath.designpattern.factory;
+package com.zkp.breath.designpattern.factory.simple;
 
 public interface ILanguage {
 
