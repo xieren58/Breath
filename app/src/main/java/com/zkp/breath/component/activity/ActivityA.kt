@@ -113,6 +113,9 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
         Log.i(TAG, "onStart()")
     }
 
+    /**
+     * 方法在onStart之后，onSaveInstanceState()保存的数据会传到onRestoreInstanceState与onCreate方法
+     */
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
         Log.i(TAG, "onRestoreInstanceState()")
@@ -133,14 +136,24 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
         Log.i(TAG, "onPause()")
     }
 
+    /**
+     * 在onStop()后执行
+     * 触发条件：
+     * 1.点击home键回到主页或切换到其他程序
+     *2.按下电源键关闭屏幕
+     *3.启动新的Activity
+     *4.横竖屏切换时，肯定会执行，因为横竖屏切换的时候会先销毁Act，然后再重新创建 重要原则：当系统"未经你许可
+     *"时销毁了你的activity，则onSaveInstanceState会被系统调用， 这是系统的责任，
+     *因为它必须要提供一个机会让你保存你的数据（你可以保存也可以不保存）。
+     */
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Log.i(TAG, "onSaveInstanceState()")
+        Log.i(TAG, "onSaveInstanceState1()")
     }
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
         super.onSaveInstanceState(outState, outPersistentState)
-        Log.i(TAG, "onSaveInstanceState()")
+        Log.i(TAG, "onSaveInstanceState2()")
     }
 
     override fun onStop() {
