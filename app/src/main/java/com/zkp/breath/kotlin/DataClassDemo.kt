@@ -1,5 +1,6 @@
 package com.zkp.breath.kotlin
 
+// 数据类，提供了一些常用的方法。对应java的Bean类
 data class DataClass(val s: String, var i: Int) {
 }
 
