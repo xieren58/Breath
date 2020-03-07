@@ -2,6 +2,7 @@ package com.zkp.breath.kotlin
 
 /**
  * 强转Demo
+ * as关键字，as？（强转失败会返回null，接收类型应该也要声明为可空）关键字
  */
 
 open class Person {
@@ -18,7 +19,10 @@ class Man : Person() {
 
 fun classCheck(p: Any) {
     when (p) {
-        is Person -> p.p1()
+        is Person -> {
+            p.p1()
+            println()
+        }
         is Man -> p.s1()
         else -> println("哈哈")
     }
