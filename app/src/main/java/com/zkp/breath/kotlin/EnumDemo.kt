@@ -1,5 +1,6 @@
 package com.zkp.breath.kotlin
 
+// 枚举Demo
 enum class Color1 {
     RED, BLACK, BLUE, GREEN, WHITE
 }
@@ -15,7 +16,7 @@ interface ItemClickListener {
     fun onClick(msg: String)
 }
 
-//枚举类继承接口
+//枚举类继承接口，每个常量都必须重写接口的方法
 enum class EnumDemo92 : ItemClickListener {
     BUTTON {
         override fun onClick(msg: String) {
@@ -31,7 +32,7 @@ enum class EnumDemo92 : ItemClickListener {
 
 enum class Person1(var code: Int) {
 
-
+    // 常量必须实现类内定义的抽象方法
     NAME1(0) {
         override fun showName(name: String): Person1 = NAME2
     },
@@ -40,6 +41,7 @@ enum class Person1(var code: Int) {
         override fun showName(name: String): Person1 = NAME2
     };
 
+    // 枚举类内定义的抽象方法
     abstract fun showName(name: String): Person1
 
 }
