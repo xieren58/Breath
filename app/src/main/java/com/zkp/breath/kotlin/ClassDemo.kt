@@ -1,7 +1,5 @@
 package com.zkp.breath.kotlin
 
-import android.annotation.SuppressLint
-
 // 编译期常量,相当于java的静态常量
 // 没有自定义 getter (即默认隐式get访问器)
 const val CONST = 22
@@ -116,7 +114,7 @@ class Demo13 {
 
     var s: String = "哈哈"
     var s1: String
-    // lateinit 只能修饰var的非空数据类型的属性，必须指定类型，因为lateinit的作用知识延迟初始化
+    // lateinit 只能修饰var的非空数据类型的属性，必须指定类型（因为lateinit的作用只是延迟初始化）
     lateinit var s2: String
     val s3: String = ""
 
