@@ -5,18 +5,34 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+/***
+ * 泛型的例子
+ */
 public class GenericDemo {
 
     public static void main(String[] args) {
+
         List<Integer> integers1 = new ArrayList<>();
         integers1.add(1);
         List<Number> integers2 = new ArrayList<>();
         integers2.add(2);
+        // 1.上限：? extends Number，作为接收参数可以指泛型类型是Number或者Number的子类的实例对象
+        // 2.只能用于获取，获取的值的类型用Number指向，因为内部的元素都是Number的子类或者就是Number。
         producerExtends(integers1);
         producerExtends(integers2);
 
+
+        // 1.下限:? super Integer，实例泛型类型可以是Integer以及其超类。
+        // 2.添加的类型只能是层级关系中最低的引用类型，即Integer，因为实例的泛型类型是Number,Object,Integer
+        //  所以因为number = integer（父类变量指向子类对象是允许的）;object = integer（）（父类变量指向子类对象是允许的）;integer = integer都是成立的。
+        //  但是如果我们添加的类型是Number或者Object，那么Integer = Object/Number是不成立的。
+        // 3.如果获取的话只能用Object类型去接收，因为其实例泛型的类型可能存在许多父类型，所以只能用最顶层类型去接收
+
+        // new ArrayList<Number>()的number类型是Integer是超类
         List<? super Integer> numbers1 = new ArrayList<Number>();
         List<? super Integer> numbers2 = new ArrayList<Integer>();
+        // new ArrayList<Number>()的number类型是Integer是超类
+        List<? super Integer> numbers3 = new ArrayList<Object>();
         consumerSuper(numbers1);
         consumerSuper(numbers2);
 
@@ -92,6 +108,8 @@ public class GenericDemo {
     private static void consumerSuper(List<? super Integer> list) {
         try {
             list.add(1);
+//            list.add(new Number(1))   // 是不允许的
+//            list.add(new Object())    // 是不允许的
             Object object = list.get(0);
             System.out.println(object);
         } catch (Exception e) {
