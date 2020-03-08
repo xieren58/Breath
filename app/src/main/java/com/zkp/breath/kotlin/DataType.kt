@@ -36,11 +36,14 @@ fun compareValueOrMemory() {
     println(boxedA == anotherBoxedA) // true，值相等
 }
 
-// 类型转换
+// 类型转换,不像java那么可以向上转型
 fun typeConversion() {
     val b: Byte = 1 // OK, 字面值是静态检测的
     val i: Int = b.toInt()    //  无法像java的基本类型把int复制给long，因为kotlin的数据类型都是对象
     val l = 1L + 3 // Long + Int => Long，内部其实调用了Long做相应的数学操作符重载
+    val f = 1f  // float类型要加上f
+    val d = 1.0
+    val d1 = f.toDouble()
 }
 
 // 不同于 Java 的是，字符不属于数值类型，是一个独立的数据类型
