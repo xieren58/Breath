@@ -1,5 +1,7 @@
 package com.zkp.breath.kotlin
 
+import org.greenrobot.greendao.annotation.Id
+import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
 // 代理类，kotlin提供了使用by就能创建一个代理模式。
@@ -77,6 +79,27 @@ val lazyValue: String by lazy {
     "Hello"
 }
 
+/**
+ * 可观察属性:监听器会收到有关此属性变更的通知；
+ * Delegates.observable() 接受两个参数：初始值与修改时处理程序（handler）。 每当我们给属性赋值时会调用该处理
+ * 程序（在赋值后执行）。它有三个参数：被赋值的属性、旧值与新值：
+ */
+class User {
+    var name: String by Delegates.observable("<no name>") { prop, old, new ->
+        print("被修改的属性名:${prop.name}")
+        println("$old -> $new")
+    }
+
+    /**
+     * 如果你想截获赋值并“否决”它们，那么使用 vetoable() 取代 observable()。 在属性被赋新值生效之前会调用传递给 vetoable 的处理程序。
+     */
+    var id: String by Delegates.vetoable("<initValue>") { property, oldValue, newValue ->
+        print("被修改的属性名为：${property.name}")
+        println("$oldValue -> $newValue")
+        // 返回true表示允许修改，false表示否决修改（维持旧值）
+        newValue == "id1"
+    }
+}
 
 
 fun main(args: Array<String>) {
@@ -104,4 +127,19 @@ fun main(args: Array<String>) {
 
     println(lazyValue)
     println(lazyValue)
+
+    println()
+    println()
+
+    val user = User()
+    user.name = "first"
+    user.name = "second"
+
+    println()
+    println()
+
+    user.id = "id1"
+    println("User的id字段的值：${user.id}")
+    user.id = "id2"
+    println("User的id字段的值：${user.id}")
 }
