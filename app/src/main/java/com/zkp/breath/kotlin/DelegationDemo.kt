@@ -1,10 +1,12 @@
 package com.zkp.breath.kotlin
 
-import org.greenrobot.greendao.annotation.Id
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
-// 代理类，kotlin提供了使用by就能创建一个代理模式。
+/**
+ * 类委托和属性委托（任何属性（全局，局部等）都能进行委托）
+ * 关键字:by
+ */
 interface S {
     fun getTask()
     fun printMsg()
@@ -54,7 +56,17 @@ class Example {
 
 }
 
-// 自定义代理
+/**
+ * 注意：其实委托类就是隐式实现包含所需 operator 方法的 ReadOnlyProperty 或 ReadWriteProperty 接口之一
+ *
+ * 自定义属性的委托对象
+ *对于一个只读属性（即 val 声明的），委托必须提供一个名为 getValue 的函数，该函数接受以下参数：
+ *thisRef —— 必须与 属性所有者 类型相同或者是它的超类型；（一般都是Any类型，适配效果更好）
+ *property —— 必须是类型 KProperty<*> 或其超类型 （一般都是KProperty<*>）
+
+ *如果是可变属性(即 var 声明的),则而外提供setValue函数，第三个参数说明：
+ * new value —— 因为是要赋值给该属性的，所以只能是它同类型或者是它子类
+ */
 class Delegate {
     operator fun getValue(thisRef: Any?, property: KProperty<*>): String {
         return "$thisRef, thank you for delegating '${property.name}' to me!"
@@ -101,6 +113,20 @@ class User {
     }
 }
 
+/**
+ * 一个常见的用例是在一个映射（map）里存储属性的值。 这经常出现在像解析 JSON 或者做其他“动态”事情的应用中。
+ * 在这种情况下，你可以使用映射实例自身作为委托来实现委托属性。简单的说就是使用map作为代理对象来存放被委托的属性
+ *
+ * 注意：map中的key要和被代理的属性名相同，否则会查不到该属性的值
+ */
+class Client(map: Map<String, Any?>, mutableMap: MutableMap<String, Any?>) {
+    val name: String by map
+    val age: Int by map
+
+    var id: String by mutableMap
+    var address: String by mutableMap
+}
+
 
 fun main(args: Array<String>) {
     val one = MI("小明")
@@ -142,4 +168,20 @@ fun main(args: Array<String>) {
     println("User的id字段的值：${user.id}")
     user.id = "id2"
     println("User的id字段的值：${user.id}")
+
+    println()
+    println()
+
+    // 这也适用于 var 属性，如果把只读的 Map 换成 MutableMap 的话：
+    val client = Client(mapOf(
+            "name" to "John Doe",
+            "age" to 25
+    ), mutableMapOf(
+            "id" to "我是id",
+            "address" to "我是address"
+    ))
+    println(client.name) // Prints "John Doe"
+    println(client.age)  // Prints 25
+    println(client.id)  // Prints 25
+    println(client.address)  // Prints 25
 }
