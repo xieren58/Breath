@@ -3,16 +3,20 @@ package com.zkp.breath.component.activity
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.PermissionUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.MainActivity
 import com.zkp.breath.R
 
 class ActivitySplash : AppCompatActivity() {
+
+    val TAG = ActivitySplash::class.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,15 +27,19 @@ class ActivitySplash : AppCompatActivity() {
         PermissionUtils.permission(PermissionConstants.STORAGE)
                 .rationale(object : PermissionUtils.OnRationaleListener {
                     override fun rationale(shouldRequest: PermissionUtils.OnRationaleListener.ShouldRequest?) {
+                        Log.i(TAG, "rationale")
                         shouldRequest?.again(true)
                     }
                 })
                 .callback(object : PermissionUtils.FullCallback {
                     override fun onGranted(permissionsGranted: MutableList<String>?) {
+                        Log.i(TAG, "onGranted")
                         ActivityUtils.startActivity(MainActivity::class.java)
+                        ActivityUtils.finishActivity(this@ActivitySplash)
                     }
 
                     override fun onDenied(permissionsDeniedForever: MutableList<String>?, permissionsDenied: MutableList<String>?) {
+                        Log.i(TAG, "onDenied")
                         if (permissionsDeniedForever?.isNotEmpty()!!) {
                             // 防止title和message无显示
                             val builder: AlertDialog.Builder = AlertDialog.Builder(
@@ -48,6 +56,6 @@ class ActivitySplash : AppCompatActivity() {
                             ActivityUtils.finishActivity(ActivitySplash::class.java)
                         }
                     }
-                })
+                }).request()
     }
 }
