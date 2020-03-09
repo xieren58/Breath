@@ -47,8 +47,8 @@
             android:exported="true" />
 
         <service
-            android:name=".AIDLService"
-            android:process=":remote" />
+            android:name=".LibraryManagerService"
+            android:process=":aidl_remote" />
 
     </application>
 

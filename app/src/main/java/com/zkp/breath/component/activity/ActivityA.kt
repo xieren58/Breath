@@ -7,12 +7,14 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.os.PersistableBundle
+import android.os.RemoteException
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.blankj.utilcode.util.ServiceUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.zkp.breath.ILibraryManager
+import com.zkp.breath.LibraryManagerService
 import com.zkp.breath.component.service.ServiceA
 
 
@@ -59,7 +61,7 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
                 isBindServiceConnectionImp = true
             }
             com.zkp.breath.R.id.btn_service_remote -> {
-                bindService(Intent(this, ServiceA::class.java), remoteServiceConnectionImp, Context.BIND_AUTO_CREATE)
+                bindService(Intent(this, LibraryManagerService::class.java), remoteServiceConnectionImp, Context.BIND_AUTO_CREATE)
                 isBindRemoteServiceConnectionImp = true
             }
             else -> ToastUtils.showShort("else")
@@ -82,19 +84,17 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
 
     private val remoteServiceConnectionImp = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-
-//            try {
-//                val libraryManager = BookController.Stub.asInterface(service)
-//                val bookList = libraryManager.bookList
-//                for (b in bookList) {
-//                    Log.i(TAG, "$b")
-//                }
-//
-//                val temp = Book("新增")
-//                libraryManager.addBookInOut(temp)
-//            } catch (e: RemoteException) {
-//                e.printStackTrace()
-//            }
+            val libraryManager = ILibraryManager.Stub.asInterface(service)
+            try { // 近期新书查询
+                val books = libraryManager.newBookList
+                Log.i(TAG, "books:$books")
+                // 捐赠一本书
+                libraryManager.donateBook("审判")
+                val books2 = libraryManager.newBookList
+                Log.i(TAG, "books:$books2")
+            } catch (e: RemoteException) {
+                e.printStackTrace()
+            }
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
