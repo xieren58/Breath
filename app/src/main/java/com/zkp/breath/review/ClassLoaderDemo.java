@@ -25,9 +25,9 @@ public class ClassLoaderDemo {
             if(c != null){
                 try {
                     Object obj = c.newInstance();
-                    Method method = c.getDeclaredMethod("say",null);
+                    Method method = c.getDeclaredMethod("say", (Class<?>) null);
                     //通过反射调用Test类的say方法
-                    method.invoke(obj, null);
+                    method.invoke(obj, (Object) null);
                 } catch (InstantiationException | IllegalAccessException
                         | NoSuchMethodException
                         | SecurityException |
