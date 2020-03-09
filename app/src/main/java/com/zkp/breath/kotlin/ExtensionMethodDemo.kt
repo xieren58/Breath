@@ -105,7 +105,7 @@ class C2 {
 
     fun D.foo() {
         bar()   // 输出”D bar“。相当于this.bar()，该函数为扩展函数，所以this为接受者类型，即为D。
-        baz()   // 输出”C.baz“。相当于this@C.baz()
+        baz()   // 输出”C.baz“。相当于this@C2.baz()
         this@C2.bar()  //   输出”C.bar“。本类存在和接收者类型所在类同名方法，如果要调用自身的方法，一定要加this@本类类名.方法名()
     }
 
