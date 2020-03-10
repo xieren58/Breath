@@ -21,7 +21,8 @@ public class GreenDaoManager {
     private StudentDao studentDao;
 
     public void initGreenDao(Context context) {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "student.db");
+//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "student.db");
+        CusDevOpenHelper helper = new CusDevOpenHelper(context, "student.db");
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
