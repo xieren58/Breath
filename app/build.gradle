@@ -34,12 +34,12 @@ android {
 
     greendao {
         schemaVersion 1 //数据库版本号
-        daoPackage 'com.zkp.breath.database.greendao.entitydao' // 设置DaoMaster、DaoSession、Dao 包名
+        daoPackage 'com.zkp.breath.database.greendao' // 设置DaoMaster、DaoSession、Dao 包名
         // 下面的targetGenDir注销，不然会出现WARNING: API 'variant.getJavaCompiler()' is obsolete and has been replaced with 'variant.getJavaCompileProvider()'.
         // 解决方案：https://blog.csdn.net/shijianduan1/article/details/86509825
 //        targetGenDir 'src.main.java'//设置DaoMaster、DaoSession、Dao目录,请注意，这里路径用.不要用/
         generateTests false //设置为true以自动生成单元测试。
-        targetGenDirTests 'src/main/java' //应存储生成的单元测试的基本目录。默认为 src / androidTest / java。
+//        targetGenDirTests 'src/androidTest/java' //应存储生成的单元测试的基本目录。默认为 src / androidTest / java。
     }
 
     // MVVM框架所需，进行v和vm的双向自动响应的绑定
@@ -89,4 +89,7 @@ dependencies {
 
     // BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.49-androidx'
+
+    // 浏览器查看sp或者数据库神器
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 }
