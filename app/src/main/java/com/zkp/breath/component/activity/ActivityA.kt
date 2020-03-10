@@ -4,16 +4,15 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Bundle
-import android.os.IBinder
-import android.os.PersistableBundle
-import android.os.RemoteException
+import android.os.*
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
+import com.zkp.breath.Book
 import com.zkp.breath.ILibraryManager
+import com.zkp.breath.IOnNewBookArrivedListener
 import com.zkp.breath.LibraryManagerService
 import com.zkp.breath.component.service.ServiceA
 
@@ -81,10 +80,29 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private val mHandler = Handler(object : Handler.Callback {
+        override fun handleMessage(msg: Message): Boolean {
+            when (msg.what) {
+                1 -> Log.i(TAG, "Book: ${msg.obj}");
+            }
+            return true
+        }
+    })
+
+    private val listener: IOnNewBookArrivedListener = object : IOnNewBookArrivedListener.Stub() {
+        @Throws(RemoteException::class)
+        override fun onNewBookArrived(book: Book?) { // 由于 onNewBookArrived 方法在子线程被调用，所以通过Handler切换到UI线程，方便UI操作
+            mHandler.obtainMessage(1, book).sendToTarget()
+        }
+    }
+
+    var mILibraryManager: ILibraryManager? = null
 
     private val remoteServiceConnectionImp = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val libraryManager = ILibraryManager.Stub.asInterface(service)
+            mILibraryManager = libraryManager
+            libraryManager.register(listener)
             try { // 近期新书查询
                 val books = libraryManager.newBookList
                 Log.i(TAG, "books:$books")
@@ -164,7 +182,16 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
     override fun onDestroy() {
         if (::intentServiceA.isInitialized) stopService(intentServiceA)
         if (isBindServiceConnectionImp) unbindService(serviceConnectionImp)
-        if (isBindRemoteServiceConnectionImp) unbindService(remoteServiceConnectionImp)
+        if (isBindRemoteServiceConnectionImp) {
+            unbindService(remoteServiceConnectionImp)
+            if (mILibraryManager != null && mILibraryManager!!.asBinder().isBinderAlive()) {
+                try { // 取消注册
+                    mILibraryManager!!.unregister(listener)
+                } catch (e: RemoteException) {
+                    e.printStackTrace()
+                }
+            }
+        }
         super.onDestroy()
         Log.i(TAG, "onDestroy()")
     }
