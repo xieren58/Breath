@@ -30,6 +30,10 @@ public class GreenDaoManager {
         studentDao = daoSession.getStudentDao();
     }
 
+    /**
+     * android.database.sqlite.SQLiteConstraintException: UNIQUE constraint failed: STUDENT.STUDENT_NO (code 2067 SQLITE_CONSTRAINT_UNIQUE)
+     * studentNo的注解为Unique，插入时在表中已经存在就会报上面的异常
+     */
     public void insert() {
         Random mRandom = new Random();
         for (int i = 0; i < 1000; i++) {
@@ -56,7 +60,7 @@ public class GreenDaoManager {
             student.setAge(age);
             student.setTelPhone("电话" + i);
             student.setName("姓名" + i);
-            student.setSex(i % 2 == 0 ? "男" : "女");
+            student.setSex("不男不女");
             student.setAddress("地址" + i);
             student.setGrade(age % 10 + "年纪");
             student.setSchoolName("学校" + i);
@@ -76,11 +80,12 @@ public class GreenDaoManager {
         studentDao.update(s);
     }
 
-    public List queryAll() {
+    public List<Student> queryAll() {
         return studentDao.loadAll();
     }
 
     public List<Student> queryData(String id) {
-        return studentDao.queryRaw("where id = ?", id);
+        return studentDao.queryRaw("where _id = ?", id);
     }
+
 }

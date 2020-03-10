@@ -58,11 +58,14 @@ class DatabaseActivity : AppCompatActivity() {
                     ToastUtils.showShort("updateData")
                 }
                 "queryAll" -> {
-                    greenDaoManager.queryAll()
+                    val queryAll = greenDaoManager.queryAll()
                     ToastUtils.showShort("queryAll")
                 }
                 "queryData" -> {
-                    val queryData = greenDaoManager.queryData(60L.toString())
+                    val queryAll = greenDaoManager.queryAll()
+                    if (queryAll.isEmpty()) return@setOnItemClickListener
+                    val stu = queryAll[0]
+                    val queryData = greenDaoManager.queryData(stu.id.toString())
                     queryData.forEach {
                         println("打印结果:$it")
                         ToastUtils.showShort("queryData")
