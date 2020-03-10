@@ -1,4 +1,4 @@
-package com.zkp.breath;
+package com.zkp.breath.adpter;
 
 import android.view.View;
 
@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.zkp.breath.R;
 
 import java.util.List;
 import java.util.Random;
