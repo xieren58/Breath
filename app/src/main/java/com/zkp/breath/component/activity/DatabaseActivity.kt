@@ -11,6 +11,10 @@ import com.zkp.breath.adpter.DataBaseAdapter
 import com.zkp.breath.database.greendao.entity.Student
 import com.zkp.breath.database.greendao.manager.GreenDaoManager
 
+/**
+ * GreenDao例子
+ * https://www.jianshu.com/p/53083f782ea2
+ */
 class DatabaseActivity : AppCompatActivity() {
 
     var recyclerView: RecyclerView? = null

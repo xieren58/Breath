@@ -8,6 +8,10 @@ import com.zkp.breath.database.greendao.DaoSession;
 import com.zkp.breath.database.greendao.StudentDao;
 import com.zkp.breath.database.greendao.entity.Student;
 
+import org.greenrobot.greendao.query.DeleteQuery;
+import org.greenrobot.greendao.query.Query;
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.util.List;
 import java.util.Random;
 
@@ -86,6 +90,29 @@ public class GreenDaoManager {
 
     public List<Student> queryData(String id) {
         return studentDao.queryRaw("where _id = ?", id);
+    }
+
+    public List<Student> queryList() {
+        QueryBuilder<Student> studentQueryBuilder = studentDao.queryBuilder();
+        return studentQueryBuilder.list();
+    }
+
+    /**
+     * 如果
+     */
+    public List<Student> queryWhere() {
+        QueryBuilder<Student> qb = studentDao.queryBuilder();
+        Query<Student> query = qb.where(StudentDao.Properties.Sex.eq("男")).orderAsc(StudentDao.Properties.Id).build();
+        return query.list();
+    }
+
+    public boolean deleteItem() {
+        QueryBuilder<Student> where = studentDao.queryBuilder().where(StudentDao.Properties.Id.gt(5));
+        // 构建删除器
+        DeleteQuery<Student> deleteQuery = where.buildDelete();
+        // 执行删除
+        deleteQuery.executeDeleteWithoutDetachingEntities();
+        return false;
     }
 
 }
