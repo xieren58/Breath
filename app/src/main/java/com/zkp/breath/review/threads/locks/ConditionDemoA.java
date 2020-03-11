@@ -5,7 +5,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * 显式协作 Condition 的 await、signal、signalAll 需要与显式锁 Lock 配合使用（Lock.newCondition()），
+ * 重入锁都实现了Lock类。
+ * 显式协作 Condition 的 await、signal、signalAll 需要与显式锁 Lock 配合使用。
  * 调用 await、signal、signalAll 方法都必须在 lock 保护之内。
  * <p>
  * Condition 就可以明确的指定唤醒的线程。（阻塞队列只存放一个线程；synchronzied关键字也是能做到的，创建不同的锁对象就行）
