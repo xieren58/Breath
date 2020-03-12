@@ -27,6 +27,8 @@ class MethodClass {
         f1(*intArrayOf)
     }
 
+    // 含有lambad和普通函数的区别：
+    // 普通函数是准备好了逻辑，差参数；lambad是准备好了参数，差逻辑
     fun lambad1(body: (a: Int, b: Int) -> Int) {   // 函数类型，lambda表达式
         // 传入相应的参数调用该参数（函数类型）
         println(body(3, 4))
