@@ -1,6 +1,7 @@
 package com.zkp.breath.kotlin
 
 // 数据类，提供了一些常用的方法。对应java的Bean类
+// 自建函数componentN()，析构函数，copy函数
 data class DataClass(val s: String, var i: Int) {
 }
 
