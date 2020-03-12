@@ -24,8 +24,10 @@ fun f2(x: Int) {
 fun f3(x: Int) {
 // 配合in使用
     when (x) {
+        // in表示在什么区间/范围
         in 1..10 -> print("x is in the range")
         in 30..40 -> print("x is valid")
+        // !in表示不在什么区间/范围
         !in 10..20 -> print("x is outside the range")
         else -> print("none of the above")
     }
@@ -44,6 +46,7 @@ fun ifDemo(b: Boolean) {
     val c = if (b) 1 else 2
 }
 
+// 默认最后一个表达式是返回值
 fun ifDemo2(a: Int, b: Int) = if (a > b) {
     print("choose a")
     a
