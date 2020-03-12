@@ -123,7 +123,7 @@ class MethodClass {
 //        run: 和apply很像，只不过run函数可以使用最后一行作为返回，apply则返回调用者自身，run就是with和let的组合扩展
 
         // labdm类型，且返回值为String
-        val block: ArrayList<String>.() ->String = {
+        val block: ArrayList<String>.() -> String = {
             add("1")    // 可以省略书写对象
             add("2")
             add("3")
@@ -137,12 +137,12 @@ class MethodClass {
     @RequiresApi(Build.VERSION_CODES.O)
     fun use() {
         val newInputStream = Files.newInputStream(Paths.get(""))
-        val byte = newInputStream.use ({ newInputStream.read() })
+        val byte = newInputStream.use({ newInputStream.read() })
     }
 
     fun repeat() {
         // 执行次数重复执行一个闭包（和for效果一样，比for更加简洁）
-        repeat(8){ println("重复执行8次")}
+        repeat(8) { println("重复执行8次") }
     }
 
 }
@@ -159,6 +159,51 @@ fun isOdd(x: Int) = x % 2 != 0
 fun customPrint(b: Boolean) {}
 
 fun customPrint(b: (Int) -> Boolean) {}
+
+// 可变参数
+// 在函数内，类型为 T 的 vararg 参数被视作一个 T 的数组，也就是说，变量 ts 的类型是 Array<out T>。一般放在参数列表的最后一个
+// 调用 vararg 函数时，可以一个一个传参，例如，asList<1, 2, 3>，或者，如果要传递一个数组的内容，可以用 spread 操作符（数组前面加个 *）：
+fun <T> asList(vararg ts: T): List<T> {
+    val result = ArrayList<T>()
+    for (t in ts)   // ts is an Array
+        result.add(t)
+    return result
+}
+
+/**
+ * 用 infix 关键字标记的函数可以使用中缀符号调用（调用可省略点号和括号）。中缀函数需要满足如下条件：
+ * 函数是成员函数或扩展函数；
+ * 函数只有一个参数
+ * 参数不能接受可变数量的参数并且不能拥有默认值。
+ *
+ * 中缀函数调用的优先级低于算术运算符、类型转换和 rangeTo 操作符。
+ * 中缀函数调用的优先级要高于布尔运算 && 和 ||，is 和 in 检查，以及其他操作符。
+ */
+infix fun Int.shl(x: Int): Int {
+    return this * x
+}
+
+class MyStringCollection {
+    infix fun add(s: String) { /* ... */
+    }
+
+    fun build() {
+        this add "abc"  // 省略了点号和括号的调用方式
+        add("abc")    // 和调用普通方法一样的方式
+//        add "abc"   // 如果是中缀函数的调用方式不能省略调用方，而此处的调用方是this
+    }
+}
+
+/**
+ * Kotlin支持局部函数,也就是说函数可以嵌套。
+ * 局部函数可以访问外部函数（即：闭包）的局部变量。
+ */
+fun dfs(s: String, i: Int) {
+    fun dfs(i: Int): String {
+        return i.toString() + s
+    }
+    dfs(1)
+}
 
 fun main() {
 
@@ -241,4 +286,12 @@ fun main() {
     val kFunction1 = ::isOdd
     customPrint(kFunction1)
 
+    val list = asList(1, 2, 3)
+    val a = arrayOf(1, 2, 3)
+    // 如果要传递一个数组的内容，可以用 spread 操作符（数组前面加个 *）：
+    val list1 = asList(-1, 0, *a, 4)
+
+    // 中缀函数
+    1 shl 2 // 可以省略点号和括号
+    1.shl(2)
 }
