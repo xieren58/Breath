@@ -6,15 +6,13 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.*
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
-import com.zkp.breath.Book
-import com.zkp.breath.ILibraryManager
-import com.zkp.breath.IOnNewBookArrivedListener
-import com.zkp.breath.LibraryManagerService
+import com.zkp.breath.*
 import com.zkp.breath.component.service.ServiceA
+import com.zkp.breath.databinding.ActivityABinding
 
 
 class ActivityA : AppCompatActivity(), View.OnClickListener {
@@ -27,19 +25,15 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.zkp.breath.R.layout.activity_a)
+        val binding = ActivityABinding.inflate(LayoutInflater.from(this))
+        setContentView(binding.root)
         Log.i(TAG, "onCreate()")
 
-        val btn1 = findViewById<Button>(com.zkp.breath.R.id.btn_activity_a1)
-        val btn2 = findViewById<Button>(com.zkp.breath.R.id.btn_activity_a2)
-        val btn3 = findViewById<Button>(com.zkp.breath.R.id.btn_service_a1)
-        val btn4 = findViewById<Button>(com.zkp.breath.R.id.btn_service_a2)
-        val btn5 = findViewById<Button>(com.zkp.breath.R.id.btn_service_remote)
-        btn1.setOnClickListener(this)
-        btn2.setOnClickListener(this)
-        btn3.setOnClickListener(this)
-        btn4.setOnClickListener(this)
-        btn5.setOnClickListener(this)
+        binding.btnActivityA1.setOnClickListener(this)
+        binding.btnActivityA2.setOnClickListener(this)
+        binding.btnServiceA1.setOnClickListener(this)
+        binding.btnServiceA2.setOnClickListener(this)
+        binding.btnServiceRemote.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
