@@ -43,14 +43,13 @@ android {
     }
 
     // MVVM框架所需，进行v和vm的双向自动响应的绑定
-    dataBinding {
-        enabled true
-    }
+//    dataBinding {
+//        enabled true
+//    }
 
     viewBinding {
         enabled = true
     }
-
 }
 
 dependencies {
