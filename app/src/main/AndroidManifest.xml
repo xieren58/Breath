@@ -32,6 +32,7 @@
         <activity android:name=".component.activity.MemoryShakeActivity" />
         <activity android:name=".component.activity.MvcActivity" />
         <activity android:name=".component.activity.MvpActivity" />
+        <activity android:name=".component.activity.MvvmActivity" />
         <activity android:name=".component.activity.DatabaseActivity" />
 
         <service
