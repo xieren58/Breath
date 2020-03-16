@@ -149,7 +149,7 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
     }
 
     /**
-     * 在onStop()后执行
+     * 在onStop()之前执行，但不保证一定在onPause之前或者之后。
      * 触发条件：
      * 1.点击home键回到主页或切换到其他程序
      *2.按下电源键关闭屏幕
