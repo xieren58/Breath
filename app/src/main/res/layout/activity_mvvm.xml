@@ -24,7 +24,7 @@
         <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:onClick="@{numVM.onClickAdd}"
+            android:onClick="@{numVM::onClickAdd}"
             android:text="点击+1" />
     </LinearLayout>
 
