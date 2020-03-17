@@ -34,6 +34,7 @@
         <activity android:name=".component.activity.MvpActivity" />
         <activity android:name=".component.activity.MvvmActivity" />
         <activity android:name=".component.activity.DatabaseActivity" />
+        <activity android:name=".component.activity.LeakCanaryActivity" />
 
         <service
             android:name=".component.service.IntentServiceA"
