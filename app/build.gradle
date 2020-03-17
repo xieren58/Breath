@@ -103,5 +103,6 @@ dependencies {
     // 浏览器查看sp或者数据库神器
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 
+    // 内存泄露检验工具
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.3'
 }
