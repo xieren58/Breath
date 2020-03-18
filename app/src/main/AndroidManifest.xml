@@ -30,9 +30,9 @@
         <activity android:name=".component.activity.ActivityA" />
         <activity android:name=".component.activity.ActivityCoordinator" />
         <activity android:name=".component.activity.MemoryShakeActivity" />
-        <activity android:name=".component.activity.MvcActivity" />
-        <activity android:name=".component.activity.MvpActivity" />
-        <activity android:name=".component.activity.MvvmActivity" />
+        <activity android:name=".component.activity.mvx.MvcActivity" />
+        <activity android:name=".component.activity.mvx.MvpActivity" />
+        <activity android:name=".component.activity.mvx.MvvmActivity" />
         <activity android:name=".component.activity.DatabaseActivity" />
         <activity android:name=".component.activity.LeakCanaryActivity" />
         <activity android:name=".component.activity.animotor.LayoutTransitionActivity" />
