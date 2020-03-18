@@ -1,4 +1,4 @@
-package com.zkp.breath.component.activity.animotor
+package com.zkp.breath.component.activity.animator
 
 import android.animation.Animator
 import android.animation.LayoutTransition
@@ -11,8 +11,6 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.zkp.breath.databinding.ActivityLayoutTransitionBinding
-import kotlinx.android.synthetic.main.activity_layout_transition.*
-import kotlinx.android.synthetic.main.activity_layout_transition.view.*
 
 /**
  * LayoutTransition.CHANGING 子View在容器中位置改变时的过渡动画，不涉及删除或者添加操作
