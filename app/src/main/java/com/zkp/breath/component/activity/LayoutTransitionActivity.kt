@@ -15,9 +15,9 @@ import kotlinx.android.synthetic.main.activity_layout_transition.*
 import kotlinx.android.synthetic.main.activity_layout_transition.view.*
 
 /**
- *
- * LayoutTransition.APPEARING  作用新添加view的
- * LayoutTransition.DISAPPEARING 作用新移除的view
+ * LayoutTransition.CHANGING 子View在容器中位置改变时的过渡动画，不涉及删除或者添加操作
+ * LayoutTransition.APPEARING  作用新添加view的(也作用view的Visible)
+ * LayoutTransition.DISAPPEARING 作用新移除的view(也作用view的Gone)
  * LayoutTransition.CHANGE_APPEARING   作用除了新添加的view之外的view
  * LayoutTransition.CHANGE_DISAPPEARING 作用除了新移除的view之外的view
  *
@@ -40,10 +40,10 @@ class LayoutTransitionActivity : AppCompatActivity(), View.OnClickListener {
 
         layoutTransition = LayoutTransition()
         // 设置不同类型的动画时长
-        layoutTransition?.setDuration(LayoutTransition.APPEARING, 100)
-        layoutTransition?.setDuration(LayoutTransition.DISAPPEARING, 100)
-        layoutTransition?.setDuration(LayoutTransition.CHANGE_APPEARING, 100)
-        layoutTransition?.setDuration(LayoutTransition.CHANGE_DISAPPEARING, 100)
+        layoutTransition?.setDuration(LayoutTransition.APPEARING, 500)
+        layoutTransition?.setDuration(LayoutTransition.DISAPPEARING, 500)
+        layoutTransition?.setDuration(LayoutTransition.CHANGE_APPEARING, 500)
+        layoutTransition?.setDuration(LayoutTransition.CHANGE_DISAPPEARING, 500)
         // 设置不同类型开始延时时长
         layoutTransition?.setStartDelay(LayoutTransition.CHANGE_APPEARING, 0)
         layoutTransition?.setStartDelay(LayoutTransition.APPEARING, 0)
@@ -58,14 +58,14 @@ class LayoutTransitionActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun getInAnim(v: View?): Animator? {
         val trX = PropertyValuesHolder.ofFloat("translationX", 100f, 0f)
-        val trY = PropertyValuesHolder.ofFloat("translationY", 0f, 0f)
+        val trY = PropertyValuesHolder.ofFloat("rotationY", 0f, 360f)
         val trAlpha = PropertyValuesHolder.ofFloat("alpha", 0f, 1f)
         return ObjectAnimator.ofPropertyValuesHolder(v, trY, trAlpha, trX)
     }
 
     private fun getOutAnim(v: View?): Animator? {
         val trY2 = PropertyValuesHolder.ofFloat("translationY", 0f, -100f)
-        val trX = PropertyValuesHolder.ofFloat("translationX", 0f, 0f)
+        val trX = PropertyValuesHolder.ofFloat("rotationY", 360f, 0f)
         val trAlpha2 = PropertyValuesHolder.ofFloat("alpha", 1f, 0f)
         return ObjectAnimator.ofPropertyValuesHolder(v, trY2, trAlpha2, trX)
     }
