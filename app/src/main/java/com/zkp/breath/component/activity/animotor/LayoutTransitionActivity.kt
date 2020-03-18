@@ -1,4 +1,4 @@
-package com.zkp.breath.component.activity
+package com.zkp.breath.component.activity.animotor
 
 import android.animation.Animator
 import android.animation.LayoutTransition
