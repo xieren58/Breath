@@ -1,14 +1,12 @@
 package com.zkp.breath;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.blankj.utilcode.util.ActivityUtils;
-import com.zkp.breath.component.activity.ActivityCoordinator;
+import com.zkp.breath.component.activity.animator.ViewPropertyAnimatorActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mBind = ButterKnife.bind(this);
 
-        ActivityUtils.startActivity(ActivityCoordinator.class);
+        ActivityUtils.startActivity(ViewPropertyAnimatorActivity.class);
     }
 
     @Override
