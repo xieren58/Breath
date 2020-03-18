@@ -50,8 +50,8 @@ class LayoutTransitionActivity : AppCompatActivity(), View.OnClickListener {
         layoutTransition?.setStartDelay(LayoutTransition.DISAPPEARING, 0)
         layoutTransition?.setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 0)
         // 设置动画
-        layoutTransition?.setAnimator(LayoutTransition.APPEARING, getInAnim(btn.rlt))
-        layoutTransition?.setAnimator(LayoutTransition.DISAPPEARING, getOutAnim(btn.rlt))
+        layoutTransition?.setAnimator(LayoutTransition.APPEARING, getInAnim(binding.rlt))
+        layoutTransition?.setAnimator(LayoutTransition.DISAPPEARING, getOutAnim(binding.rlt))
         // 为viewgroup设置layoutTransition
         binding.rlt.layoutTransition = layoutTransition
     }
