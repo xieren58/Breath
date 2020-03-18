@@ -36,6 +36,7 @@
         <activity android:name=".component.activity.DatabaseActivity" />
         <activity android:name=".component.activity.LeakCanaryActivity" />
         <activity android:name=".component.activity.animator.LayoutTransitionActivity" />
+        <activity android:name=".component.activity.animator.ViewPropertyAnimatorActivity" />
 
         <service
             android:name=".component.service.IntentServiceA"
