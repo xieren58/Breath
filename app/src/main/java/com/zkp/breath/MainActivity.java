@@ -6,7 +6,7 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.zkp.breath.component.activity.animator.ViewPropertyAnimatorActivity;
+import com.zkp.breath.component.activity.ActivityCoordinator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mBind = ButterKnife.bind(this);
 
-        ActivityUtils.startActivity(ViewPropertyAnimatorActivity.class);
+        ActivityUtils.startActivity(ActivityCoordinator.class);
     }
 
     @Override
