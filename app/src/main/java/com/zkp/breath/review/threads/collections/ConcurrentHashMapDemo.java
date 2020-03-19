@@ -1,17 +1,13 @@
 package com.zkp.breath.review.threads.collections;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiConsumer;
 
 /**
  * https://segmentfault.com/a/1190000016096542
  * <p>
  * ConcurrentHashMap,并发安全的HashMap。
- * 线程安全：并发控制使用Synchronized和CAS来操作
+ * 线程安全：并发控制使用Synchronized和CAS来操作，如果table的index上没有节点的话就使用cas进行put，如果已经存
+ *          在Node节点则用链表后者红黑树的头节点作为Synchronized的锁进行put操作(Hashtable的所有操作都用Synchronized加锁)
  * 数据结构：(数组+链表+红黑树，桶中的结构可能是链表，也可能是红黑树,红黑树是为了提高查找效率)
  * <p>
  * 构造器只是计算了下table的初始容量大小，并没有进行实际的创建table数组的工作,采用了一种“懒加载”的模式，
