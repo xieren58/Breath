@@ -16,6 +16,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * 且“读多写少”的场景。
  * 3.数据一致性：CopyOnWriteArrayList只能保证数据的最终一致性，不能保证数据的实时一致性——读操作读到的数据只是一份快照。
  * 所以如果希望写入的数据可以立刻被读到，那CopyOnWriteArrayList并不适合。
+ *  <p>
+ *  * 总结：
+ *  * 1.适合“读多写少”且数据量不大的场景。
+ *  * 2.线程安全
+ *  * 3.内存的使用较多
+ *  * 4.迭代是对快照进行的，不会抛出ConcurrentModificationException，且迭代过程中不支持修改操作
  */
 public class CopyOnWriteArrayListDemo {
 
