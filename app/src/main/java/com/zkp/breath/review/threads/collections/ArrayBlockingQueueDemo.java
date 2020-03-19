@@ -5,8 +5,8 @@ import java.util.concurrent.BlockingQueue;
 
 /**
  * ArrayBlockingQueue是基于数组(环形结构，因为构造需要指定长度)实现的阻塞队列(使用ReentrantLock保证并发安全，
- * 两个Condition等待队列，一个用于存放生产者，一个用于存放消费者)，
- * 它实现了BlockingQueue接口。
+ * 两个Condition等待队列，一个用于存放生产者，一个用于存放消费者)，它实现了BlockingQueue接口。不适合高并发量的
+ * 场景，因为只有一把锁的缘故。
  * <p>
  * ArrayBlockingQueue是一种有界阻塞队列，在初始构造的时候需要指定队列的容量。具有如下特点：
  * 1.队列的容量一旦在构造时指定，后续不能改变；
