@@ -97,7 +97,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
     // 测试集成腾讯云IM（tuikit版本，包含UI）
-    implementation 'com.tencent.imsdk:tuikit:4.5.45'
+//    implementation 'com.tencent.imsdk:tuikit:4.5.45'
 
     // sp升级版框架（基于内存映射原理）
     implementation 'com.tencent:mmkv:1.0.23'
