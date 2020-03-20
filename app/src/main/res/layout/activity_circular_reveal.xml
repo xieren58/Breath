@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     tools:context=".component.activity.animator.CircularRevealActivity">
     <!--我们要对这个蓝色背景 View 做揭露和反揭露动画-->
     <View
