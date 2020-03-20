@@ -43,12 +43,14 @@ android {
 
     greendao {
         schemaVersion 1 //数据库版本号
-        daoPackage 'com.zkp.breath.database.greendao' // 设置DaoMaster、DaoSession、Dao 包名
-        // 下面的targetGenDir注销，不然会出现WARNING: API 'variant.getJavaCompiler()' is obsolete and has been replaced with 'variant.getJavaCompileProvider()'.
-        // 解决方案：https://blog.csdn.net/shijianduan1/article/details/86509825
-//        targetGenDir 'src.main.java'//设置DaoMaster、DaoSession、Dao目录,请注意，这里路径用.不要用/
-        generateTests false //设置为true以自动生成单元测试。
-//        targetGenDirTests 'src/androidTest/java' //应存储生成的单元测试的基本目录。默认为 src / androidTest / java。
+        // 设置DaoMaster、DaoSession、Dao 包名
+        daoPackage 'com.zkp.breath.database.greendao'
+        //设置DaoMaster、DaoSession、Dao目录,请注意，这里路径用.不要用/
+        //targetGenDir 'src.main.java'
+        //设置为true以自动生成单元测试。
+        generateTests false
+        //应存储生成的单元测试的基本目录。默认为 src / androidTest / java。
+        //targetGenDirTests 'src/androidTest/java'
     }
 
     // MVVM框架所需，进行v和vm的双向自动响应的绑定
@@ -71,6 +73,11 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+
     implementation project(':zkplib')
 
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
@@ -80,18 +87,13 @@ dependencies {
 
     implementation 'com.blankj:utilcodex:1.25.1'
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-
-    implementation 'androidx.multidex:multidex:2.0.1'
-
     implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
 
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation 'com.jakewharton:butterknife:10.1.0'
 
-    implementation 'org.greenrobot:greendao:3.2.2' // add library
+    implementation 'org.greenrobot:greendao:3.2.2'
 
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
