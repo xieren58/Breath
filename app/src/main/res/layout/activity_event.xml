@@ -3,8 +3,7 @@
 <com.zkp.breath.views.events.AViewGroup xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/a_vg"
     android:layout_width="700dp"
-    android:layout_height="700dp"
-    android:background="@color/colorAccent">
+    android:layout_height="700dp">
 
     <com.zkp.breath.views.events.BViwe
         android:id="@+id/b_v"
@@ -16,6 +15,6 @@
         android:id="@+id/c_v"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:background="#FFFFFFFF" />
+        android:background="@color/colorAccent" />
 
 </com.zkp.breath.views.events.AViewGroup>
