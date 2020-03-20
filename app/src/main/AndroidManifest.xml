@@ -47,6 +47,7 @@
             android:name=".component.service.IntentServiceB"
             android:exported="false" />
 
+        <!--exported是否允许其他进程组件调用交互，一般需要设置permission-->
         <service
             android:name=".component.service.ServiceA"
             android:enabled="true"
