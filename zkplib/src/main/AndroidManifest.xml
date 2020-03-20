@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zkp.zkplib" />
+<manifest package="com.zkp.zkplib" />
