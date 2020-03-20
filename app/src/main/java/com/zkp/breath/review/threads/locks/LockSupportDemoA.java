@@ -1,5 +1,7 @@
 package com.zkp.breath.review.threads.locks;
 
+import android.annotation.SuppressLint;
+
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -14,6 +16,7 @@ import java.util.concurrent.locks.LockSupport;
  */
 public class LockSupportDemoA {
 
+    @SuppressLint("Assert")
     public static void main(String[] args) {
         FIFOMutex mutex = new FIFOMutex();
         MyThread a1 = new MyThread("a1", mutex);
