@@ -112,4 +112,7 @@ dependencies {
 
     // 内存泄露检验工具
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
+
+    // 界面卡顿工具
+    debugImplementation 'com.github.markzhai:blockcanary-android:1.5.0'
 }
