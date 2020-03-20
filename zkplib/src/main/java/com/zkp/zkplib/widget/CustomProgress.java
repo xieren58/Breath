@@ -9,13 +9,15 @@ import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.RectF;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.IntDef;
+import androidx.annotation.Nullable;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-
-import androidx.annotation.IntDef;
 
 /**
  * Created b Zwp on 2019/5/27.
@@ -60,8 +62,20 @@ public class CustomProgress extends View {
     private float mProgress;
     private float mLength;
 
-    public CustomProgress(Context context, Builder builder) {
+    public CustomProgress(Context context) {
         super(context);
+    }
+
+    public CustomProgress(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public CustomProgress(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    public CustomProgress(Context context, Builder builder) {
+        this(context);
         mBuilder = builder;
 
         mRectF = new RectF();
