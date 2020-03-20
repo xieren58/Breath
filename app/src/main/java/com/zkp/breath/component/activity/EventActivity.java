@@ -2,12 +2,13 @@ package com.zkp.breath.component.activity;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.zkp.breath.R;
 import com.zkp.breath.views.events.AViewGroup;
 import com.zkp.breath.views.events.BViwe;
 import com.zkp.breath.views.events.CView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
