@@ -29,12 +29,13 @@
         <activity android:name=".component.activity.ActivityB" />
         <activity android:name=".component.activity.ActivityA" />
         <activity android:name=".component.activity.ActivityCoordinator" />
-        <activity android:name=".component.activity.MemoryShakeActivity" />
         <activity android:name=".component.activity.mvx.MvcActivity" />
         <activity android:name=".component.activity.mvx.MvpActivity" />
         <activity android:name=".component.activity.mvx.MvvmActivity" />
         <activity android:name=".component.activity.DatabaseActivity" />
-        <activity android:name=".component.activity.LeakCanaryActivity" />
+        <activity android:name=".component.activity.performance.MemoryShakeActivity" />
+        <activity android:name=".component.activity.performance.LeakCanaryActivity" />
+        <activity android:name=".component.activity.performance.BlockCanaryActivity" />
         <activity android:name=".component.activity.animator.LayoutTransitionActivity" />
         <activity android:name=".component.activity.animator.ViewPropertyAnimatorActivity" />
         <activity android:name=".component.activity.animator.CircularRevealActivity" />

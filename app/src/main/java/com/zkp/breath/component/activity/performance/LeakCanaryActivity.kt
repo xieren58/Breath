@@ -1,6 +1,6 @@
-package com.zkp.breath.component.activity
+package com.zkp.breath.component.activity.performance
 
-import android.os.*
+import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.zkp.breath.databinding.ActivityLeakcanaryBinding
