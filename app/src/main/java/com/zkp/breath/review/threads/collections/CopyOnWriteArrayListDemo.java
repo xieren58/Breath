@@ -21,7 +21,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  *  * 1.适合“读多写少”且数据量不大的场景。
  *  * 2.线程安全
  *  * 3.内存的使用较多
- *  * 4.迭代是对快照进行的，不会抛出ConcurrentModificationException，且迭代过程中不支持修改操作
+ *  * 4.迭代是对快照进行的，且迭代过程中不支持修改操作(因为是快照，你修改的只是副本，对真实的数据没有作用，所以就干脆不支持修改操作了)
  */
 public class CopyOnWriteArrayListDemo {
 
