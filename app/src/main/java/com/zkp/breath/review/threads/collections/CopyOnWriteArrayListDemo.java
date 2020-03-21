@@ -3,7 +3,7 @@ package com.zkp.breath.review.threads.collections;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * CopyOnWriteArrayList是并发安全的ArrayList。
+ * CopyOnWriteArrayList是并发安全的ArrayList。(sdk使用synchronized，jdk使用ReentrantLock)
  * <p>
  * 运用了一种“写时复制”的思想，修改的时候不是在原列表上直接修改，而是先将列表Copy，然后在新的副本上进行修改，
  * 修改完成之后，再将引用从原列表指向新列表。这样做的好处是读/写是不会冲突的，可以并发进行，读操作还是在原列表，
