@@ -11,7 +11,7 @@ import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
 
 //将 Activity 的揭露效果写在 Base 类中，需要揭露动画效果时继承
-abstract class BaseActivity : AppCompatActivity() {
+abstract class CircularRevealBaseActivity : AppCompatActivity() {
     companion object {
         //手动往 intent 里传入上个界面的点击位置坐标
         val CLICK_X = "CLICK_X"
@@ -93,7 +93,7 @@ abstract class BaseActivity : AppCompatActivity() {
             override fun onAnimationEnd(animation: Animator?) {
                 super.onAnimationEnd(animation)
                 v.visibility = View.GONE
-                super@BaseActivity.onBackPressed()
+                super@CircularRevealBaseActivity.onBackPressed()
             }
         })
         mAnimRevealR?.start()
