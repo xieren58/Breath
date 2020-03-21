@@ -21,4 +21,9 @@ abstract class BaseAppCompatActivity : AppCompatActivity() {
         this.intent = intent
     }
 
+    // 当setContentView设置显示后会回调Activity的onContentChanged方法
+    override fun onContentChanged() {
+        super.onContentChanged()
+    }
+
 }
