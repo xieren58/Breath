@@ -107,6 +107,9 @@ dependencies {
     // BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.49-androidx'
 
+    // 基于今日头条适配方案的屏幕适配库
+    implementation 'me.jessyan:autosize:1.2.1'
+
     // 浏览器查看sp或者数据库神器
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 
