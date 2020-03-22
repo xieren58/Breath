@@ -3,16 +3,13 @@ package com.zkp.breath;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.blankj.utilcode.util.ActivityUtils;
-import com.zkp.breath.component.activity.ActivityCoordinator;
+import com.zkp.breath.component.activity.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.rlt)
     RelativeLayout mRlt;
@@ -24,7 +21,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mBind = ButterKnife.bind(this);
 
-        ActivityUtils.startActivity(ActivityCoordinator.class);
+//        ActivityUtils.startActivity(ActivityCoordinator.class);
+
+        // DisplayMetrics
+        // px = dp * density(dpi / 160)
+        // 1080* 1920 ，设计稿是360dp
+        // 1080 = 360 * 3
+        // density(3) = 1080  / 360  （其实就是不按照传统的计算方案，直接按照我们的宽为基准和设计稿的dp算出density）
     }
 
     @Override
