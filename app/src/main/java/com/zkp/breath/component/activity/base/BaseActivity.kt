@@ -5,14 +5,17 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.BarUtils
+import me.jessyan.autosize.AutoSizeConfig
 
-abstract class BaseAppCompatActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //使用设备的完整尺寸(即隐藏标题栏和状态栏)
+        AutoSizeConfig.getInstance().isUseDeviceSize = true
         super.onCreate(savedInstanceState)
         // 隐藏标题栏
         supportActionBar?.hide()
