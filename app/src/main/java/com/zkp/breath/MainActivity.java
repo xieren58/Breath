@@ -22,12 +22,6 @@ public class MainActivity extends BaseActivity {
         mBind = ButterKnife.bind(this);
 
 //        ActivityUtils.startActivity(ActivityCoordinator.class);
-
-        // DisplayMetrics
-        // px = dp * density(dpi / 160)
-        // 1080* 1920 ，设计稿是360dp
-        // 1080 = 360 * 3
-        // density(3) = 1080  / 360  （其实就是不按照传统的计算方案，直接按照我们的宽为基准和设计稿的dp算出density）
     }
 
     @Override
