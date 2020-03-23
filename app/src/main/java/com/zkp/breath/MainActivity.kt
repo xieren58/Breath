@@ -16,8 +16,7 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-
-        //        ActivityUtils.startActivity(ActivityCoordinator.class);
+        // ActivityUtils.startActivity(ActivityCoordinator.class);
     }
 
     override fun onResume() {
