@@ -5,6 +5,8 @@
         <!-- Customize your theme here. -->
         <!-- 无状态栏 -->
         <item name="android:windowFullscreen">true</item>
+        <!-- 启动程序会启动一个空白窗口，设置和闪屏页一样的图片，这样视觉上就能顺畅的过度到闪屏页 -->
+        <item name="android:windowBackground">@drawable/ic_launcher_background</item>
     </style>
 
 </resources>
