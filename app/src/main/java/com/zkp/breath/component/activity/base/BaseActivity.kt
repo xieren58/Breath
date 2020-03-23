@@ -12,9 +12,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     val TAG = this::class.simpleName
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        Log.i(TAG, "onAttachedToWindow()")
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase)
+        Log.i(TAG, "attachBaseContext(newBase: Context?)")
     }
 
     /**
@@ -46,9 +46,12 @@ abstract class BaseActivity : AppCompatActivity() {
         Log.i(TAG, "onResume()")
     }
 
-    override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase)
-        Log.i(TAG, "attachBaseContext(newBase: Context?)")
+    /**
+     * DecordView和PhoneWindow绑定完成
+     */
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        Log.i(TAG, "onAttachedToWindow()")
     }
 
     override fun onDetachedFromWindow() {
