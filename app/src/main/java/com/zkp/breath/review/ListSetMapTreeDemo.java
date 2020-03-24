@@ -69,12 +69,17 @@ public class ListSetMapTreeDemo {
         hashMapBeanIntegerHashMap.put(hashMapBean1, 1);
         hashMapBeanIntegerHashMap.put(hashMapBean2, 2);
         hashMapBeanIntegerHashMap.put(hashMapBean3, 3);
+
+        linkedHashMapOrder();
     }
 
-    private void linkedHashMapOrder() {
+    private static void linkedHashMapOrder() {
+        System.out.println();
+        System.out.println();
+
         // 如果accessOrder为true的话，则会把访问过的元素放在链表后面，放置顺序是访问的顺序
         // 如果accessOrder为flase的话，则按插入顺序来遍历 (最新插入的放在首节点)
-        LinkedHashMap<String, String> accessOrderTrue = new LinkedHashMap<>(16, 0.75f, true);
+        LinkedHashMap<String, String> accessOrderTrue = new LinkedHashMap<>(4, 0.75f, true);
         accessOrderTrue.put("1", "1");
         accessOrderTrue.put("2", "2");
         accessOrderTrue.put("3", "3");
