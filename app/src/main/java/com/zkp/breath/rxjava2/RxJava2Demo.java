@@ -29,6 +29,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class RxJava2Demo {
 
+
     /**
      * 基本使用
      * 注意: 只有当上游和下游建立连接之后, 上游才会开始发送事件. 也就是调用了subscribe() 方法之后才开始发送事件.
@@ -332,6 +333,9 @@ public class RxJava2Demo {
     /**
      * 异步线程下没有调用Subscription#request()，那么上游是会正确发送事件的，知识下游不会收到而已。
      * 当上下游处于不同线程，那么上游发送的事件会进入一个缓存大小为128队列中，下游获取的事件其实就是从缓存队列中获取的。
+     * <p>
+     * BackpressureStrategy.BUFFER只是让缓存大小变为Integer.MAX_VALUE，如果这时候下游没有去处理，那么内存
+     * 会快速上升，有可能造成OOM
      */
     public static void backbressErrorInvok1() {
 
@@ -370,6 +374,53 @@ public class RxJava2Demo {
                     @Override
                     public void onComplete() {
                         Log.i("backbressErrorInvok1", "onComplete: ");
+                    }
+                });
+    }
+
+
+    private static Subscription subscription;
+
+    public static void request() {
+        subscription.request(128);
+        subscription = null;
+    }
+
+    /**
+     * Drop就是直接把存不下的事件丢弃,Latest就是只保留最新的事件。
+     */
+    public static void backbressErrorInvok2(boolean flag) {
+        Flowable.create(new FlowableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(FlowableEmitter<Integer> emitter) throws Exception {
+                for (int i = 0; i < 10000; i++) {
+                    Log.i("backbressErrorInvok2", "emit " + i);
+                    emitter.onNext(i);
+                }
+                Log.i("backbressErrorInvok2", "发送完毕");
+            }
+        }, flag ? BackpressureStrategy.DROP : BackpressureStrategy.LATEST)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new FlowableSubscriber<Integer>() {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        subscription = s;
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        Log.i("backbressErrorInvok2", "onNext：" + integer);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
     }
