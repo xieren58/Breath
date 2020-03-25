@@ -289,9 +289,14 @@ public class RxJava2Demo {
     }
 
     /**
-     * 在主线程中下游没有调用Subscription#request()，那么上游认为下游没有处理能力抛出异常，而不会一直等待。
+     * 同一个线程：1.创建策略发射器对象，内部持有下游；2.通过下游对象调用下游的onSubscribe（）方法将发射器对象
+     * 传入到下游对象中存放，至此发射器和下游互相持有对方；3.通过上游对象调用上游的subscribe（）将发射器对象传入
+     * 到上游对象中存放。
+     *
+     * 一般我们会在上游对象中调用策略发射器对象的OnNext（）：1.判断是否已经中断，中断则不走接下来的流程；2.判断
+     * 参数是否为Null，为Null则中断接下来的流程 3.判断当前存在请求则执行下游的OnNext方法，不存在请求则直接抛异常。
      */
-    public static void backbressErrorInvok() {
+    public static void backbressStrategyError() {
 
         Flowable.create((FlowableOnSubscribe<Integer>) emitter -> {
             Log.i("backbressErrorInvok", "emit 1");
@@ -351,7 +356,7 @@ public class RxJava2Demo {
         }, BackpressureStrategy.ERROR)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new FlowableSubscriber<Integer>() {
+                .subscribe(new Subscriber<Integer>() {
 
                     Subscription subscription;
 
