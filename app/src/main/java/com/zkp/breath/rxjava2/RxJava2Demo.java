@@ -11,6 +11,7 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.FlowableSubscriber;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -33,6 +34,7 @@ public class RxJava2Demo {
      * 注意: 只有当上游和下游建立连接之后, 上游才会开始发送事件. 也就是调用了subscribe() 方法之后才开始发送事件.
      */
     public static void basicUse() {
+        // 被观察者
         Observable.create(new ObservableOnSubscribe<Integer>() {
 
             @Override
@@ -43,6 +45,7 @@ public class RxJava2Demo {
                 emitter.onNext(3);
                 emitter.onComplete();
             }
+            // 订阅了观察者
         }).subscribe(new Observer<Integer>() {
 
             @Override
@@ -284,6 +287,98 @@ public class RxJava2Demo {
                 });
     }
 
+    /**
+     * 在主线程中下游没有调用Subscription#request()，那么上游认为上游没有处理能力抛出异常，而不会一直等待。
+     */
+    public static void backbressErrorInvok() {
+        String method = Thread.currentThread().getStackTrace()[1].getMethodName();
+
+        Flowable.create((FlowableOnSubscribe<Integer>) emitter -> {
+            Log.d(method, "emit 1");
+            emitter.onNext(1);
+            Log.d(method, "emit 2");
+            emitter.onNext(2);
+            Log.d(method, "emit 3");
+            emitter.onNext(3);
+            Log.d(method, "emit complete");
+            emitter.onComplete();
+        }, BackpressureStrategy.ERROR)
+                .subscribe(new FlowableSubscriber<Integer>() {
+
+                    Subscription subscription;
+
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        Log.i(method, "onSubscribe: ");
+                        subscription = s;
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        Log.i(method, "onNext: " + integer);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        Log.i(method, "onError: " + t.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i(method, "onComplete: ");
+                    }
+                });
+    }
+
+    /**
+     * 异步线程下没有调用Subscription#request()，那么上游是会正确发送事件的，知识下游不会收到而已。
+     * 当上下游处于不同线程，那么上游发送的事件会进入一个缓存队列中，下游获取的事件其实就是从缓存队列中获取的。
+     */
+    public static void backbressErrorInvok1() {
+        String method = Thread.currentThread().getStackTrace()[1].getMethodName();
+
+        Flowable.create(new FlowableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(FlowableEmitter<Integer> emitter) throws Exception {
+                Log.d(method, "emit 1");
+                emitter.onNext(1);
+                Log.d(method, "emit 2");
+                emitter.onNext(2);
+                Log.d(method, "emit 3");
+                emitter.onNext(3);
+                Log.d(method, "emit complete");
+                emitter.onComplete();
+            }
+        }, BackpressureStrategy.ERROR)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new FlowableSubscriber<Integer>() {
+
+                    Subscription subscription;
+
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        Log.i(method, "onSubscribe: ");
+                        subscription = s;
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        Log.i(method, "onNext: " + integer);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        Log.i(method, "onError: " + t.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i(method, "onComplete: ");
+                    }
+                });
+    }
+
     // 背压
     public static void backbress() {
         Flowable.create(new FlowableOnSubscribe<Integer>() {
@@ -309,6 +404,8 @@ public class RxJava2Demo {
                     @Override
                     public void onSubscribe(Subscription s) {
                         Log.d("backbress", "onSubscribe");
+                        // 响应式拉取（响应式编程，其实理解成一种主动接收和被动接收的区别）
+                        // 在没有响应式拉取前，上游发多少下游就要接收多少，而现在是下游想要多少才能上游发多少。
                         mSubscription = s;
                         s.request(1);
                     }
