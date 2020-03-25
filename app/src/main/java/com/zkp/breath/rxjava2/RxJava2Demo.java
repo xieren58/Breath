@@ -7,6 +7,9 @@ import com.blankj.utilcode.util.ThreadUtils;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
@@ -292,7 +295,7 @@ public class RxJava2Demo {
      * 同一个线程：1.创建策略发射器对象，内部持有下游；2.通过下游对象调用下游的onSubscribe（）方法将发射器对象
      * 传入到下游对象中存放，至此发射器和下游互相持有对方；3.通过上游对象调用上游的subscribe（）将发射器对象传入
      * 到上游对象中存放。
-     *
+     * <p>
      * 一般我们会在上游对象中调用策略发射器对象的OnNext（）：1.判断是否已经中断，中断则不走接下来的流程；2.判断
      * 参数是否为Null，为Null则中断接下来的流程 3.判断当前存在请求则执行下游的OnNext方法，不存在请求则直接抛异常。
      */
@@ -336,7 +339,9 @@ public class RxJava2Demo {
     }
 
     /**
-     * 异步线程下没有调用Subscription#request()，那么上游是会正确发送事件的，知识下游不会收到而已。
+     * 当上下游工作在不同的线程里时，每一个线程里都有一个requested，而我们调用request（1000）时，实际上改变的是
+     * 下游主线程中的requested，而上游中的requested的值是由RxJava内部调用request(n)去设置的，这个调用会在合适的时候自动触发。
+     * <p>
      * 当上下游处于不同线程，那么上游发送的事件会进入一个缓存大小为128队列中，下游获取的事件其实就是从缓存队列中获取的。
      * <p>
      * BackpressureStrategy.BUFFER只是让缓存大小变为Integer.MAX_VALUE，如果这时候下游没有去处理，那么内存
@@ -347,10 +352,15 @@ public class RxJava2Demo {
         Flowable.create(new FlowableOnSubscribe<Integer>() {
             @Override
             public void subscribe(FlowableEmitter<Integer> emitter) throws Exception {
+                // 默认提前设置128
+                Log.i("backbressErrorInvok1", "requestCount " + emitter.requested());
+
                 // 这里i < 128修改为129就会报错。
                 for (int i = 0; i < 128; i++) {
                     Log.i("backbressErrorInvok1", "emit " + i);
                     emitter.onNext(i);
+                    // 每发送一个就会减少一个
+                    Log.i("backbressErrorInvok1", "requestCount_now " + emitter.requested());
                 }
             }
         }, BackpressureStrategy.ERROR)
@@ -471,6 +481,77 @@ public class RxJava2Demo {
                     @Override
                     public void onComplete() {
                         Log.i("backbress", "onComplete");
+                    }
+                });
+    }
+
+    /**
+     * 模拟读取大分文件的场景
+     *
+     * val open = InputStreamReader(assets.open("test.txt"))
+     * @param open
+     */
+    public static void practice1(InputStreamReader open) {
+        Flowable.create(new FlowableOnSubscribe<String>() {
+            @Override
+            public void subscribe(FlowableEmitter<String> emitter) throws Exception {
+                Log.i("practice1", "subscribe: " + emitter.requested());
+
+                try {
+//                    FileReader reader = new FileReader(open);
+                    BufferedReader br = new BufferedReader(open);
+
+                    String str;
+
+                    while ((str = br.readLine()) != null && !emitter.isCancelled()) {
+                        while (emitter.requested() == 0) {
+                            if (emitter.isCancelled()) {
+                                break;
+                            }
+                        }
+                        emitter.onNext(str);
+                        Log.i("practice1", "subscribe: " + emitter.requested());
+                    }
+
+                    br.close();
+                    open.close();
+
+                    emitter.onComplete();
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            }
+        }, BackpressureStrategy.ERROR)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<String>() {
+                    Subscription mSubscription;
+
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mSubscription = s;
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onNext(String string) {
+                        Log.i("practice1", "onNext: " + string);
+                        System.out.println(string);
+                        try {
+                            Thread.sleep(1000);
+                            mSubscription.request(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        System.out.println(t);
+                    }
+
+                    @Override
+                    public void onComplete() {
                     }
                 });
     }
