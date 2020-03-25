@@ -289,7 +289,7 @@ public class RxJava2Demo {
     }
 
     /**
-     * 在主线程中下游没有调用Subscription#request()，那么上游认为上游没有处理能力抛出异常，而不会一直等待。
+     * 在主线程中下游没有调用Subscription#request()，那么上游认为下游没有处理能力抛出异常，而不会一直等待。
      */
     public static void backbressErrorInvok() {
 
@@ -430,15 +430,11 @@ public class RxJava2Demo {
         Flowable.create(new FlowableOnSubscribe<Integer>() {
 
             @Override
-            public void subscribe(FlowableEmitter<Integer> emitter) throws Exception {
-                Log.i("backbress", "emit 1");
-                emitter.onNext(1);
-                Log.i("backbress", "emit 2");
-                emitter.onNext(2);
-                Log.i("backbress", "emit 3");
-                emitter.onNext(3);
-                Log.i("backbress", "emit complete");
-                emitter.onComplete();
+            public void subscribe(FlowableEmitter<Integer> emitter) {
+                for (int i = 0; i < 128; i++) {
+                    emitter.onNext(i);
+                    Log.i("backbress", "emit:" + i);
+                }
             }
         }, BackpressureStrategy.ERROR)
                 .subscribeOn(Schedulers.io())
