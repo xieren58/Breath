@@ -291,16 +291,15 @@ public class RxJava2Demo {
      * 在主线程中下游没有调用Subscription#request()，那么上游认为上游没有处理能力抛出异常，而不会一直等待。
      */
     public static void backbressErrorInvok() {
-        String method = Thread.currentThread().getStackTrace()[1].getMethodName();
 
         Flowable.create((FlowableOnSubscribe<Integer>) emitter -> {
-            Log.d(method, "emit 1");
+            Log.i("backbressErrorInvok", "emit 1");
             emitter.onNext(1);
-            Log.d(method, "emit 2");
+            Log.i("backbressErrorInvok", "emit 2");
             emitter.onNext(2);
-            Log.d(method, "emit 3");
+            Log.i("backbressErrorInvok", "emit 3");
             emitter.onNext(3);
-            Log.d(method, "emit complete");
+            Log.i("backbressErrorInvok", "emit complete");
             emitter.onComplete();
         }, BackpressureStrategy.ERROR)
                 .subscribe(new FlowableSubscriber<Integer>() {
@@ -309,45 +308,41 @@ public class RxJava2Demo {
 
                     @Override
                     public void onSubscribe(Subscription s) {
-                        Log.i(method, "onSubscribe: ");
+                        Log.i("backbressErrorInvok", "onSubscribe: ");
                         subscription = s;
                     }
 
                     @Override
                     public void onNext(Integer integer) {
-                        Log.i(method, "onNext: " + integer);
+                        Log.i("backbressErrorInvok", "onNext: " + integer);
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        Log.i(method, "onError: " + t.toString());
+                        Log.i("backbressErrorInvok", "onError: " + t.toString());
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.i(method, "onComplete: ");
+                        Log.i("backbressErrorInvok", "onComplete: ");
                     }
                 });
     }
 
     /**
      * 异步线程下没有调用Subscription#request()，那么上游是会正确发送事件的，知识下游不会收到而已。
-     * 当上下游处于不同线程，那么上游发送的事件会进入一个缓存队列中，下游获取的事件其实就是从缓存队列中获取的。
+     * 当上下游处于不同线程，那么上游发送的事件会进入一个缓存大小为128队列中，下游获取的事件其实就是从缓存队列中获取的。
      */
     public static void backbressErrorInvok1() {
-        String method = Thread.currentThread().getStackTrace()[1].getMethodName();
 
         Flowable.create(new FlowableOnSubscribe<Integer>() {
             @Override
             public void subscribe(FlowableEmitter<Integer> emitter) throws Exception {
-                Log.d(method, "emit 1");
-                emitter.onNext(1);
-                Log.d(method, "emit 2");
-                emitter.onNext(2);
-                Log.d(method, "emit 3");
-                emitter.onNext(3);
-                Log.d(method, "emit complete");
-                emitter.onComplete();
+                // 这里i < 128修改为129就会报错。
+                for (int i = 0; i < 128; i++) {
+                    Log.i("backbressErrorInvok1", "emit " + i);
+                    emitter.onNext(i);
+                }
             }
         }, BackpressureStrategy.ERROR)
                 .subscribeOn(Schedulers.io())
@@ -358,23 +353,23 @@ public class RxJava2Demo {
 
                     @Override
                     public void onSubscribe(Subscription s) {
-                        Log.i(method, "onSubscribe: ");
+                        Log.i("backbressErrorInvok1", "onSubscribe: ");
                         subscription = s;
                     }
 
                     @Override
                     public void onNext(Integer integer) {
-                        Log.i(method, "onNext: " + integer);
+                        Log.i("backbressErrorInvok1", "onNext: " + integer);
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        Log.i(method, "onError: " + t.toString());
+                        Log.i("backbressErrorInvok1", "onError: " + t.toString());
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.i(method, "onComplete: ");
+                        Log.i("backbressErrorInvok1", "onComplete: ");
                     }
                 });
     }
@@ -385,13 +380,13 @@ public class RxJava2Demo {
 
             @Override
             public void subscribe(FlowableEmitter<Integer> emitter) throws Exception {
-                Log.d("backbress", "emit 1");
+                Log.i("backbress", "emit 1");
                 emitter.onNext(1);
-                Log.d("backbress", "emit 2");
+                Log.i("backbress", "emit 2");
                 emitter.onNext(2);
-                Log.d("backbress", "emit 3");
+                Log.i("backbress", "emit 3");
                 emitter.onNext(3);
-                Log.d("backbress", "emit complete");
+                Log.i("backbress", "emit complete");
                 emitter.onComplete();
             }
         }, BackpressureStrategy.ERROR)
@@ -403,7 +398,7 @@ public class RxJava2Demo {
 
                     @Override
                     public void onSubscribe(Subscription s) {
-                        Log.d("backbress", "onSubscribe");
+                        Log.i("backbress", "onSubscribe");
                         // 响应式拉取（响应式编程，其实理解成一种主动接收和被动接收的区别）
                         // 在没有响应式拉取前，上游发多少下游就要接收多少，而现在是下游想要多少才能上游发多少。
                         mSubscription = s;
@@ -412,18 +407,18 @@ public class RxJava2Demo {
 
                     @Override
                     public void onNext(Integer integer) {
-                        Log.d("backbress", "onNext: " + integer);
+                        Log.i("backbress", "onNext: " + integer);
                         mSubscription.request(1);
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        Log.w("backbress", "onError: ", t);
+                        Log.i("backbress", "onError: ", t);
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.d("backbress", "onComplete");
+                        Log.i("backbress", "onComplete");
                     }
                 });
     }
