@@ -122,6 +122,12 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".component.activity.RxJava2Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name=".component.service.IntentServiceA"
             android:exported="false" />
