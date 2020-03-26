@@ -5,6 +5,7 @@ buildscript {
     ext.gradle_version = '3.6.1'
     repositories {
         google()
+        jcenter()
         maven { url "https://jitpack.io" }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     }
@@ -13,14 +14,13 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.jakewharton:butterknife-gradle-plugin:10.1.0'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
-        // 微信热修复插件
-//        classpath "com.tinkerpatch.sdk:tinkerpatch-gradle-plugin:1.2.13"
     }
 }
 
 allprojects {
     repositories {
         google()
+        jcenter()
         maven { url "https://jitpack.io" }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     }

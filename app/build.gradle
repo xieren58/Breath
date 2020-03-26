@@ -2,11 +2,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.greenrobot.greendao'
-//apply from: 'tinkerpatch.gradle'
 
 android {
     signingConfigs {
         release {
+            storeFile file('signature/breath.jks')
+            storePassword '123456'
+            keyAlias = 'key'
+            keyPassword '123456'
+        }
+        debug {
             storeFile file('signature/breath.jks')
             storePassword '123456'
             keyAlias = 'key'
@@ -36,6 +41,11 @@ android {
             // 移除无用的resource文件
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -135,6 +145,4 @@ dependencies {
     debugImplementation 'com.github.markzhai:blockcanary-android:1.5.0'
     releaseImplementation 'com.github.markzhai:blockcanary-no-op:1.5.0'
 
-//    annotationProcessor("com.tinkerpatch.tinker:tinker-android-anno:1.9.13")
-//    implementation("com.tinkerpatch.sdk:tinkerpatch-android-sdk:1.2.13")
 }
