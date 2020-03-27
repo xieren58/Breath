@@ -120,6 +120,8 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
+    implementation 'com.squareup.retrofit2:retrofit:2.8.1'
+
     // 测试集成腾讯云IM（tuikit版本，包含UI）
 //    implementation 'com.tencent.imsdk:tuikit:4.5.45'
 
