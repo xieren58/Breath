@@ -19,9 +19,16 @@ class Demo {
         get() = s
 
     // 延迟初始化属性
-    // 关键字lateinit,只能用于类体中（不是在主构函数中）声明的var变量，
-    // 并且仅当该属性没有自定义get和set时，必须是非空类型，不能是原生类型。
+    // 关键字lateinit,用于类体中的属性，顶层属性与局部变量
+    // 并且仅当该属性没有自定义get和set时，必须是非空类型，不能是原生类型(你声明为Int是不被允许的)。
     lateinit var lateinitStr: String
+
+    fun test1() {
+        //重要，this::前缀是必须的。判断是否初始化
+        if (this::lateinitStr.isInitialized) {
+
+        }
+    }
 }
 
 class ClassDemo {
