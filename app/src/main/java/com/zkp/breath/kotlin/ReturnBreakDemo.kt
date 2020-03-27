@@ -6,6 +6,8 @@ fun main() {
 //    foo1()
 //    foo2()
 //    foo3()
+
+    fooCopy()
 }
 
 
@@ -28,6 +30,18 @@ fun foo() {
         if (it == 3) return // 非局部直接返回到 foo() 的调用者
         println("当前it:${it}")
     }
+    println("this point is unreachable")
+}
+
+fun fooCopy() {
+    val listOf = listOf(1, 2, 3, 4, 5)
+    fun x(list: List<Int>) {
+        list.forEach {
+            if (it == 3) return // 非局部直接返回到 x() 的调用者,相当于返回到了44行。
+            println("当前it:${it}")
+        }
+    }
+    x(listOf)
     println("this point is unreachable")
 }
 
