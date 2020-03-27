@@ -7,11 +7,16 @@ const val CONST = 22
 class Demo {
     var i: Int = 2
         set(value) {
+            // field幕后字段，代表该属性
             field = field + value
         }
         get() = field + 1
     val s
         get() = i == 3
+
+    val ss
+        // 幕后属性，指向别的属性的值来作为自身的初始值
+        get() = s
 
     // 延迟初始化属性
     // 关键字lateinit,只能用于类体中（不是在主构函数中）声明的var变量，
