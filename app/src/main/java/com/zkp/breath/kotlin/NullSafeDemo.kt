@@ -55,7 +55,14 @@ fun tes4_C(): String? {
  */
 fun tes4(): String? {
     val parent = tes4_C() ?: return null
+
+    // throw 表达式的类型是特殊类型 Nothing
+    // 在你自己的代码中，你可以使用 Nothing 来标记一个永远不会返回的函数，编译器会知道在该调用后就不再继续执行了
     val name = tes4_C() ?: throw IllegalArgumentException("name expected")
+
+    // 如果用 null 来初始化一个要推断类型的值，而又没有其他信息可用于确定更具体的类型时，编译器会推断出 Nothing?
+    val x = null           // “x”具有类型 `Nothing?`
+    val l = listOf(null)   // “l”具有类型 `List<Nothing?>
 
     //...
     val sss = ""
