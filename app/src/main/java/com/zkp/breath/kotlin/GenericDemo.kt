@@ -1,10 +1,13 @@
 package com.zkp.breath.kotlin
 
+/**
+ * 没有指定上限，默认使用Any？作为上限
+ */
 class Box<T>(t: T) {
     // 类型为泛型
     var value = t
 
-
+    // 泛型约束
     // 对于多个上界约束条件，可以用 where 子句
     fun <T> copyWhenGreater(list: List<T>, threshold: T): List<String>
             where T : CharSequence,
@@ -20,6 +23,7 @@ class Box<T>(t: T) {
             to[i] = from[i]
     }
 
+    // 协变
     fun copy2(from: Array<out Any>, to: Array<Any>) {
         assert(from.size == to.size)
         for (i in from.indices)
@@ -27,10 +31,24 @@ class Box<T>(t: T) {
             to[i] = from[i]
     }
 
+    // 逆变
     fun fill(dest: Array<in String>, value: String) {
         dest[1] = value
     }
 
+}
+
+// 使用 out 使得一个类型参数协变，协变类型参数只能用作输出，可以作为返回值类型但是无法作为入参的类
+class Runoob1<out A>(val a: A) {
+    fun foo(): A {
+        return a
+    }
+}
+
+// in 使得一个类型参数逆变，逆变类型参数只能用作输入，可以作为入参的类型但是无法作为返回值的类型：
+class Runoob2<in A>(a: A) {
+    fun foo(a: A) {
+    }
 }
 
 
@@ -58,7 +76,6 @@ fun <T> cusCopyWhenGreater(list: List<T>) where T : CharSequence, T : Comparable
     }
 }
 
-// 没有指定上限，默认使用Any？作为上限
 fun <T> process(value: T) {
     println(value?.hashCode())
     println(value.hashCode())
