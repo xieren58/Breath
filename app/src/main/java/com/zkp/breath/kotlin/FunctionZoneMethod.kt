@@ -63,6 +63,7 @@ fun main() {
 
 
     // it（调用方法名还是要用it.方法名）
+//    str.let(::println)  // 若代码块仅包含以 it 作为参数的单个函数，则可以使用方法引用(::)代替 lambda 表达式
     str.let {
         println("The receiver string's length is ${it.length}")
     }
