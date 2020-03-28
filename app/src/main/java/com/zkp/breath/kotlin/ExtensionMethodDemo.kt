@@ -3,6 +3,8 @@ package com.zkp.breath.kotlin
 /**
  * 扩展函数
  * 例子很有代表性
+ *
+ * 一般的扩展函数或扩展属性我们都定义在顶层（扩展可以视为一种工具方法/属性）
  */
 
 open class H {
@@ -173,6 +175,7 @@ val <T> List<T>.lastIndex: Int
 
 class MyClass {
 
+    // 可以这么理解，因为伴生对象是在外部类实例化的时候才去实例化，所以伴生对象是不能调用外部类的成员方法或者属性的
     companion object {
 
         val myClassField1: Int = 1
@@ -193,6 +196,7 @@ class MyClass {
     }
 
     // 类内伴生对象扩展函数
+    // 基于伴生对象依赖外部类，伴生对象的扩展函数也只能外部类才能调用。
     fun MyClass.Companion.foo() {
         println("伴随对象的扩展函数（内部）")
     }
@@ -209,6 +213,31 @@ class MyClass {
         test2()
     }
 }
+
+class Host(val hostname: String) {
+    fun printHostname() { print(hostname) }
+}
+
+/**
+ * 类内声明其他类的扩展函数。
+ * 扩展声明所在的类的实例称为分发接收者（Connection），调用扩展方法的类的实例称为扩展接收者（Host）
+ */
+class Connection(val host: Host, val port: Int) {
+    fun printPort() { print(port) }
+
+    fun Host.printConnectionString() {
+        printHostname()   // 调用 Host.printHostname()
+        print(":")
+        printPort()   // 调用 Connection.printPort()
+    }
+
+    fun connect() {
+        /*……*/
+        host.printConnectionString()   // 调用扩展函数
+    }
+}
+
+
 
 // 伴生对象的扩展函数
 fun MyClass.Companion.foo() {
