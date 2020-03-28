@@ -22,6 +22,10 @@ open class Particle
 
 class Electron : Particle()
 
+/**
+ * 分发接收者类型是虚拟的（如果子类重写父类的方法，那么会调用子类的重写扩展函数），
+ * 扩展接收者静态解析（方法参数声明类型是什么类型就是什么类型，与实际接收的实例类型无关）
+ */
 open class Element(val name: String = "") {
 
     //  三个方法的名字都是一致的，但是三个方法隶属的类是不同的，所以不会冲突
@@ -223,10 +227,14 @@ class Host(val hostname: String) {
  * 扩展声明所在的类的实例称为分发接收者（Connection），调用扩展方法的类的实例称为扩展接收者（Host）
  */
 class Connection(val host: Host, val port: Int) {
+
     fun printPort() { print(port) }
+
+    fun printHostname() {}
 
     fun Host.printConnectionString() {
         printHostname()   // 调用 Host.printHostname()
+        this@Connection.printHostname()   // 分发接收者和扩展接收者同名函数情况下，调用分发接收者的方法加上： this@类名
         print(":")
         printPort()   // 调用 Connection.printPort()
     }
