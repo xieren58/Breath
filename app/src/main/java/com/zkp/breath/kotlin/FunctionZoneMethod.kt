@@ -17,6 +17,18 @@ import kotlin.random.Random
  * 返回值（根据后续操作是针对上下文对象还是lambda表达式结果选择即可）
  * apply 及 also 返回上下文对象。
  * let、run 及 with 返回 lambda 表达式结果.
+ *
+ *注意： 避免过度使用它们，这会降低代码的可读性并可能导致错误，避免嵌套作用域函数。
+ *
+ *
+ * 使用选择：
+ * 函数	    对象引用	    返回值	            是否是扩展函数
+ * let	    it	        Lambda 表达式结果	是
+ * run	    this	    Lambda 表达式结果	是
+ * run	    -	        Lambda 表达式结果	不是：调用无需上下文对象
+ * with	    this	    Lambda 表达式结果	不是：把上下文对象当做参数
+ * apply	this        上下文对象	        是
+ * also	    it	        上下文对象	        是
  */
 
 class FunctionZoneMethodClass(var name: String = "", var age: Int = 10, var city: String = "") {
@@ -119,5 +131,6 @@ fun main() {
         val lastItem = last()
         println("First item: $firstItem, last item: $lastItem")
     }
+
 
 }
