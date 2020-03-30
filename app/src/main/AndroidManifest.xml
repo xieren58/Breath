@@ -128,9 +128,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.androidr.ScopedStorageActivity"/>
+        <activity android:name=".component.activity.androidr.ScopedStorageActivity" />
 
-        <activity android:name=".component.activity.ConstraintLayoutActivity"/>
+        <activity android:name=".component.activity.ConstraintLayoutActivity" />
+
+        <activity android:name=".component.activity.ViewPager2Activity" />
 
         <service
             android:name=".component.service.IntentServiceA"
