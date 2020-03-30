@@ -130,6 +130,8 @@
 
         <activity android:name=".component.activity.androidr.ScopedStorageActivity"/>
 
+        <activity android:name=".component.activity.ConstraintLayoutActivity"/>
+
         <service
             android:name=".component.service.IntentServiceA"
             android:exported="false" />
