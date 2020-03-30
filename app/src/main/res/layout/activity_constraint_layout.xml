@@ -104,4 +104,38 @@
         app:layout_constraintTop_toBottomOf="@id/btn1" />
 
 
+    <!--
+    链：
+    app:layout_constraintVertical_chainStyle="spread|spread_inside|packed"
+    app:layout_constraintHorizontal_chainStyle="spread|spread_inside|packed"
+    需要配合左右/上下约束才能生效，宽或高非0即可，默认是spread（所以可以不用设置）,置用一个控件设置即可。
+    -->
+    <Button
+        android:id="@+id/btn7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="链1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn8"
+        app:layout_constraintTop_toBottomOf="@id/btn4" />
+
+    <Button
+        android:id="@+id/btn8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="链2"
+        app:layout_constraintLeft_toRightOf="@id/btn7"
+        app:layout_constraintRight_toLeftOf="@id/btn9"
+        app:layout_constraintTop_toBottomOf="@id/btn4" />
+
+    <Button
+        android:id="@+id/btn9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="链3"
+        app:layout_constraintLeft_toRightOf="@id/btn8"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn4" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
