@@ -101,6 +101,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation project(':zkplib')
+    implementation project(':httpprotocol')
 
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
