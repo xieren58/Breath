@@ -14,8 +14,9 @@
     // 位置偏向：让view的位置偏向某一侧
     //水平偏向,0到1之间(0表示最左边，1表示最右边),需要配合layout_constraintLeft_toLeftOf和layout_constraintRight_toRightOf才能生效
     layout_constraintHorizontal_bias
-    //竖直偏向,0到1之间（0表示最上边，1表示最下边）,需要配合layout_constraintTop_toTopOf和layout_constraintBottom_toBottomOf才能生效
     layout_constraintVertical_bias
+    //竖直偏向,0到1之间（0表示最上边，1表示最下边）,需要配合layout_constraintTop_toTopOf和layout_constraintBottom_toBottomOf才能生效
+
     -->
     <Button
         android:id="@+id/btn1"
@@ -109,6 +110,8 @@
     app:layout_constraintVertical_chainStyle="spread|spread_inside|packed"
     app:layout_constraintHorizontal_chainStyle="spread|spread_inside|packed"
     需要配合左右/上下约束才能生效，宽或高非0即可，默认是spread（所以可以不用设置）,置用一个控件设置即可。
+
+    详情见项目的doc文件的"约束布局的链模式.png"
     -->
     <Button
         android:id="@+id/btn7"
