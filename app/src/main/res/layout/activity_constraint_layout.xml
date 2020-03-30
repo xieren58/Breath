@@ -9,6 +9,13 @@
     <!--
     layout_constraintDimensionRatio: 宽高比，设置其中一方具体值(match_parent，wrap_content，xxdp),
     那么另外一方就会按照比率进行计算得出。如果宽高都设置为match_parent和wrap_content该属性则失效。
+
+
+    // 位置偏向：让view的位置偏向某一侧
+    //水平偏向,0到1之间(0表示最左边，1表示最右边),需要配合layout_constraintLeft_toLeftOf和layout_constraintRight_toRightOf才能生效
+    layout_constraintHorizontal_bias
+    //竖直偏向,0到1之间（0表示最上边，1表示最下边）,需要配合layout_constraintTop_toTopOf和layout_constraintBottom_toBottomOf才能生效
+    layout_constraintVertical_bias
     -->
     <Button
         android:id="@+id/btn1"
@@ -16,6 +23,7 @@
         android:layout_height="0dp"
         android:text="宽高比2：1"
         app:layout_constraintDimensionRatio="2:1"
+        app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
