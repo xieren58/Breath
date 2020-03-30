@@ -141,4 +141,19 @@
         app:layout_constraintTop_toBottomOf="@id/btn4" />
 
 
+    <!--
+     Guideline辅助线:(辅助布局，并不会显示到ui上)
+     android:orientation=”horizontal|vertical”表示是水平或垂直引导线。
+     app:layout_constraintGuide_begin, 如果是水平引导线，则距离布局顶部多少dp，如果是垂直引导线，则距离布局左边多少dp。
+     app:layout_constraintGuide_end,如果是水平引导线，则距离布局底部多少dp，如果是垂直引导线，则距离布局多少30dp
+     app:layout_constraintGuide_percent=”0.5”,同上面一样的效果，只是是按百分比，取值为0-1
+     -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
