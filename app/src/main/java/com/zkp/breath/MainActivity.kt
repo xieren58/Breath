@@ -16,7 +16,7 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-        // ActivityUtils.startActivity(ActivityCoordinator.class);
+//        ActivityUtils.startActivity(ViewPager2Activity::class.java);
     }
 
     override fun onResume() {
