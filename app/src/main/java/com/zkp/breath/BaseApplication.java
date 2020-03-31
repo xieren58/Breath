@@ -3,6 +3,8 @@ package com.zkp.breath;
 
 import androidx.multidex.MultiDexApplication;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ProcessUtils;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.github.moduth.blockcanary.BlockCanaryContext;
@@ -24,4 +26,20 @@ public class BaseApplication extends MultiDexApplication {
         }
     }
 
+    private void initARouter() {
+        if (AppUtils.isAppDebug()) {
+            // 下面两句代码必须在init前，否则无效
+            // 打印日志
+            ARouter.openLog();
+            // 开启调试模式
+            ARouter.openDebug();
+        }
+        ARouter.init(this);
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        ARouter.getInstance().destroy();
+    }
 }
