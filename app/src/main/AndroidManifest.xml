@@ -134,6 +134,9 @@
 
         <activity android:name=".component.activity.ViewPager2Activity" />
 
+        <activity android:name=".component.activity.ARouterActivity" />
+
+
         <service
             android:name=".component.service.IntentServiceA"
             android:exported="false" />

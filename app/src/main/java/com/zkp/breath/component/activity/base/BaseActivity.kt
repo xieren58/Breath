@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
 import me.jessyan.autosize.AutoSizeConfig
 
@@ -24,6 +25,7 @@ abstract class BaseActivity : AppCompatActivity() {
         //使用设备的完整尺寸(即隐藏标题栏和状态栏)
         AutoSizeConfig.getInstance().isUseDeviceSize = true
         super.onCreate(savedInstanceState)
+        ARouter.getInstance().inject(this)
         Log.i(TAG, "onCreate(savedInstanceState: Bundle?)")
 //        hideTitleBarAndStateBar()
     }
