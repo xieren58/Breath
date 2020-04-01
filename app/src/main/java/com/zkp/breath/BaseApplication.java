@@ -23,6 +23,7 @@ public class BaseApplication extends MultiDexApplication {
             com.blankj.utilcode.util.Utils.init(this);
             // 初始化界面卡顿检查工具
             BlockCanary.install(this, new BlockCanaryContext()).start();
+            initARouter();
         }
     }
 
