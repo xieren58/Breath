@@ -136,6 +136,8 @@
 
         <activity android:name=".component.activity.ARouterActivity" />
 
+        <activity android:name=".component.activity.RecycleViewActivity" />
+
 
         <service
             android:name=".component.service.IntentServiceA"
