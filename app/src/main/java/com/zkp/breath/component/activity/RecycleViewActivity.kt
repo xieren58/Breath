@@ -2,8 +2,10 @@ package com.zkp.breath.component.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.recyclerview.widget.GridLayoutManager
+import android.view.View
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.zkp.breath.adpter.GridAdapter
+import com.zkp.breath.adpter.decoration.GridItemDecoration
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityRecycleViewBinding
 
@@ -22,11 +24,13 @@ class RecycleViewActivity : BaseActivity() {
         }
 
         val rcv = binding.rcv
-        val gridLayoutManager = GridLayoutManager(this, 4)
-        gridLayoutManager.orientation = GridLayoutManager.HORIZONTAL
-        rcv.layoutManager = gridLayoutManager
+        rcv.itemAnimator?.changeDuration = 0
+        rcv.overScrollMode = View.OVER_SCROLL_NEVER
+        val staggeredGridLayoutManager = StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.HORIZONTAL)
+        rcv.layoutManager = staggeredGridLayoutManager
         val gridAdapter = GridAdapter(arrayList)
         rcv.adapter = gridAdapter
+        rcv.addItemDecoration(GridItemDecoration())
     }
 
 
