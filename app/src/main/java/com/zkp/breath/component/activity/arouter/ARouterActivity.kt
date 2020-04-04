@@ -1,9 +1,11 @@
 package com.zkp.breath.component.activity.arouter
 
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -70,10 +72,21 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
                         .navigation()
             }
             "跳转test3" -> {
-                ARouter.getInstance()
-                        .build(TEST3_AROUTER_ACTIVITY_PATH)
-                        .withTransition(R.anim.activity_in_anim, R.anim.activity_out_anim)
-                        .navigation(this);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    // Activity.overridePendingTransition
+                    ARouter.getInstance()
+                            .build(TEST3_AROUTER_ACTIVITY_PATH)
+                            .withTransition(R.anim.activity_in_anim, R.anim.activity_out_anim)
+                            .navigation(this);
+                } else {
+                    // ActivityOptionsCompat
+                    val compat = ActivityOptionsCompat.makeCustomAnimation(
+                            this, R.anim.activity_in_anim, R.anim.activity_out_anim)
+                    ARouter.getInstance()
+                            .build(TEST3_AROUTER_ACTIVITY_PATH)
+                            .withOptionsCompat(compat)
+                            .navigation()
+                }
             }
         }
     }
