@@ -6,3 +6,4 @@ package com.zkp.breath.component.activity.arouter
  */
 const val TEST1_AROUTER_ACTIVITY_PATH = "/app/test1"
 const val TEST2_AROUTER_ACTIVITY_PATH = "/app/test2"
+const val TEST3_AROUTER_ACTIVITY_PATH = "/app/test3"

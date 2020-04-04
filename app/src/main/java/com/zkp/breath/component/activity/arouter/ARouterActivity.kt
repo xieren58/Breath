@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.zkp.breath.R
 import com.zkp.breath.adpter.CoordinatorAdapter
 import com.zkp.breath.bean.ArouterParamsBean
 import com.zkp.breath.component.activity.base.BaseActivity
@@ -33,7 +34,7 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
 
     private fun initView() {
         val recyclerView = binding.rcv
-        val arrayListOf = arrayListOf("跳转test1", "跳转test2", "3", "5", "6", "7", "8", "9", "10")
+        val arrayListOf = arrayListOf("跳转test1", "跳转test2", "跳转test3", "5", "6", "7", "8", "9", "10")
         //当知道Adapter内Item的改变不会影响RecyclerView宽高的时候，可以设置为true让RecyclerView避免重新计算大小
         recyclerView.setHasFixedSize(true)
         recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
@@ -67,6 +68,12 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
                         .withSerializable("key3", arouterParamsBean)
                         .withIntegerArrayList("key4", arrayListOf)
                         .navigation()
+            }
+            "跳转test3" -> {
+                ARouter.getInstance()
+                        .build(TEST3_AROUTER_ACTIVITY_PATH)
+                        .withTransition(R.anim.activity_in_anim, R.anim.activity_out_anim)
+                        .navigation(this);
             }
         }
     }
