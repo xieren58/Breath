@@ -56,11 +56,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.ActivityCoordinator">
+        <activity android:name=".component.activity.weight.ActivityCoordinator">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+        <activity android:name=".component.activity.weight.ConstraintLayoutActivity" />
+        <activity android:name=".component.activity.weight.RecycleViewActivity" />
+        <activity android:name=".component.activity.weight.ViewPager2Activity" />
 
         <activity android:name=".component.activity.mvx.MvcActivity">
             <intent-filter>
@@ -130,13 +133,8 @@
 
         <activity android:name=".component.activity.androidr.ScopedStorageActivity" />
 
-        <activity android:name=".component.activity.ConstraintLayoutActivity" />
-
-        <activity android:name=".component.activity.ViewPager2Activity" />
-
-        <activity android:name=".component.activity.ARouterActivity" />
-
-        <activity android:name=".component.activity.RecycleViewActivity" />
+        <activity android:name=".component.activity.arouter.ARouterActivity" />
+        <activity android:name=".component.activity.arouter.Test1ArouterActivity" />
 
 
         <service

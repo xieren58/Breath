@@ -1,4 +1,4 @@
-package com.zkp.breath.component.activity
+package com.zkp.breath.component.activity.weight
 
 import android.os.Bundle
 import android.view.Menu
@@ -7,8 +7,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.zkp.breath.adpter.CoordinatorAdapter
 import com.zkp.breath.R
+import com.zkp.breath.adpter.CoordinatorAdapter
 
 
 /**

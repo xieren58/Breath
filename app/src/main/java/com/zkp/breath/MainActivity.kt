@@ -3,7 +3,9 @@ package com.zkp.breath
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.zkp.breath.component.activity.arouter.ARouterActivity
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityMainBinding
 
@@ -16,7 +18,7 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-//        ActivityUtils.startActivity(ViewPager2Activity::class.java);
+        ActivityUtils.startActivity(ARouterActivity::class.java);
     }
 
     override fun onResume() {
