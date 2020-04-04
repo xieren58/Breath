@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.ToastUtils
-import com.zkp.breath.arouter.TEST1_AROUTER_ACTIVITY_PATH
+import com.zkp.breath.arouter.TEST4_AROUTER_ACTIVITY_PATH
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityAruoterTestBinding
 
-@Route(path = TEST1_AROUTER_ACTIVITY_PATH)
-class Test1ArouterActivity : BaseActivity() {
+/**
+ * 动画跳转例子
+ */
+@Route(path = TEST4_AROUTER_ACTIVITY_PATH)
+class Test4ArouterActivity : BaseActivity() {
 
     lateinit var binding: ActivityAruoterTestBinding
 
@@ -17,6 +20,7 @@ class Test1ArouterActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAruoterTestBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
-        ToastUtils.showShort("Test1ArouterActivity")
+        ToastUtils.showShort("Test4ArouterActivity")
     }
+
 }

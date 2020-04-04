@@ -136,14 +136,8 @@
         <activity android:name=".component.activity.arouter.ARouterActivity" />
         <activity android:name=".component.activity.arouter.Test1ArouterActivity" />
         <activity android:name=".component.activity.arouter.Test2ArouterActivity" />
-        <activity android:name=".component.activity.arouter.Test3ArouterActivity">
-            <intent-filter>
-                <data
-                    android:host="m.aliyun.com"
-                    android:scheme="arouter" />
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".component.activity.arouter.Test3ArouterActivity"/>
+        <activity android:name=".component.activity.arouter.Test4ArouterActivity"/>
 
 
         <service

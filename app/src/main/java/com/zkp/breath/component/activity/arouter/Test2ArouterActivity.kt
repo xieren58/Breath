@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.ToastUtils
+import com.zkp.breath.arouter.TEST2_AROUTER_ACTIVITY_PATH
 import com.zkp.breath.bean.ArouterParamsBean
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityAruoterTestBinding

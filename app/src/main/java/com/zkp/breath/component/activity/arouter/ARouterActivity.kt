@@ -3,16 +3,23 @@ package com.zkp.breath.component.activity.arouter
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.facade.callback.NavigationCallback
 import com.alibaba.android.arouter.launcher.ARouter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.zkp.breath.R
 import com.zkp.breath.adpter.CoordinatorAdapter
+import com.zkp.breath.arouter.TEST1_AROUTER_ACTIVITY_PATH
+import com.zkp.breath.arouter.TEST2_AROUTER_ACTIVITY_PATH
+import com.zkp.breath.arouter.TEST3_AROUTER_ACTIVITY_PATH
+import com.zkp.breath.arouter.TEST4_AROUTER_ACTIVITY_PATH
 import com.zkp.breath.bean.ArouterParamsBean
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityAruoterBinding
@@ -36,7 +43,7 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
 
     private fun initView() {
         val recyclerView = binding.rcv
-        val arrayListOf = arrayListOf("跳转test1", "跳转test2", "跳转test3", "5", "6", "7", "8", "9", "10")
+        val arrayListOf = arrayListOf("跳转test1", "跳转test2", "跳转test3", "跳转test4")
         //当知道Adapter内Item的改变不会影响RecyclerView宽高的时候，可以设置为true让RecyclerView避免重新计算大小
         recyclerView.setHasFixedSize(true)
         recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
@@ -87,6 +94,31 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
                             .withOptionsCompat(compat)
                             .navigation()
                 }
+            }
+            "跳转test4" -> {
+                ARouter.getInstance()
+                        .build(TEST4_AROUTER_ACTIVITY_PATH)
+                        .navigation(this, object : NavigationCallback {
+                            override fun onLost(postcard: Postcard?) {
+                                // 找不到path指定的目标
+                                Log.i("NavigationCallback", "onLost: ");
+                            }
+
+                            override fun onFound(postcard: Postcard?) {
+                                // 当发现有可跳转的目标回调, 跳转的path是存在的
+                                Log.i("NavigationCallback", "onFound: ");
+                            }
+
+                            override fun onInterrupt(postcard: Postcard?) {
+                                // 当拦截器InterceptorCallback执行onInterrupt（）方法后回调
+                                Log.i("NavigationCallback", "onInterrupt: ");
+                            }
+
+                            override fun onArrival(postcard: Postcard?) {
+                                // 成功跳转后回调
+                                Log.i("NavigationCallback", "onArrival: ");
+                            }
+                        })
             }
         }
     }
