@@ -135,6 +135,7 @@
 
         <activity android:name=".component.activity.arouter.ARouterActivity" />
         <activity android:name=".component.activity.arouter.Test1ArouterActivity" />
+        <activity android:name=".component.activity.arouter.Test2ArouterActivity" />
 
 
         <service

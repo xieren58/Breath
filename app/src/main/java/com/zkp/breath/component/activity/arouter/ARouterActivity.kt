@@ -10,6 +10,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.zkp.breath.adpter.CoordinatorAdapter
+import com.zkp.breath.bean.ArouterParamsBean
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityAruoterBinding
 
@@ -32,7 +33,7 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
 
     private fun initView() {
         val recyclerView = binding.rcv
-        val arrayListOf = arrayListOf("跳转test1", "2", "3", "5", "6", "7", "8", "9", "10")
+        val arrayListOf = arrayListOf("跳转test1", "跳转test2", "3", "5", "6", "7", "8", "9", "10")
         //当知道Adapter内Item的改变不会影响RecyclerView宽高的时候，可以设置为true让RecyclerView避免重新计算大小
         recyclerView.setHasFixedSize(true)
         recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
@@ -50,7 +51,22 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
             "跳转test1" -> {
                 ARouter.getInstance()
                         .build(TEST1_AROUTER_ACTIVITY_PATH)
-                        .navigation();
+                        .navigation()
+            }
+            "跳转test2" -> {
+                val arouterParamsBean = ArouterParamsBean()
+                arouterParamsBean.age = 27
+                arouterParamsBean.name = "zkp"
+
+                val arrayListOf = arrayListOf(11, 22, 33, 44)
+
+                ARouter.getInstance()
+                        .build(TEST2_AROUTER_ACTIVITY_PATH)
+                        .withString("key1", "value1")
+                        .withInt("key2", 22)
+                        .withSerializable("key3", arouterParamsBean)
+                        .withIntegerArrayList("key4", arrayListOf)
+                        .navigation()
             }
         }
     }

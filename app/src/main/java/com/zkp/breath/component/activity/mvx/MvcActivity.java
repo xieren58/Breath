@@ -5,16 +5,13 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.zkp.breath.R;
-import com.zkp.breath.component.activity.ActivityCoordinator;
 import com.zkp.breath.designpattern.mvc.MvcCallback;
 import com.zkp.breath.designpattern.mvc.MvcModelBaseInterface;
 import com.zkp.breath.designpattern.mvc.MvcModelBaseInterfaceImp;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
