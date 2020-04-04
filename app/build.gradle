@@ -4,6 +4,12 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'kotlin-kapt'
 
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+
 android {
     signingConfigs {
         release {
@@ -149,8 +155,9 @@ dependencies {
     implementation 'com.jakewharton:disklrucache:2.0.2'
 
     // 阿里路由
-    implementation'com.alibaba:arouter-api:1.5.0'
-    annotationProcessor'com.alibaba:arouter-compiler:1.2.2'
+    implementation 'com.alibaba:arouter-api:1.5.0'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+    kapt 'com.alibaba:arouter-compiler:1.2.2'
 
     // 浏览器查看sp或者数据库神器
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
