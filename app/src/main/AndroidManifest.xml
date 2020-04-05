@@ -136,10 +136,20 @@
         <activity android:name=".component.activity.arouter.ARouterActivity" />
         <activity android:name=".component.activity.arouter.Test1ArouterActivity" />
         <activity android:name=".component.activity.arouter.Test2ArouterActivity" />
-        <activity android:name=".component.activity.arouter.Test3ArouterActivity"/>
-        <activity android:name=".component.activity.arouter.Test4ArouterActivity"/>
-        <activity android:name=".component.activity.arouter.Test5ArouterActivity"/>
-
+        <activity android:name=".component.activity.arouter.Test3ArouterActivity" />
+        <activity android:name=".component.activity.arouter.Test4ArouterActivity" />
+        <activity android:name=".component.activity.arouter.Test5ArouterActivity" />
+        <activity android:name=".component.activity.arouter.TestWebviewActivity" />
+        <activity android:name=".component.activity.arouter.SchemeFilterActivity">
+            <intent-filter>
+                <data
+                    android:host="m.aliyun.com"
+                    android:scheme="arouter" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".component.service.IntentServiceA"

@@ -14,6 +14,7 @@ import com.alibaba.android.arouter.core.LogisticsCenter
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.callback.NavigationCallback
 import com.alibaba.android.arouter.launcher.ARouter
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.zkp.breath.R
@@ -43,7 +44,8 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
 
     private fun initView() {
         val recyclerView = binding.rcv
-        val arrayListOf = arrayListOf("跳转test1", "跳转test2", "跳转test3", "跳转test4", "跳转test5", "暴露服务接口")
+        val arrayListOf = arrayListOf("跳转test1", "跳转test2", "跳转test3",
+                "跳转test4", "跳转test5", "暴露服务接口", "跳转webView")
         //当知道Adapter内Item的改变不会影响RecyclerView宽高的时候，可以设置为true让RecyclerView避免重新计算大小
         recyclerView.setHasFixedSize(true)
         recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
@@ -134,6 +136,9 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
                         .navigation() as HelloService
                 val result = helloService.sayHello("my name is zkp")
                 ToastUtils.showShort(result)
+            }
+            "跳转webView" -> {
+                ActivityUtils.startActivity(TestWebviewActivity::class.java)
             }
         }
     }
