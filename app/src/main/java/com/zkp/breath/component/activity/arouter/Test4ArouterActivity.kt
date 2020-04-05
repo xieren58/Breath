@@ -9,7 +9,7 @@ import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityAruoterTestBinding
 
 /**
- * 动画跳转例子
+ * 携带回调监听的例子
  */
 @Route(path = ActivityRouterPath.TEST4_AROUTER_ACTIVITY_PATH)
 class Test4ArouterActivity : BaseActivity() {
