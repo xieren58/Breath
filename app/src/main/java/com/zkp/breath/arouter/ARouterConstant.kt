@@ -14,11 +14,19 @@ object ActivityRouterPath {
 }
 
 /**
- * 所有Activity的path都放在此文件统一管理。
+ * 所有Fragment的path都放在此文件统一管理。
  * 命名规范："/模块名/类名"，注意路径至少两级
  */
 object FragmentRouterPath {
 
+}
+
+/**
+ * 所有暴露接口的path都放在此文件统一管理。
+ * 命名规范："/模块名/类名"，注意路径至少两级
+ */
+object IProviderServicePath {
+    const val HELLO_PROVIDER_SERVICE_PATH = "/providerService/hello"
 }
 
 /**

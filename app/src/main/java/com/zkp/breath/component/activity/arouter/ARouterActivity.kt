@@ -19,7 +19,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.zkp.breath.R
 import com.zkp.breath.adpter.CoordinatorAdapter
 import com.zkp.breath.arouter.ActivityRouterPath
+import com.zkp.breath.arouter.IProviderServicePath
 import com.zkp.breath.arouter.entity.ArouterParamsBean
+import com.zkp.breath.arouter.interfaces.HelloService
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityAruoterBinding
 
@@ -41,7 +43,7 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
 
     private fun initView() {
         val recyclerView = binding.rcv
-        val arrayListOf = arrayListOf("跳转test1", "跳转test2", "跳转test3", "跳转test4", "跳转test5")
+        val arrayListOf = arrayListOf("跳转test1", "跳转test2", "跳转test3", "跳转test4", "跳转test5", "暴露服务接口")
         //当知道Adapter内Item的改变不会影响RecyclerView宽高的时候，可以设置为true让RecyclerView避免重新计算大小
         recyclerView.setHasFixedSize(true)
         recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
@@ -125,6 +127,13 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
                 val destination = postcard.destination
                 val intent = Intent(this, destination)
                 startActivityForResult(intent, 22)
+            }
+            "暴露服务接口" -> {
+                val helloService = ARouter.getInstance()
+                        .build(IProviderServicePath.HELLO_PROVIDER_SERVICE_PATH)
+                        .navigation() as HelloService
+                val result = helloService.sayHello("my name is zkp")
+                ToastUtils.showShort(result)
             }
         }
     }
