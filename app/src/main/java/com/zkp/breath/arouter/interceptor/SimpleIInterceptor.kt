@@ -1,4 +1,4 @@
-package com.zkp.breath.arouter.simple
+package com.zkp.breath.arouter.interceptor
 
 import android.content.Context
 import com.alibaba.android.arouter.facade.Postcard
