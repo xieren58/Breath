@@ -10,6 +10,7 @@ object ActivityRouterPath {
     const val TEST2_AROUTER_ACTIVITY_PATH = "/app/test2"
     const val TEST3_AROUTER_ACTIVITY_PATH = "/app/test3"
     const val TEST4_AROUTER_ACTIVITY_PATH = "/app/test4"
+    const val TEST5_AROUTER_ACTIVITY_PATH = "/app/test5"
 }
 
 /**
