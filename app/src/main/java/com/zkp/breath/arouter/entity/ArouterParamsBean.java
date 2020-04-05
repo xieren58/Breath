@@ -1,6 +1,4 @@
-package com.zkp.breath.bean;
-
-import android.os.Parcelable;
+package com.zkp.breath.arouter.entity;
 
 import java.io.Serializable;
 

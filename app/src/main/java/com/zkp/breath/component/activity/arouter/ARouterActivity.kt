@@ -19,7 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.zkp.breath.R
 import com.zkp.breath.adpter.CoordinatorAdapter
 import com.zkp.breath.arouter.ActivityRouterPath
-import com.zkp.breath.bean.ArouterParamsBean
+import com.zkp.breath.arouter.entity.ArouterParamsBean
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityAruoterBinding
 

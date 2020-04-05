@@ -7,7 +7,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.arouter.ActivityRouterPath
-import com.zkp.breath.bean.ArouterParamsBean
+import com.zkp.breath.arouter.entity.ArouterParamsBean
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityAruoterTestBinding
 
