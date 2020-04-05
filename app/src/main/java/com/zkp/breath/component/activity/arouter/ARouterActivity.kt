@@ -10,16 +10,12 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.Postcard
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.facade.callback.NavigationCallback
 import com.alibaba.android.arouter.launcher.ARouter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.zkp.breath.R
 import com.zkp.breath.adpter.CoordinatorAdapter
-import com.zkp.breath.arouter.TEST1_AROUTER_ACTIVITY_PATH
-import com.zkp.breath.arouter.TEST2_AROUTER_ACTIVITY_PATH
-import com.zkp.breath.arouter.TEST3_AROUTER_ACTIVITY_PATH
-import com.zkp.breath.arouter.TEST4_AROUTER_ACTIVITY_PATH
+import com.zkp.breath.arouter.ActivityRouterPath
 import com.zkp.breath.bean.ArouterParamsBean
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityAruoterBinding
@@ -29,7 +25,6 @@ import com.zkp.breath.databinding.ActivityAruoterBinding
  * https://www.jianshu.com/p/6021f3f61fa6
  */
 
-@Route(path = "/activity/ARouterActivity")
 class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
 
     lateinit var binding: ActivityAruoterBinding
@@ -60,7 +55,7 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
         when (value) {
             "跳转test1" -> {
                 ARouter.getInstance()
-                        .build(TEST1_AROUTER_ACTIVITY_PATH)
+                        .build(ActivityRouterPath.TEST1_AROUTER_ACTIVITY_PATH)
                         .navigation()
             }
             "跳转test2" -> {
@@ -71,7 +66,7 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
                 val arrayListOf = arrayListOf(11, 22, 33, 44)
 
                 ARouter.getInstance()
-                        .build(TEST2_AROUTER_ACTIVITY_PATH)
+                        .build(ActivityRouterPath.TEST2_AROUTER_ACTIVITY_PATH)
                         .withString("key1", "value1")
                         .withInt("key2", 22)
                         .withSerializable("key3", arouterParamsBean)
@@ -82,7 +77,7 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     // Activity.overridePendingTransition
                     ARouter.getInstance()
-                            .build(TEST3_AROUTER_ACTIVITY_PATH)
+                            .build(ActivityRouterPath.TEST3_AROUTER_ACTIVITY_PATH)
                             .withTransition(R.anim.activity_in_anim, R.anim.activity_out_anim)
                             .navigation(this);
                 } else {
@@ -90,14 +85,14 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
                     val compat = ActivityOptionsCompat.makeCustomAnimation(
                             this, R.anim.activity_in_anim, R.anim.activity_out_anim)
                     ARouter.getInstance()
-                            .build(TEST3_AROUTER_ACTIVITY_PATH)
+                            .build(ActivityRouterPath.TEST3_AROUTER_ACTIVITY_PATH)
                             .withOptionsCompat(compat)
                             .navigation()
                 }
             }
             "跳转test4" -> {
                 ARouter.getInstance()
-                        .build(TEST4_AROUTER_ACTIVITY_PATH)
+                        .build(ActivityRouterPath.TEST4_AROUTER_ACTIVITY_PATH)
                         .navigation(this, object : NavigationCallback {
                             override fun onLost(postcard: Postcard?) {
                                 // 找不到path指定的目标

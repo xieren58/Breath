@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.ToastUtils
-import com.zkp.breath.arouter.TEST2_AROUTER_ACTIVITY_PATH
+import com.zkp.breath.arouter.ActivityRouterPath
 import com.zkp.breath.bean.ArouterParamsBean
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityAruoterTestBinding
@@ -15,7 +15,7 @@ import com.zkp.breath.databinding.ActivityAruoterTestBinding
  * 携带参数跳转例子
  * 注意：kotlin的字段必须加上JvmField注解，否则运行会报错：ARouter::Compiler An exception is encountered, [The inject fields CAN NOT BE 'private'!!!
  */
-@Route(path = TEST2_AROUTER_ACTIVITY_PATH)
+@Route(path = ActivityRouterPath.TEST2_AROUTER_ACTIVITY_PATH)
 class Test2ArouterActivity : BaseActivity() {
 
     lateinit var binding: ActivityAruoterTestBinding

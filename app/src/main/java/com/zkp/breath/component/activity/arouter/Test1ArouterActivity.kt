@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.ToastUtils
-import com.zkp.breath.arouter.TEST1_AROUTER_ACTIVITY_PATH
+import com.zkp.breath.arouter.ActivityRouterPath
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityAruoterTestBinding
 
-@Route(path = TEST1_AROUTER_ACTIVITY_PATH)
+@Route(path = ActivityRouterPath.TEST1_AROUTER_ACTIVITY_PATH)
 class Test1ArouterActivity : BaseActivity() {
 
     lateinit var binding: ActivityAruoterTestBinding
