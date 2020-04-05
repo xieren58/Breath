@@ -15,9 +15,8 @@ class SchemeFilterActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val uri: String? = intent.data?.path
-        // 直接通过ARouter处理外部Uri
-        ARouter.getInstance().build(uri).navigation(this, object : NavCallback() {
+        val path: String? = intent.data?.path
+        ARouter.getInstance().build(path).navigation(this, object : NavCallback() {
             override fun onArrival(postcard: Postcard) {
                 finish()
             }
