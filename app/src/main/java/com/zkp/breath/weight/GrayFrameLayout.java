@@ -29,6 +29,7 @@ public class GrayFrameLayout extends FrameLayout {
 
 
     // https://www.jianshu.com/p/12171fc37c3a
+    // https://www.jianshu.com/p/e90accd0967f
     @Override
     public void draw(Canvas canvas) {
         canvas.saveLayer(null, mPaint, Canvas.ALL_SAVE_FLAG);

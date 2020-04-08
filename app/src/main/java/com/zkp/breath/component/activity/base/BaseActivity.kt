@@ -2,12 +2,17 @@ package com.zkp.breath.component.activity.base
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
 import me.jessyan.autosize.AutoSizeConfig
+
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -25,10 +30,39 @@ abstract class BaseActivity : AppCompatActivity() {
         //使用设备的完整尺寸(即隐藏标题栏和状态栏)
         AutoSizeConfig.getInstance().isUseDeviceSize = true
         super.onCreate(savedInstanceState)
+        // activity使用arouter需要inject
         ARouter.getInstance().inject(this)
         Log.i(TAG, "onCreate(savedInstanceState: Bundle?)")
 //        hideTitleBarAndStateBar()
     }
+
+    // 依赖硬件加速，可能特殊控件不行（高德地图）
+    fun gray() {
+        val cm = ColorMatrix()
+        cm.setSaturation(0f)
+        val paint = Paint()
+        paint.colorFilter = ColorMatrixColorFilter(cm)
+        window.decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
+    }
+
+    // 视频，webview会出问题
+//    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+//        if ("FrameLayout" == name) {
+//            val count: Int = attrs.getAttributeCount()
+//            for (i in 0 until count) {
+//                val attributeName: String = attrs.getAttributeName(i)
+//                val attributeValue: String = attrs.getAttributeValue(i)
+//                if (attributeName == "id") {
+//                    val id = attributeValue.substring(1).toInt()
+//                    val idVal = resources.getResourceName(id)
+//                    if ("android:id/content" == idVal) {
+//                        return GrayFrameLayout(context, attrs)
+//                    }
+//                }
+//            }
+//        }
+//        return super.onCreateView(name, context, attrs)
+//    }
 
     /**
      * 隐藏状态栏和标题栏
