@@ -36,7 +36,7 @@ abstract class BaseActivity : AppCompatActivity() {
 //        hideTitleBarAndStateBar()
     }
 
-    // 依赖硬件加速，可能特殊控件不行（高德地图）
+    // 依赖硬件加速，可能特殊控件不行（高德地图），放在oncreate方法即可
     fun gray() {
         val cm = ColorMatrix()
         cm.setSaturation(0f)
