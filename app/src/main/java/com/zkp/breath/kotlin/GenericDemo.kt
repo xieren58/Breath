@@ -1,7 +1,15 @@
 package com.zkp.breath.kotlin
 
 /**
- * 没有指定上限，默认使用Any？作为上限
+ * 使用关键字 out 来支持协变，等同于 Java 中的上界通配符 ? extends。
+ * 使用关键字 in 来支持逆变，等同于 Java 中的下界通配符 ? super。
+ *
+ * Java 中单个 ? 号也能作为泛型通配符使用，相当于 ? extends Object, Kotlin 中有等效的写法：* 号，相当于 out Any。
+ * 和 Java 不同的地方是，如果你的类型定义里已经有了 out 或者 in，那这个限制在变量声明时也依然在，不会被 * 号去掉。
+ * 比如你的类型定义里是 out T : Number 的，那它加上 <*> 之后的效果就不是 out Any，而是 out Number
+ *
+ *
+ * 没有指定上限，默认使用Any？作为上限。如：out T 相当于 out T : Any?
  */
 class Box<T>(t: T) {
     // 类型为泛型
