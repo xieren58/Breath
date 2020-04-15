@@ -7,6 +7,10 @@ import java.util.List;
 
 /***
  * 泛型的例子
+ *
+ * Java 的泛型本身是不支持协变和逆变的，PECS 法则：「Producer-Extends, Consumer-Super」
+ * 生产者：? extends，使泛型支持协变（只能读取不能修改）
+ * 消费者：? super，使泛型支持逆变（只能修改不能读取）
  */
 public class GenericDemo {
 
