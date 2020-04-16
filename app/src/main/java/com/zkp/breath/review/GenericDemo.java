@@ -1,5 +1,6 @@
 package com.zkp.breath.review;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -8,9 +9,17 @@ import java.util.List;
 /***
  * 泛型的例子
  *
- * Java 的泛型本身是不支持协变和逆变的，PECS 法则：「Producer-Extends, Consumer-Super」
- * 生产者：? extends，使泛型支持协变（只能读取不能修改）
- * 消费者：? super，使泛型支持逆变（只能修改不能读取）
+ * Java 的泛型本身是不支持协变和逆变的（协变和逆变使泛型实现多态），PECS 法则：「Producer-Extends, Consumer-Super」
+ *
+ * 生产者：? extends，上界通配符，使泛型支持协变（只能读取不能修改）。其中 ? 是个通配符，表示泛型类型是一个未知类型，
+ * extends 限制了这个未知类型的上界，即为某个类型的间接或直接子类/实现类，也包括指定的上界类型。
+ *
+ * 消费者：? super，下界通配符，使泛型支持逆变（只能修改不能读取）。其中 ? 是个通配符，表示泛型类型是一个未知类型，
+ * super 限制了这个未知类型的下界，即为某个类型的间接或者直接父类/接口，也包括指定的下界类型。
+ *
+ * ？通配符：这样使用 List<?> 其实是 List<? extends Object> 的缩写。
+ *
+ * Java 中声明类或接口的时候，可以使用 extends（没有super，注意这个是声明类或接口的时候用的） 来设置边界，将泛型类型参数限制为某个类型的子集。
  */
 public class GenericDemo {
 
@@ -40,21 +49,31 @@ public class GenericDemo {
         consumerSuper(numbers1);
         consumerSuper(numbers2);
 
-        // 避免这种写法！！！！！！！
-        // 和list1，list2是同个作用
+        // 避免下面这三种写法！！！！！！！
+        // list,list1，list2的泛型类型都为Object。
+        // 正确的写法为左边变量指定，右边对象省略或者也指定。 List<String> list = new ArrayList<String>(); List<String> list = new ArrayList()
         ArrayList list = new ArrayList<String>();
         ArrayList<Object> list1 = new ArrayList<>();
         ArrayList list2 = new ArrayList();
         list.add(1);
         list.add(new Object());
+        list2.add("");
         try {
             Object o = list.get(0);
+            Object o1 = list1.get(0);
+            Object o2 = list2.get(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println();
         System.out.println();
 
+
+        // 下面的写法都满足类定义的泛型的要求
+        Bean2<Integer> bean2 = new Bean2<>();
+        Bean2<Number> bean3 = new Bean2<>();
+        Bean2<? extends Number> bean4 = new Bean2<Integer>();
+        Bean2<? super Integer> bean5 = new Bean2<Number>();
 
         /**
          * 由于在程序中定义的 ArrayList 泛型类型实例化为 Integer 的对象，
@@ -119,7 +138,24 @@ public class GenericDemo {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
+
+    /**
+     * 指定泛型类型为必须为Number和Serializable的子类型，或者为Number，为Serializable类型。
+     */
+    private static class Bean2<T extends Number & Serializable> {
+        private T t;
+
+        public Number getT() {
+            return t;
+        }
+
+        public Serializable getT2() {
+            return t;
+        }
+    }
+
 
     private static class Bean<T> {
 
@@ -143,7 +179,8 @@ public class GenericDemo {
 
     /**
      * 元组其实是关系数据库中的一个学术名词，一条记录就是一个元组，一个表就是一个关系，纪录组成表，
-     * 元组生成关系，这就是关系数据库的核心理念。java借助泛型实现元组
+     * 元组生成关系，这就是关系数据库的核心理念。
+     * java借助泛型实现元组。
      *
      * @param <A>
      * @param <B>
