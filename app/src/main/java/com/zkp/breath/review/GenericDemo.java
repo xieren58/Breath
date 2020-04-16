@@ -19,7 +19,7 @@ import java.util.List;
  *
  * ？通配符：这样使用 List<?> 其实是 List<? extends Object> 的缩写。
  *
- * Java 中声明类或接口的时候，可以使用 extends（没有super，注意这个是声明类或接口的时候用的） 来设置边界，将泛型类型参数限制为某个类型的子集。
+ * Java 中声明类,接口,方法的时候，可以使用 extends（没有super，注意这个是声明类或接口的时候用的） 来设置边界，将泛型类型参数限制为某个类型的子集。
  */
 public class GenericDemo {
 
@@ -154,6 +154,19 @@ public class GenericDemo {
         public Serializable getT2() {
             return t;
         }
+    }
+
+    private static <T extends Number> Number getT1(T t) {
+        return t;
+    }
+
+    private static <T extends Number> T getT2(T t) {
+        return t;
+    }
+
+    private static <T extends Number> T getT3(T t) {
+        Object o = new Object();
+        return (T) o;
     }
 
 
