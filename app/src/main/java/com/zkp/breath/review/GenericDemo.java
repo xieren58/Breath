@@ -93,7 +93,26 @@ public class GenericDemo {
             e.printStackTrace();
         }
 
+
+        List<String> stringList = new ArrayList<>();
+        Object o = stringList;
+        Class<? extends List> aClass1 = stringList.getClass();
+        check(o, aClass1);
     }
+
+    // 由于 Java 中的泛型存在类型擦除的情况，任何在运行时需要知道泛型确切类型信息的操作都没法用了
+//    private static <T> void printIfTypeMatch(Object item) {
+//        if (item instanceof T) { // 👈 IDE 会提示错误，illegal generic type for instanceof
+//            System.out.println(item);
+//        }
+//    }
+
+    private static <T> void check(Object item, Class<T> type) {
+        if (type.isInstance(item)) {
+            System.out.println("泛型类型检查成功");
+        }
+    }
+
 
     /**
      * 上限 - 协变 -  生产者
