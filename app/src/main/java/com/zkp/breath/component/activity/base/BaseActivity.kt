@@ -15,7 +15,7 @@ import com.blankj.utilcode.util.BarUtils
 import me.jessyan.autosize.AutoSizeConfig
 
 
-// Api27及其以上AppCompatActivity支持主构函数传入LayoutId
+// Api27及其以上AppCompatActivity支持主构函数传入LayoutId,默认为0表示此布局id无效
 abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActivity(contentLayoutId) {
 
     val TAG = this::class.simpleName
