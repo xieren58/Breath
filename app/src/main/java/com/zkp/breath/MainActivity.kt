@@ -18,7 +18,7 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-        ActivityUtils.startActivity(ARouterActivity::class.java);
+        ActivityUtils.startActivity(ARouterActivity::class.java)
     }
 
     override fun onResume() {
