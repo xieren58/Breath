@@ -8,13 +8,15 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
 import me.jessyan.autosize.AutoSizeConfig
 
 
-abstract class BaseActivity : AppCompatActivity() {
+// Api27及其以上AppCompatActivity支持主构函数传入LayoutId
+abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActivity(contentLayoutId) {
 
     val TAG = this::class.simpleName
 
