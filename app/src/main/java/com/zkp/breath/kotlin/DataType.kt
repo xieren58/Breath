@@ -2,6 +2,10 @@ package com.zkp.breath.kotlin
 
 /**
  * 常见数据类型，kotlin无java的基本类型
+ *
+ * 原先在 Java 里的基本类型，类比到 Kotlin 里面，条件满足如下之一就不装箱：
+ * 1.不可空类型。
+ * 2.使用 IntArray、FloatArray 等。
  */
 fun main() {
     val i: Int = 1
@@ -20,6 +24,15 @@ fun main() {
     compareValueOrMemory()
     typeConversion()
     char()
+    boxOrUnbox()
+}
+
+fun boxOrUnbox() {
+    var a: Int = 1  // unbox
+    var a1: Int? = 1    // box
+    val intArrayOf = intArrayOf(1, 2)   // unbox
+    val listOf = listOf(1, 2)
+    val arrayOf = arrayOf(1, 2, 3)
 }
 
 // 比较值和比较内存地址
