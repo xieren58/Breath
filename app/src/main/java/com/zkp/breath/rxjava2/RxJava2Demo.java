@@ -9,6 +9,8 @@ import org.reactivestreams.Subscription;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -143,6 +145,114 @@ public class RxJava2Demo {
                 });
     }
 
+    /**
+     * just操作符，内部调用了fromArray操作符。该操作符相当于省略了被观察者的事件操作实现。
+     * 内部提供重载函数，参数数量从1-10。建议多参数使用fromArray操作符。
+     */
+    public static void just() {
+        // 将会依次调用：
+        // onNext("Hello");
+        // onNext("Hi");
+        // onNext("Aloha");
+        // onCompleted();
+        Observable.just("Hello", "Hi", "Aloha")
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.i("just",
+                                "onSubscribe: " + Thread.currentThread().getName());
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        Log.i("just",
+                                "onNext: " + Thread.currentThread().getName() + ",s:" + s);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("just",
+                                "onError: " + Thread.currentThread().getName() + ",e:" + e.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i("just", "onComplete: " + Thread.currentThread().getName());
+                    }
+                });
+    }
+
+    /**
+     * fromArray操作符接收数组参数（参数类型是可变参数），作用和just操作符一样。
+     */
+    public static void fromArray() {
+        String[] strings = new String[]{"Hello", "Hi", "Aloha"};
+        Observable.fromArray(strings)
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.i("fromArray",
+                                "onSubscribe: " + Thread.currentThread().getName());
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        Log.i("fromArray",
+                                "onNext: " + Thread.currentThread().getName() + ",s:" + s);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("fromArray",
+                                "onError: " + Thread.currentThread().getName() + ",e:" + e.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i("fromArray", "onComplete: " + Thread.currentThread().getName());
+                    }
+                });
+    }
+
+    /**
+     * fromIterable操作符接收Iterable接口实现类，一般是Collection集合。
+     * 作用和fromArray一样，只是一个接收数组类型，一个接收集合类型。
+     */
+    public static void fromIterable() {
+        List<String> list = new ArrayList<>();
+        list.add("Hello");
+        list.add("Hi");
+        list.add("Aloha");
+        Observable.fromIterable(list)
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.i("fromIterable",
+                                "onSubscribe: " + Thread.currentThread().getName());
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        Log.i("fromIterable",
+                                "onNext: " + Thread.currentThread().getName() + ",s:" + s);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("fromIterable",
+                                "onError: " + Thread.currentThread().getName() + ",e:" + e.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i("fromIterable", "onComplete: " + Thread.currentThread().getName());
+                    }
+                });
+    }
+
+    /**
+     * map转换操作符，将源数据的类型转换成目标数据类型。
+     */
     public static void map() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
 
@@ -153,6 +263,9 @@ public class RxJava2Demo {
                 emitter.onNext(3);
                 emitter.onComplete();
             }
+
+            // Function，只有源数据和目标数据
+            // Array2Func,Array3Func.....Array9Func,接收的源数据对应n个。
         }).map(new Function<Integer, Integer>() {
 
             @Override
@@ -183,6 +296,9 @@ public class RxJava2Demo {
         });
     }
 
+    /**
+     * flatMap操作符，将数据源的每个事件构建成一个新的Observable对象。（再嵌套请求网络接口很有用）
+     */
     public static void flatMap() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
 
@@ -193,6 +309,7 @@ public class RxJava2Demo {
                 emitter.onNext(3);
                 emitter.onComplete();
             }
+            // Function的泛型一：数据源类型；  泛型二：新的类型的ObservableSource数据源
         }).flatMap(new Function<Integer, ObservableSource<String>>() {
 
             @Override
@@ -487,8 +604,9 @@ public class RxJava2Demo {
 
     /**
      * 模拟读取大分文件的场景
-     *
+     * <p>
      * val open = InputStreamReader(assets.open("test.txt"))
+     *
      * @param open
      */
     public static void practice1(InputStreamReader open) {
