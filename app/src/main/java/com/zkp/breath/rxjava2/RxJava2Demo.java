@@ -111,14 +111,18 @@ public class RxJava2Demo {
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
                 Log.i("threadSwitch", "subscribe: " + ThreadUtils.isMainThread());
 
-                emitter.onNext(1);
-                emitter.onNext(2);
-                emitter.onNext(3);
+                for (int i = 0; i < 100; i++) {
+                    emitter.onNext(i);
+                    Log.i("threadSwitch", "subscribe: " + i);
+                }
+//                emitter.onNext(1);
+//                emitter.onNext(2);
+//                emitter.onNext(3);
                 emitter.onComplete();
             }
         }).subscribeOn(AndroidSchedulers.mainThread())
                 // 下游设置多个线程以最后一句为准,所以下面是运行在RxCachedThreadScheduler线程上面
-                .observeOn(Schedulers.newThread())  // RxNewThreadScheduler
+//                .observeOn(Schedulers.newThread())  // RxNewThreadScheduler
                 .observeOn(Schedulers.io()) // RxCachedThreadScheduler
                 .subscribe(new Observer<Integer>() {
 
