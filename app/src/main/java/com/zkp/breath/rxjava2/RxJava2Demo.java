@@ -349,6 +349,9 @@ public class RxJava2Demo {
         });
     }
 
+    /**
+     * zip操作符，对多个Observable进行操作，得出一个新的目标Observable
+     */
     public static void zip() {
         Observable<Integer> integerObservable = Observable
                 .create(new ObservableOnSubscribe<Integer>() {
