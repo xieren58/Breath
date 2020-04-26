@@ -10,6 +10,9 @@ private class NullCheckClass {
         println(x!!.toInt())
     }
 
+    /**
+     * ？.是一种线程安全的写法
+     */
     fun f2(x: String?) {
         // 为空则不做处理返回null
         println(x?.toInt())
