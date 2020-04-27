@@ -14,6 +14,7 @@ class Demo {
     val s
         get() = i == 3
 
+    // 虽然 val 修饰的变量不能二次赋值，但可以通过自定义变量的 getter 函数，让变量每次被访问时，返回动态获取的值。
     val ss
         // 幕后属性，指向别的属性的值来作为自身的初始值
         get() = s
@@ -34,6 +35,7 @@ class Demo {
 class ClassDemo {
 
     val s: String = ""
+
     // 1.要么声明的时候赋初始值
     // 2.要么可以放在init()中赋值，但as提示还是直接赋值
     var i: Int = 1
@@ -122,10 +124,12 @@ class ClassDemo9 constructor(s: String) {
     }
 }
 
+
 class Demo13 {
 
     var s: String = "哈哈"
     var s1: String
+
     // lateinit 只能修饰var的非空数据类型的属性，必须指定类型（因为lateinit的作用只是延迟初始化）
     lateinit var s2: String
     val s3: String = ""
@@ -156,6 +160,23 @@ class Demo13 {
     }
 
 }
+
+
+class User1 {
+
+    init {
+        // 初始化代码块，先于下面的构造器执行
+        println("我是init")
+    }
+
+    // 相当于一个init{}代码块，按照声明顺序，上面的init{}先执行。
+    // 只能显示声明一个主构造器，但构造代码块可以有多个。
+    constructor() {
+        println("我是constructor")
+    }
+
+}
+
 
 fun main(args: Array<String>) {
     // 知识点
