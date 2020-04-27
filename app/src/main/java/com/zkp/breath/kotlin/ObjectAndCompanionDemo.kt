@@ -1,10 +1,48 @@
 package com.zkp.breath.kotlin
 
 /**
- * 对象和伴生对象
- * 1.伴生对象相当于java工具类的作用
- * 2.对象相当于java匿名内部类，局部匿名内部类的作用，只是kotlin可以继承对象
+ * 1.object类其实就是饿汉式线程安全的单例，object修饰的类也可以实现接口；object：也可以用来创建匿名类的对象。
+ * 2.companion object伴随外部类而存在，一个类中最多只有一个伴生对象。Java 静态变量和方法的等价写法：companion object 中的变量和函数。
+ *
+ *
+ * 静态方法或者静态变量在实际使用中，在 object、companion object 和 top-level 中应如何选择：
+ * 1.如果想写工具类的功能，直接创建文件，写 top-level「顶层」函数。
+ * 2.如果需要继承别的类或者实现接口，companion object。
+ *
+ * 常量：
+ * Kotlin 的常量（const val）必须声明在对象（包括伴生对象）或者「top-level 顶层」中，因为常量是静态的。
+ * Kotlin 中只有基本类型和 String 类型可以声明成常量。
  */
+
+
+/**
+ * java的饿汉式单例
+ *
+ * public class A {
+ * private static A sInstance;
+ *      public static A getInstance() {
+ *      if (sInstance == null) {
+ *      sInstance = new A();
+ *      }
+ *      return sInstance;
+ *      }
+ *  ...
+ *  }
+ *
+ * object的意思就是创建了一个类的对象，然后调用这个对象的方法或者属性可以直接使用类名.方法/属性。
+ * 其实就是java中的单例。object个人理解其实就是一个语法糖，省略了java的单例每次调用都需要：
+ * “类名.getgetInstance().变量/方法” 中的getgetInstance（）,object类直接使用类名.变量/方法即可且不需要
+ * 额外维护一个实例变量 sInstance。
+ *
+ * 这种通过 object 实现的单例是一个饿汉式的单例，并且实现了线程安全，和 Java 相比的不同点有：
+ * 和类的定义类似，但是把 class 换成了 object 。
+ * 不需要额外维护一个实例变量 sInstance。
+ * 不需要「保证实例只创建一次」的 getInstance() 方法。
+ */
+object Sample {
+    val name = "A name"
+}
+
 
 class ObjectClass {
 
@@ -74,8 +112,17 @@ class Four {
     }
 }
 
+/**
+ * Java 中的静态变量和方法，在 Kotlin 中都放在了 companion object 中。因此 Java 中的静态初始化在 Kotlin
+ * 中自然也是放在 companion object 中的，像类的初始化代码一样，由 init 和一对大括号表示：
+ */
 class Five {
     companion object X : TempI {
+        // 静态初始化，相当于java的static代码块，只会执行一次
+        init {
+            println("伴生对象静的态初始化init{}")
+        }
+
         fun function() {
             println("伴生对象的方法")
         }
