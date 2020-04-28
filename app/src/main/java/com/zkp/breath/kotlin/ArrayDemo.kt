@@ -1,5 +1,7 @@
 package com.zkp.breath.kotlin
 
+import kotlin.reflect.jvm.internal.impl.protobuf.LazyStringArrayList
+
 /**
  * 1.Kotlin 中的数组是一个拥有泛型的类，相对于java来说就拥有了和集合一样的功能。
  * 2.Kotlin 的数组编译成字节码时使用的仍然是 Java 的数组，但在语言层面是泛型实现，这样会失去协变 (covariance) 特性，
@@ -22,6 +24,12 @@ fun main() {
     arrayOfNulls.set(0, "a")
     arrayOfNulls[1] = "b"   // 重置了get/set方法
     arrayOfNulls[2] = "c"
+    val string = arrayOfNulls.get(1)
+    val string1 = arrayOfNulls[1]
+    val first = arrayOfNulls.first()
+    val last = arrayOfNulls.last()
+    val find = arrayOfNulls.find { it.equals("b") }
+
 
     // 遍历
     arrayOfNulls.forEach { println("字符串数组内容: " + it) }
