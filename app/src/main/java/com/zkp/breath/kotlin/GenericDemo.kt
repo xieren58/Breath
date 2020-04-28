@@ -28,7 +28,8 @@ import java.io.Serializable
  *2. Java 中的 List 接口不支持协变，而 Kotlin 中的 List 接口支持协变。
  * Java 中的 List 不支持协变，原因在上文已经讲过了，需要使用泛型通配符来解决。
  *
- * 在 Kotlin 中，实际上 MutableList 接口才相当于 Java 的 List。Kotlin 中的 List 接口实现了只读操作，没有写操作，所以不会有类型安全上的问题，自然可以支持协变。
+ * 在 Kotlin 中，实际上 MutableList 接口才相当于 Java 的 List。Kotlin 中的 List 接口实现了只读操作，没有写操作，
+ * 所以不会有类型安全上的问题，自然可以支持协变。
  *
  */
 class Box<T>(t: T) {
@@ -143,6 +144,12 @@ fun main(args: Array<String>) {
     val fx1: Box<String> = Box<String>("")
     // 创建方式3，强烈推荐，可读性好
     val fx2: Box<String> = Box("")
+
+    // kotlin的List接口本身就支持协变，看接口定义。
+    val strs1: List<String> = listOf("a", "b", "c")
+    val anys: List<Any> = strs1 // success
+    // 和 List 类似，Set 同样具有 covariant（协变）特性。
+    val strSet = setOf("a", "b", "c")
 
 
     val list1: ArrayList<out Number> = ArrayList<Int>()

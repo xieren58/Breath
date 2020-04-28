@@ -7,8 +7,13 @@ import kotlin.reflect.jvm.internal.impl.protobuf.LazyStringArrayList
  * 2.Kotlin 的数组编译成字节码时使用的仍然是 Java 的数组，但在语言层面是泛型实现，这样会失去协变 (covariance) 特性，
  * 就是子类数组对象不能赋值给父类的数组变量（多态）：
  *
- * 数组，即便有自动推断类型，最好还是指定其泛型类型或者使用非包装类型的函数（intArrayOf）进行创建。这样才能
- * 避免类型强转出错。
+ *Kotlin 中数组和 MutableList 的 API 是非常像的，主要的区别是数组的元素个数不能变。那在什么时候用数组呢？
+ * 1.这个问题在 Java 中就存在了，数组和 List 的功能类似，List 的功能更多一些，直觉上应该用 List 。
+ * 但数组也不是没有优势，基本类型 (int[]、float[]) 的数组不用自动装箱，性能好一点。
+ *2.在 Kotlin 中也是同样的道理，在一些性能需求比较苛刻的场景，并且元素类型是基本类型时，用数组好一点。
+ * 不过这里要注意一点，Kotlin 中要用专门的基本类型数组类 (IntArray FloatArray LongArray) 才可以免于装箱。
+ * 也就是说元素不是基本类型时，相比 Array，用 List 更方便些。
+ *
  */
 fun main() {
 
