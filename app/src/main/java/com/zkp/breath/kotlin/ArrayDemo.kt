@@ -1,6 +1,5 @@
 package com.zkp.breath.kotlin
 
-import kotlin.reflect.jvm.internal.impl.protobuf.LazyStringArrayList
 
 /**
  * 1.Kotlin 中的数组是一个拥有泛型的类，相对于java来说就拥有了和集合一样的功能。
@@ -29,11 +28,29 @@ fun main() {
     arrayOfNulls.set(0, "a")
     arrayOfNulls[1] = "b"   // 重置了get/set方法
     arrayOfNulls[2] = "c"
+
+    // 获取方法
     val string = arrayOfNulls.get(1)
     val string1 = arrayOfNulls[1]
     val first = arrayOfNulls.first()
     val last = arrayOfNulls.last()
     val find = arrayOfNulls.find { it.equals("b") }
+
+    // 过滤，返回List集合，List支持协变，即子类型可以赋值给夫类型。
+    val filter = arrayOfNulls.filter { it.equals("") }
+    // 排序
+    arrayOfNulls.sort()
+    // 存在一个或者多个元素则返回true，没有任何一个元素则返回false
+    arrayOfNulls.any()
+    // 数组长度 （元素数量）
+    val count = arrayOfNulls.count()
+    val size = arrayOfNulls.size
+    //
+//    arrayOfNulls.flatMap {  }
+
+//    arrayOfNulls.fold()
+
+//    arrayOfNulls.groupBy {  }
 
 
     // 遍历
