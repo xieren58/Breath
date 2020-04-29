@@ -5,6 +5,8 @@ package com.zkp.breath.kotlin
 const val CONST = 22
 
 class Demo {
+
+    // var 是 variable 的缩写， val 是 value 的缩写。
     var i: Int = 2
         set(value) {
             // field幕后字段，代表该属性
@@ -46,6 +48,9 @@ class ClassDemo {
 
     }
 
+    // kotlin的方法的参数默认是val，所以该参数不能重新赋值，也不能添加val/var修饰。
+    // 而java的的参数可以添加final修饰，一般在局部匿名内部类使用外部局部变量的时候会添加。
+    // Kotlin 里这样设计的原因是保证了参数不会被修改，而 Java 的参数可修改（默认没 final 修饰）会增加出错的概率。
     fun f2(s: String) {
 
     }
