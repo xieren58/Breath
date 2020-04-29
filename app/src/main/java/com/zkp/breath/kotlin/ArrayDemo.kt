@@ -45,6 +45,10 @@ fun main() {
     // 数组长度 （元素数量）
     val count = arrayOfNulls.count()
     val size = arrayOfNulls.size
+
+    // 是否包含指定的元素
+    val contains = arrayOfNulls.contains("a")
+
     //
 //    arrayOfNulls.flatMap {  }
 
