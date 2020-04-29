@@ -13,8 +13,8 @@ package com.zkp.breath.kotlin
  *  而companion object的使用是与外部类存在某种关联才去使用。
  *
  * 常量：
- * Kotlin 的常量（const val）必须声明在对象（包括伴生对象）或者「top-level 顶层」中，因为常量是静态的。
- * Kotlin 中只有基本类型和 String 类型可以声明成常量。
+ * Kotlin 的常量（const val）必须声明在对象（包括伴生对象）或者「top-level 顶层」中，
+ * Kotlin 中只有基本类型和 String 类型可以声明成常量（防止其他类型实例后对内部的变量进行修改）。
  */
 
 
