@@ -22,8 +22,8 @@ class MethodClass {
 
     fun f2() {
         // 参数类型为可变参数，不能传入一整个数组
-        // 下面的写法相当于把数组的元素一个个传了进去
         val intArrayOf = intArrayOf(1, 2, 3)
+        // 下面的写法相当于把数组的元素一个个传了进去
         f1(*intArrayOf)
     }
 
@@ -70,12 +70,14 @@ class MethodClass {
      * 声明一个匿名函数，这里用表达式来表示函数体
      */
     var test3 = fun(x: Int, y: Int): Int = x + y
+
     /**
      * 声明一个匿名函数，这里用代码块来表示函数体
      */
     var test4 = fun(x: Int, y: Int): Int {
         return x + y
     }
+
     /**
      * 声明一个匿名函数，当返回值类型可以推断出，可以省略
      */
