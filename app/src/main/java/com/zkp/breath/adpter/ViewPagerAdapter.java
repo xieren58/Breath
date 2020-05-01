@@ -1,5 +1,6 @@
 package com.zkp.breath.adpter;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -29,5 +30,6 @@ public class ViewPagerAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         helper.setText(R.id.tv, item);
         View convertView = helper.getConvertView();
         convertView.setBackgroundColor(colors[i]);
+        Log.i("vp2", "convert: " + helper.getAdapterPosition() + ",背景图内存地址:" + convertView);
     }
 }

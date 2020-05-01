@@ -24,13 +24,21 @@ class ViewPager2Activity : BaseActivity() {
     }
 
     private fun initView() {
-        val arrayListOf = arrayListOf<String>("ViewPager2_A", "ViewPager2_B", "ViewPager2_C")
+        val arrayListOf = arrayListOf("ViewPager2_A",
+                "ViewPager2_B", "ViewPager2_C", "ViewPager2_D", "ViewPager2_E",
+                "ViewPager2_F", "ViewPager2_G", "ViewPager2_H", "ViewPager2_I"
+        )
+
         val viewpager2 = binding.viewpager2
         // 设置方向
         viewpager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         val viewPagerAdapter = ViewPagerAdapter(arrayListOf)
         // 设置适配器
         viewpager2.adapter = viewPagerAdapter
+        /**
+         * 找不出规律
+         */
+        viewpager2.offscreenPageLimit = 1
         // 注册监听器
         viewpager2.registerOnPageChangeCallback(onPageChangeCallback)
 
