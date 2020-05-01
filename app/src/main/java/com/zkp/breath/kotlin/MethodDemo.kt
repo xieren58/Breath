@@ -43,6 +43,21 @@ class MethodClass {
         return body()
     }
 
+    // lambda表达式的参数是泛型，可以省略参数名。
+//    fun <T> filter1(t: T, body: (t : T) -> T): T {
+    fun <T> filter1(t: T, body: (T) -> T): T {
+        return body(t)
+    }
+
+    fun <T> filter1(t: T, body: (T, T) -> T): T {
+        return body(t, t)
+    }
+
+    // 这里的this表示扩展函数的调用者
+    fun <T> T.filter2(body: (T) -> T): T {
+        return body(this)
+    }
+
     fun <T> lock(t: Int, body: () -> T): T {
         return body()
     }
@@ -90,6 +105,7 @@ class MethodClass {
 
     // 改写 （简写）
     var add = { x: Int, y: Int -> x + y }
+
     // 声明比较详细的写法
 // add1的类型为字面函数(Int, Int) -> Int，接受两个Int参数，返回值为Int
     var add1: (Int, Int) -> Int = { x: Int, y: Int -> x + y }
@@ -211,14 +227,24 @@ fun main() {
 
     val methodClass = MethodClass()
 
-    methodClass.lambad1 { s, s1 -> s + s1 }     // 知道了类型，可以省略
-    methodClass.lambad1 { s: Int, s1: Int -> s + s1 }     // 最完整的写法，类型也写上
+    methodClass.lambad1 { s, s1 -> s + s1 }     // 知道了类型，可以省略,切记参数不用加括号！！！！
+    methodClass.lambad1 { s: Int, s1: Int -> s + s1 }     // 最完整的写法，类型也写上，切记参数不用加括号！！！！
     methodClass.lambad2 { (s, s1) -> s + s1 }   // 知道了类型，可以省略。注意这里加了圆括号，因为Pair有组建函数ComponetN,所以这里是解构声明的写法
     methodClass.lambad2 { (s, s1): Pair<Int, Int> -> s + s1 }   // 最完整的写法，类型也写上。注
 
     val body = { "我们" }
     val filter = methodClass.filter(body)
+    val filter1 = methodClass.filter { "我们" }
     println(filter)
+
+    methodClass.filter1("", { str -> str + "扩展的部分" })
+    methodClass.filter1(1, { i -> i + 2 })
+    val filter1Body: (Int) -> Int = { i -> i + 2 }
+    methodClass.filter1(1, filter1Body)
+
+    val filter1Body2: (String, String) -> String = { str1, str2 -> str1 + str2 }
+    methodClass.filter1("", { str1, str2 -> str1 + str2 })
+    methodClass.filter1("", filter1Body2)
 
 
     val xxww1 = methodClass.filter {
