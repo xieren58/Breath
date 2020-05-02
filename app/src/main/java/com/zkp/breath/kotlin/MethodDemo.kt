@@ -13,20 +13,6 @@ class MethodClass {
         println("打印属性s: ${s}")
     }
 
-    // 可变参数
-    fun f1(vararg range: Int) {
-        for (i in range) {
-            println("元素：${i}")
-        }
-    }
-
-    fun f2() {
-        // 参数类型为可变参数，不能传入一整个数组
-        // 下面的写法相当于把数组的元素一个个传了进去
-        val intArrayOf = intArrayOf(1, 2, 3)
-        f1(*intArrayOf)
-    }
-
     // 含有lambad和普通函数的区别：
     // 普通函数是准备好了逻辑，差参数；lambad是准备好了参数，差逻辑
     fun lambad1(body: (a: Int, b: Int) -> Int) {   // 函数类型，lambda表达式
@@ -63,24 +49,6 @@ class MethodClass {
         }
         return result
     }
-
-    /**
-     * 匿名函数，没有名字，其他语法和常规函数类似
-     *
-     * 声明一个匿名函数，这里用表达式来表示函数体
-     */
-    var test3 = fun(x: Int, y: Int): Int = x + y
-    /**
-     * 声明一个匿名函数，这里用代码块来表示函数体
-     */
-    var test4 = fun(x: Int, y: Int): Int {
-        return x + y
-    }
-    /**
-     * 声明一个匿名函数，当返回值类型可以推断出，可以省略
-     */
-    var test5 = fun(x: Int, y: Int) = x + y
-
 
     fun add(x: Int, y: Int): Int {
         return x + y
@@ -135,7 +103,7 @@ class MethodClass {
     @RequiresApi(Build.VERSION_CODES.O)
     fun use() {
         val newInputStream = Files.newInputStream(Paths.get(""))
-        val byte = newInputStream.use({ newInputStream.read() })
+        val byte = newInputStream.use { newInputStream.read() }
     }
 
     fun repeat() {
@@ -157,40 +125,6 @@ fun isOdd(x: Int) = x % 2 != 0
 fun customPrint(b: Boolean) {}
 
 fun customPrint(b: (Int) -> Boolean) {}
-
-// 可变参数
-// 在函数内，类型为 T 的 vararg 参数被视作一个 T 的数组，也就是说，变量 ts 的类型是 Array<out T>。一般放在参数列表的最后一个
-// 调用 vararg 函数时，可以一个一个传参，例如，asList<1, 2, 3>，或者，如果要传递一个数组的内容，可以用 spread 操作符（数组前面加个 *）：
-fun <T> asList(vararg ts: T): List<T> {
-    val result = ArrayList<T>()
-    for (t in ts)   // ts is an Array
-        result.add(t)
-    return result
-}
-
-/**
- * 用 infix 关键字标记的函数可以使用中缀符号调用（调用可省略点号和括号）。中缀函数需要满足如下条件：
- * 函数是成员函数或扩展函数；
- * 函数只有一个参数
- * 参数不能接受可变数量的参数并且不能拥有默认值。
- *
- * 中缀函数调用的优先级低于算术运算符、类型转换和 rangeTo 操作符。
- * 中缀函数调用的优先级要高于布尔运算 && 和 ||，is 和 in 检查，以及其他操作符。
- */
-infix fun Int.shl(x: Int): Int {
-    return this * x
-}
-
-class MyStringCollection {
-    infix fun add(s: String) { /* ... */
-    }
-
-    fun build() {
-        this add "abc"  // 省略了点号和括号的调用方式
-        add("abc")    // 和调用普通方法一样的方式
-//        add "abc"   // 如果是中缀函数的调用方式不能省略调用方，而此处的调用方是this
-    }
-}
 
 /**
  * Kotlin支持局部函数,也就是说函数可以嵌套。
@@ -254,14 +188,6 @@ fun main() {
     val lock24 = methodClass.lock2(1) { null }
     println()
 
-    println(methodClass.test3(1, 2))
-    println(methodClass.test4(1, 2))
-    println(methodClass.test5(1, 2))
-    println()
-
-    println(methodClass.add(1, 2))
-    println()
-
     // apply: 可以认为是进行初始化操作的书写区域，返回值是调用者本身，有点链式模式的意味
     methodClass.apply { s = "字符串" }.printlnS()
 
@@ -286,11 +212,6 @@ fun main() {
     // 用一个变量存放函数引用也是可以的
     val kFunction1 = ::isOdd
     customPrint(kFunction1)
-
-    val list = asList(1, 2, 3)
-    val a = arrayOf(1, 2, 3)
-    // 如果要传递一个数组的内容，可以用 spread 操作符（数组前面加个 *）：
-    val list1 = asList(-1, 0, *a, 4)
 
     // 中缀函数
     1 shl 2 // 可以省略点号和括号
