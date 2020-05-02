@@ -86,11 +86,9 @@ class MethodClass {
         return x + y
     }
 
-    // 改写 （简写）
     var add = { x: Int, y: Int -> x + y }
-    // 声明比较详细的写法
-// add1的类型为字面函数(Int, Int) -> Int，接受两个Int参数，返回值为Int
     var add1: (Int, Int) -> Int = { x: Int, y: Int -> x + y }
+    var add12: (Int, Int) -> Int = { x, y -> x + y }
 
     fun myLet(s: String): Int {
         // let : 默认当前这个对象作为闭包的it参数，返回值是函数里面的最后一行。
@@ -240,17 +238,20 @@ fun main() {
     // 变量声明的形式
     val lockBody: () -> String = { "我们" }
     val lock1 = methodClass.lock(1, lockBody)
+    methodClass.lock(1) { 1 }
     println()
 
     // 返回类型为可null，能够自动推出类型
     val bodyLock2: String? = methodClass.lock2(1, { "我们" })
-    // 传入函数参数null，不能自动推出类型，所以调用的时候要声明泛型类型
+    // 传入函数参数null.
     val lock22 = methodClass.lock2<String>(1, null)
     // 函数类型声明，函数类型字面量。
     val body1: (() -> String)? = null
     val body2: (() -> String)? = { "我们" }
     val lock2 = methodClass.lock2(1, body1)
     val lock21 = methodClass.lock2(1, body2)
+    val lock23 = methodClass.lock2(1) { "我们" }
+    val lock24 = methodClass.lock2(1) { null }
     println()
 
     println(methodClass.test3(1, 2))
