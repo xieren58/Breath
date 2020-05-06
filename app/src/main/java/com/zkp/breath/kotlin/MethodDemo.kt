@@ -120,11 +120,6 @@ fun comboTwoValue(a: Int, b: Int, method: (a: Int, b: Int) -> Int): Int {
     return method(a, b)
 }
 
-fun isOdd(x: Int) = x % 2 != 0
-
-fun customPrint(b: Boolean) {}
-
-fun customPrint(b: (Int) -> Boolean) {}
 
 /**
  * Kotlin支持局部函数,也就是说函数可以嵌套。
@@ -203,14 +198,5 @@ fun main() {
     comboTwoValue(3, 4, Math::min)
     comboTwoValue(3, 4, { a, b -> Math.min(a, b) })
     println()
-
-
-    // 普通的方法调用
-    customPrint(isOdd(555))
-    // 函数引用，这里的::isOdd是函数类型b : (Int) -> Boolean的一个值
-    customPrint(::isOdd)
-    // 用一个变量存放函数引用也是可以的
-    val kFunction1 = ::isOdd
-    customPrint(kFunction1)
 
 }
