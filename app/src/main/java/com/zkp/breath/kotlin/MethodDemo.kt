@@ -213,7 +213,4 @@ fun main() {
     val kFunction1 = ::isOdd
     customPrint(kFunction1)
 
-    // 中缀函数
-    1 shl 2 // 可以省略点号和括号
-    1.shl(2)
 }
