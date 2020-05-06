@@ -6,7 +6,13 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
 
     <application
         android:name=".BaseApplication"
@@ -24,6 +30,13 @@
         <meta-data
             android:name="design_height_in_dp"
             android:value="640" />
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5eb27e0adbc2ec0856ab2f34" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Breath" />
 
         <activity android:name=".component.activity.ActivitySplash">
             <intent-filter>
@@ -154,6 +167,7 @@
 
         <activity android:name=".component.activity.kotlin.CoroutinesActivity" />
 
+        <activity android:name=".component.activity.AudioRecordActivity" />
 
         <service
             android:name=".component.service.IntentServiceA"

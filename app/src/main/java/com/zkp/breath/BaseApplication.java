@@ -1,6 +1,8 @@
 package com.zkp.breath;
 
 
+import android.util.DebugUtils;
+
 import androidx.multidex.MultiDexApplication;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -8,6 +10,8 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ProcessUtils;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.github.moduth.blockcanary.BlockCanaryContext;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 
 /**
@@ -24,7 +28,16 @@ public class BaseApplication extends MultiDexApplication {
             // 初始化界面卡顿检查工具
             BlockCanary.install(this, new BlockCanaryContext()).start();
             initARouter();
+
+            initUMConfigure();
         }
+    }
+
+    private void initUMConfigure() {
+        UMConfigure.init(this, "5eb27e0adbc2ec0856ab2f34", "Breath", UMConfigure.DEVICE_TYPE_PHONE, "");
+        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
+        // 选用AUTO页面采集模式
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
     }
 
     private void initARouter() {

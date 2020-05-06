@@ -52,3 +52,13 @@ public static java.lang.String TABLENAME;
 -keep interface * implements com.alibaba.android.arouter.facade.template.IProvider
 # If single-type injection is used, that is, no interface is defined to implement IProvider, the following rules need to be added to protect the implementation
 -keep class * implements com.alibaba.android.arouter.facade.template.IProvider
+
+# 友盟
+-keep class com.umeng.** {*;}
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}

@@ -12,6 +12,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
+import com.umeng.analytics.MobclickAgent
 import me.jessyan.autosize.AutoSizeConfig
 
 
@@ -82,6 +83,11 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
     override fun onResume() {
         super.onResume()
         Log.i(TAG, "onResume()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i(TAG, "onPause()")
     }
 
     /**
