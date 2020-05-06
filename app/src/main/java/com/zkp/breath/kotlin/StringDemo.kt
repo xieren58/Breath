@@ -2,9 +2,11 @@ package com.zkp.breath.kotlin
 
 fun main() {
     val s = "abc"
-    // 重写了get/set方法
-    print(s[0])
+
+    // 相当于java的String的index()
+    print(s[0]) // 相当于调用了下面的方法
     print(s.get(0))
+
     for (c in s) {
         println("遍历字符: $c")
     }
