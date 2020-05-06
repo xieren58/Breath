@@ -3,7 +3,7 @@ package com.zkp.breath.kotlin
 /**
  * 可变参数：vararg关键字修饰的参数，其实相当于一个数组（Array<out T>），修饰的参数只能是参数列表的最后一个。
  *
- * 伸展操作符（spread operator）：一般的应用场景是传递数组的元素都可变参数中。
+ * 伸展操作符（spread operator）：在数组名前加一个“*”，一般的应用场景是传递数组的元素都可变参数中。
  */
 
 
