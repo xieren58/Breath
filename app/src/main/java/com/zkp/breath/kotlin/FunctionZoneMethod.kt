@@ -144,4 +144,7 @@ fun main() {
     val oddOrNull = number1.takeUnless { it % 2 == 0 }
     println("even: $evenOrNull, odd: $oddOrNull")
 
+    // 执行次数重复执行一个闭包（和for效果一样，比for更加简洁）
+    repeat(8) { println("重复执行8次") }
+
 }
