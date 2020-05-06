@@ -5,24 +5,31 @@ import androidx.annotation.RequiresApi
 import java.nio.file.Files
 import java.nio.file.Paths
 
+/**
+ * lambad和普通函数的区别：普通函数是准备好了逻辑，差参数；lambad是准备好了参数，差逻辑。
+ */
 class MethodClass {
 
     fun printlnS() {
         println("打印属性")
     }
 
-    // 含有lambad和普通函数的区别：
-    // 普通函数是准备好了逻辑，差参数；lambad是准备好了参数，差逻辑
-    fun lambad1(body: (a: Int, b: Int) -> Int) {   // 函数类型，lambda表达式
-        // 传入相应的参数调用该参数（函数类型）
+    // 函数类型常见写法1
+    fun lambad1(body: (a: Int, b: Int) -> Int) {
         println(body(3, 4))
     }
 
-    // 一个参数。解构声明的调用方式其实也是一个参数，注意圆括号，不能看成是两个参数
-    fun lambad2(body: (p: Pair<Int, Int>) -> Int) {
-        val body1 = body(Pair<Int, Int>(1, 2))
+    // 函数类型写法2，函数类型的参数名可以省略。
+    fun lambad2(body: (Int, Int) -> Int) {
+        println(body(3, 4))
     }
 
+    // 函数类型的参数类型为data类
+    fun lambad2(body: (p: Pair<Int, Int>) -> Int): Int {
+        return body(Pair<Int, Int>(1, 2))
+    }
+
+    //
     fun <T> filter(body: () -> T): T {
         return body()
     }
@@ -47,14 +54,6 @@ class MethodClass {
         }
         return result
     }
-
-    fun add(x: Int, y: Int): Int {
-        return x + y
-    }
-
-    var add = { x: Int, y: Int -> x + y }
-    var add1: (Int, Int) -> Int = { x: Int, y: Int -> x + y }
-    var add12: (Int, Int) -> Int = { x, y -> x + y }
 
     fun myLet(s: String): Int {
         // let : 默认当前这个对象作为闭包的it参数，返回值是函数里面的最后一行。
