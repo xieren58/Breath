@@ -24,7 +24,7 @@ class ActivitySplash : AppCompatActivity() {
     }
 
     private fun requestPermission() {
-        PermissionUtils.permission(PermissionConstants.STORAGE)
+        PermissionUtils.permission(PermissionConstants.STORAGE, PermissionConstants.MICROPHONE)
                 .rationale(object : PermissionUtils.OnRationaleListener {
                     override fun rationale(shouldRequest: PermissionUtils.OnRationaleListener.ShouldRequest?) {
                         Log.i(TAG, "rationale")
