@@ -7,10 +7,8 @@ import java.nio.file.Paths
 
 class MethodClass {
 
-    var s = ""
-
     fun printlnS() {
-        println("打印属性s: ${s}")
+        println("打印属性")
     }
 
     // 含有lambad和普通函数的区别：
@@ -184,7 +182,7 @@ fun main() {
     println()
 
     // apply: 可以认为是进行初始化操作的书写区域，返回值是调用者本身，有点链式模式的意味
-    methodClass.apply { s = "字符串" }.printlnS()
+    methodClass.apply { "字符串" }.printlnS()
 
 
     // 引用方式1, ”::"一元操作符要写在函数名前面，圆括号包裹
