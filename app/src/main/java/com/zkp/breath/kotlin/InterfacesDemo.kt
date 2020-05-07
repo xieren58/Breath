@@ -10,11 +10,10 @@ interface AS2 {
     fun ss() {}
 }
 
-// 知识点4
-class AsImp : AS, AS2 {
-    // 实现的接口存在相同方法一定要重写
+// 实现的接口存在相同方法一定要重写,即便实现类是抽象类或者接口。
+interface AsImp : AS, AS2 {
     override fun ss() {
-        // 调用父类的方法
+        // 调用父类的方法，要在
         super<AS>.ss()
     }
 }
