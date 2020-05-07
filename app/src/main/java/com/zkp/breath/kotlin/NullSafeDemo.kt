@@ -57,6 +57,20 @@ fun tes4_C(): String? {
     return null
 }
 
+
+fun test(s: String?): Unit? {
+    val s1 = s ?: return null
+
+    val length = s1.length
+    val c = s1[0]
+    s1.plus("ss")
+    for (ss in s1) {
+        println("$ss")
+    }
+
+    return null
+}
+
 /**
  * 因为 throw 和 return 在 Kotlin 中都是表达式，所以它们也可以用在 elvis 操作符右侧。这可能会非常方便，例如，检测函数参数
  */
@@ -65,7 +79,7 @@ fun tes4(): String? {
 
 
     val tes4C = tes4_C()
-    if(tes4C == null) return null
+    if (tes4C == null) return null
 
 
     // throw 表达式的类型是特殊类型 Nothing
