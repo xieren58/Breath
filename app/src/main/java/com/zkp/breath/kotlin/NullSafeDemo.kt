@@ -2,8 +2,15 @@ package com.zkp.breath.kotlin
 
 
 /**
- * 可空类型的集合
+ * 可空安全操作符（?.）：如果使用一个可null的类型的变量去调用其成员的时候，要在点号前面加上?表示这个变量有可能为null，
+ * 而当这个变量为null的时候是不会去调用其成员的，这样就不会出现java的NPE（空指针异常）。
+ *
+ * ?:：配合空安全操作符使用，当变量为null的时候会执行?:后面的逻辑。
+ *
+ * 非空断言运算符(!!),若该值为空则抛出异常（NPE 异常）,否则将值转换为非空类型。
  */
+
+
 fun test() {
     // 可空类型的集合，List是允许存放null的
     val listWithNulls: List<String?> = listOf("Kotlin", null)
@@ -42,7 +49,7 @@ fun test2() {
  */
 fun test3() {
     val b: String? = ""
-    val l = if (b != null) b.length else -1
+    val l = if (b != null) b.length else -1 // 这种用法类似java的三目运算符
     val l2 = b?.length ?: -1
 }
 
@@ -55,6 +62,11 @@ fun tes4_C(): String? {
  */
 fun tes4(): String? {
     val parent = tes4_C() ?: return null
+
+
+    val tes4C = tes4_C()
+    if(tes4C == null) return null
+
 
     // throw 表达式的类型是特殊类型 Nothing
     // 在你自己的代码中，你可以使用 Nothing 来标记一个永远不会返回的函数，编译器会知道在该调用后就不再继续执行了
@@ -71,7 +83,6 @@ fun tes4(): String? {
 
 /**
  *非空断言运算符(!!),若该值为空则抛出异常（NPE 异常）,否则将值转换为非空类型
- *
  */
 fun test5(b: String?) {
     val l = b!!.length
