@@ -1,5 +1,9 @@
 package com.zkp.breath.kotlin
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.nio.file.Files
+import java.nio.file.Paths
 import kotlin.random.Random
 
 /**
@@ -44,6 +48,12 @@ class FunctionZoneMethodClass(var name: String = "", var age: Int = 10, var city
         age++
     }
 
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun use() {
+    val newInputStream = Files.newInputStream(Paths.get(""))
+    val byte = newInputStream.use { newInputStream.read() }
 }
 
 fun main() {
