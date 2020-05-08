@@ -10,9 +10,6 @@ import java.nio.file.Paths
  */
 class MethodClass {
 
-    fun printlnS() {
-        println("打印属性")
-    }
 
     // 函数类型常见写法1
     fun lambad1(body: (a: Int, b: Int) -> Int) {
@@ -73,13 +70,27 @@ class MethodClass {
         return body(t, t, t)
     }
 
+    fun <T> filter2(t: T, body: (T) -> T) {
+        t.filter2(body)
+    }
+
+    // 类中的扩展函数调用需要一个中转方法调用
     // 这里的this表示扩展函数的调用者
     fun <T> T.filter2(body: (T) -> T): T {
         return body(this)
     }
 
-    fun <T> lock(t: Int, body: () -> T): T {
-        return body()
+    fun <T> lock(t: Int, body: (Int) -> T): T {
+        return body(t)
+    }
+
+    /**
+     * 函数类型中的函数参数声明为泛型，那么调用的时候传入的类型应该也为泛型，不能为其他类型（类型不匹配），否则编译不通过。
+     * 不要多想，记得就行。
+     */
+    fun <T> lock(t11: Int, t: T, body: (T) -> T) {
+        val body1 = body(t)
+//        val body11 = body(t11)    // 类型不匹配
     }
 
     // lambda 表达式，即函数类型的字面量（看例子的调用方式就知道）
@@ -161,19 +172,16 @@ fun main() {
     val xxww2 = methodClass.filter {
         val s: String = "我们"
         val s1: String = "你们"
-        // 返回值，作用的范围为filter方法
+        // 返回值，作用的范围为filter方法，否则会结束main方法。
         return@filter s + s1
     }
     println(xxww2)
 
-    // 普通的调用方式
-    val lock = methodClass.lock(1, { "我们" })
-    // lambd表达式也是一个函数类型，也可以如下调用
-    // 变量声明的形式
-    val lockBody: () -> String = { "我们" }
-    val lock1 = methodClass.lock(1, lockBody)
-    methodClass.lock(1) { 1 }
-    println()
+    methodClass.filter2<String>("我们") { s -> s + "拼接字段" }
+
+
+    val lock = methodClass.lock<String>(1) { i -> "hello to myself:$i" }
+
 
     // 返回类型为可null，能够自动推出类型
     val bodyLock2: String? = methodClass.lock2(1, { "我们" })
