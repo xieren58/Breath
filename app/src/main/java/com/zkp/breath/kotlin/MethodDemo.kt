@@ -24,6 +24,33 @@ class MethodClass {
         println(body(3, 4))
     }
 
+
+    /**
+     * 函数重载的定义和java一样，参数类型不一致或者数量不同都可视为重载。
+     * 但在kotlin注意，lambda表达式都是函数类型，即便你定义的函数类型中的参数个数相同，那么即便类型或者返回值不一致
+     * 也是重载不类的，但是如果函数类型中的参数个数不同，无论类型或者返回值是否相同都可以重载成功。
+     */
+    fun lambad2(body: (a: String, b: String) -> String, s: String) {
+
+    }
+
+    // 不可重载
+//    fun lambad2(body: (a: Int, b: Int) -> Int, s: String) {
+//
+//    }
+
+    fun lambad2(s: String, body: (a: String, b: String) -> String) {
+
+    }
+
+    fun lambad2(s: String, body: (a: String, b: String, c: String) -> String) {
+
+    }
+
+    fun lambad2(s: String, body: (a: String, b: String, c: String, d: String) -> Int) {
+
+    }
+
     // 函数类型的参数类型为data类
     fun lambad2(body: (p: Pair<Int, Int>) -> Int): Int {
         return body(Pair<Int, Int>(1, 2))
@@ -34,14 +61,16 @@ class MethodClass {
         return body()
     }
 
-    // lambda表达式的参数是泛型，可以省略参数名。
-//    fun <T> filter1(t: T, body: (t : T) -> T): T {
     fun <T> filter1(t: T, body: (T) -> T): T {
         return body(t)
     }
 
     fun <T> filter1(t: T, body: (T, T) -> T): T {
         return body(t, t)
+    }
+
+    fun <T> filter1(t: T, body: (T, T, T) -> T): T {
+        return body(t, t, t)
     }
 
     // 这里的this表示扩展函数的调用者
