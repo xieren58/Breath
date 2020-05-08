@@ -14,7 +14,7 @@ interface AS {
     fun ss() {}
 
     fun ss2() {
-        println("kotlin的方法可以存在默认实现")
+        println("kotlin的方法可以存在默认实现，实现类可以不用重写")
     }
 
 }
