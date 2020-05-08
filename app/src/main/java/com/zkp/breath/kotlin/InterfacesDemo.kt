@@ -1,9 +1,22 @@
 package com.zkp.breath.kotlin
 
-interface AS {
-    fun ss() {
+/**
+ * 1.当实现多个接口中存在相同的方法时候，实现类调用接口的方法的时候要在super关键字后面加上"<接口名>"，如果不存在相同
+ * 方法可以写也可以不写（一般都省略不写）。
+ * 2.接口的属性默认都是抽象的，所以不允许初始化值,但是可以实现属性的get/set访问器（var要实现get/set,而val要实现get，相当于伪抽象）
+ * ，访问器中不允许有幕后字段，实现类可以使用override关键字重写父属性，重写后需要进行初始化，如果父接口属性存在get方
+ * 法则可以不初始化但是需要实现get方法且指向父属性。（和java不同的是java的接口累的属性都是常量。）
+ * 3.接口的方法可以有默认实现，默认实现的方法可视为非抽象所以实现类可以不重写，而java的方法都是抽象的。
+ *
+ */
 
+interface AS {
+    fun ss() {}
+
+    fun ss2() {
+        println("kotlin的方法可以存在默认实现，实现类可以不用重写")
     }
+
 }
 
 interface AS2 {
@@ -13,26 +26,29 @@ interface AS2 {
 // 实现的接口存在相同方法一定要重写,即便实现类是抽象类或者接口。
 interface AsImp : AS, AS2 {
     override fun ss() {
-        // 调用父类的方法，要在
+        // 多个父类存在相同的方法，调用父类的方法，要在super关键字后面加上"<父类名/接口名>"
         super<AS>.ss()
     }
 }
 
-// 知识点5
 class AsImp2 : AS {
     override fun ss() {
+        // 没有实现多个接口且接口不存在相同的方法，可以省略super关键字后面的"<父类名/接口名>"
         super.ss()
     }
 }
 
 /**
- * 接口中的属性只能是抽象的，不允许初始化值
+ * 接口中的属性只能是抽象的，不允许初始化值,但是可以实现属性的get/set方法，相当于伪抽象。
+ * 和java不同的是java的接口累的属性都是常量。
  */
 interface A1 {
+    // 接口的var属性实现访问器的时候set/get都要实现，不能只实现一个。接口中的规定就是这样，别问为什么
     var a: String
         get() = "我们"
         set(value) {}
 
+    // 接口的val属性实现访问器只用实现get访问器
     val bb: String
         get() = "你们"
 
@@ -41,8 +57,10 @@ interface A1 {
 
 class B1 : A1 {
 
+    // 重写后需要初始化
     override var a: String = ""
 
+    // 没有初始化值，但是重写get方法后指向父类属性相当于初始化
     override val bb: String
         get() = super.bb
 

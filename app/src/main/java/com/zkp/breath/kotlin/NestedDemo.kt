@@ -4,9 +4,7 @@ package com.zkp.breath.kotlin
 class NestedClass {
 
     // 嵌套类，相当于java的静态内部类
-    class StaticClass {
-
-    }
+    class StaticClass
 }
 
 // 知识点2
@@ -25,18 +23,54 @@ class Outer {
     }
 }
 
+
+open class Foo {
+    open fun f() {
+        println("Foo.f()")
+    }
+
+    open val x: Int get() = 1
+}
+
+class Bar : Foo() {
+    override fun f() {
+    }
+
+    override val x: Int get() = 0
+
+    inner class Baz {
+        fun g() {
+            /**
+             * this@Bar ，获取外部类的对象后调用其成员
+             */
+            val bar = this@Bar
+            bar.f()
+            bar.x
+
+            /**
+             *  super@Bar 获取外部类的父类对象后调用其成员
+             */
+            super@Bar.f()
+            super@Bar.x
+        }
+    }
+}
+
 // 知识点3
 class Test {
     var v = "成员属性"
     // 成员匿名内部类
     val ss = object : TestInterFace {
         override fun test() {
-            //var zz = this@Test
-            // print(zz.v)
-            print(v)  // 个人感觉就是类似上面的写法，只是帮我们自动转换了而已
+            // 获取外部对象后调用外部成员
+            var zz = this@Test
+            print(zz.v)
+
+            // 个人感觉就是类似上面的写法，只是帮我们自动转换了而已
+            print(v)
         }
 
-        // 匿名内部类声明的方法，只能匿名内部类内部调用，外部无法调用
+        // 匿名内部类声明的方法，只能匿名内部类内部调用，外部无法调用。这点和java一样。
         fun xxx() {
 
         }
@@ -67,7 +101,7 @@ class Test {
         // 方法4,直接调用
         // 匿名内部类其实就是一个已经实例化的对象，而此时这个对象又是成员变量，那么可以调用其内部方法
         ss.test()
-
+//        ss.xxx()    // 匿名类自定义的方法只能内部自己调用，外部无法调用。这点和java一样
     }
 }
 
@@ -76,29 +110,6 @@ class Test {
  */
 interface TestInterFace {
     fun test()
-}
-
-// 知识点4
-open class Foo {
-    open fun f() {
-        println("Foo.f()")
-    }
-
-    open val x: Int get() = 1
-}
-
-class Bar : Foo() {
-    override fun f() { /* …… */
-    }
-
-    override val x: Int get() = 0
-
-    inner class Baz {
-        fun g() {
-            super@Bar.f() // 调用 Foo 实现的 f()
-            println(super@Bar.x) // 使用 Foo 实现的 x 的 getter
-        }
-    }
 }
 
 
