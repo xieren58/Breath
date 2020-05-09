@@ -24,6 +24,24 @@ fun label() {
     }
 }
 
+
+/**
+ * 非内联函数的lambda表达式是不允许调用return的
+ */
+fun foo(body: () -> Unit) {
+    ordinaryFunction {
+        println("表达式退出")
+//        return    // 非内联函数的lambda表达式不允许调用return
+    }
+    println("end")
+}
+
+fun ordinaryFunction(block: () -> Unit) {
+    block.invoke()
+}
+
+
+
 // 注意，这种非局部的返回只支持传给内联函数的 lambda 表达式。
 fun foo() {
     listOf(1, 2, 3, 4, 5).forEach {
