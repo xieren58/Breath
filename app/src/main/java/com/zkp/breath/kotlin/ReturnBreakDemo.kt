@@ -26,12 +26,13 @@ fun label() {
 
 
 /**
- * 非内联函数的lambda表达式是不允许调用return的
+ * 非内联函数的lambda表达式是不允许直接return
  */
-fun foo(body: () -> Unit) {
+fun return1() {
     ordinaryFunction {
         println("表达式退出")
-//        return    // 非内联函数的lambda表达式不允许调用return
+//        return    // 非内联函数的lambda表达式不允许直接return
+        return@ordinaryFunction // 退出lambda表达式
     }
     println("end")
 }
@@ -40,6 +41,33 @@ fun ordinaryFunction(block: () -> Unit) {
     block.invoke()
 }
 
+/**
+ * 内联函数的lambda表达式可以直接return
+ */
+fun return2() {
+    ordinaryFunction1 {
+        return@ordinaryFunction1    // 退出到ordinaryFunction1
+    }
+
+    // 因为该函数的lambda存在返回值，但是不能 return@ordinaryFunction2。
+    // 可以return 是因为该函数是inline函数, 这里的return是结束整个return2函数，是允许的。
+    // 不能return@ordinaryFunction2是因为该lambda表达式有返回值，不能直接跳出。
+    ordinaryFunction2 {
+        ""
+    }
+
+    ordinaryFunction1 {
+        return  // 退出return2函数，即该函数结束
+    }
+}
+
+inline fun ordinaryFunction1(block: () -> Unit) {
+    block.invoke()
+}
+
+inline fun ordinaryFunction2(block: () -> String) {
+    block.invoke()
+}
 
 
 // 注意，这种非局部的返回只支持传给内联函数的 lambda 表达式。
