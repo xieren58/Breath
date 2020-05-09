@@ -209,6 +209,8 @@ fun main() {
     arrayOf(3, 4, 5).filter(::isEven)
     // 引用方式2，花阔号包裹
     arrayOf(3, 4, 5).filter {
+        //        i -> isEven(i)
+        // 相当于上面的写法，只是当函数类型参数只有一个参数的时候可以省略不写，使用it代替。
         isEven(it)
     }
     println()
@@ -217,8 +219,9 @@ fun main() {
     arrayOf("你", "我", "ta").filter("你"::equals)
     println()
 
+    // 创建函数对象（函数引用）后作为参数传递，而min方法又是静态方法，所以：：前面要加上类名
     comboTwoValue(3, 4, Math::min)
-    comboTwoValue(3, 4, { a, b -> Math.min(a, b) })
+    comboTwoValue(3, 4) { a, b -> Math.min(a, b) }
     println()
 
 }
