@@ -29,6 +29,7 @@ fun main() {
 
     for (i in 1..4) print(i) // 输出“1234”
 
+    // downTo N,表示逆向且到N
     for (i in 4 downTo 1) print(i)  // 逆向输出4321
 
     val x = 20
