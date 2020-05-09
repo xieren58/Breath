@@ -1,9 +1,5 @@
 package com.zkp.breath.kotlin
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import java.nio.file.Files
-import java.nio.file.Paths
 
 /**
  * lambad和普通函数的区别：普通函数是准备好了逻辑，差参数；lambad是准备好了参数，差逻辑。
