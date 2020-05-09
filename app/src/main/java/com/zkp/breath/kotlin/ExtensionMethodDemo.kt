@@ -168,9 +168,8 @@ fun String?.toString(): String {
 // ======================================================
 
 // 扩展属性
-// 扩展属性允许定义在类或者kotlin文件中，不允许定义在函数中，扩展属性不能有初始化器，没有后端字段field。
+// 扩展属性允许定义在类或者kotlin文件中，不允许定义在函数中，扩展属性只能被声明为 val,扩展属性不能有初始化器，没有后端字段field。
 // 不能有初始化是因为扩展的前提是当前类存在，而这个属性应该指向其他资源，如果扩展属性有初始器那么就表明这个对象早已被创建。
-// 只能由显式提供的 setter 定义，扩展属性只能被声明为 val
 val <T> List<T>.lastIndex: Int
     get() = size
 
@@ -219,7 +218,9 @@ class MyClass {
 }
 
 class Host(val hostname: String) {
-    fun printHostname() { print(hostname) }
+    fun printHostname() {
+        print(hostname)
+    }
 }
 
 /**
@@ -228,7 +229,9 @@ class Host(val hostname: String) {
  */
 class Connection(val host: Host, val port: Int) {
 
-    fun printPort() { print(port) }
+    fun printPort() {
+        print(port)
+    }
 
     fun printHostname() {}
 
@@ -244,7 +247,6 @@ class Connection(val host: Host, val port: Int) {
         host.printConnectionString()   // 调用扩展函数
     }
 }
-
 
 
 // 伴生对象的扩展函数
