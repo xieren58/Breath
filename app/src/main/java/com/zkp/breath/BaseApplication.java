@@ -34,8 +34,10 @@ public class BaseApplication extends MultiDexApplication {
     }
 
     private void initUMConfigure() {
-        UMConfigure.init(this, "5eb27e0adbc2ec0856ab2f34", "Breath", UMConfigure.DEVICE_TYPE_PHONE, "");
+        // 当debug模式下开启log
         UMConfigure.setLogEnabled(BuildConfig.DEBUG);
+        // 初始化SDK
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "");
         // 选用AUTO页面采集模式
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
     }
