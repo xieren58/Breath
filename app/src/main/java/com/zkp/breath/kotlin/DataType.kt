@@ -6,6 +6,7 @@ package com.zkp.breath.kotlin
  * 原先在 Java 里的基本类型，类比到 Kotlin 里面，条件满足如下之一就不装箱：
  * 1.不可空类型。
  * 2.使用 IntArray、FloatArray 等（因为不能接受null）。
+ * 3. ==比较数值，===比较内存地址
  */
 fun main() {
     val i: Int = 1
