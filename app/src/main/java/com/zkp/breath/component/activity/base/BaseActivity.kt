@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
 import com.umeng.analytics.MobclickAgent
+import com.umeng.message.PushAgent
 import me.jessyan.autosize.AutoSizeConfig
 
 
@@ -37,6 +38,9 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
         ARouter.getInstance().inject(this)
         Log.i(TAG, "onCreate(savedInstanceState: Bundle?)")
 //        hideTitleBarAndStateBar()
+
+        // 该方法是【友盟+】Push后台进行日活统计及多维度推送的必调用方法，请务必调用！
+        PushAgent.getInstance(this).onAppStart()
     }
 
     // 依赖硬件加速，可能特殊控件不行（高德地图），放在oncreate方法即可
