@@ -123,19 +123,20 @@ val lazyValue: String by lazy {
     "Hello"
 }
 
-/**
- * 可观察属性:监听器会收到有关此属性变更的通知；
- * Delegates.observable() 接受两个参数：初始值与修改时处理程序（handler）。 每当我们给属性赋值时会调用该处理
- * 程序（在赋值后执行）。它有三个参数：被赋值的属性、旧值与新值：
- */
 class User {
+    /**
+     * 可观察属性:监听器会收到有关此属性变更的通知。
+     * Delegates.observable() 接受两个参数：初始值与修改时处理程序（handler）。 每当我们给属性赋值时会调用该处理
+     * 程序（在赋值后执行，相当于一个回调方法），它有三个参数：被赋值的属性、旧值与新值。
+     */
     var name: String by Delegates.observable("<no name>") { prop, old, new ->
         print("被修改的属性名:${prop.name}")
         println("$old -> $new")
     }
 
     /**
-     * 如果你想截获赋值并“否决”它们，那么使用 vetoable() 取代 observable()。 在属性被赋新值生效之前会调用传递给 vetoable 的处理程序。
+     * 如果你想截获赋值并“否决”它们，那么使用 vetoable() 取代 observable()。 在属性被赋新值生效之前会调用传递给
+     * vetoable 的处理程序，相当于我们定义了一个赋值条件。
      */
     var id: String by Delegates.vetoable("<initValue>") { property, oldValue, newValue ->
         print("被修改的属性名为：${property.name}")
@@ -146,10 +147,7 @@ class User {
 }
 
 /**
- * 一个常见的用例是在一个映射（map）里存储属性的值。 这经常出现在像解析 JSON 或者做其他“动态”事情的应用中。
- * 在这种情况下，你可以使用映射实例自身作为委托来实现委托属性。简单的说就是使用map作为代理对象来存放被委托的属性
- *
- * 注意：map中的key要和被代理的属性名相同，否则会查不到该属性的值
+ * 使用map作为代理对象来存放被委托的属性的值，注意map中的key要和被代理的属性名相同，否则会查不到该属性的值
  */
 class Client(map: Map<String, Any?>, mutableMap: MutableMap<String, Any?>) {
     val name: String by map
