@@ -1,6 +1,8 @@
 package com.zkp.breath.kotlin
 
 import kotlin.properties.Delegates
+import kotlin.properties.ReadOnlyProperty
+import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 /**
@@ -31,9 +33,14 @@ class MI(name: String) : S {
     }
 }
 
-// 其实相当于java的代理模式，Proxy实现了S，但是因为使用了by关键字，所以默认需要重写方法都又编译器帮我们实现
-// 而这些方法内部调用的其实就是传入的对象的同名方法（因为传入的对象的类也是实现了同一个接口）。
-// by 子句表示 one 会被存储在所有的 Proxy 对象的内部， 编译器会生成 S 的所有方法，这些方法会跳向 one。
+/**
+ * 类代理：只有接口才能代理。其实就是java的静态代理模式，将具体实现都指向给主构函数中的参数去实现。
+ *
+ * 其实相当于java的代理模式，Proxy实现了S，但是因为使用了by关键字，所以默认需要重写方法都又编译器帮我们实现
+ * 而这些方法内部调用的其实就是传入的对象的同名方法（因为传入的对象的类也是实现了同一个接口）。
+ * by 子句表示 one 会被存储在所有的 Proxy 对象的内部， 编译器会生成 S 的所有方法，这些方法会跳向 one。
+ *
+ */
 class Proxy(one: S) : S by one {
 
     override fun printMsg() {
@@ -49,8 +56,8 @@ class Proxy(one: S) : S by one {
 class Example {
     /**
      * val/var <property name>: <Type> by <expression>。by 之后的表达式是代理，因为属性对应的 get()
-     * （以及 set()）会被代理到它们的 getValue() 和 setValue() 方法。属性代理无需实现任何接口，
-     * 但是他们必须要要提供 getValue() 函数（以及 var 变量的 setValue()）
+     * （以及 set()）会被代理到它们的 getValue() 和 setValue() 方法, 所以代理类必须要要提供 getValue()
+     *  函数（以及 var 变量的 setValue()）。
      */
     var p: String by Delegate()
 
@@ -63,9 +70,9 @@ class Example {
  *对于一个只读属性（即 val 声明的），委托必须提供一个名为 getValue 的函数，该函数接受以下参数：
  *thisRef —— 必须与 属性所有者 类型相同或者是它的超类型；（一般都是Any类型，适配效果更好）
  *property —— 必须是类型 KProperty<*> 或其超类型 （一般都是KProperty<*>）
-
- *如果是可变属性(即 var 声明的),则而外提供setValue函数，第三个参数说明：
- * new value —— 因为是要赋值给该属性的，所以只能是它同类型或者是它子类
+ *new value —— 如果是可变属性(即 var 声明的),则而外提供setValue函数，因为是要赋值给该属性的，所以只能是它同类型或者是它子类
+ *
+ * 可以不实现ReadWriteProperty或者ReadOnlyProperty，直接重写getValue/setValue方法，但是不推荐。
  */
 class Delegate {
     operator fun getValue(thisRef: Any?, property: KProperty<*>): String {
@@ -74,6 +81,31 @@ class Delegate {
 
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {
         println("$value has been assigned to '${property.name}' in $thisRef.")
+    }
+}
+
+class Delegate2 : ReadWriteProperty<Int, String> {
+    /**
+     * 参数一：被代理属性的完整类名@内存地址
+     * 参数二：相当于java中的Field类
+     */
+    override fun getValue(thisRef: Int, property: KProperty<*>): String {
+        return "$thisRef, thank you for delegating '${property.name}' to me!"
+    }
+
+    /**
+     * 参数一：被代理属性的完整类名@内存地址
+     * 参数二：相当于java中的Field类
+     * 参数三：设置给被代理者的值
+     */
+    override fun setValue(thisRef: Int, property: KProperty<*>, value: String) {
+        println("$value has been assigned to '${property.name}' in $thisRef.")
+    }
+}
+
+class Delegate3 : ReadOnlyProperty<Int, String> {
+    override fun getValue(thisRef: Int, property: KProperty<*>): String {
+        return "$thisRef, thank you for delegating '${property.name}' to me!"
     }
 }
 
