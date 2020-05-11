@@ -1,9 +1,15 @@
 package com.zkp.breath.kotlin
 
 
-// 数据类，提供了一些常用的方法。对应java的Bean类
-// 自建函数componentN()，析构函数，copy函数
+/**
+ * 数据类，提供了一些常用的方法。对应java的Bean类
+ * 组建函数componentN()，析构函数，copy函数。
+ *
+ * 析构函数：内部调用的是组建函数componentN()，但是能解析的只用定义在类名后的主构函数的成员属性。
+ */
 data class DataClass(val s: String, var i: Int) {
+    val ss: String = ""
+    var ii: Int = 0
 }
 
 fun main() {
