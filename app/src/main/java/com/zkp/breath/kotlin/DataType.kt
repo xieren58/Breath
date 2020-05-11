@@ -5,7 +5,7 @@ package com.zkp.breath.kotlin
  *
  * 原先在 Java 里的基本类型，类比到 Kotlin 里面，条件满足如下之一就不装箱：
  * 1.不可空类型。
- * 2.使用 IntArray、FloatArray 等。
+ * 2.使用 IntArray、FloatArray 等（因为不能接受null）。
  */
 fun main() {
     val i: Int = 1
@@ -13,7 +13,7 @@ fun main() {
     val f: Float = 1f
     val d: Double = 1.0
 
-    // 下划线写法
+    // 下划线写法，推荐
     val line: Int = 1_000_000
 
     // 不支持八进制,都支持下划线写法
@@ -30,9 +30,9 @@ fun main() {
 fun boxOrUnbox() {
     var a: Int = 1  // unbox
     var a1: Int? = 1    // box
-    val intArrayOf = intArrayOf(1, 2)   // unbox
-    val listOf = listOf(1, 2)
-    val arrayOf = arrayOf(1, 2, 3)
+    val intArrayOf = intArrayOf(1, 2)   // unbox，不能接受null
+    val listOf = listOf(1, 2)   // box，可以接受null
+    val arrayOf = arrayOf(1, 2, 3)   // box，可以接受null
 }
 
 // 比较值和比较内存地址
