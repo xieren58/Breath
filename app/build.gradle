@@ -173,7 +173,6 @@ dependencies {
     debugImplementation 'com.github.markzhai:blockcanary-android:1.5.0'
     releaseImplementation 'com.github.markzhai:blockcanary-no-op:1.5.0'
 
-
     // 友盟基础组件库（所有友盟业务SDK都依赖基础组件库）
     implementation "com.umeng.umsdk:common:2.1.0"
     // 友盟统计SDK
@@ -182,6 +181,9 @@ dependencies {
     implementation 'com.umeng.umsdk:utdid:1.1.5.3'
     //PushSDK
     implementation 'com.umeng.umsdk:push:6.0.1'
+
+    // material-dialogs
+    implementation 'com.afollestad.material-dialogs:core:3.2.1'
 }
 
 //kapt {
