@@ -62,3 +62,6 @@ public static java.lang.String TABLENAME;
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+-keep public class com.zkp.breath.R$*{
+public static final int *;
+}
