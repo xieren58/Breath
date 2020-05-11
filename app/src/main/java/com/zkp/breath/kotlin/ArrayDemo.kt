@@ -49,13 +49,16 @@ fun main() {
     // 是否包含指定的元素
     val contains = arrayOfNulls.contains("a")
 
-    //
-//    arrayOfNulls.flatMap {  }
+    arrayOfNulls.flatMap {
+        val listOf = arrayListOf<String>()
+        listOf.add(it?.plus("拼接转换") ?: "我是空value")
+        listOf
+    }
 
-//    arrayOfNulls.fold()
+
+    arrayOfNulls.fold("我是flod的初始值") { s, sNull -> s + sNull }
 
 //    arrayOfNulls.groupBy {  }
-
 
     // 遍历
     arrayOfNulls.forEach { println("字符串数组内容: " + it) }
