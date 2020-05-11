@@ -178,7 +178,10 @@ val <T> List<T>.cusLastIndex: Int
 
 class MyClass {
 
-    // 可以这么理解，因为伴生对象是在外部类实例化的时候才去实例化，所以伴生对象是不能调用外部类的成员方法或者属性的
+    /**
+     * 1.因为伴生对象是在外部类实例化的时候才去实例化，所以伴生对象是不能调用外部类的成员方法或者属性的
+     * 2.伴生对象可以有扩展函数
+     */
     companion object {
 
         val myClassField1: Int = 1
@@ -186,8 +189,7 @@ class MyClass {
 
         fun companionFun1() {
             println("this is 1st companion function.")
-            // 伴生对象相当于java的静态成员（实际不是），所以这里看成静态方法，静态方法不能调用成员方法，
-            // 所以这里调用的是顶层方法
+            // 伴生对象相当于java的静态成员（实际不是），所以这里看成静态方法，静态方法不能调用成员方法， 所以这里调用的是顶层方法
             foo()
         }
 
@@ -200,15 +202,19 @@ class MyClass {
 
     // 类内伴生对象扩展函数
     // 基于伴生对象依赖外部类，伴生对象的扩展函数也只能外部类才能调用。
-    fun MyClass.Companion.foo() {
+    fun Companion.foo() {
         println("伴随对象的扩展函数（内部）")
     }
 
     // 成员函数
     fun test2() {
-        // 类内的其它函数优先引用类内扩展的伴随对象函数，即对于类内其它成员函数来说，类内扩展屏蔽类外扩展
-        // 类内的伴随对象扩展函数只能被类内的函数引用，不能被类外的函数和伴随对象内的函数引用；
+        /**
+         * 类内的其它函数优先引用类内扩展的伴随对象函数，即对于类内其它成员函数来说，类内扩展屏蔽类外扩展.
+         * 类内的伴随对象扩展函数只能被类内的函数引用，不能被类外的函数和伴随对象内的函数引用；
+         */
+        // 下面两种写法都可以
         MyClass.foo()
+        Companion.foo()
     }
 
     // 主构函数方法体
@@ -236,14 +242,15 @@ class Connection(val host: Host, val port: Int) {
     fun printHostname() {}
 
     fun Host.printConnectionString() {
-        printHostname()   // 调用 Host.printHostname()
-        this@Connection.printHostname()   // 分发接收者和扩展接收者同名函数情况下，调用分发接收者的方法加上： this@类名
-        print(":")
-        printPort()   // 调用 Connection.printPort()
+        // 调用 Host.printHostname()，因为这里相当于this.printHostname()，而this指代调用者即Host对象
+        printHostname()
+        // 调用 Connection.printPort()，因为这里相当于this@Connection.printPort（）
+        printPort()
+        // 分发接收者和扩展接收者同名函数情况下，调用分发接收者的方法加上： this@类名
+        this@Connection.printHostname()
     }
 
     fun connect() {
-        /*……*/
         host.printConnectionString()   // 调用扩展函数
     }
 }
