@@ -172,6 +172,8 @@
 
         <activity android:name=".component.activity.AudioRecordActivity" />
 
+        <activity android:name=".component.activity.MaterialDialogsActivity" />
+
         <service
             android:name=".component.service.IntentServiceA"
             android:exported="false" />
