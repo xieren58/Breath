@@ -25,7 +25,7 @@ public class GridAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         Random random = new Random();
         int i = random.nextInt(colors.length);
         helper.setText(R.id.tv, item);
-        View convertView = helper.getConvertView();
+        View convertView = helper.itemView;
 //        convertView.setBackgroundColor(colors[i]);
     }
 }
