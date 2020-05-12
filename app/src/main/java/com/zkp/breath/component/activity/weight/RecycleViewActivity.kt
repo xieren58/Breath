@@ -18,6 +18,10 @@ class RecycleViewActivity : BaseActivity() {
         binding = ActivityRecycleViewBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
+        adpter1()
+    }
+
+    fun adpter1() {
         val arrayList = ArrayList<String>()
         for (i in 0..100) {
             arrayList.add(i.toString())
@@ -31,6 +35,10 @@ class RecycleViewActivity : BaseActivity() {
         val gridAdapter = GridAdapter(arrayList)
         rcv.adapter = gridAdapter
         rcv.addItemDecoration(GridItemDecoration())
+    }
+
+    fun adpter2() {
+
     }
 
 

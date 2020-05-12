@@ -9,11 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.zkp.breath.R
 import com.zkp.breath.adpter.CoordinatorAdapter
 import com.zkp.breath.component.activity.base.BaseActivity
-import com.zkp.breath.databinding.ActivityABinding
-import com.zkp.breath.databinding.ActivityAruoterBinding
 import com.zkp.breath.databinding.ActivityMaterialDialogBinding
 
 
@@ -40,7 +39,7 @@ class MaterialDialogsActivity : BaseActivity() {
         recyclerView.adapter = coordinatorAdapter
     }
 
-    private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
+    private val onItemClickListener = OnItemClickListener { adapter, view, position ->
         when (position) {
             0 -> {
                 MaterialDialog(this).show {

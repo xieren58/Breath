@@ -17,6 +17,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.zkp.breath.R
 import com.zkp.breath.adpter.CoordinatorAdapter
 import com.zkp.breath.arouter.ActivityRouterPath
@@ -31,7 +32,7 @@ import com.zkp.breath.databinding.ActivityAruoterBinding
  * https://www.jianshu.com/p/6021f3f61fa6
  */
 
-class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
+class ARouterActivity : BaseActivity(), OnItemClickListener {
 
     lateinit var binding: ActivityAruoterBinding
 
@@ -51,13 +52,13 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
         recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         val coordinatorAdapter = CoordinatorAdapter(arrayListOf)
-        coordinatorAdapter.setOnItemClickListener(this@ARouterActivity)
+        coordinatorAdapter.setOnItemClickListener(this)
         recyclerView.adapter = coordinatorAdapter
     }
 
-    override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        val data = adapter?.data
-        val value: String = data?.get(position) as String
+    override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
+        val data = adapter.data
+        val value: String = data.get(position) as String
         if (TextUtils.isEmpty(value)) return
         when (value) {
             "跳转test1" -> {
@@ -149,5 +150,6 @@ class ARouterActivity : BaseActivity(), BaseQuickAdapter.OnItemClickListener {
             ToastUtils.showShort("使用Arouter实现跳转并获取返回结果")
         }
     }
+
 
 }

@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.zkp.breath.R;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class DataBaseAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         Random random = new Random();
         int i = random.nextInt(colors.length);
         helper.setText(R.id.tv, item);
-        View convertView = helper.getConvertView();
+        View convertView = helper.itemView;
         convertView.setBackgroundColor(colors[i]);
     }
 }
