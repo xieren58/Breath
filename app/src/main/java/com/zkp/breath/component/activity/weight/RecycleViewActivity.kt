@@ -7,7 +7,9 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.blankj.utilcode.util.ToastUtils
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.zkp.breath.R
 import com.zkp.breath.adpter.GridAdapter
 import com.zkp.breath.adpter.LoadMoreAdapter
 import com.zkp.breath.adpter.decoration.GridItemDecoration
@@ -62,8 +64,18 @@ class RecycleViewActivity : BaseActivity() {
         rcv.layoutManager = staggeredGridLayoutManager
         val gridAdapter = LoadMoreAdapter(arrayList)
         gridAdapter.setOnItemClickListener(onItemClickListener)
+        // 动画
+        gridAdapter.animationEnable = true
+        gridAdapter.isAnimationFirstOnly = false
+        gridAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.SlideInLeft)
         rcv.adapter = gridAdapter
         rcv.addItemDecoration(GridItemDecoration())
+
+        // 设置空视图(recycleview设置adpter后再调用)
+        gridAdapter.isUseEmpty = true
+        gridAdapter.setEmptyView(R.layout.view_empty)
+
+//        gridAdapter.setDiffCallback()
 
         // 获取模块
         val loadMoreModule = gridAdapter.loadMoreModule
