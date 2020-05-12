@@ -20,6 +20,9 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * https://zhuanlan.zhihu.com/p/26079803
+ */
 class RecycleViewActivity : BaseActivity() {
 
     private lateinit var binding: ActivityRecycleViewBinding
