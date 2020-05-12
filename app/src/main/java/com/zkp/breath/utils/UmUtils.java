@@ -84,31 +84,44 @@ public class UmUtils {
 
     private static UmengMessageHandler customNotification() {
         UmengMessageHandler messageHandler = new UmengMessageHandler() {
+
             @Override
             public Notification getNotification(Context context, UMessage msg) {
                 switch (msg.builder_id) {
-//                    case 1:
+                    case 1:
 //                        Notification.Builder builder = new Notification.Builder(context);
 //                        RemoteViews myNotificationView = new RemoteViews(context.getPackageName(),
 //                                R.layout.notification_view);
-//                        myNotificationView.setTextViewText(R.id.notification_title, msg.title);
-//                        myNotificationView.setTextViewText(R.id.notification_text, msg.text);
-//                        myNotificationView.setImageViewBitmap(R.id.notification_large_icon,
-//                                getLargeIcon(context, msg));
-//                        myNotificationView.setImageViewResource(R.id.notification_small_icon,
-//                                getSmallIconId(context, msg));
+//                        myNotificationView.setTextViewText(R.id.tv_title, msg.title);
+//                        myNotificationView.setTextViewText(R.id.tv_content, msg.text);
+//                        myNotificationView.setImageViewResource(R.id.iv_icon, R.drawable.bg_rcv_item);
+////                        myNotificationView.setImageViewBitmap(R.id.notification_large_icon,
+////                                getLargeIcon(context, msg));
+////                        myNotificationView.setImageViewResource(R.id.notification_small_icon,
+////                                getSmallIconId(context, msg));
 //                        builder.setContent(myNotificationView)
 //                                .setSmallIcon(getSmallIconId(context, msg))
 //                                .setTicker(msg.ticker)
 //                                .setAutoCancel(true);
-//                        return builder.getNotification();
+//                        return builder.build();
+
+
+                        Notification.Builder builder = new Notification.Builder(context);
+
+                        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.upush_notification);
+
+                        builder.setContent(remoteViews)
+                                .setSmallIcon(getSmallIconId(context, msg))
+                                .setTicker(msg.ticker)
+                                .setAutoCancel(true);
+                        return builder.build();
+
                     default:
                         //默认为0，若填写的builder_id并不存在，也使用默认。
                         return super.getNotification(context, msg);
                 }
             }
         };
-
         return messageHandler;
     }
 
