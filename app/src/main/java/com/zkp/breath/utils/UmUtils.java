@@ -1,13 +1,18 @@
 package com.zkp.breath.utils;
 
 import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.widget.RemoteViews;
+
+import androidx.core.app.NotificationCompat;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NotificationUtils;
 import com.blankj.utilcode.util.ProcessUtils;
 import com.blankj.utilcode.util.ThreadUtils;
+import com.blankj.utilcode.util.Utils;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.commonsdk.statistics.common.DeviceConfig;
@@ -63,7 +68,7 @@ public class UmUtils {
             // 推送流程
             PushAgent mPushAgent = PushAgent.getInstance(context);
             // 自定义通知栏是否显示
-//            mPushAgent.setNotificaitonOnForeground(false);
+            mPushAgent.setNotificaitonOnForeground(true);
             // 自定义样式配置
             mPushAgent.setMessageHandler(customNotification());
             //注册推送服务，每次调用register方法都会回调该接口
@@ -83,35 +88,21 @@ public class UmUtils {
     }
 
     private static UmengMessageHandler customNotification() {
-        UmengMessageHandler messageHandler = new UmengMessageHandler() {
+        return new UmengMessageHandler() {
 
             @Override
             public Notification getNotification(Context context, UMessage msg) {
                 switch (msg.builder_id) {
-                    case 1:
-//                        Notification.Builder builder = new Notification.Builder(context);
-//                        RemoteViews myNotificationView = new RemoteViews(context.getPackageName(),
-//                                R.layout.notification_view);
-//                        myNotificationView.setTextViewText(R.id.tv_title, msg.title);
-//                        myNotificationView.setTextViewText(R.id.tv_content, msg.text);
-//                        myNotificationView.setImageViewResource(R.id.iv_icon, R.drawable.bg_rcv_item);
-////                        myNotificationView.setImageViewBitmap(R.id.notification_large_icon,
-////                                getLargeIcon(context, msg));
-////                        myNotificationView.setImageViewResource(R.id.notification_small_icon,
-////                                getSmallIconId(context, msg));
-//                        builder.setContent(myNotificationView)
-//                                .setSmallIcon(getSmallIconId(context, msg))
-//                                .setTicker(msg.ticker)
-//                                .setAutoCancel(true);
-//                        return builder.build();
-
-
+                    case 21:
                         Notification.Builder builder = new Notification.Builder(context);
+                        RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
+                                R.layout.view_notification);
+                        remoteViews.setTextViewText(R.id.notification_title, msg.title);
+                        remoteViews.setTextViewText(R.id.notification_text, msg.text);
+                        remoteViews.setImageViewResource(R.id.notification_large_icon, R.drawable.bg_rcv_item);
+                        remoteViews.setImageViewResource(R.id.notification_small_icon, R.drawable.bg_rcv_item);
 
-                        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.upush_notification);
-
-                        builder.setContent(remoteViews)
-                                .setSmallIcon(getSmallIconId(context, msg))
+                        builder.setSmallIcon(getSmallIconId(context, msg))
                                 .setTicker(msg.ticker)
                                 .setAutoCancel(true);
                         return builder.build();
@@ -122,7 +113,6 @@ public class UmUtils {
                 }
             }
         };
-        return messageHandler;
     }
 
     private static String[] getTestDeviceInfo(Context context) {
