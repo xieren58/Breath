@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.blankj.utilcode.util.ToastUtils
 import com.chad.library.adapter.base.listener.OnItemClickListener
-import com.chad.library.adapter.base.module.BaseLoadMoreModule
 import com.zkp.breath.adpter.GridAdapter
-import com.zkp.breath.adpter.decoration.GridItemDecoration
 import com.zkp.breath.adpter.LoadMoreAdapter
+import com.zkp.breath.adpter.decoration.GridItemDecoration
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityRecycleViewBinding
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +21,6 @@ import kotlinx.coroutines.withContext
 class RecycleViewActivity : BaseActivity() {
 
     private lateinit var binding: ActivityRecycleViewBinding
-    private lateinit var loadMoreModule: BaseLoadMoreModule
     private var reqCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +66,7 @@ class RecycleViewActivity : BaseActivity() {
         rcv.addItemDecoration(GridItemDecoration())
 
         // 获取模块
-        loadMoreModule = gridAdapter.loadMoreModule
+        val loadMoreModule = gridAdapter.loadMoreModule
         // 打开或关闭加载更多功能（默认为true）
         loadMoreModule.isEnableLoadMore = true
         // 所有数据加载完成后，是否允许点击（默认为false）
@@ -137,7 +135,7 @@ class RecycleViewActivity : BaseActivity() {
     private val onItemClickListener = OnItemClickListener { adapter, view, position ->
 
         // 加载过程中不允许点击
-        if (loadMoreModule.isLoading) {
+        if (adapter.loadMoreModule.isLoading) {
             return@OnItemClickListener
         }
 
