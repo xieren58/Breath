@@ -9,6 +9,7 @@ import com.umeng.analytics.MobclickAgent
 import com.zkp.breath.component.activity.MaterialDialogsActivity
 import com.zkp.breath.component.activity.arouter.ARouterActivity
 import com.zkp.breath.component.activity.base.BaseActivity
+import com.zkp.breath.component.activity.weight.RecycleViewActivity
 import com.zkp.breath.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity() {
@@ -26,7 +27,7 @@ class MainActivity : BaseActivity() {
         umEventMap["page_name"] = "main_activity"
         MobclickAgent.onEventObject(this, "um_main_event", umEventMap)
 
-        ActivityUtils.startActivity(MaterialDialogsActivity::class.java)
+        ActivityUtils.startActivity(RecycleViewActivity::class.java)
     }
 
     override fun onResume() {
