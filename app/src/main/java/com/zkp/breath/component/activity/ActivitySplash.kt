@@ -13,10 +13,9 @@ import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.MainActivity
 import com.zkp.breath.R
+import com.zkp.breath.component.activity.base.BaseActivity
 
-class ActivitySplash : AppCompatActivity() {
-
-    val TAG = ActivitySplash::class.simpleName
+class ActivitySplash : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
