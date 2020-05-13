@@ -25,7 +25,8 @@ import kotlinx.coroutines.withContext
 /**
  * https://zhuanlan.zhihu.com/p/26079803
  *
- * 提高刷新效率的方法：notifyItemChanged的参数二payload
+ * 提高局部刷新效率的方法：
+ * 1.notifyItemChanged的参数二payload，这里的局部刷新指的是某个item的某些子view。
  * payload的作用是刷新某个item里面的某些子view，真正做到局部刷新的概念，该参数是一个Object类型的List,如果自身继承
  * RecycleView的Adpter，那么再重写带有payloads参数的onBindViewHolder()的方法，然后在内部判断payloads是否为空，
  * 如果为空那么就在内部调用两个参数的onBindViewHolder()，否则就执行自身的刷新逻辑：
@@ -38,6 +39,14 @@ import kotlinx.coroutines.withContext
  *          // 刷新逻辑...
  *      }
  *   }
+ *
+ *   2. diffutils 一般用在重置数据源，存在个别数据没有发生改变使用diffutils会跳过那些没发生改变数据的item的刷新
+ *   ，而只会去刷新发生数据改变的item，从而达到局部刷新的作用（这里的局部刷新是值某些item），当数据太大的时候建议放在线程中执行。
+ *
+ *
+ *  注意：目前BaseRecyclerViewAdapterHelper框架提供的上拉加载更多和下拉刷新都没有回弹效果，可以使用SmartRefreshLayout
+ *  框架实现。
+ *
  *
  */
 class RecycleViewActivity : BaseActivity() {
