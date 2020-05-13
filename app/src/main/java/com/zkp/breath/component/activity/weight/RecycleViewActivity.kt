@@ -22,6 +22,21 @@ import kotlinx.coroutines.withContext
 
 /**
  * https://zhuanlan.zhihu.com/p/26079803
+ *
+ * 提高刷新效率的方法：notifyItemChanged的参数二payload
+ * payload的作用是刷新某个item里面的某些子view，真正做到局部刷新的概念，该参数是一个Object类型的List,如果自身继承
+ * RecycleView的Adpter，那么再重写带有payloads参数的onBindViewHolder()的方法，然后在内部判断payloads是否为空，
+ * 如果为空那么就在内部调用两个参数的onBindViewHolder()，否则就执行自身的刷新逻辑：
+ *
+ *   // 示例代码如下
+ *   public void onBindViewHolder(@NonNull VH holder, int position,@NonNull List<Object> payloads) {
+ *      if(payloads.isEmpty()){
+ *          onBindViewHolder(holder, position);
+ *      }else{
+ *          // 刷新逻辑...
+ *      }
+ *   }
+ *
  */
 class RecycleViewActivity : BaseActivity() {
 
@@ -154,8 +169,13 @@ class RecycleViewActivity : BaseActivity() {
             return@OnItemClickListener
         }
 
-        val data = adapter.data
-        ToastUtils.showShort(data[position] as String)
+        if (position in 5..10) {
+            // 模拟某个item的某些子view刷新的逻辑
+            adapter.notifyItemChanged(position, 1)
+        } else {
+            val data = adapter.data
+            ToastUtils.showShort(data[position] as String)
+        }
     }
 
 }
