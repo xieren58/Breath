@@ -1,5 +1,6 @@
 package com.zkp.breath.adpter;
 
+import android.animation.Animator;
 import android.util.Log;
 import android.view.View;
 
@@ -44,4 +45,12 @@ public class LoadMoreAdapter extends BaseQuickAdapter<String, BaseViewHolder> im
         super.convert(holder, item, payloads);
         Log.i(TAG, "convert_payloads: " + holder.getAdapterPosition() + ",payloads: " + payloads.get(0));
     }
+
+    // notifyDataSetChanged执行后可能所有动画一起执行，看不出一种先后顺序，可以重写下面的方法添加延时就可以看到动画的顺序执行了
+//    @Override
+//    protected void startAnim(@NotNull Animator anim, int index) {
+//        anim.setStartDelay(index * 150);
+//        super.startAnim(anim, index);
+//    }
+
 }
