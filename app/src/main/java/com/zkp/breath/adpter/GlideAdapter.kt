@@ -33,6 +33,8 @@ class GlideAdapter(data: MutableList<String>? = null) :
                 .transform(CenterCrop(), GranularRoundedCorners(100f, 100f, 0f, 0f))
                 // 禁止图片变换(取消之前设置的变化效果)
                 .dontTransform()
+                // 是否仅从缓存加载图片，如果缓存中没有，就会加载失败。
+//                .onlyRetrieveFromCache(false)
                 // 指定加载的图片大小，内部会按照最短边和源数据的宽高比进行计算
                 .override(300, 300)
 
