@@ -3,9 +3,9 @@ package com.zkp.breath.kotlin
 
 /**
  * 数据类，提供了一些常用的方法。对应java的Bean类
- * 解构函数componentN()，解构声明，copy函数。
+ * 组建函数componentN()，解构声明，copy函数。
  *
- * 解构声明：内部调用的是解构函数componentN()，但是能解析的只用定义在类名后的主构函数的成员属性。
+ * 解构声明：内部调用的是组建函数componentN()，但是能解析的只用定义在类名后的主构函数的成员属性。
  */
 data class DataClass(val s: String, var i: Int) {
     val ss: String = ""
@@ -21,7 +21,7 @@ fun main() {
     val copy1 = dataClass.copy()
     println("copy类: ${copy.toString()}")
     println("copy内存地址比较: ${dataClass === copy1}")
-    // 解构声明，其实内部调用的就是解构函数
+    // 解构声明，其实内部调用的就是组建函数
     val (s, i) = copy1
     // 直接调用数据类对象其实内部调用是toString()方法
     println("copy1的toString(): ${copy1}")
