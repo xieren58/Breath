@@ -2,14 +2,11 @@ package com.zkp.breath.adpter
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.zkp.breath.R
@@ -34,8 +31,11 @@ class GlideAdapter(data: MutableList<String>? = null) :
                 .centerCrop()
                 // 多重变化策略
                 .transform(CenterCrop(), GranularRoundedCorners(100f, 100f, 0f, 0f))
-                //
-                .override(150, 300)
+                // 禁止图片变换(取消之前设置的变化效果)
+                .dontTransform()
+                // 指定加载的图片大小，内部会按照最短边和源数据的宽高比进行计算
+                .override(300, 300)
+
 
         Glide.with(imageView.context)
                 .load(item)
@@ -53,6 +53,25 @@ class GlideAdapter(data: MutableList<String>? = null) :
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .apply(sharedOptions)
                 .into(imageView)
+
+        // 如果需要操控到源数据可以使用tager
+//        Glide.with(imageView.context)
+//                .asBitmap()
+//                .load(item)
+//                .into(object : CustomViewTarget<ImageView, Bitmap>(imageView) {
+//                    override fun onLoadFailed(errorDrawable: Drawable?) {
+//                        TODO("Not yet implemented")
+//                    }
+//
+//                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+//                        TODO("Not yet implemented")
+//                    }
+//
+//                    override fun onResourceCleared(placeholder: Drawable?) {
+//                        TODO("Not yet implemented")
+//                    }
+//
+//                })
     }
 
 }

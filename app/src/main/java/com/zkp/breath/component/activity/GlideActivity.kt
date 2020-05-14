@@ -1,6 +1,7 @@
 package com.zkp.breath.component.activity
 
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.viewpager2.widget.ViewPager2
@@ -18,8 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileInputStream
-import java.io.InputStream
 
 /**
  * 变化：对原图进行裁剪，拉伸等操作。
@@ -84,8 +83,29 @@ class GlideActivity : BaseActivity() {
         val cacheSize = GlideCacheUtil.getInstance().getCacheSize(this)
         LogUtils.i("获取应用内部缓存大小：$cacheSize")
 
+        onpreload()
 //        downloadThenCopy()
 //        downloadBitmap()
+    }
+
+    // 推荐！！！！
+    // 预加载，提前加载图片。测试的时候先清除内存缓存和本地缓存，然后开启这个方法去加载，关闭网络再去加载这条url后显示出来，如果能显示则证明有效。
+    private fun onpreload() {
+        Glide.with(this)
+                .load("https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/1a3eb8b7背景.png")
+                // 这个监听只是为了查看数据是否下载完成
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                        // 如果return true，则不会再回调Target的onLoadFailed（也就是不再往下传递）。
+                        return false
+                    }
+
+                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                        // 如果return true，则不会再回调Target的onResourceReady（也就是不再往下传递），imageView也就不会显示加载到的图片了。
+                        return true
+                    }
+                })
+                .preload()
     }
 
     // 下载完的file是存放在glide指定的路径下，然后使用copy文件的方法移植到你的目标路径。
