@@ -1,10 +1,15 @@
 package com.zkp.breath.component.activity
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.viewpager2.widget.ViewPager2
-import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.*
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.zkp.breath.adpter.GlideAdapter
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityGlideBinding
@@ -12,6 +17,9 @@ import com.zkp.breath.glide4.left.GlideCacheUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileInputStream
+import java.io.InputStream
 
 /**
  * 变化：对原图进行裁剪，拉伸等操作。
@@ -76,14 +84,60 @@ class GlideActivity : BaseActivity() {
         val cacheSize = GlideCacheUtil.getInstance().getCacheSize(this)
         LogUtils.i("获取应用内部缓存大小：$cacheSize")
 
+//        downloadThenCopy()
+//        downloadBitmap()
+    }
+
+    // 下载完的file是存放在glide指定的路径下，然后使用copy文件的方法移植到你的目标路径。
+    fun downloadThenCopy() {
         GlobalScope.launch(Dispatchers.IO) {
             val submit = Glide.with(this@GlideActivity)
-                    .asBitmap()
+                    .asFile()
                     .load("https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/1a3eb8b7背景.png")
-                    .submit(100, 100)
-            val get = submit.get()
+                    .listener(object : RequestListener<File> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<File>?, isFirstResource: Boolean): Boolean {
+                            return false
+                        }
+
+                        override fun onResourceReady(resource: File?, model: Any?, target: Target<File>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            val s = PathUtils.getExternalStoragePath() + "/glideBitmap1.png"
+                            FileUtils.copyFile(resource.toString(), s)
+                            LogUtils.i("resource路径:" + resource.toString())
+                            return true
+                        }
+
+                    })
+                    //加载原图大小
+                    //也可以指定大小，内部会以最短边计算比例后下载。
+                    .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
         }
     }
 
+    // 下载bitmap的方法
+    fun downloadBitmap() {
+        GlobalScope.launch(Dispatchers.IO) {
+            Glide.with(this@GlideActivity)
+                    .asBitmap()
+                    .load("https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/1a3eb8b7背景.png")
+                    .listener(object : RequestListener<Bitmap> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                            LogUtils.i()
+                            return false
+                        }
+
+                        override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            val bitmap2Bytes = ImageUtils.bitmap2Bytes(resource, Bitmap.CompressFormat.PNG)
+                            val path = PathUtils.getExternalStoragePath() + "/glideBitmap.png"
+                            val writeFileFromBytesByStream = FileIOUtils.writeFileFromBytesByStream(path, bitmap2Bytes)
+                            LogUtils.i("是否写入成功:$writeFileFromBytesByStream")
+                            return true
+                        }
+
+                    })
+                    //加载原图大小
+                    //也可以指定大小，内部会以最短边计算比例后下载。
+                    .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+        }
+    }
 
 }
