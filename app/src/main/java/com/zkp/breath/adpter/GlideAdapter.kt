@@ -4,8 +4,12 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.zkp.breath.R
@@ -20,9 +24,18 @@ class GlideAdapter(data: MutableList<String>? = null) :
         val sharedOptions: RequestOptions = RequestOptions()
                 .placeholder(R.drawable.block_canary_icon)
                 .error(R.drawable.block_canary_icon)
+                // 数据为null也视为合法情况
+                .fallback(R.drawable.block_canary_icon)
+                // 默认磁盘缓存策略
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                // 是否跳过内存缓存
+                .skipMemoryCache(false)
+                // 变化策略
                 .centerCrop()
-                .priority(Priority.HIGH)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                // 多重变化策略
+                .transform(CenterCrop(), GranularRoundedCorners(100f, 100f, 0f, 0f))
+                //
+                .override(150, 300)
 
         Glide.with(imageView.context)
                 .load(item)
@@ -37,7 +50,7 @@ class GlideAdapter(data: MutableList<String>? = null) :
                  */
                 .thumbnail(0.25f)
                 // 交叉淡入变换
-                .transition(DrawableTransitionOptions.withCrossFade(5000))
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .apply(sharedOptions)
                 .into(imageView)
     }
