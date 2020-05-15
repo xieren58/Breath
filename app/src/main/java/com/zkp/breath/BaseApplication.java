@@ -8,6 +8,7 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ProcessUtils;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.github.moduth.blockcanary.BlockCanaryContext;
+import com.zkp.breath.mmkv.template.AppConfiguration;
 import com.zkp.breath.utils.UmUtils;
 
 
@@ -25,6 +26,7 @@ public class BaseApplication extends MultiDexApplication {
             // 初始化界面卡顿检查工具
             BlockCanary.install(this, new BlockCanaryContext()).start();
             initARouter();
+            AppConfiguration.getDefault(this);
 
             UmUtils.initUmAnalytics(this);
             UmUtils.initUmPush(this);
