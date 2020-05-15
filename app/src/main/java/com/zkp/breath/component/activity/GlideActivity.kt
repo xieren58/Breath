@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 /**
- * 变化：对原图进行裁剪，拉伸等操作。
+ * 变化：对请求的资源进行裁剪，拉伸等操作。不会作用域占位图，错误图，后备图。
  * 1.内置变换：RequestOptions内配置或者直接配置都可以(其实内部就是调用了使用transform()方法)：
  *      fitCenter()：居中缩放图片的最长边和控件对应的一边等长后停止缩放。保证图片完全显示
  *      centerCrop()：
