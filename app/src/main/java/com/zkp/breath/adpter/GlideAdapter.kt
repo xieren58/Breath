@@ -1,5 +1,6 @@
 package com.zkp.breath.adpter
 
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -9,6 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomViewTarget
+import com.bumptech.glide.request.target.ImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -69,24 +71,46 @@ class GlideAdapter(data: MutableList<String>? = null) :
                 .apply(sharedOptions)
                 .into(imageView)
 
-        // 如果需要操控到源数据可以使用target
-//        Glide.with(imageView.context)
+        // 如果需要操控到源数据可以使用target或者listener
+//        testTarget(imageView, item)
+
+    }
+
+    /**
+     * Target 负责展示占位符，加载资源，并为每个请求决定合适的尺寸，into() 方法不仅仅用于启动每个请求，
+     * 它同时也指定了接收请求结果的 Target。Glide 提供了一个辅助方法 into(ImageView) ，它接受一个 ImageView
+     * 参数并为其请求的资源类型包装了一个合适的 ImageViewTarget。
+     */
+    private fun testTarget(imageView: ImageView, item: String) {
+        //        Glide.with(imageView.context)
 //                .asBitmap()
 //                .load(item)
 //                .into(object : CustomViewTarget<ImageView, Bitmap>(imageView) {
 //                    override fun onLoadFailed(errorDrawable: Drawable?) {
-//                        TODO("Not yet implemented")
 //                    }
 //
 //                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-//                        TODO("Not yet implemented")
+//                        imageView.setImageBitmap(resource)
 //                    }
 //
 //                    override fun onResourceCleared(placeholder: Drawable?) {
-//                        TODO("Not yet implemented")
 //                    }
-//
 //                })
+
+
+        Glide.with(imageView.context)
+                .load(item)
+                .into(object : CustomViewTarget<ImageView, Drawable>(imageView) {
+                    override fun onLoadFailed(errorDrawable: Drawable?) {
+                    }
+
+                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                        imageView.setImageDrawable(resource)
+                    }
+
+                    override fun onResourceCleared(placeholder: Drawable?) {
+                    }
+                })
     }
 
 }
