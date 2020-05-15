@@ -4,6 +4,10 @@ import android.content.Context;
 
 import com.tencent.mmkv.MMKV;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class AppConfiguration implements AppInternalConfiguration, FunctionEntryConfiguration {
 
     private static volatile AppConfiguration INSTANCE;
@@ -36,6 +40,16 @@ public class AppConfiguration implements AppInternalConfiguration, FunctionEntry
     @Override
     public boolean getTestA() {
         return appInternalConfiguration.getTestA();
+    }
+
+    @Override
+    public void removeTestA() {
+        appInternalConfiguration.removeTestA();
+    }
+
+    @Override
+    public boolean containsKeyTestA() {
+        return appInternalConfiguration.containsKeyTestA();
     }
 
     @Override

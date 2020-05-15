@@ -19,4 +19,14 @@ public class AppInternalConfigurationImp implements AppInternalConfiguration {
     public boolean getTestA() {
         return mmkv.decodeBool(ConfigurationField.InternalKey.TEST);
     }
+
+    @Override
+    public void removeTestA() {
+        mmkv.remove(ConfigurationField.InternalKey.TEST);
+    }
+
+    @Override
+    public boolean containsKeyTestA() {
+        return mmkv.containsKey(ConfigurationField.InternalKey.TEST);
+    }
 }

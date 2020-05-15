@@ -7,4 +7,8 @@ public interface AppInternalConfiguration {
     void setTestA(boolean b);
 
     boolean getTestA();
+
+    void removeTestA();
+
+    boolean containsKeyTestA();
 }
