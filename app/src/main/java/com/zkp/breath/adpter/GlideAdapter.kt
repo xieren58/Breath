@@ -23,6 +23,12 @@ class GlideAdapter(data: MutableList<String>? = null) :
     override fun convert(holder: BaseViewHolder, item: String) {
         val imageView = holder.getView<ImageView>(R.id.iv)
 
+        common(imageView, item)
+        // 如果需要操控到源数据可以使用target或者listener
+//        testTarget(imageView, item)
+    }
+
+    private fun common(imageView: ImageView, item: String) {
         val sharedOptions: RequestOptions = RequestOptions()
                 .placeholder(R.drawable.block_canary_icon)
                 .error(R.drawable.block_canary_icon)
@@ -39,7 +45,7 @@ class GlideAdapter(data: MutableList<String>? = null) :
                 // 禁止图片变换(取消之前设置的变化效果)
                 .dontTransform()
                 // 是否仅从缓存加载图片，如果缓存中没有，就会加载失败，不管有没有网络，一般这功能不开启，体验不好。
-//                .onlyRetrieveFromCache(true)
+                //                .onlyRetrieveFromCache(true)
                 // 指定加载的图片大小，内部会按照最短边和源数据的宽高比进行计算
                 .override(300, 300)
 
@@ -70,19 +76,17 @@ class GlideAdapter(data: MutableList<String>? = null) :
                  */
                 .apply(sharedOptions)
                 .into(imageView)
-
-        // 如果需要操控到源数据可以使用target或者listener
-//        testTarget(imageView, item)
-
     }
 
     /**
      * Target 负责展示占位符，加载资源，并为每个请求决定合适的尺寸，into() 方法不仅仅用于启动每个请求，
      * 它同时也指定了接收请求结果的 Target。Glide 提供了一个辅助方法 into(ImageView) ，它接受一个 ImageView
      * 参数并为其请求的资源类型包装了一个合适的 ImageViewTarget。
+     *
+     * 如果目标view的宽高布局为wrap_content，那么会使用屏幕尺寸作为请求尺寸。
      */
     private fun testTarget(imageView: ImageView, item: String) {
-        //        Glide.with(imageView.context)
+//        Glide.with(imageView.context)
 //                .asBitmap()
 //                .load(item)
 //                .into(object : CustomViewTarget<ImageView, Bitmap>(imageView) {
