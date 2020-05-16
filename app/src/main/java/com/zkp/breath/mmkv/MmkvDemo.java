@@ -14,9 +14,11 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * 替换Sp的牛逼轻量级k-v框架（基于内存映射mmap原理），支持多进程，读写效率高出sp很多，推荐使用！推荐使用！
  * <p>
- * 支持的数据类型
+ * 1.MMKV 的使用非常简单，所有变更立马生效，无需调用 sync、apply。
+ * 2.支持的数据类型:
  * 基本类型：boolean、int、long、float、double、byte[]
  * 类和容器：1.String、Set<String>； 2.任何实现了Parcelable的类型
+ * 3.默认存放在app的内部私有路径，不要存放在外部，因为AndroidQ后对路径的存放做了限制，也为了数据的安全性。
  */
 public class MmkvDemo {
 
