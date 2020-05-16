@@ -148,7 +148,7 @@ dependencies {
 //    implementation 'com.tencent.imsdk:tuikit:4.5.45'
 
     // sp升级版框架（基于内存映射原理）
-    implementation 'com.tencent:mmkv:1.0.23'
+    implementation 'com.tencent:mmkv:1.1.1'
 
     // BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.2'
