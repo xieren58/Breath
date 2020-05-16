@@ -3,6 +3,7 @@ package com.zkp.breath.mmkv.template;
 import android.content.Context;
 
 import com.tencent.mmkv.MMKV;
+import com.tencent.mmkv.MMKVLogLevel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,10 @@ public class AppConfiguration implements AppInternalConfiguration, FunctionEntry
     private AppConfiguration(Context context) {
         // /data/data/包名/files/mmkv/
         MMKV.initialize(context);
+        // 接收转发mmkv的日志
+        MMKV.registerHandler(new MMKVHandlerLogcat());
+        // 设置日志的等级
+        MMKV.setLogLevel(MMKVLogLevel.LevelInfo);
         appInternalConfiguration = new AppInternalConfigurationImp();
         functionEntryConfiguration = new FunctionEntryConfigurationImp();
     }
