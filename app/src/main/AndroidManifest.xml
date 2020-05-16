@@ -176,6 +176,8 @@
 
         <activity android:name=".component.activity.GlideActivity" />
 
+        <activity android:name=".component.activity.MMKVActivity" />
+
         <service
             android:name=".component.service.IntentServiceA"
             android:exported="false" />
