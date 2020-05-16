@@ -30,10 +30,10 @@ class GlideAdapter(data: MutableList<String>? = null) :
 
     private fun common(imageView: ImageView, item: String) {
         val sharedOptions: RequestOptions = RequestOptions()
-                .placeholder(R.drawable.block_canary_icon)
-                .error(R.drawable.block_canary_icon)
+                .placeholder(R.drawable.ic_test)
+                .error(R.drawable.ic_test)
                 // 数据为null也视为合法情况
-                .fallback(R.drawable.block_canary_icon)
+                .fallback(R.drawable.ic_test)
                 // 默认磁盘缓存策略
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 // 是否跳过内存缓存
