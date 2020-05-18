@@ -41,6 +41,10 @@ public class RxJava2Demo {
     /**
      * 基本使用
      * 注意: 只有当上游和下游建立连接之后, 上游才会开始发送事件. 也就是调用了subscribe() 方法之后才开始发送事件.
+     *
+     * 这种观察者模型不支持背压：当被观察者快速发送大量数据时，下游不会做其他处理，即使数据大量堆积，调用链也不会
+     * 报MissingBackpressureException,消耗内存过大只会OOM。所以，当我们使用Observable/Observer的时候，
+     * 我们需要考虑的是，数据量是不是很大(官方给出以1000个事件为分界线作为参考)。
      */
     public static void basicUse() {
         // 被观察者
