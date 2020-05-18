@@ -32,6 +32,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * Created b Zwp on 2019/7/18. https://www.jianshu.com/p/464fa025229e 详细讲解可观看这位大佬的文章
+ * <p>
+ * 其实就是代理模式，然后一层一层传递调用。
  */
 public class RxJava2Demo {
 
@@ -91,6 +93,7 @@ public class RxJava2Demo {
             }
         });
 
+        // 可以设置只接收onNext事件，但是不推荐。
         Consumer<Integer> consumer = new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) throws Exception {
@@ -302,7 +305,7 @@ public class RxJava2Demo {
     }
 
     /**
-     * flatMap操作符，将数据源的每个事件构建成一个新的Observable对象。（再嵌套请求网络接口很有用）
+     * flatMap操作符，将数据源的每个事件构建成一个新的Observable对象。（在嵌套请求网络接口很有用）
      */
     public static void flatMap() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
@@ -384,6 +387,7 @@ public class RxJava2Demo {
                 });
 
         Observable.zip(integerObservable, stringObservable,
+                // 最后一个参数是最终的数据类型
                 new BiFunction<Integer, String, String>() {
 
                     @Override
