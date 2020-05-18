@@ -1,7 +1,7 @@
 package com.zkp.breath.kotlin
 
 // 编译期常量,相当于java的静态常量
-// 没有自定义 getter (即默认隐式get访问器)
+// 没有自定义 getter (即默认隐式get访问器),因为get访问器能自定义返回的value（即动态），所以不符合常量的定义。
 const val CONST = 22
 
 class Demo {
