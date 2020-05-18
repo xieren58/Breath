@@ -421,6 +421,11 @@ public class RxJava2Demo {
     }
 
     /**
+     * 当上下游在不同的线程中，通过Observable发射，处理，响应数据流时，如果上游发射数据的速度快于下游接收处理数据的
+     * 速度，这样对于那些没来得及处理的数据就会造成积压，这些数据既不会丢失，也不会被垃圾回收机制回收，而是存放在一
+     * 个异步缓存池中，如果缓存池中的数据一直得不到处理，越积越多，最后就会造成内存溢出，这便是响应式编程中的
+     * 背压（backpressure）问题。
+     * <p>
      * 同一个线程：1.创建策略发射器对象，内部持有下游；2.通过下游对象调用下游的onSubscribe（）方法将发射器对象
      * 传入到下游对象中存放，至此发射器和下游互相持有对方；3.通过上游对象调用上游的subscribe（）将发射器对象传入
      * 到上游对象中存放。
@@ -531,7 +536,23 @@ public class RxJava2Demo {
     }
 
     /**
-     * Drop就是直接把存不下的事件丢弃,Latest就是只保留最新的事件。
+     * 背压缓存策略：
+     * 1.Drop就是直接把存不下的事件丢弃（丢弃新的）
+     * 2.Latest就是只保留最新的事件（覆盖旧的）
+     * 3.error（超过128个事件就抛异常）
+     * 4.buffer (加大缓冲容量，比较容易出现内存溢出)
+     * 5.missing (超过就超过，不作出任何反应。一般场景都不会用的)
+     *
+     * <p>
+     * 线程调度器（Schedulers）：
+     * 1.AndroidSchedulers.mainThread()	需要依赖rxandroid库, 切换到UI线程。
+     * 2.Schedulers.computation()	用于计算任务，如事件循环和回调处理，默认线程数等于处理器数量。
+     * 3.Schedulers.io()	用于IO密集型任务，如异步阻塞IO操作，这个调度器的线程池会根据需求，
+     *                      它默认是一个CacheThreadScheduler。
+     * 4.Schedulers.newThread()	为每一个任务创建一个新线程。
+     * 5.Schedulers.trampoline():在当前线程中立刻执行，如当前线程中有任务在执行则将其暂停，等插入进来的任务
+     *                          执行完成之后，在将未完成的任务继续完成。（相当于Thread的join()作用）。
+     * 6.Scheduler.from(executor)	指定Executor作为调度器。
      */
     public static void backbressErrorInvok2(boolean flag) {
         Flowable.create(new FlowableOnSubscribe<Integer>() {
@@ -544,7 +565,7 @@ public class RxJava2Demo {
                 Log.i("backbressErrorInvok2", "发送完毕");
             }
         }, flag ? BackpressureStrategy.DROP : BackpressureStrategy.LATEST)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.trampoline())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new FlowableSubscriber<Integer>() {
                     @Override
@@ -684,6 +705,10 @@ public class RxJava2Demo {
                     public void onComplete() {
                     }
                 });
+    }
+
+    public static void w() {
+
     }
 }
 
