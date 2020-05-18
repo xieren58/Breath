@@ -58,6 +58,7 @@ class Example {
      * val/var <property name>: <Type> by <expression>。by 之后的表达式是代理，因为属性对应的 get()
      * （以及 set()）会被代理到它们的 getValue() 和 setValue() 方法, 所以代理类必须要要提供 getValue()
      *  函数（以及 var 变量的 setValue()）。
+     *  不允许自定义访问器（get/set）
      */
     var p: String by Delegate()
 
@@ -165,7 +166,7 @@ fun main(args: Array<String>) {
     proxy.getTask()
     // 代理类存在重写，则调用代理类重写的方法
     proxy.printMsg()
-    // 虽然代理类重写了我们msg字段，但是调用的方法没有进行重写，所以调用的还是使用被代理类的方法，而被代理类的方法指向的字段是其本身。
+    // 虽然代理类重写了msg字段，但是调用的方法没有进行重写，所以调用的还是使用被代理类的方法，而被代理类的方法指向的字段是其本身。
     proxy.printName()   // MI类的printName方法d:MI的信息字段"
     println("调用代理类自身重写的msg字段：{$proxy.msg}") //Proxy类的信息字段
 
