@@ -7,10 +7,7 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.constant.PermissionConstants
-import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.PermissionUtils
-import com.blankj.utilcode.util.ToastUtils
+import com.blankj.utilcode.util.*
 import com.zkp.breath.MainActivity
 import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
@@ -25,7 +22,7 @@ class ActivitySplash : BaseActivity() {
     private fun requestPermission() {
         PermissionUtils.permission(PermissionConstants.STORAGE, PermissionConstants.MICROPHONE)
                 .rationale(object : PermissionUtils.OnRationaleListener {
-                    override fun rationale(shouldRequest: PermissionUtils.OnRationaleListener.ShouldRequest?) {
+                    override fun rationale(activity: UtilsTransActivity?, shouldRequest: PermissionUtils.OnRationaleListener.ShouldRequest?) {
                         Log.i(TAG, "rationale")
                         shouldRequest?.again(true)
                     }
