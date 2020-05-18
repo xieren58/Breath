@@ -31,7 +31,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 /**
- * Created b Zwp on 2019/7/18. https://www.jianshu.com/p/464fa025229e 详细讲解可观看这位大佬的文章
+ * Created b Zwp on 2019/7/18.
+ * https://www.jianshu.com/p/464fa025229e 详细讲解可观看这位大佬的文章
+ * https://blog.csdn.net/LucasXu01/article/details/105279367
  * <p>
  * 其实就是代理模式，然后一层一层传递调用。
  */
@@ -711,9 +713,8 @@ public class RxJava2Demo {
                 });
     }
 
-    public static void w() {
 
-    }
+
 }
 
 
