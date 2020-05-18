@@ -28,11 +28,20 @@ public class BaseApplication extends MultiDexApplication {
             initARouter();
             AppConfiguration.getDefault(this);
 
-            UmUtils.initUmAnalytics(this);
-            UmUtils.initUmPush(this);
+            try {
+                UmUtils.initUmAnalytics(this);
+                // 接入推送就闪退，5。18号发现，之前不会
+//                UmUtils.initUmPush(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
-        UmUtils.initUmPushOnUmPushProcess(this);
+//        try {
+//            UmUtils.initUmPushOnUmPushProcess(this);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void initARouter() {
