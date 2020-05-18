@@ -15,6 +15,8 @@ package com.zkp.breath.kotlin
  *
  */
 fun main() {
+    intArrayOf()    // 相当于java的int[]，没有封箱
+    arrayOf<Int>()  // 相当于java的object[]，但存放的是int，有封箱
 
     // kotlin的数组语言层面支持泛型，而泛型不支持协变。
     val strs: Array<String> = arrayOf("a", "b", "c")
