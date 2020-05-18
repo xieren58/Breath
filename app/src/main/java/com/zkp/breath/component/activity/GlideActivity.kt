@@ -121,7 +121,7 @@ class GlideActivity : BaseActivity() {
 
                         override fun onResourceReady(resource: File?, model: Any?, target: Target<File>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                             val s = PathUtils.getExternalStoragePath() + "/glideBitmap1.png"
-                            FileUtils.copyFile(resource.toString(), s)
+                            FileUtils.copy(resource.toString(), s)
                             LogUtils.i("resource路径:" + resource.toString())
                             return true
                         }
@@ -146,7 +146,7 @@ class GlideActivity : BaseActivity() {
                         }
 
                         override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            val bitmap2Bytes = ImageUtils.bitmap2Bytes(resource, Bitmap.CompressFormat.PNG)
+                            val bitmap2Bytes = ImageUtils.bitmap2Bytes(resource)
                             val path = PathUtils.getExternalStoragePath() + "/glideBitmap.png"
                             val writeFileFromBytesByStream = FileIOUtils.writeFileFromBytesByStream(path, bitmap2Bytes)
                             LogUtils.i("是否写入成功:$writeFileFromBytesByStream")
