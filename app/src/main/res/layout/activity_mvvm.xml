@@ -3,9 +3,8 @@
 
     <!-- 定义和view绑定view_model -->
     <data>
-
         <variable
-            name="numVM"
+            name="vm"
             type="com.zkp.breath.designpattern.mvvm.ViewModel" />
     </data>
 
@@ -16,15 +15,15 @@
         android:orientation="vertical">
 
         <TextView
-            android:gravity="center"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:text="@{numVM.num}" />
+            android:gravity="center"
+            android:text="@{vm.num}" />
 
         <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:onClick="@{numVM::onClickAdd}"
+            android:onClick="@{vm::onClickAdd}"
             android:text="点击+1" />
     </LinearLayout>
 

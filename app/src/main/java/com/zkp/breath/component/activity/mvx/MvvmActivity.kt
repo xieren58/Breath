@@ -14,9 +14,9 @@ class MvvmActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 绑定view
-        binding = DataBindingUtil.setContentView<ActivityMvvmBinding>(this, R.layout.activity_mvvm)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_mvvm)
         // 绑定view_model
-        binding.numVM = ViewModel()
+        binding.vm = ViewModel()
     }
 
     override fun onDestroy() {
