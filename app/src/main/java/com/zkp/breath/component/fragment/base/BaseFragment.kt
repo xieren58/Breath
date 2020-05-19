@@ -8,9 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import androidx.viewbinding.ViewBinding
-import com.zkp.breath.databinding.FragmentTestBinding
-import java.lang.NullPointerException
 
 /**
  * Fragment支持构造函数传入布局，内部自动调用onCreateView（）函数。
@@ -38,7 +35,7 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.i(tag, "onCreateView()")
         val onCreateView = super.onCreateView(inflater, container, savedInstanceState)
-        val viewBinding = viewBinding(inflater)
+        val viewBinding = viewBinding(inflater, container, false)
         if (onCreateView == null && viewBinding == null) {
             throw IllegalStateException("请调用构造函数传入LayoutRes或者有效调用viewBinding()返回所属Fragment的布局")
         }
@@ -56,7 +53,11 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
         return null
     }
 
-    abstract fun viewBinding(inflater: LayoutInflater): View?
+    /**
+     * frgment使用viewbinding创建布局和Fragment的onCreateView一样，都需要传入三个参数，且最后一个参数默认为false。
+     * 如果不这样创建不能占满布局，详情可以看LayoutInflater.inflate()方法。
+     */
+    abstract fun viewBinding(inflater: LayoutInflater, container: ViewGroup?, b: Boolean = false): View?
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
