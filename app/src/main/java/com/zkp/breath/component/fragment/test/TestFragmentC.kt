@@ -1,4 +1,4 @@
-package com.zkp.breath.component.fragment
+package com.zkp.breath.component.fragment.test
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,7 +10,7 @@ import com.zkp.breath.R
 import com.zkp.breath.component.fragment.base.BaseFragment
 import com.zkp.breath.databinding.FragmentTestBinding
 
-class TestFragment : BaseFragment() {
+class TestFragmentC : BaseFragment() {
 
     private lateinit var binding: FragmentTestBinding
 
@@ -19,5 +19,10 @@ class TestFragment : BaseFragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity
+        binding.tv.text = "我是TestFragmentC"
+    }
 
 }

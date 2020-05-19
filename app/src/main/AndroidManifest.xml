@@ -178,7 +178,7 @@
 
         <activity android:name=".component.activity.MMKVActivity" />
 
-        <activity android:name=".component.activity.ActivityFragment" />
+        <activity android:name=".component.activity.FragmentDemoActivity" />
 
         <service
             android:name=".component.service.IntentServiceA"
