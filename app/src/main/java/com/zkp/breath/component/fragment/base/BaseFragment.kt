@@ -110,6 +110,11 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
         Log.i(tag, "onPause()")
     }
 
+    override fun onStop() {
+        super.onStop()
+        Log.i(tag, "onStop()")
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         Log.i(tag, "onDestroyView()")
