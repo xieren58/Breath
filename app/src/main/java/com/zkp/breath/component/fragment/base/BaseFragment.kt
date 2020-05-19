@@ -95,20 +95,6 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
         Log.i(tag, "onActivityCreated()")
     }
 
-    /**
-     * FragmentTransaction的commit()操作是异步的，内部通过mManager.enqueueAction()加入处理队列。
-     * 对应的同步方法为commitNow()，commit()内部会有checkStateLoss()操作，如果开发人员使用不当（比如commit()操
-     * 作在onSaveInstanceState()之后），可能会抛出异常，而commitAllowingStateLoss()方法则是不会抛出异常版本
-     * 的commit()方法，但是尽量使用commit()，而不要使用commitAllowingStateLoss()。
-     *
-     * addToBackStack("fname")是可选的。FragmentManager拥有回退栈（BackStack），类似于Activity的任务栈，
-     * 如果添加了该语句，就把该事务加入回退栈（压栈），当用户点击返回按钮，会回退该事务（回退指的是如果事务是add(frag1)，
-     * 那么回退操作就是remove(frag1)，即出栈）；如果没添加该语句，用户点击返回按钮会直接销毁Activity。
-     */
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-    }
-
     override fun onStart() {
         super.onStart()
         Log.i(tag, "onStart()")
@@ -139,5 +125,18 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
         Log.i(tag, "onDetach()")
     }
 
+    /**
+     * FragmentTransaction的commit()操作是异步的，内部通过mManager.enqueueAction()加入处理队列。
+     * 对应的同步方法为commitNow()，commit()内部会有checkStateLoss()操作，如果开发人员使用不当（比如commit()操
+     * 作在onSaveInstanceState()之后），可能会抛出异常，而commitAllowingStateLoss()方法则是不会抛出异常版本
+     * 的commit()方法，但是尽量使用commit()，而不要使用commitAllowingStateLoss()。
+     *
+     * addToBackStack("fname")是可选的。FragmentManager拥有回退栈（BackStack），类似于Activity的任务栈，
+     * 如果添加了该语句，就把该事务加入回退栈（压栈），当用户点击返回按钮，会回退该事务（回退指的是如果事务是add(frag1)，
+     * 那么回退操作就是remove(frag1)，即出栈）；如果没添加该语句，用户点击返回按钮会直接销毁Activity。
+     */
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+    }
 
 }
