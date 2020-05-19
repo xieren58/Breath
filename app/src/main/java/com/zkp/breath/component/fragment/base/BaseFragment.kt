@@ -27,7 +27,12 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
     }
 
     /**
-     * 该方法返回Fragment的UI布局，使用getView()获取跟布局的root_view。
+     * 该方法返回Fragment的UI布局，需要注意的是inflate()的第三个参数是false，因为在Fragment内部实现中，会把该
+     * 布局添加到container中，如果设为true，那么就会重复做两次添加，则会抛如下异常：
+     * Caused by: java.lang.IllegalStateException: The specified child already has a parent.
+     * You must call removeView() on the child's parent first.
+     *
+     * 使用getView()可以获取跟布局的root_view。
      *
      * 1.重写后使用ViewBinding的方式传入布局。
      * 2.如果使用主构造函数传入布局则不需要重写该方法。
