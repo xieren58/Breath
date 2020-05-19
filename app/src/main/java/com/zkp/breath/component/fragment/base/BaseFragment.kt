@@ -22,6 +22,11 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
 
 
     /**
+     * onAttach：onAttach()在fragment与Activity关联之后调用。需要注意的是，初始化fragment参数可以从
+     * getArguments()获得，但是，当Fragment附加到Activity之后，就无法再调用setArguments()。
+     * 所以除了在最开始时，其它时间都无法向初始化参数添加内容。
+     *
+     *
      * <p>
      * 解决getActivity()可能返回null，requireActivity()内部也是调用getActivity()只是会对结果进行判断，
      * 判断为null会抛出异常，所以这个方法调用的时候需要try-catch。
@@ -42,12 +47,20 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
         Log.i(tag, "onAttach()")
     }
 
+
+    /**
+     * onCreate：fragment初次创建时调用。尽管它看起来像是Activity的OnCreate()函数，但这个只是用来创建Fragment的。
+     * 此时的Activity还没有创建完成，因为我们的Fragment也是Activity创建的一部分。所以如果你想在这里使用Activity
+     * 中的一些资源，将会获取不到，如果想要获得Activity相关联的资源，必须在onActivityCreated中获取。
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i(tag, "onCreate()")
     }
 
     /**
+     * onCreateView：在这个fragment构造它的用户接口视图(即布局)时调用。
+     *
      * 该方法返回Fragment的UI布局，需要注意的是inflate()的第三个参数是false，因为在Fragment内部实现中，会把该
      * 布局添加到container中，如果设为true，那么就会重复做两次添加，则会抛如下异常：
      * Caused by: java.lang.IllegalStateException: The specified child already has a parent.
@@ -85,46 +98,80 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
      */
     abstract fun viewBinding(inflater: LayoutInflater, container: ViewGroup?, b: Boolean = false): View?
 
+
+    /**
+     * onViewCreated：fragment的视图构建完成。
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.i(tag, "onViewCreated()")
     }
 
+    /**
+     * onActivityCreated：在Activity的OnCreate()结束后，会调用此方法。所以到这里的时候Activity已经创建完成，
+     * 在这个函数中才可以使用Activity的所有资源。
+     */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.i(tag, "onActivityCreated()")
     }
 
+    /**
+     * onStart：当到OnStart()时，Fragment对用户就是可见的了，但用户还未开始与Fragment交互。在生命周期中也可以
+     * 看到Fragment的OnStart()过程与Activity的OnStart()过程是绑定的，意义即是一样的，以前你写在Activity的
+     * OnStart()中来处理的代码，用Fragment来实现时，依然可以放在OnStart()中来处理。
+     */
     override fun onStart() {
         super.onStart()
         Log.i(tag, "onStart()")
     }
 
+    /**
+     * onResume：当这个fragment对用户可见并且正在运行时调用。从生命周期对比中可以看到Fragment的OnResume与
+     * Activity的OnResume是相互绑定的，意义是一样的。当OnResume()结束后，就可以正式与用户交互了。
+     */
     override fun onResume() {
         super.onResume()
         Log.i(tag, "onResume()")
     }
 
+    /**
+     * onPause：此回调与Activity的OnPause()相绑定，与Activity的OnPause()意义一样。
+     */
     override fun onPause() {
         super.onPause()
         Log.i(tag, "onPause()")
     }
 
+    /**
+     * onStop：这个回调与Activity的OnStop()相绑定，意义一样。
+     * 一般切到桌面会走onPause和onStop，切回则会重走onStart和onResume。
+     */
     override fun onStop() {
         super.onStop()
         Log.i(tag, "onStop()")
     }
 
+    /**
+     * 如果Fragment即将被结束或保存，会将在onCreateView创建的视图与这个fragment分离。
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         Log.i(tag, "onDestroyView()")
     }
 
+    /**
+     * onDestroy：当这个fragment不再使用时调用。需要注意的是，它即使经过了onDestroy()阶段，
+     * 但仍然能从Activity中找到，因为它还没有Detach。
+     */
     override fun onDestroy() {
         super.onDestroy()
         Log.i(tag, "onDestroy()")
     }
 
+    /**
+     * onDetach：Fragment就不再与Activity相绑定，它也不再拥有视图层次结构，它的所有资源都将被释放。
+     */
     override fun onDetach() {
         super.onDetach()
         Log.i(tag, "onDetach()")
