@@ -6,10 +6,9 @@ import android.view.LayoutInflater
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.umeng.analytics.MobclickAgent
-import com.zkp.breath.component.activity.MaterialDialogsActivity
-import com.zkp.breath.component.activity.arouter.ARouterActivity
+import com.zkp.breath.component.activity.FragmentDemoActivity
 import com.zkp.breath.component.activity.base.BaseActivity
-import com.zkp.breath.component.activity.weight.RecycleViewActivity
+import com.zkp.breath.component.activity.mvx.MvvmActivity
 import com.zkp.breath.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity() {
@@ -18,7 +17,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // 模拟UM的事件统计
@@ -27,7 +26,7 @@ class MainActivity : BaseActivity() {
         umEventMap["page_name"] = "main_activity"
         MobclickAgent.onEventObject(this, "um_main_event", umEventMap)
 
-        ActivityUtils.startActivity(RecycleViewActivity::class.java)
+        ActivityUtils.startActivity(MvvmActivity::class.java)
     }
 
     override fun onResume() {
