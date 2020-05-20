@@ -2,7 +2,10 @@ package com.zkp.breath.kotlin
 
 /**
  * 强转Demo
- * as关键字，as？（强转失败会返回null，接收类型应该也要声明为可空）关键字
+ * as 强转关键字，as？（强转失败会返回null，接收类型应该也要声明为可空）关键字
+ *
+ * is：如果是类的话则是类型判断（判断成功自动转为该类型，即可调用该类型的方法或者属性）；如果是int，float，
+ * long，boolean则是数值判断。
  */
 
 open class Person {
