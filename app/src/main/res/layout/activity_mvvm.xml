@@ -5,8 +5,9 @@
     <data>
 
         <variable
-            name="numVM"
+            name="vm"
             type="com.zkp.breath.designpattern.mvvm.ViewModel" />
+
     </data>
 
 
@@ -19,12 +20,12 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:gravity="center"
-            android:text="@{numVM.num,default=my_default}" />
+            android:text="@{vm.num,default=my_default}" />
 
         <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:onClick="@{numVM::onClickAdd}"
+            android:onClick="@{vm::onClickAdd}"
             android:text="点击+1" />
     </LinearLayout>
 
