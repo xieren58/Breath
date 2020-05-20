@@ -51,28 +51,29 @@ fun main() {
     // 是否包含指定的元素
     val contains = arrayOfNulls.contains("a")
 
+    // 元素个数对应数组个数，最终所有数组归入到一个集合中。
     arrayOfNulls.flatMap {
         val listOf = arrayListOf<String>()
         listOf.add(it?.plus("拼接转换") ?: "我是空value")
         listOf
     }
 
-
+    // 定义一个初始值，然后传入数组的每个元素和初始值的操作逻辑的lambda表达式
     arrayOfNulls.fold("我是flod的初始值") { s, sNull -> s + sNull }
 
 //    arrayOfNulls.groupBy {  }
 
     // 遍历
-    arrayOfNulls.forEach { println("字符串数组内容: " + it) }
+    arrayOfNulls.forEach { println("字符串数组内容: $it") }
     println()
 
     // 自动推断类型
     val arrayOf = arrayOf(1, 2, 3)
-    arrayOf.forEach { println("int数组内容: " + it) }
+    arrayOf.forEach { println("int数组内容: $it") }
 
     // 指定类型
     val intArrayOf = intArrayOf(1, 2, 3)
-    intArrayOf.forEach { println("无封箱int数组内容: " + it) }
+    intArrayOf.forEach { println("无封箱int数组内容: $it") }
 
     // 指定类型，通过lambda表达式赋值
     val intArray = IntArray(5) { index -> index * 2 }
@@ -80,7 +81,7 @@ fun main() {
 
     // 创建一个 Array<String> 初始化为 ["0", "1", "4", "9", "16"]
     // index表示角标
-    val asc = Array(5, { index -> (index * index).toString() })
+    val asc = Array(5) { index -> (index * index).toString() }
     asc.forEach { println(it) }
 
 }
