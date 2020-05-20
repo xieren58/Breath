@@ -180,6 +180,8 @@
 
         <activity android:name=".component.activity.FragmentDemoActivity" />
 
+        <activity android:name=".component.activity.ViewModelActivity" />
+
         <service
             android:name=".component.service.IntentServiceA"
             android:exported="false" />
