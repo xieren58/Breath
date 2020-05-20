@@ -3,9 +3,11 @@
 
     <!-- 定义和view绑定view_model -->
     <data>
+
         <variable
             name="vm"
             type="com.zkp.breath.designpattern.mvvm.ViewModel" />
+
     </data>
 
 
@@ -18,7 +20,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:gravity="center"
-            android:text="@{vm.num}" />
+            android:text="@{vm.num,default=my_default}" />
 
         <Button
             android:layout_width="100dp"

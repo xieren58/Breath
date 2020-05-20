@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.zkp.breath.R;
+import com.zkp.breath.component.activity.base.BaseActivity;
 import com.zkp.breath.views.events.AViewGroup;
 import com.zkp.breath.views.events.BViwe;
 import com.zkp.breath.views.events.CView;
@@ -16,7 +17,7 @@ import butterknife.Unbinder;
 /**
  * Created b Zwp on 2019/8/13.
  */
-public class EventActivity extends AppCompatActivity {
+public class EventActivity extends BaseActivity {
 
     @BindView(R.id.b_v)
     BViwe mBV;

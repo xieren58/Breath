@@ -7,28 +7,38 @@ const val CONST = 22
 class Demo {
 
     // var 是 variable 的缩写， val 是 value 的缩写。
+    // 提供get/set访问器必须马上初始化，不允许在init（）中初始化。
+    // field  幕后字段只能用于属性的get/set访问器。（在kotlin中，属性名=value会被编译器翻译成调用setter方法进而形成递归死循环,所以在get/set中kotlin提供了field关键字用于解决这个问题）
     var i: Int = 2
         set(value) {
             // field幕后字段，代表该属性
             field = field + value
         }
         get() = field + 1
+
     val s
         get() = i == 3
 
     // 虽然 val 修饰的变量不能二次赋值，但可以通过自定义变量的 getter 函数，让变量每次被访问时，返回动态获取的值。
+    // val修饰声明了get访问器就可以不需要显示初始化。
     val ss
         // 幕后属性，指向别的属性的值来作为自身的初始值
         get() = s
 
-    // 延迟初始化属性
-    // 关键字lateinit,用于类体中的属性，顶层属性与局部变量
-    // 并且仅当该属性没有自定义get和set时，必须是非空类型，不能是原生类型(你声明为Int是不被允许的)。
+    /**
+     * 关键字lateinit，延迟初始化属性,用于类体中的属性，顶层属性与局部变量。
+     * 注意：
+     * 1.不允许自定义get/set访问器
+     * 2.必须是非空类型，不能是原生类型(你声明为Int是不被允许的)。
+     * 3.只能是var修饰（延迟赋值，不是不能赋值，而val定义后不能修改值所以不符合）
+     * 4.必须指定类型
+     */
     lateinit var lateinitStr: String
 
     fun test1() {
-        //重要，this::前缀是必须的。判断是否初始化
-        if (this::lateinitStr.isInitialized) {
+        // 重要,判断是否初始化
+        // ::表示一个对象，然后对象才能使用.xxx调用其方法或者属性
+        if (::lateinitStr.isInitialized) {
 
         }
     }
@@ -56,12 +66,11 @@ class ClassDemo {
     }
 }
 
-// 无类体省略了花括号'{}',类体即java中的成员函数和成员变量，而在kotlin中成员变量也叫做属性
+// 无类体省略了花括号'{}'
 class ClassDemo2
 
 
-// ‘constructor’关键字加构造参数表示主构造函数
-// 方法参数表示‘（参数名 : 参数类型）’
+// ‘constructor(参数)’关键字加构造参数表示主构造函数
 class ClassDemo3 constructor(s: String) {
 
 }
@@ -71,7 +80,7 @@ class ClassDemo4(s: String) {
 
 }
 
-// 可见修饰符放在关键字‘constructor’前面
+// 主构函数前添加可见修饰符表示该构造函数对外的可见度
 class ClassDemo5 private constructor(s: String) {
 
 }
@@ -113,7 +122,8 @@ class ClassDemo9 constructor(s: String) {
     var n5: String?
 
     // 初始化代码块（相当于主构函数的方法体）
-    // 主构函数的参数可以在此代码块中出现
+    // 主构函数的参数可以在此代码块中出现，先于次构造次执行
+    // 可以有多个初始化代码块，按照声明顺序执行
     init {
         n2 = ""
         n5 = ""
@@ -127,68 +137,4 @@ class ClassDemo9 constructor(s: String) {
     constructor(i: Int) : this("主构函数参数值") {
         println("次构造函数")
     }
-}
-
-
-class Demo13 {
-
-    var s: String = "哈哈"
-    var s1: String
-
-    // lateinit 只能修饰var的非空数据类型的属性，必须指定类型（因为lateinit的作用只是延迟初始化）
-    lateinit var s2: String
-    val s3: String = ""
-
-    // 提供get/set方法必须马上初始化，不允许在init（）中初始化。因为get/set方法都需要知道该属性的类型
-    var s4: String = ""
-        // field 关键词只能用于属性的get/set访问器
-        // 在kotlin中，属性名=value会被编译器翻译成调用setter方法进而形成递归死循环,所以在get/set中kotlin提供了field关键字用于解决这个问题
-        get() = field.toUpperCase()
-        set(value) {
-            if (value == "哈哈") {
-                field = "大于"
-            } else {
-                field = "小于"
-            }
-        }
-
-    val s5: String = "wo"
-        get() = field.toUpperCase()
-
-
-    init {
-        s1 = "你好s2"
-    }
-
-    fun setup() {
-        s2 = ""
-    }
-
-}
-
-
-class User1 {
-
-    init {
-        // 初始化代码块，先于下面的构造器执行
-        println("我是init")
-    }
-
-    // 相当于一个init{}代码块，按照声明顺序，上面的init{}先执行。
-    // 只能显示声明一个主构造器，但构造代码块可以有多个。
-    constructor() {
-        println("我是constructor")
-    }
-
-}
-
-
-fun main(args: Array<String>) {
-    // 知识点
-    // kotlin创建对象：val/var修饰符  变量名 = 类名（主构或者次构参数值）。
-    // java创建对象： private/public修饰符 变量名 = new关键字 类名（构造函数参数值）。会java的同学一看就感觉和kotlin创建对象的方式其实很像
-    val classDemo9 = ClassDemo9(1)
-
-    val demo13 = Demo13()
-    println("demo13的属性s4：${demo13.s4}")
 }
