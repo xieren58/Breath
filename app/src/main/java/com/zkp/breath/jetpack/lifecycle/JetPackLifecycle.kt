@@ -6,6 +6,8 @@ import androidx.lifecycle.LifecycleOwner
 
 /**
  * https://www.jianshu.com/p/2c9bcbf092bc
+ *
+ * 生命周期感知组件，
  */
 class JetPackLifecycle : DefaultLifecycleObserver {
 
