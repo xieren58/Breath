@@ -13,4 +13,5 @@ package com.zkp.breath.kotlin
  * 3.kotin和java的数组有什么区别？(语言层面kotlin的数组支持泛型，但编译后就是java的数组)
  * 4.intArrayOf()和arrayOf<Int>()的区别，前者没有封箱，后面有封箱。
  * 5.DelegationDemo的170行的例子，输出是哪个？
+ * 6.请说说lateinit关键字修饰的属性的作用和使用需要注意的地方？（ClassDemo的32行）
  */
