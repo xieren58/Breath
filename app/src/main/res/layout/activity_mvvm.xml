@@ -16,10 +16,10 @@
         android:orientation="vertical">
 
         <TextView
-            android:gravity="center"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:text="@{numVM.num}" />
+            android:gravity="center"
+            android:text="@{numVM.num,default=my_default}" />
 
         <Button
             android:layout_width="100dp"
