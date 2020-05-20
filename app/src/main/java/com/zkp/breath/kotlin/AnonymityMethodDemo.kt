@@ -11,6 +11,10 @@ val anonymityMethod3 = fun(x: Int, y: Int): Int {
     return x + y
 }
 
+fun lambdaAnonymityMethod(body: (Int, Int) -> Int, x: Int, y: Int) {
+    body(x, y)
+}
+
 fun anonymityMethod() {
 
     val anonymityMethod11 = anonymityMethod1(1, 2)
@@ -24,4 +28,7 @@ fun anonymityMethod() {
     fun localMethod(x: Int, y: Int): Int {
         return x + y
     }
+
+    // 使用匿名函数作为lambda表达式的参数
+    lambdaAnonymityMethod(anonymityMethod1, 1, 2)
 }
