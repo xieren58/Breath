@@ -180,9 +180,9 @@
 
         <activity android:name=".component.activity.FragmentDemoActivity" />
 
-        <activity android:name=".component.activity.ViewModelActivity" />
+        <activity android:name=".component.activity.jetpack.ViewModelActivity" />
 
-        <activity android:name=".component.activity.LifecycleActivity" />
+        <activity android:name=".component.activity.jetpack.LifecycleActivity" />
 
         <service
             android:name=".component.service.IntentServiceA"
