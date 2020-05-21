@@ -30,6 +30,8 @@ import com.zkp.breath.jetpack.livedata.JetPackLiveData
  *   请求接口数据，那么这个时间可能会造成视觉效果的卡顿。而放在oncreate中，等到执行到了onresume（）可能数据早已
  *   请求完毕。
  *
+ * LiveData更新值：
+ * 在主线程必须调用 setValue(T)； 工作线程可以使用postValue(T)。
  * */
 class LiveDataActivity : BaseActivity() {
 
