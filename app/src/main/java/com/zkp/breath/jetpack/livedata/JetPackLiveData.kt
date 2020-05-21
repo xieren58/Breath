@@ -1,4 +1,4 @@
-package com.zkp.breath.jetpack.viewmodel
+package com.zkp.breath.jetpack.livedata
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -12,7 +12,7 @@ import io.reactivex.rxjava3.internal.disposables.ListCompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 
-class JetPackViewModel : ViewModel(), DefaultLifecycleObserver {
+class JetPackLiveData : ViewModel(), DefaultLifecycleObserver {
 
     var data: MutableLiveData<String>? = null
     val mTasks: ListCompositeDisposable = ListCompositeDisposable()
@@ -53,4 +53,3 @@ class JetPackViewModel : ViewModel(), DefaultLifecycleObserver {
     }
 
 }
-
