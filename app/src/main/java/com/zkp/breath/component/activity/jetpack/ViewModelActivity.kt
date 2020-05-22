@@ -22,7 +22,9 @@ import com.zkp.breath.jetpack.viewmodel.JetPackViewModel
  *
  * 3.职能单一原则，数据请求或者管理不应该放在ui层，会导致ui层过臃肿。
  *
- *
+ * 注意：
+ * 1.Activity销毁的时候，框架会调用 ViewModel 对象的 onCleared() 方法，我们可以在这个方法进行释放资源的操作。
+ * 2.
  */
 class ViewModelActivity : BaseActivity() {
 
