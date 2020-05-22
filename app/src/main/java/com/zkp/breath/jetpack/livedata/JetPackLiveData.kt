@@ -8,7 +8,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.internal.disposables.ListCompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class JetPackLiveData : ViewModel(), DefaultLifecycleObserver {
+class JetPackLiveData : ViewModel() {
 
     var data: MutableLiveData<String>? = null
     private val mTasks: ListCompositeDisposable = ListCompositeDisposable()
@@ -100,8 +100,8 @@ class JetPackLiveData : ViewModel(), DefaultLifecycleObserver {
         return data
     }
 
-
-    override fun onDestroy(owner: LifecycleOwner) {
+    override fun onCleared() {
+        super.onCleared()
         mTasks.clear()
     }
 
