@@ -17,9 +17,16 @@ import com.zkp.breath.utils.UmUtils;
  */
 public class BaseApplication extends MultiDexApplication {
 
+    private static BaseApplication instance = null;
+
+    public static BaseApplication getInstance() {
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         if (ProcessUtils.isMainProcess()) {
             // 常用工具库初始化
             com.blankj.utilcode.util.Utils.init(this);
