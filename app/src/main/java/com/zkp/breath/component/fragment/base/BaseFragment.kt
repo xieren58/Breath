@@ -18,7 +18,7 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
     /**
      * 该上下文是Fragment的宿主Activity，需要使用到Activity的时候自己强转为Activity即可
      */
-    private lateinit var mContext: Context
+    lateinit var mContext: Context
 
 
     /**
