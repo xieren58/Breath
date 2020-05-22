@@ -15,6 +15,7 @@ class JetPackLiveData : ViewModel(), DefaultLifecycleObserver {
 
     var data: MutableLiveData<String>? = null
     val mTasks: ListCompositeDisposable = ListCompositeDisposable()
+    val cusLiveData = CusLiveData()
 
     fun initData(): MutableLiveData<String>? {
         if (data == null) {
@@ -65,7 +66,6 @@ class JetPackLiveData : ViewModel(), DefaultLifecycleObserver {
                     }
 
                     override fun onNext(t: String?) {
-                        ToastUtils.showShort("dxasxsxaxas")
                         data?.value = t
                     }
 

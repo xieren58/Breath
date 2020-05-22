@@ -32,6 +32,8 @@ import com.zkp.breath.jetpack.livedata.JetPackLiveData
  *
  * LiveData更新值：
  * 在主线程必须调用 setValue(T)； 工作线程可以使用postValue(T)。
+ *
+ *
  * */
 class LiveDataActivity : BaseActivity() {
 
@@ -53,6 +55,10 @@ class LiveDataActivity : BaseActivity() {
                 binding.tv.text = it
             })
         }
+
+        viewModel.cusLiveData.observe(this, Observer<String> {
+            ToastUtils.showShort(it)
+        })
     }
 
     private fun observe() {
