@@ -1,12 +1,20 @@
 package com.zkp.breath.component.activity.jetpack
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
+import com.zkp.breath.component.fragment.base.BaseFragment
 import com.zkp.breath.databinding.ActivityVmBinding
+import com.zkp.breath.databinding.FragmentTestBinding
 import com.zkp.breath.jetpack.viewmodel.JetPackAndroidViewModel
 import com.zkp.breath.jetpack.viewmodel.JetPackViewModel
 
@@ -53,6 +61,68 @@ class ViewModelActivity : BaseActivity() {
         androidViewModel.initData()?.observe(this, Observer<String> {
             ToastUtils.showShort("AndroidViewModel数据发生改变:$it")
         })
+
+
+        val viewModelAFragment = ViewModelAFragment()
+        FragmentUtils.add(supportFragmentManager, viewModelAFragment, R.id.rlt, false)
+        binding.mb.setOnClickListener {
+            val viewModelBFragment = ViewModelBFragment()
+        }
+    }
+
+
+    class ViewModelAFragment : BaseFragment() {
+
+        private lateinit var binding: FragmentTestBinding
+        private lateinit var viewModel: JetPackViewModel
+
+        override fun viewBinding(inflater: LayoutInflater, container: ViewGroup?, b: Boolean): View? {
+            binding = FragmentTestBinding.inflate(inflater, container, b)
+            return binding.root
+        }
+
+        @SuppressLint("SetTextI18n")
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            binding.tv.text = "ViewModelAFragment_测试ViewModel的共享资源能力"
+
+            activity?.run {
+                viewModel = ViewModelProvider(this).get(JetPackViewModel::class.java)
+                viewModel.data?.observe(this, Observer {
+                    ToastUtils.showShort("模拟Fragment之间数据共享_存放数据：$it")
+                })
+                viewModel.initData()
+            } ?: throw Exception("Invalid Activity")
+
+        }
+
+    }
+
+
+    class ViewModelBFragment : BaseFragment() {
+
+        private lateinit var binding: FragmentTestBinding
+        private lateinit var viewModel: JetPackViewModel
+
+        override fun viewBinding(inflater: LayoutInflater, container: ViewGroup?, b: Boolean): View? {
+            binding = FragmentTestBinding.inflate(inflater, container, b)
+            return binding.root
+        }
+
+        @SuppressLint("SetTextI18n")
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            binding.tv.text = "ViewModelAFragment_测试ViewModel的共享资源能力"
+
+            activity?.run {
+                viewModel = ViewModelProvider(this).get(JetPackViewModel::class.java)
+                viewModel.data?.observe(this, Observer {
+                    ToastUtils.showShort("模拟Fragment之间数据共享_获取ViewModelAFragment存放的数据：$it")
+                    binding.tv.text = it
+                })
+                viewModel.initData()
+            } ?: throw Exception("Invalid Activity")
+        }
 
     }
 
