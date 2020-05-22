@@ -1,6 +1,7 @@
 package com.zkp.breath.component.activity.jetpack
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -8,6 +9,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityLivedataBinding
 import com.zkp.breath.jetpack.livedata.JetPackLiveData
+import kotlin.math.log
 
 /**
  * https://developer.android.google.cn/topic/libraries/architecture/livedata#kotlin
@@ -56,8 +58,14 @@ class LiveDataActivity : BaseActivity() {
             })
         }
 
+        // 测试自定LiveData
         viewModel.cusLiveData.observe(this, Observer<String> {
             ToastUtils.showShort(it)
+        })
+
+        // 测试MediatorLiveData
+        viewModel.mediatorLiveData.observe(this, Observer<String> {
+            Log.i(TAG, "MediatorLiveData: $it")
         })
     }
 
