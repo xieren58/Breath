@@ -1,32 +1,59 @@
 package com.zkp.breath.jetpack.viewmodel
 
+import android.util.Log
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlin.concurrent.thread
+import com.blankj.utilcode.util.ToastUtils
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.internal.disposables.ListCompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 
-/**
- * ViewModel解决的问题：
- * 1.数据持久化:当我们的Activity/Fragment因为某些因素被销毁重建时(屏幕旋转)，这里就涉及到数据保存的问题，显然重新请求
- * 或加载数据是不友好的。在 ViewModel 出现之前我们可以用 activity 的onSaveInstanceState()机制保存和恢复数据，
- * 但缺点很明显，onSaveInstanceState只适合保存少量的可以被序列化、反序列化的数据，假如我们需要保存是一个比较大的
- * bitmap list ，这种机制明显不合适，由于 ViewModel 的特殊设计，可以解决此痛点。
- *
- * 2.异步回调问题：通常我们 app 需要频繁异步请求数据，比如调接口请求服务器数据。当然这些请求的回调都是相当耗时的，
- * 之前我们在 Activity 或 fragment里接收这些回调。所以不得不考虑潜在的内存泄漏情况，比如 Activity 被销毁后接口请
- * 求才返回。处理这些问题，会给我们增添好多复杂的工作。但现在我们利用 ViewModel 处理数据回调，可以完美的解决此痛点
- */
+
 class JetPackViewModel : ViewModel() {
 
     var data: MutableLiveData<String>? = null
-    var viewModelField = "viewModelField"
+    val mTasks: ListCompositeDisposable = ListCompositeDisposable()
 
-    fun vm() {
+    fun initData(): MutableLiveData<String>? {
         if (data == null) {
-            thread {
-                Thread.sleep(5000)
+            data = MutableLiveData()
 
-            }
+            Observable.create<String> {
+                ToastUtils.showShort("请求数据")
+                Thread.sleep(3000)
+                it.onNext("我是新数据")
+                it.onComplete()
+            }.subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(object : io.reactivex.rxjava3.core.Observer<String> {
+                        override fun onComplete() {
+                        }
+
+                        override fun onSubscribe(d: Disposable?) {
+                            mTasks.add(d)
+                        }
+
+                        override fun onNext(t: String?) {
+                            data?.value = t
+                        }
+
+                        override fun onError(e: Throwable?) {
+                        }
+
+                    })
         }
+        return data
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        mTasks.clear()
+        Log.i("JetPackViewModel", "onCleared()")
     }
 
 }
+
