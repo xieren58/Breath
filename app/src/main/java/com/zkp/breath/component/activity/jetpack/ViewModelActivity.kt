@@ -35,8 +35,11 @@ import com.zkp.breath.jetpack.viewmodel.JetPackViewModel
  * 1.Activity销毁的时候，框架会调用 ViewModel 对象的 onCleared() 方法，我们可以在这个方法进行释放资源的操作。
  * 2.ViewModel 绝不能引用视图、Lifecycle 或可能存储对 Activity 上下文的引用的任何类。因为vm是数据持久，而视图，Lifecycle
  *  （其实就是activity，fragment），引用activity上下文的类都会引起内存泄露。但是可以包含LifecycleObservers，如 LiveData 对象
- * 3. 如果 ViewModel 需要 Application 上下文（例如，为了查找系统服务），它可以扩展 AndroidViewModel 类并设置用
- *    于接收 Application 的构造函数。
+ * 3.如果 ViewModel 需要 Application 上下文（例如，为了查找系统服务），它可以扩展 AndroidViewModel 类并设置用
+ *   于接收 Application 的构造函数。
+ * 4.Fragment 之间共享数据。
+ *   Activity 不需要执行任何操作，也不需要对此通信有任何了解；
+ *   Fragment 不需要相互了解。
  */
 class ViewModelActivity : BaseActivity() {
 
