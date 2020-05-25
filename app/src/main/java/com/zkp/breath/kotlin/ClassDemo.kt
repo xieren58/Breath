@@ -7,14 +7,20 @@ const val CONST = 22
 class Demo {
 
     // var 是 variable 的缩写， val 是 value 的缩写。
-    // 提供get/set访问器必须马上初始化，不允许在init（）中初始化。
+    // get/set访问器中使用到filed关键字则必须马上初始化（自动推断或者显示声明类型），因为kotlin没有默认初始值
     // field  幕后字段只能用于属性的get/set访问器。（在kotlin中，属性名=value会被编译器翻译成调用setter方法进而形成递归死循环,所以在get/set中kotlin提供了field关键字用于解决这个问题）
     var i: Int = 2
         set(value) {
             // field幕后字段，代表该属性
-            field = field + value
+            field += value
         }
         get() = field + 1
+
+    val i1 = 22
+        get() = field + 2
+
+    val i2: Int
+        get() = 2
 
     val s
         get() = i == 3
@@ -28,8 +34,8 @@ class Demo {
     /**
      * 关键字lateinit，延迟初始化属性,用于类体中的属性，顶层属性与局部变量。
      * 注意：
-     * 1.不允许自定义get/set访问器
-     * 2.必须是非空类型，不能是原生类型(你声明为Int是不被允许的)。
+     * 1.不允许自定义get/set访问器（get访问器相当于初始化，而且get/set方法中使用到field幕后字段是需要马上初始化的，而关键字本上就是要延迟初始化，所以作用互斥）
+     * 2.必须是非空类型且不能是原生类型(你声明为Int是不被允许的)。
      * 3.只能是var修饰（延迟赋值，不是不能赋值，而val定义后不能修改值所以不符合）
      * 4.必须指定类型
      */
