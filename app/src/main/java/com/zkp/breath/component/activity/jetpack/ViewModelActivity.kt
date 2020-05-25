@@ -38,8 +38,12 @@ import com.zkp.breath.jetpack.viewmodel.JetPackViewModel
  * 3.如果 ViewModel 需要 Application 上下文（例如，为了查找系统服务），它可以扩展 AndroidViewModel 类并设置用
  *   于接收 Application 的构造函数。
  * 4.Fragment 之间共享数据。
- *   Activity 不需要执行任何操作，也不需要对此通信有任何了解；
- *   Fragment 不需要相互了解。
+ *   > Activity 不需要执行任何操作，也不需要对此通信有任何了解。
+ *   > Fragment 不需要相互了解。
+ *
+ *
+ * 保存界面状态的方法：https://developer.android.google.cn/topic/libraries/architecture/saving-states
+ *
  */
 class ViewModelActivity : BaseActivity() {
 
