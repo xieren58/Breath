@@ -1,7 +1,10 @@
 package com.zkp.breath.component.activity.jetpack
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import androidx.work.*
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityRoomBinding
 
@@ -18,7 +21,18 @@ class WorkManagerActivity : BaseActivity() {
         binding = ActivityRoomBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
+        val uploadWorkRequest = OneTimeWorkRequestBuilder<CustomWorker>().build()
+//        WorkManager.getInstance(this).enqueue(uploadWorkRequest)
+    }
 
+    class CustomWorker(appContext: Context, workerParams: WorkerParameters) : Worker(appContext, workerParams) {
+        override fun doWork(): Result {
+            for (i in 0..1000) {
+                Thread.sleep(100)
+                Log.i("CustomWorker", i.toString())
+            }
+            return Result.success()
+        }
     }
 
 
