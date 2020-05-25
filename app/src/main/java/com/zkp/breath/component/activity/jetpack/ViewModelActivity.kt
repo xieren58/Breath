@@ -58,15 +58,17 @@ class ViewModelActivity : BaseActivity() {
             ToastUtils.showShort("数据发生改变:$it")
         })
 
+        // 传入application的vm
         androidViewModel.initData()?.observe(this, Observer<String> {
             ToastUtils.showShort("AndroidViewModel数据发生改变:$it")
         })
 
-
+        // 模拟fragment之间的资源共享的场景。（因为vm的寄宿对象是activity）
         val viewModelAFragment = ViewModelAFragment()
         FragmentUtils.add(supportFragmentManager, viewModelAFragment, R.id.rlt, false)
         binding.mb.setOnClickListener {
             val viewModelBFragment = ViewModelBFragment()
+            FragmentUtils.add(supportFragmentManager, viewModelBFragment, R.id.rlt, false)
         }
     }
 
@@ -82,8 +84,8 @@ class ViewModelActivity : BaseActivity() {
         }
 
         @SuppressLint("SetTextI18n")
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
+        override fun onActivityCreated(savedInstanceState: Bundle?) {
+            super.onActivityCreated(savedInstanceState)
             binding.tv.text = "ViewModelAFragment_测试ViewModel的共享资源能力"
 
             activity?.run {
@@ -93,7 +95,6 @@ class ViewModelActivity : BaseActivity() {
                 })
                 viewModel.initData()
             } ?: throw Exception("Invalid Activity")
-
         }
 
     }
@@ -110,8 +111,8 @@ class ViewModelActivity : BaseActivity() {
         }
 
         @SuppressLint("SetTextI18n")
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
+        override fun onActivityCreated(savedInstanceState: Bundle?) {
+            super.onActivityCreated(savedInstanceState)
             binding.tv.text = "ViewModelAFragment_测试ViewModel的共享资源能力"
 
             activity?.run {
