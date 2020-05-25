@@ -33,17 +33,17 @@ fun main() {
     println("打印参数2：${s2}")
 
     // 解构方法
-    val (i1, i2, i3) = resolve()
+    val (i1, i2, i3) = arrayOf(1, 2, 3)
     println("i1: ${i1}, i2: ${i2}, i3: ${i3}")
 
     // Map优雅的遍历方式
     // 接收参数接收的是一个Pair，Pair本身也是Data类
     val hashMapOf = hashMapOf("a" to 1, "b" to 2, "c" to 3)
+    // 遍历出来元素类型是Pair，所以也能用解构声明获取
     for ((key, value) in hashMapOf) {
         println("获取到的key:${key}，value是：${value}")
     }
 
 }
 
-fun resolve() = arrayOf(1, 2, 3)
 
