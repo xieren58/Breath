@@ -1,8 +1,18 @@
 package com.zkp.breath.kotlin
 
+import android.content.res.Resources
+import android.util.TypedValue
+
 /**
- * 扩展函数
- * 例子很有代表性
+ * 扩展：给已有的类去额外添加函数和属性，而且既不需要改源码也不需要写子类。
+ *
+ * 扩展函数：
+ * 1.顶层扩展函数：并不属于任何一个类，只属于所在的package，只是限制只能通过某个类的对象才能调用。
+ * 2.成员扩展函数：既是外部类的成员函数，又是前缀类的扩展函数，只是由于它同时还是成员函数，所以只能在它所属的类里面被调用，
+ *   到了外面就不能用了。
+ * 3.顶层扩展函数和成员扩展函数区别在于可见性。
+ * 4.顶层扩展函数允许使用函数引用的调用方式，而成员扩展函数不允许。
+ *
  *
  * 一般的扩展函数或扩展属性我们都定义在顶层（扩展可以视为一种工具方法/属性）
  */
@@ -158,7 +168,7 @@ class C4 : C3() {
 // =====================================================
 // =====================================================
 
-fun String?.toString(): String {
+fun String?.toStringX(): String {
     if (this == null) return "null"
     // 空检测之后，“this”会自动转换为非空类型，调用不需要添加?.
     return toString()
@@ -172,6 +182,37 @@ fun String?.toString(): String {
 // 不能有初始化是因为扩展的前提是当前类存在，而这个属性应该指向其他资源，如果扩展属性有初始器那么就表明这个对象早已被创建。
 val <T> List<T>.cusLastIndex: Int
     get() = size
+
+//  dp转px
+val Float.dp
+    get() = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            this,
+            Resources.getSystem().displayMetrics
+    )
+
+val a: (Int) -> Unit = { println("$it") }
+// 把扩展函数的引用赋值给变量
+val a1: String.(Int) -> Unit = String::method1
+// 这种写法也是合法的，知道左边的调用方式即可。
+val b: (String, Int) -> Unit = String::method1
+val a2: String.(Int) -> Unit = {
+    println("调用者:$this")
+    println("参数:$it")
+}
+val a3: String.(Int) -> Unit = { i: Int ->
+    println("参数:$i")
+}
+
+
+// 存在Receiver的函数引用可以赋值给没有或者有Receiver的变量。
+val ax: String.(Int) -> Unit = String::method1
+val bx: (String, Int) -> Unit = String::method1
+val cx: String.(Int) -> Unit = bx
+val dx: (String, Int) -> Unit = ax
+
+val e: (String, Int) -> Unit = ::method2
+val f: String.(Int) -> Unit = ::method2
 
 // ======================================================
 // ======================================================
@@ -266,6 +307,14 @@ val MyClass.Companion.no: Int
     get() = 10
 
 
+fun String.method1(i: Int) {
+    println(i)
+}
+
+fun method2(s: String, i: Int) {
+
+}
+
 fun main(args: Array<String>) {
     val ele: H = J()
     ele.p()     // 输出"J.p",动态解析就是和java的多态一样
@@ -319,7 +368,7 @@ fun main(args: Array<String>) {
 
     // 调用的是扩展函数，因为我们声明为可null类型。（和重载的含义相似）
     val t: String? = ""
-    println(t.toString())
+    println(t.toStringX())
 
     // 调用的是Any的toString()
     val tt = ""
@@ -336,4 +385,25 @@ fun main(args: Array<String>) {
 
 
     val cusLastIndex = arrayListOf<String>("1", "2").cusLastIndex
+
+    // 以下都调用方式都相互等价
+    (String::method1)("rengwuxian", 1)  // 如果是类名的方式则参数首位一定是调用者
+    String::method1.invoke("rengwuxian", 1)
+    "".method1(1)
+    (""::method1)(1)
+    (""::method1).invoke(1)
+    ""::method1.invoke(1)
+
+    "rengwuxian".a1(1)
+    a1("rengwuxian", 1)
+    a1.invoke("rengwuxian", 1)
+
+
+    //    "rengwuxian".method2(1) // 不允许调用，报错
+    val f: String.(Int) -> Unit = ::method2
+    "rengwuxian".f(1) // 可以调用
+
+    "rengwuxian".method1(1) // 可以调用
+    val b: (String, Int) -> Unit = String::method1
+//    "rengwuxian".b(1) // 不允许调用，报错
 }
