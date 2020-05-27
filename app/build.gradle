@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'com.didi.dokit'
 
 kapt {
     arguments {
@@ -195,6 +196,10 @@ dependencies {
     // 界面卡顿工具
     debugImplementation 'com.github.markzhai:blockcanary-android:1.5.0'
     releaseImplementation 'com.github.markzhai:blockcanary-no-op:1.5.0'
+
+    // DoKit
+    debugImplementation "com.didichuxing.doraemonkit:doraemonkit:3.1.5"
+    releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.5"
 
     // 友盟基础组件库（所有友盟业务SDK都依赖基础组件库）
     implementation "com.umeng.umsdk:common:2.1.0"

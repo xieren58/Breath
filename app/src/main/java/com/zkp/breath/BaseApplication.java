@@ -6,6 +6,7 @@ import androidx.multidex.MultiDexApplication;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ProcessUtils;
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.github.moduth.blockcanary.BlockCanaryContext;
 import com.zkp.breath.mmkv.template.AppConfiguration;
@@ -32,7 +33,10 @@ public class BaseApplication extends MultiDexApplication {
             com.blankj.utilcode.util.Utils.init(this);
             // 初始化界面卡顿检查工具
             BlockCanary.install(this, new BlockCanaryContext()).start();
+            // 初始化阿里路由器框架
             initARouter();
+            // 初始化滴滴研发助手
+            DoraemonKit.install(this);
             AppConfiguration.getDefault(this);
 
             try {
