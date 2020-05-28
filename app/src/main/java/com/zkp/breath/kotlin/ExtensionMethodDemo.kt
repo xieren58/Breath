@@ -150,7 +150,7 @@ open class C3 {
     }
 
     fun caller(d: D3) {
-        d.foo()   // 调用扩展函数
+        d.foo()
     }
 }
 
@@ -168,7 +168,7 @@ class C4 : C3() {
 // =====================================================
 // =====================================================
 
-fun String?.toStringX(): String {
+fun String?.toString(): String {
     if (this == null) return "null"
     // 空检测之后，“this”会自动转换为非空类型，调用不需要添加?.
     return toString()
@@ -191,8 +191,10 @@ val Float.dp
     )
 
 val a: (Int) -> Unit = { println("$it") }
+
 // 把扩展函数的引用赋值给变量
 val a1: String.(Int) -> Unit = String::method1
+
 // 这种写法也是合法的，知道左边的调用方式即可。
 val b: (String, Int) -> Unit = String::method1
 val a2: String.(Int) -> Unit = {
@@ -335,8 +337,8 @@ fun main(args: Array<String>) {
     val n = N()
     n.p()   // n的类型为N
 
-    val m: M = N()
-    m.p()   // m的类型为M
+    val m: M = N()  // 多态
+    m.p()   // 扩展函数静态解析
 
     // =====================================================
     // =====================================================
@@ -367,11 +369,7 @@ fun main(args: Array<String>) {
 
     // 调用的是扩展函数，因为我们声明为可null类型。（和重载的含义相似）
     val t: String? = ""
-    println(t.toStringX())
-
-    // 调用的是Any的toString()
-    val tt = ""
-    println(tt.toString())
+    println(t.toString())
 
     // =====================================================
     // =====================================================
