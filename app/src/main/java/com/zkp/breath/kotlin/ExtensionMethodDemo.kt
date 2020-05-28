@@ -356,8 +356,8 @@ fun main(args: Array<String>) {
 
     // 以下都调用方式都相互等价
     "".method1(1)   // 最常见的写法
-    (String::method1)("rengwuxian", 1)  // 顶层扩展函数的函数引用，类名的调用方式，首位是扩展函数的接收者对象
-    String::method1.invoke("rengwuxian", 1)
+    (String::method1)("", 1)  // 顶层扩展函数的函数引用，类名的调用方式，首位是扩展函数的接收者对象
+    String::method1.invoke("", 1)
     (""::method1)(1)  // 扩展函数的接收者对象实例调用方式
     (""::method1).invoke(1)
     ""::method1.invoke(1)
