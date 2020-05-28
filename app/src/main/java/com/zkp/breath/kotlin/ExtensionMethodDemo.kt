@@ -79,25 +79,35 @@ fun N.p() = println("N.p")
 // =====================================================
 // =====================================================
 
+class Host(val hostname: String) {
+    fun printHostname() {
+        print(hostname)
+    }
+}
 
-class B2
+/**
+ * 类内声明其他类的扩展函数。
+ * 扩展声明所在的类的实例称为分发接收者（Connection），调用扩展方法的类的实例称为扩展接收者（Host）
+ */
+class Connection(val host: Host, val port: Int) {
 
-class A2 {
-    // 该类型扩展函数
-    fun A2.fa() {
-        println("扩展函数fa")
+    fun printPort() {
+        print(port)
     }
 
-    fun B2.fb() {
-        println("扩展函数fb")
+    fun printHostname() {}
+
+    fun Host.printConnectionString() {
+        // 调用 Host.printHostname()，因为这里相当于this.printHostname()，而this指代调用者即Host对象
+        printHostname()
+        // 调用 Connection.printPort()，因为这里相当于this@Connection.printPort（）
+        printPort()
+        // 分发接收者和扩展接收者同名函数情况下，调用分发接收者的方法加上： this@类名
+        this@Connection.printHostname()
     }
 
-    fun fa1() {
-        fa()    // 相当于this.fa()，而this就表示fa的接收者类型的实例
-    }
-
-    fun fb1(b: B2) {
-        b.fb()
+    fun connect() {
+        host.printConnectionString()   // 调用扩展函数
     }
 }
 
@@ -129,7 +139,6 @@ class C2 {
         d.foo()   // 调用扩展函数
     }
 }
-
 
 // =====================================================
 // =====================================================
@@ -164,59 +173,8 @@ class C4 : C3() {
     }
 }
 
-
 // =====================================================
 // =====================================================
-
-fun String?.toString(): String {
-    if (this == null) return "null"
-    // 空检测之后，“this”会自动转换为非空类型，调用不需要添加?.
-    return toString()
-}
-
-// ======================================================
-// ======================================================
-
-// 扩展属性
-// 扩展属性允许定义在类或者kotlin文件中，不允许定义在函数中，扩展属性只能被声明为 val,扩展属性不能有初始化器，没有后端字段field。
-val <T> List<T>.cusLastIndex: Int
-    get() = size
-
-//  dp转px
-val Float.dp
-    get() = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            this,
-            Resources.getSystem().displayMetrics
-    )
-
-val a: (Int) -> Unit = { println("$it") }
-
-// 把扩展函数的引用赋值给变量
-val a1: String.(Int) -> Unit = String::method1
-
-// 这种写法也是合法的，知道左边的调用方式即可。
-val b: (String, Int) -> Unit = String::method1
-val a2: String.(Int) -> Unit = {
-    println("调用者:$this")
-    println("参数:$it")
-}
-val a3: String.(Int) -> Unit = { i: Int ->
-    println("参数:$i")
-}
-
-
-// 存在Receiver的函数引用可以赋值给没有或者有Receiver的变量。
-val ax: String.(Int) -> Unit = String::method1
-val bx: (String, Int) -> Unit = String::method1
-val cx: String.(Int) -> Unit = bx
-val dx: (String, Int) -> Unit = ax
-
-val e: (String, Int) -> Unit = ::method2
-val f: String.(Int) -> Unit = ::method2
-
-// ======================================================
-// ======================================================
 
 class MyClass {
 
@@ -275,37 +233,59 @@ fun MyClass.Companion.foo() {
 val MyClass.Companion.no: Int
     get() = 10
 
-class Host(val hostname: String) {
-    fun printHostname() {
-        print(hostname)
-    }
+
+// =====================================================
+// =====================================================
+
+fun String?.toString(): String {
+    if (this == null) return "null"
+    // 空检测之后，“this”会自动转换为非空类型，调用不需要添加?.
+    return toString()
 }
 
-/**
- * 类内声明其他类的扩展函数。
- * 扩展声明所在的类的实例称为分发接收者（Connection），调用扩展方法的类的实例称为扩展接收者（Host）
- */
-class Connection(val host: Host, val port: Int) {
+// ======================================================
+// ======================================================
 
-    fun printPort() {
-        print(port)
-    }
+// 扩展属性
+// 扩展属性允许定义在类或者kotlin文件中，不允许定义在函数中，扩展属性只能被声明为 val,扩展属性不能有初始化器，没有后端字段field。
+val <T> List<T>.cusLastIndex: Int
+    get() = size
 
-    fun printHostname() {}
+//  dp转px
+val Float.dp
+    get() = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            this,
+            Resources.getSystem().displayMetrics
+    )
 
-    fun Host.printConnectionString() {
-        // 调用 Host.printHostname()，因为这里相当于this.printHostname()，而this指代调用者即Host对象
-        printHostname()
-        // 调用 Connection.printPort()，因为这里相当于this@Connection.printPort（）
-        printPort()
-        // 分发接收者和扩展接收者同名函数情况下，调用分发接收者的方法加上： this@类名
-        this@Connection.printHostname()
-    }
+val a: (Int) -> Unit = { println("$it") }
 
-    fun connect() {
-        host.printConnectionString()   // 调用扩展函数
-    }
+// 把扩展函数的引用赋值给变量
+val a1: String.(Int) -> Unit = String::method1
+
+// 这种写法也是合法的，知道左边的调用方式即可。
+val b: (String, Int) -> Unit = String::method1
+val a2: String.(Int) -> Unit = {
+    println("调用者:$this")
+    println("参数:$it")
 }
+val a3: String.(Int) -> Unit = { i: Int ->
+    println("参数:$i")
+}
+
+
+// 存在Receiver的函数引用可以赋值给没有或者有Receiver的变量。
+val ax: String.(Int) -> Unit = String::method1
+val bx: (String, Int) -> Unit = String::method1
+val cx: String.(Int) -> Unit = bx
+val dx: (String, Int) -> Unit = ax
+
+val e: (String, Int) -> Unit = ::method2
+val f: String.(Int) -> Unit = ::method2
+
+// ======================================================
+// ======================================================
 
 fun String.method1(i: Int) {
     println(i)
@@ -338,14 +318,6 @@ fun main(args: Array<String>) {
 
     val m: M = N()  // 多态
     m.p()   // 扩展函数静态解析
-
-    // =====================================================
-    // =====================================================
-
-    val aa = A2()
-    aa.fa1()
-    aa.fb1(B2())
-    println()
 
     // =====================================================
     // =====================================================
