@@ -355,10 +355,10 @@ fun main(args: Array<String>) {
     val cusLastIndex = arrayListOf<String>("1", "2").cusLastIndex
 
     // 以下都调用方式都相互等价
-    (String::method1)("rengwuxian", 1)  // 如果是类名的方式则参数首位一定是调用者
+    "".method1(1)   // 最常见的写法
+    (String::method1)("rengwuxian", 1)  // 顶层扩展函数的函数引用，类名的调用方式，首位是扩展函数的接收者对象
     String::method1.invoke("rengwuxian", 1)
-    "".method1(1)
-    (""::method1)(1)
+    (""::method1)(1)  // 扩展函数的接收者对象实例调用方式
     (""::method1).invoke(1)
     ""::method1.invoke(1)
 
@@ -366,12 +366,12 @@ fun main(args: Array<String>) {
     a1("rengwuxian", 1)
     a1.invoke("rengwuxian", 1)
 
-
     //    "rengwuxian".method2(1) // 不允许调用，报错
     val f: String.(Int) -> Unit = ::method2
     "rengwuxian".f(1) // 可以调用
 
     "rengwuxian".method1(1) // 可以调用
     val b: (String, Int) -> Unit = String::method1
+    b("rengwuxian", 1)
 //    "rengwuxian".b(1) // 不允许调用，报错
 }
