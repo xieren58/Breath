@@ -242,28 +242,38 @@ class MyClass {
         }
     }
 
-    // 类内伴生对象扩展函数
-    // 基于伴生对象依赖外部类，伴生对象的扩展函数也只能外部类才能调用。
-    fun Companion.foo() {
-        println("伴随对象的扩展函数（内部）")
+    // 主构函数方法体
+    init {
+        test2()
     }
 
     // 成员函数
     fun test2() {
         /**
-         * 类内的其它函数优先引用类内扩展的伴随对象函数，即对于类内其它成员函数来说，类内扩展屏蔽类外扩展.
-         * 类内的伴随对象扩展函数只能被类内的函数引用，不能被类外的函数和伴随对象内的函数引用；
+         * 注意：
+         * 1.类内的其它函数优先引用类内扩展的伴随对象函数，即对于类内其它成员函数来说，类内扩展屏蔽类外扩展.
+         * 2.类内的伴随对象扩展函数只能被类内的函数调用。
          */
         // 下面两种写法都可以
         MyClass.foo()
         Companion.foo()
     }
 
-    // 主构函数方法体
-    init {
-        test2()
+    // 类内伴生对象扩展函数
+    // 基于伴生对象依赖外部类，伴生对象的扩展函数也只能外部类才能调用。
+    fun Companion.foo() {
+        println("伴随对象的扩展函数（内部）")
     }
 }
+
+// 顶层伴生对象的扩展函数
+fun MyClass.Companion.foo() {
+    println("伴随对象的扩展函数")
+}
+
+// 顶层伴生对现象的扩展变量
+val MyClass.Companion.no: Int
+    get() = 10
 
 class Host(val hostname: String) {
     fun printHostname() {
@@ -296,17 +306,6 @@ class Connection(val host: Host, val port: Int) {
         host.printConnectionString()   // 调用扩展函数
     }
 }
-
-
-// 伴生对象的扩展函数
-fun MyClass.Companion.foo() {
-    println("伴随对象的扩展函数")
-}
-
-// 伴生对现象的扩展变量
-val MyClass.Companion.no: Int
-    get() = 10
-
 
 fun String.method1(i: Int) {
     println(i)
