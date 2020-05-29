@@ -130,8 +130,10 @@ fun main() {
 
 private fun applyDemo() {
     "apply".apply {
-
-    }
+        println(length)
+        println(first())
+        println(last())
+    }.length
 }
 
 private fun alsoDemo() {
