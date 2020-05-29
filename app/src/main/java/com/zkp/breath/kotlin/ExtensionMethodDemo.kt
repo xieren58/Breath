@@ -366,10 +366,12 @@ fun main(args: Array<String>) {
     a1("rengwuxian", 1)
     a1.invoke("rengwuxian", 1)
 
+    // 无接受者的函数引用赋值给有接受者的lambda表达式
     //    "rengwuxian".method2(1) // 不允许调用，报错
     val f: String.(Int) -> Unit = ::method2
     "rengwuxian".f(1) // 可以调用
 
+    // 有接受者的函数引用赋值给无接受者的lambda表达式
     "rengwuxian".method1(1) // 可以调用
     val b: (String, Int) -> Unit = String::method1
     b("rengwuxian", 1)
