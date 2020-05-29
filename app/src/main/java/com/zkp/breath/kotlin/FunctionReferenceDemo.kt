@@ -34,20 +34,20 @@ fun a(funParam: (Int) -> String): String {
     return funParam(1)
 }
 
-fun b(int: Int) = int.toString()
+fun b1(int: Int) = int.toString()
 
 
 fun main() {
-    b(1)    // 调用函数
-    val kFunction1 = ::b    // 函数引用，指向函数类型对象的引用
+    b1(1)    // 调用函数
+    val kFunction1 = ::b1    // 函数引用，指向函数类型对象的引用
     val kFunction2 = kFunction1 // 赋值操作，因为右边已经是一个函数类型对象，所以不用再加“::”
     kFunction1(1)   // 使用函数引用实现和b函数的等价操作，实际上调用的是这个对象的invoke()函数(一种语法糖)
     kFunction1.invoke(1)
     // 使用函数引用实现和b函数的等价操作，实际上调用的是这个对象的invoke()函数(一种语法糖)。
-    (::b)(1)   // 没有显示调用invoke（）函数，函数引用对象需要添加（）
-    (::b).invoke(1)
-    ::b.invoke(1)
-    a(::b)  // 使用::将方法变成函数引用，引用就是用作参数传递。
+    (::b1)(1)   // 没有显示调用invoke（）函数，函数引用对象需要添加（）
+    (::b1).invoke(1)
+    ::b1.invoke(1)
+    a(::b1)  // 使用::将方法变成函数引用，引用就是用作参数传递。
 
 
     // 匿名函数
