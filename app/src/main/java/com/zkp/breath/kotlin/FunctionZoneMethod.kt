@@ -26,13 +26,13 @@ import kotlin.random.Random
  *
  *
  * 使用选择：
- * 函数	    对象引用	    返回值	            是否是扩展函数
- * let	    it	        Lambda 表达式结果	是
- * run	    this	    Lambda 表达式结果	是
- * run	    -	        Lambda 表达式结果	不是：调用无需上下文对象
- * with	    this	    Lambda 表达式结果	不是：把上下文对象当做参数
- * apply	this        上下文对象	        是
- * also	    it	        上下文对象	        是
+ * 函数	    对象引用	    返回值	              是否是扩展函数
+ * let	    it	        Lambda 表达式结果          	是
+ * run	    this	    Lambda 表达式结果          	是
+ * run	    -	        Lambda 表达式结果  	不是：调用无需上下文对象
+ * with	    this	    Lambda 表达式结果  	不是：把上下文对象当做参数
+ * apply	this        上下文对象	                是
+ * also	    it	        上下文对象	                是
  *
  *
  * takeIf 与 takeUnless：返回值是可空类型
@@ -57,93 +57,62 @@ fun use() {
 }
 
 fun main() {
-//
-//    // 不使用作用域，需要使用对象的变量名去调用该类的方法或者属性
-//    val alice = FunctionZoneMethodClass("Alice", 20, "Amsterdam")
-//    println(alice)
-//    alice.moveTo("London")
-//    alice.incrementAge()
-//    println(alice)
-//
-//    // 可以省去变量名，上下文对象为it。
-//    FunctionZoneMethodClass("Alice", 20).let {
-//        println(it) // Person(name=Alice, age=20, city=Amsterdam)
-//        it.moveTo("London")
-//        it.incrementAge()
-//        println(it)  //Person(name=Alice, age=21, city=London)
-//    }
-//
-//
-//    val str = "Hello"
-//    // this（调用方法直接写方法名字即可）
-//    str.run {
-//        println("The receiver string length: $length")
-//        //println("The receiver string length: ${this.length}") // 和上句效果相同
-//    }
-//    // 上面的调用方式相当于下面的调用方式
-////    val block: String.() -> Unit = {
-////        println("The receiver string length: $length")
-////    }
-////    str.run(block)
-//
-//
-//    // it（调用方法名还是要用it.方法名）
-////    str.let(::println)  // 若代码块仅包含以 it 作为参数的单个函数，则可以使用方法引用(::)代替 lambda 表达式
-//    str.let {
-//        println("The receiver string's length is ${it.length}")
-//    }
-//    // 上面的调用方式相当于下面的调用方式
-////    val block: (String) -> Unit = {
-////        println("The receiver string's length is ${it.length}")
-////    }
-////    str.let(block)
-//
-//
-//    // ==================根据返回值的选择对应的功能与函数==================
-//    // ==================根据返回值的选择对应的功能与函数==================
-//    // 有点rx的操作符的味道
-//    val numberList = mutableListOf<Double>()
-//    numberList.also {
-//        println("Populating the list")
-//    }.apply {
-//        add(2.71)
-//        add(3.14)
-//        add(1.0)
-//    }.also {
-//        println("Sorting the list")
-//    }.sort()
-//
-//
-//    // 因为also最终返回的是上下文对象，所以可以配合return
-//    fun getRandomInt(): Int {
-//        return Random.nextInt(100).also {
-//            println("getRandomInt() generated value $it")
-//        }
-//    }
-//
-//    val i = getRandomInt()
-//
-//
-//    val mutableListOf = mutableListOf("A", "B", "C")
-//    val number = mutableListOf.run {
-//        add("D")
-//        add("E")
-//        add("F")
-//        // 最有一句最为返回值，所以看count功能域函数的返回值
-//        count {
-//            it.endsWith("e", true)
-//        }
-//    }
-//    println("There are $number elements that end with e.")
-//
-//
-//    // with:仅使用作用域函数为变量创建一个临时作用域
-//    val mutableListOf1 = mutableListOf("one", "two", "three")
-//    with(mutableListOf1) {
-//        val firstItem = first()
-//        val lastItem = last()
-//        println("First item: $firstItem, last item: $lastItem")
-//    }
+
+    // 不使用作用域，需要使用对象的变量名去调用该类的方法或者属性
+    val alice = FunctionZoneMethodClass("Alice", 20, "Amsterdam")
+    println(alice)
+    alice.moveTo("London")
+    alice.incrementAge()
+    println(alice)
+
+    letDemo()
+    runDemo()
+
+    // ==================根据返回值的选择对应的功能与函数==================
+    // ==================根据返回值的选择对应的功能与函数==================
+    // 有点rx的操作符的味道
+    val numberList = mutableListOf<Double>()
+    numberList.also {
+        println("Populating the list")
+    }.apply {
+        add(2.71)
+        add(3.14)
+        add(1.0)
+    }.also {
+        println("Sorting the list")
+    }.sort()
+
+
+    // 因为also最终返回的是上下文对象，所以可以配合return
+    fun getRandomInt(): Int {
+        return Random.nextInt(100).also {
+            println("getRandomInt() generated value $it")
+        }
+    }
+
+    val i = getRandomInt()
+
+
+    val mutableListOf = mutableListOf("A", "B", "C")
+    val number = mutableListOf.run {
+        add("D")
+        add("E")
+        add("F")
+        // 最有一句最为返回值，所以看count功能域函数的返回值
+        count {
+            it.endsWith("e", true)
+        }
+    }
+    println("There are $number elements that end with e.")
+
+
+    // with:仅使用作用域函数为变量创建一个临时作用域
+    val mutableListOf1 = mutableListOf("one", "two", "three")
+    with(mutableListOf1) {
+        val firstItem = first()
+        val lastItem = last()
+        println("First item: $firstItem, last item: $lastItem")
+    }
 
 
     val number1 = Random.nextInt(100)
@@ -157,4 +126,58 @@ fun main() {
     // 执行次数重复执行一个闭包（和for效果一样，比for更加简洁）
     repeat(8) { println("重复执行8次") }
 
+}
+
+private fun applyDemo() {
+    "apply".apply {
+        println(length)
+        println(first())
+        println(last())
+    }.length
+}
+
+private fun alsoDemo() {
+    // 使用also在最后一句返回it能达到相同的效果
+    "also".also {
+        println(it.length)
+        println(it.first())
+        println(it.last())
+    }.length
+}
+
+private fun runDemo() {
+    val str = "Hello"
+    str.run {
+        println("The receiver string length: $length")
+    }
+    // 上面的调用方式相当于下面的调用方式
+    val block: String.() -> Unit = {
+        println("The receiver string length: $length")
+    }
+    str.run(block)
+}
+
+// let功能域函数的demo
+private fun letDemo() {
+    FunctionZoneMethodClass("Alice", 20).let {
+        // 可以省去变量名，上下文对象为it。
+        println(it) // Person(name=Alice, age=20, city=Amsterdam)
+        it.moveTo("London")
+        it.incrementAge()
+        println(it)  //Person(name=Alice, age=21, city=London)
+    }
+
+    val letParams: (FunctionZoneMethodClass) -> Unit = {
+        it.moveTo("2")
+        it.incrementAge()
+        println(it) // 返回值。打印方法无返回值所以该lambda表达式的返回值为Unit
+    }
+    FunctionZoneMethodClass("1", 20).let(letParams)
+
+    val let = FunctionZoneMethodClass("1", 20).let {
+        it.moveTo("2")
+        it.incrementAge()
+        println(it)
+        it  // 返回值
+    }
 }

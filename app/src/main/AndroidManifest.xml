@@ -183,6 +183,8 @@
         <activity android:name=".component.activity.jetpack.ViewModelActivity" />
         <activity android:name=".component.activity.jetpack.LifecycleActivity" />
         <activity android:name=".component.activity.jetpack.LiveDataActivity" />
+        <activity android:name=".component.activity.jetpack.RoomActivity" />
+        <activity android:name=".component.activity.jetpack.WorkManagerActivity" />
 
         <service
             android:name=".component.service.IntentServiceA"

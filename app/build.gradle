@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'com.didi.dokit'
 
 kapt {
     arguments {
@@ -67,6 +68,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     sourceSets {
         main {
             java.srcDirs = ['src/main/java', 'src/main/aidl']
@@ -123,6 +128,14 @@ dependencies {
     // alternately - if using Java8, use the following instead of lifecycle-compiler
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // Work
+    implementation "androidx.work:work-runtime:$work_version"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
 
     implementation 'androidx.multidex:multidex:2.0.1'
 
@@ -183,6 +196,10 @@ dependencies {
     // 界面卡顿工具
     debugImplementation 'com.github.markzhai:blockcanary-android:1.5.0'
     releaseImplementation 'com.github.markzhai:blockcanary-no-op:1.5.0'
+
+    // DoKit
+    debugImplementation "com.didichuxing.doraemonkit:doraemonkit:3.1.5"
+    releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.5"
 
     // 友盟基础组件库（所有友盟业务SDK都依赖基础组件库）
     implementation "com.umeng.umsdk:common:2.1.0"

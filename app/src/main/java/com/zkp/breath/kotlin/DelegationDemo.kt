@@ -58,6 +58,7 @@ class Example {
      * val/var <property name>: <Type> by <expression>。by 之后的表达式是代理，因为属性对应的 get()
      * （以及 set()）会被代理到它们的 getValue() 和 setValue() 方法, 所以代理类必须要要提供 getValue()
      *  函数（以及 var 变量的 setValue()）。
+     *
      *  不允许自定义访问器（get/set）
      */
     var p: String by Delegate()
@@ -116,8 +117,13 @@ class Delegate3 : ReadOnlyProperty<Int, String> {
  * lazy() 是一个函数，参数是一个 lambda ，返回值是一个 Lazy<T> 实例，这个实例可以作为实现懒属性的代理：get() 的第
  * 一次调用会执行传给 lazy() 的 lambda 并且记录执行结果，后续的 get() 调用仅仅返回第一次记录的结果。
  *
- * 默认情况下，懒属性的计算是同步（线程同步[LazyThreadSafetyMode.SYNCHRONIZED]）的，如果多个线程都可以初始化则把LazyThreadSafetyMode.PUBLICATION 作为
- * 参数传给 lazy() 函数。同步的话初始化只有一次，后续的get（）只会返回第一次记录的结果；而不同步则每次都会进行初始化。
+ * 默认情况下，懒属性的计算是同步（线程同步[LazyThreadSafetyMode.SYNCHRONIZED]）的，如果多个线程都可以初始化则把
+ * LazyThreadSafetyMode.PUBLICATION 作为参数传给 lazy() 函数。同步的话初始化只有一次，后续的get（）只会返回第
+ * 一次记录的结果；而不同步则每次都会进行初始化。
+ *
+ * 注意：
+ * 1.在未初始化的前提下调用lazy()的返回值Lzay的属性value也会触发初始化流程。
+ * 2.lazy函数代理的属性只能是val。（lazy是延迟，懒惰的意思，如果是var那么可以赋值，作用互斥）
  */
 val lazyValue: String by lazy {
     println("computed!")
@@ -126,7 +132,7 @@ val lazyValue: String by lazy {
 
 class User {
     /**
-     * 可观察属性:监听器会收到有关此属性变更的通知。
+     * 可观察属性:监听器会收到有关此属性变更的通知。(不能val修饰的属性，val属性不能赋值)
      * Delegates.observable() 接受两个参数：初始值与修改时处理程序（handler）。 每当我们给属性赋值时会调用该处理
      * 程序（在赋值后执行，相当于一个回调方法），它有三个参数：被赋值的属性、旧值与新值。
      */
@@ -138,6 +144,8 @@ class User {
     /**
      * 如果你想截获赋值并“否决”它们，那么使用 vetoable() 取代 observable()。 在属性被赋新值生效之前会调用传递给
      * vetoable 的处理程序，相当于我们定义了一个赋值条件。
+     *
+     * 常见场景：状态切换。（比如播放音乐，如果当前处于播放状态，那么再设置播放状态是不允许的，返回false）
      */
     var id: String by Delegates.vetoable("<initValue>") { property, oldValue, newValue ->
         print("被修改的属性名为：${property.name}")
@@ -148,7 +156,9 @@ class User {
 }
 
 /**
- * 使用map作为代理对象来存放被委托的属性的值，注意map中的key要和被代理的属性名相同，否则会查不到该属性的值
+ * 使用map作为代理对象来存放被委托的属性的值，注意map中的key要和被代理的属性名相同，否则会查不到该属性的值。
+ *
+ * 常见场景：解析一段json，然后赋值给一个对象。
  */
 class Client(map: Map<String, Any?>, mutableMap: MutableMap<String, Any?>) {
     val name: String by map
@@ -184,6 +194,12 @@ fun main(args: Array<String>) {
 
     println(lazyValue)
     println(lazyValue)
+
+    val lazy = lazy { "延迟初始化" }
+    val sLazy: String by lazy
+    // 在未初始化的前提下获取Lazy类的属性value和调用被代理者都会触发初始化
+    val value = lazy.value
+    val initialized = lazy.isInitialized()
 
     println()
     println()

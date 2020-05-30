@@ -2,10 +2,10 @@ package com.zkp.breath.kotlin
 
 
 /**
- * 数据类，提供了一些常用的方法。对应java的Bean类
- * 组建函数componentN()，解构声明，copy函数。
- *
+ * 数据类，对应java的Bean类，组建函数componentN()，解构声明，copy函数。
  * 解构声明：内部调用的是组建函数componentN()，但是能解析的只用定义在类名后的主构函数的成员属性。
+ *
+ * 注意：数组和集合也能使用解构声明。
  */
 data class DataClass(val s: String, var i: Int) {
     val ss: String = ""
@@ -32,18 +32,23 @@ fun main() {
     val (_, s2) = pair
     println("打印参数2：${s2}")
 
-    // 解构方法
-    val (i1, i2, i3) = resolve()
-    println("i1: ${i1}, i2: ${i2}, i3: ${i3}")
+    // 数组也能使用解构声明
+    val (i1, i2, i3) = arrayOf(1, 2, 3)
+    println("i1: ${i1}, i2: ${i2}, i3: $i3")
+
+    // 集合也能使用解构声明
+    val (a1, a2, a3) = arrayListOf(1, 2, 3)
+    println("i1: ${a1}, i2: ${a2}, i3: $a3")
+
 
     // Map优雅的遍历方式
     // 接收参数接收的是一个Pair，Pair本身也是Data类
     val hashMapOf = hashMapOf("a" to 1, "b" to 2, "c" to 3)
+    // 遍历出来元素类型是Pair，所以也能用解构声明获取
     for ((key, value) in hashMapOf) {
         println("获取到的key:${key}，value是：${value}")
     }
 
 }
 
-fun resolve() = arrayOf(1, 2, 3)
 

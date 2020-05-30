@@ -1,8 +1,18 @@
 package com.zkp.breath.kotlin
 
+import android.content.res.Resources
+import android.util.TypedValue
+
 /**
- * 扩展函数
- * 例子很有代表性
+ * 扩展：给已有的类去额外添加函数和属性，而且既不需要改源码也不需要写子类。
+ *
+ * 扩展函数：
+ * 1.顶层扩展函数：并不属于任何一个类，只属于所在的package，只是限制只能通过某个类的对象才能调用。
+ * 2.成员扩展函数：既是外部类的成员函数，又是前缀类的扩展函数，只是由于它同时还是成员函数，所以只能在它所属的类里面被调用，
+ *   到了外面就不能用了。
+ * 3.顶层扩展函数和成员扩展函数区别在于可见性。
+ * 4.顶层扩展函数允许使用函数引用的调用方式，而成员扩展函数不允许。
+ *
  *
  * 一般的扩展函数或扩展属性我们都定义在顶层（扩展可以视为一种工具方法/属性）
  */
@@ -69,160 +79,6 @@ fun N.p() = println("N.p")
 // =====================================================
 // =====================================================
 
-
-class B2
-
-class A2 {
-    // 该类型扩展函数
-    fun A2.fa() {
-        println("扩展函数fa")
-    }
-
-    fun B2.fb() {
-        println("扩展函数fb")
-    }
-
-    fun fa1() {
-        fa()    // 相当于this.fa()，而this就表示fa的接收者类型的实例
-    }
-
-    fun fb1(b: B2) {
-        b.fb()
-    }
-}
-
-// =====================================================
-// =====================================================
-
-class D {
-    fun bar() {
-        println("D bar")
-    }
-}
-
-class C2 {
-    fun baz() {
-        println("C baz")
-    }
-
-    fun bar() {
-        println("C bar")
-    }
-
-    fun D.foo() {
-        bar()   // 输出”D bar“。相当于this.bar()，该函数为扩展函数，所以this为接受者类型，即为D。
-        baz()   // 输出”C.baz“。相当于this@C2.baz()
-        this@C2.bar()  //   输出”C.bar“。本类存在和接收者类型所在类同名方法，如果要调用自身的方法，一定要加this@本类类名.方法名()
-    }
-
-    fun caller(d: D) {
-        d.foo()   // 调用扩展函数
-    }
-}
-
-
-// =====================================================
-// =====================================================
-
-open class D3 {
-}
-
-class D1 : D3() {
-}
-
-open class C3 {
-    open fun D3.foo() {
-        println("D.foo in C")
-    }
-
-    open fun D1.foo() {
-        println("D1.foo in C")
-    }
-
-    fun caller(d: D3) {
-        d.foo()   // 调用扩展函数
-    }
-}
-
-class C4 : C3() {
-    override fun D3.foo() {
-        println("D.foo in C1")
-    }
-
-    override fun D1.foo() {
-        println("D1.foo in C1")
-    }
-}
-
-
-// =====================================================
-// =====================================================
-
-fun String?.toString(): String {
-    if (this == null) return "null"
-    // 空检测之后，“this”会自动转换为非空类型，调用不需要添加?.
-    return toString()
-}
-
-// ======================================================
-// ======================================================
-
-// 扩展属性
-// 扩展属性允许定义在类或者kotlin文件中，不允许定义在函数中，扩展属性只能被声明为 val,扩展属性不能有初始化器，没有后端字段field。
-// 不能有初始化是因为扩展的前提是当前类存在，而这个属性应该指向其他资源，如果扩展属性有初始器那么就表明这个对象早已被创建。
-val <T> List<T>.cusLastIndex: Int
-    get() = size
-
-// ======================================================
-// ======================================================
-
-class MyClass {
-
-    /**
-     * 1.因为伴生对象是在外部类实例化的时候才去实例化，所以伴生对象是不能调用外部类的成员方法或者属性的
-     * 2.伴生对象可以有扩展函数
-     */
-    companion object {
-
-        val myClassField1: Int = 1
-        var myClassField2 = "this is myClassField2"
-
-        fun companionFun1() {
-            println("this is 1st companion function.")
-            // 伴生对象相当于java的静态成员（实际不是），所以这里看成静态方法，静态方法不能调用成员方法， 所以这里调用的是顶层方法
-            foo()
-        }
-
-        // 伴生对象的成员函数
-        fun companionFun2() {
-            println("this is 2st companion function.")
-            companionFun1()
-        }
-    }
-
-    // 类内伴生对象扩展函数
-    // 基于伴生对象依赖外部类，伴生对象的扩展函数也只能外部类才能调用。
-    fun Companion.foo() {
-        println("伴随对象的扩展函数（内部）")
-    }
-
-    // 成员函数
-    fun test2() {
-        /**
-         * 类内的其它函数优先引用类内扩展的伴随对象函数，即对于类内其它成员函数来说，类内扩展屏蔽类外扩展.
-         * 类内的伴随对象扩展函数只能被类内的函数引用，不能被类外的函数和伴随对象内的函数引用；
-         */
-        // 下面两种写法都可以
-        MyClass.foo()
-        Companion.foo()
-    }
-
-    // 主构函数方法体
-    init {
-        test2()
-    }
-}
-
 class Host(val hostname: String) {
     fun printHostname() {
         print(hostname)
@@ -255,16 +111,189 @@ class Connection(val host: Host, val port: Int) {
     }
 }
 
+// =====================================================
+// =====================================================
 
-// 伴生对象的扩展函数
+class D {
+    fun bar() {
+        println("D bar")
+    }
+}
+
+class C2 {
+    fun baz() {
+        println("C baz")
+    }
+
+    fun bar() {
+        println("C bar")
+    }
+
+    fun D.foo() {
+        bar()   // 输出”D bar“。相当于this.bar()，该函数为扩展函数，所以this为接受者类型，即为D。
+        baz()   // 输出”C.baz“。相当于this@C2.baz()
+        this@C2.bar()  //   输出”C.bar“。本类存在和接收者类型所在类同名方法，如果要调用自身的方法，一定要加this@本类类名.方法名()
+    }
+
+    fun caller(d: D) {
+        d.foo()   // 调用扩展函数
+    }
+}
+
+// =====================================================
+// =====================================================
+
+open class D3 {
+}
+
+class D1 : D3() {
+}
+
+open class C3 {
+    open fun D3.foo() {
+        println("D.foo in C")
+    }
+
+    open fun D1.foo() {
+        println("D1.foo in C")
+    }
+
+    fun caller(d: D3) {
+        d.foo()
+    }
+}
+
+class C4 : C3() {
+    override fun D3.foo() {
+        println("D.foo in C1")
+    }
+
+    override fun D1.foo() {
+        println("D1.foo in C1")
+    }
+}
+
+// =====================================================
+// =====================================================
+
+class MyClass {
+
+    /**
+     * 1.因为伴生对象是在外部类实例化的时候才去实例化，所以伴生对象是不能调用外部类的成员方法或者属性的
+     * 2.伴生对象可以有扩展函数
+     */
+    companion object {
+
+        val myClassField1: Int = 1
+        var myClassField2 = "this is myClassField2"
+
+        fun companionFun1() {
+            println("this is 1st companion function.")
+            // 伴生对象相当于java的静态成员（实际不是），所以这里看成静态方法，静态方法不能调用成员方法， 所以这里调用的是顶层方法
+            foo()
+        }
+
+        // 伴生对象的成员函数
+        fun companionFun2() {
+            println("this is 2st companion function.")
+            companionFun1()
+        }
+    }
+
+    // 主构函数方法体
+    init {
+        test2()
+    }
+
+    // 成员函数
+    fun test2() {
+        /**
+         * 注意：
+         * 1.类内的其它函数优先引用类内扩展的伴随对象函数，即对于类内其它成员函数来说，类内扩展屏蔽类外扩展.
+         * 2.类内的伴随对象扩展函数只能被类内的函数调用。
+         */
+        // 下面两种写法都可以
+        MyClass.foo()
+        Companion.foo()
+    }
+
+    // 类内伴生对象扩展函数
+    // 基于伴生对象依赖外部类，伴生对象的扩展函数也只能外部类才能调用。
+    fun Companion.foo() {
+        println("伴随对象的扩展函数（内部）")
+    }
+}
+
+// 顶层伴生对象的扩展函数
 fun MyClass.Companion.foo() {
     println("伴随对象的扩展函数")
 }
 
-// 伴生对现象的扩展变量
+// 顶层伴生对现象的扩展变量
 val MyClass.Companion.no: Int
     get() = 10
 
+
+// =====================================================
+// =====================================================
+
+fun String?.toString(): String {
+    if (this == null) return "null"
+    // 空检测之后，“this”会自动转换为非空类型，调用不需要添加?.
+    return toString()
+}
+
+// ======================================================
+// ======================================================
+
+// 扩展属性
+// 扩展属性允许定义在类或者kotlin文件中，不允许定义在函数中，扩展属性只能被声明为 val,扩展属性不能有初始化器，没有后端字段field。
+val <T> List<T>.cusLastIndex: Int
+    get() = size
+
+//  dp转px
+val Float.dp
+    get() = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            this,
+            Resources.getSystem().displayMetrics
+    )
+
+val a: (Int) -> Unit = { println("$it") }
+
+// 把扩展函数的引用赋值给变量
+val a1: String.(Int) -> Unit = String::method1
+
+// 这种写法也是合法的，知道左边的调用方式即可。
+val b: (String, Int) -> Unit = String::method1
+val a2: String.(Int) -> Unit = {
+    println("调用者:$this")
+    println("参数:$it")
+}
+val a3: String.(Int) -> Unit = { i: Int ->
+    println("参数:$i")
+}
+
+
+// 存在Receiver的函数引用可以赋值给没有或者有Receiver的变量。
+val ax: String.(Int) -> Unit = String::method1
+val bx: (String, Int) -> Unit = String::method1
+val cx: String.(Int) -> Unit = bx
+val dx: (String, Int) -> Unit = ax
+
+val e: (String, Int) -> Unit = ::method2
+val f: String.(Int) -> Unit = ::method2
+
+// ======================================================
+// ======================================================
+
+fun String.method1(i: Int) {
+    println(i)
+}
+
+fun method2(s: String, i: Int) {
+
+}
 
 fun main(args: Array<String>) {
     val ele: H = J()
@@ -287,16 +316,8 @@ fun main(args: Array<String>) {
     val n = N()
     n.p()   // n的类型为N
 
-    val m: M = N()
-    m.p()   // m的类型为M
-
-    // =====================================================
-    // =====================================================
-
-    val aa = A2()
-    aa.fa1()
-    aa.fb1(B2())
-    println()
+    val m: M = N()  // 多态
+    m.p()   // 扩展函数静态解析
 
     // =====================================================
     // =====================================================
@@ -321,10 +342,6 @@ fun main(args: Array<String>) {
     val t: String? = ""
     println(t.toString())
 
-    // 调用的是Any的toString()
-    val tt = ""
-    println(tt.toString())
-
     // =====================================================
     // =====================================================
 
@@ -336,4 +353,27 @@ fun main(args: Array<String>) {
 
 
     val cusLastIndex = arrayListOf<String>("1", "2").cusLastIndex
+
+    // 以下都调用方式都相互等价
+    "".method1(1)   // 最常见的写法
+    (String::method1)("", 1)  // 顶层扩展函数的函数引用，类名的调用方式，首位是扩展函数的接收者对象
+    String::method1.invoke("", 1)
+    (""::method1)(1)  // 扩展函数的接收者对象实例调用方式
+    (""::method1).invoke(1)
+    ""::method1.invoke(1)
+
+    "rengwuxian".a1(1)
+    a1("rengwuxian", 1)
+    a1.invoke("rengwuxian", 1)
+
+    // 无接受者的函数引用赋值给有接受者的lambda表达式
+    //    "rengwuxian".method2(1) // 不允许调用，报错
+    val f: String.(Int) -> Unit = ::method2
+    "rengwuxian".f(1) // 可以调用
+
+    // 有接受者的函数引用赋值给无接受者的lambda表达式
+    "rengwuxian".method1(1) // 可以调用
+    val b: (String, Int) -> Unit = String::method1
+    b("rengwuxian", 1)
+//    "rengwuxian".b(1) // 不允许调用，报错
 }

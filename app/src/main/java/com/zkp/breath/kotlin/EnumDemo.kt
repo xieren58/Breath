@@ -1,19 +1,29 @@
 package com.zkp.breath.kotlin
 
-// 枚举Demo
+
+/**
+ * 1. 枚举类能定义抽象方法
+ * 2. 枚举类能实现接口，但不能继承抽象类。
+ */
+
 enum class Color1 {
     RED, BLACK, BLUE, GREEN, WHITE
 }
 
-enum class Color(val rgb: Int) {
-    RED(0xFF0000),
-    GREEN(0x00FF00),
-    BLUE(0x0000FF)
+enum class Color(val rgb: Int, var alpha: Float = 1f) {
+    RED(0xFF0000, 0f),
+    GREEN(0x00FF00, 0.5f),
+    BLUE(0x0000FF);
 }
 
 //定义一个接口
 interface ItemClickListener {
     fun onClick(msg: String)
+}
+
+abstract class XXxxx {
+    abstract fun xxx()
+
 }
 
 //枚举类继承接口，每个常量都必须重写接口的方法
