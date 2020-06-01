@@ -43,7 +43,8 @@ class AsImp2 : AS {
  * 和java不同的是java的接口累的属性都是常量。
  */
 interface A1 {
-    // 接口的var属性实现访问器的时候set/get都要实现，不能只实现一个。接口中的规定就是这样，别问为什么
+    // 接口的var属性实现访问器的时候set/get都要实现，不能只实现一个。
+    // var属性的set构造器不能实现方法体（可以有默认值（get构造器），但不能有默认实现，交给实现类实现）
     var a: String
         get() = "我们"
         set(value) {}
@@ -64,7 +65,7 @@ class B1 : A1 {
     override val bb: String
         get() = super.bb
 
-    // 父类的name没有重写get，所以这里不能调用super.name，因为这样是无效的，相当于无重写
+    // 父类的name没有重写get，所以这里不能调用super.name，因为这样是无效的。
     override var name: String = ""
 }
 
