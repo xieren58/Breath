@@ -42,6 +42,9 @@ package com.zkp.breath.kotlin
  * 不需要额外维护一个实例变量 sInstance。
  * 不需要「保证实例只创建一次」的 getInstance() 方法。
  */
+
+
+// object关键字：创建了一个类，并且创建一个这个类的对象。 在代码中如果要使用这个对象，直接通过它的类名就可以访问。
 object Sample {
     val name = "A name"
 }
@@ -96,6 +99,7 @@ interface Two {
     fun towFunction()
 }
 
+// object定义的类可以继承类和实现接口
 object Three : One(20), Two {
     override fun towFunction() {
     }
