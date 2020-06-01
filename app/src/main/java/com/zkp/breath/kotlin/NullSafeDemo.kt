@@ -103,3 +103,18 @@ fun tes4(): String? {
 fun test5(b: String?) {
     val l = b!!.length
 }
+
+/**
+ * Java 里面的 @Nullable 和 @NonNull 注解，在转换成 Kotlin 后对应的就是可空变量和不可空变量
+ */
+fun test6() {
+    // java
+//    @Nullable
+//    String name;
+//    @NonNull
+//    String value = "hello";
+
+    // kotlin
+    var name: String? = null
+    var value: String = "hello"
+}

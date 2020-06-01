@@ -6,12 +6,14 @@ const val CONST = 22
 
 class Demo {
 
+    // Kotlin 的变量是没有默认值的，Java 的 field 有默认值（但java的局部变量也是没有默认值的）
     // var 是 variable 的缩写， val 是 value 的缩写。
     // get/set访问器中使用到filed关键字则必须马上初始化（自动推断或者显示声明类型），因为kotlin没有默认初始值
     // field  幕后字段只能用于属性的get/set访问器。（在kotlin中，属性名=value会被编译器翻译成调用setter方法进而形成递归死循环,所以在get/set中kotlin提供了field关键字用于解决这个问题）
     var i: Int = 2
+        // setter 函数参数是 value
         set(value) {
-            // field幕后字段，代表该属性
+            // field幕后字段，代表该属性，相当于java中的this.属性名的简写
             field += value
         }
         get() = field + 1
@@ -32,6 +34,7 @@ class Demo {
         get() = s
 
     /**
+     * 「我很确定我用的时候绝对不为空，但第一时间我没法给它赋值」
      * 关键字lateinit，延迟初始化属性,用于类体中的属性，顶层属性与局部变量。
      * 注意：
      * 1.不允许自定义get/set访问器（get访问器相当于初始化，而且get/set方法中使用到field幕后字段是需要马上初始化的，而关键字本上就是要延迟初始化，所以作用互斥）
