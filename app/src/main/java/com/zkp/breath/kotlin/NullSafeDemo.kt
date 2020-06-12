@@ -118,3 +118,20 @@ fun test6() {
     var name: String? = null
     var value: String = "hello"
 }
+
+fun check() {
+    val age = -1
+    require(age > 0) {
+
+    }
+
+    val name = null
+    checkNotNull(name) {
+
+    }
+
+    requireNotNull(name) {
+
+    }
+
+}
