@@ -30,6 +30,8 @@ import com.zkp.breath.databinding.ActivityAruoterBinding
 
 /**
  * https://www.jianshu.com/p/6021f3f61fa6
+ *
+ * 1. 定义的参数必须是public，否则编译不通过
  */
 
 class ARouterActivity : BaseActivity(), OnItemClickListener {
