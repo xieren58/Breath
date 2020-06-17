@@ -5,7 +5,10 @@ package com.zkp.breath.kotlin
  * 数据类，对应java的Bean类，组建函数componentN()，解构声明，copy函数。
  * 解构声明：内部调用的是组建函数componentN()，但是能解析的只用定义在类名后的主构函数的成员属性。
  *
- * 注意：数组和集合也能使用解构声明。
+ * 注意：1.数组和集合也能使用解构声明。
+ *      2.主构函数必须带有全局变量。
+ *      3.针对Gson反序列化的情况，必须声明默认无参构造函数或者主沟函数的变量设置默认值，
+ *      （防止出现变量为非空类型，但获取的实际值还是null）。https://mp.weixin.qq.com/s/jVRTFTiwTtr7P7vyAj8G7A
  */
 data class DataClass(val s: String, var i: Int) {
     val ss: String = ""
