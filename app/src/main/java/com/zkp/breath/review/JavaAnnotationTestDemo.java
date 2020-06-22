@@ -116,10 +116,25 @@ public class JavaAnnotationTestDemo {
         }
     }
 
+    @SafeVarargs
+    private static <T> void safeVarargsTest(T... args) {
+
+    }
+
+    /**
+     * 在学习 Lambda 表达式时，我们提到如果接口中只有一个抽象方法，那么该接口就是函数式接口。@FunctionalInterface
+     * 就是用来指定某个接口必须是函数式接口，所以 @FunInterface 只能修饰接口。
+     */
+    @FunctionalInterface
+    interface FunctionInterfaceTest {
+        void test();
+    }
+
     public static void main(String[] args) {
         // 如果有开发人员试图使用或重写被 @Deprecated 标示的方法，编译器会给相应的提示信息
         deprecatedTest();
         suppressWarningsTest();
+        safeVarargsTest();
         try {
             reflectionAnnotationTest();
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
