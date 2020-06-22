@@ -7,6 +7,13 @@ package com.zkp.breath.review;
  * @Override - 检查该方法是否是重写方法。如果发现其父类，或者是引用的接口中并没有该方法时，会报编译错误。
  * @Deprecated - 标记过时方法。如果使用该方法，会报编译警告。
  * @SuppressWarnings - 指示编译器去忽略注解中声明的警告。
+ *      deprecation  -- 使用了不赞成使用的类或方法时的警告
+ *      unchecked    -- 执行了未检查的转换时的警告，例如当使用集合时没有用泛型 (Generics) 来指定集合保存的类型。
+ *      fallthrough  -- 当 Switch 程序块直接通往下一种情况而没有 Break 时的警告。
+ *      path         -- 在类路径、源文件路径等中有不存在的路径时的警告。
+ *      serial       -- 当在可序列化的类上缺少 serialVersionUID 定义时的警告。
+ *      finally      -- 任何 finally 子句不能正常完成时的警告。
+ *      all          -- 关于以上所有情况的警告。
  *
  * <p>
  * 作用在其他注解的注解(或者说 元注解)是:
