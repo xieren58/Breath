@@ -2,6 +2,7 @@ package com.zkp.breath.review;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Inherited;
+import java.lang.annotation.Repeatable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -144,10 +145,33 @@ public class JavaAnnotationTestDemo {
 
     // =============================================================================
 
-//    @Repeatable()
-//    public @interface Persons {
-//
-//    }
+    public @interface Schedules {
+        Schedule[] value();
+    }
+
+    @Repeatable(Schedules.class)
+    public @interface Schedule {
+        String dayOfMonth() default "first";
+
+        int hour() default 12;
+    }
+
+    public class RepeatableAnnotationDemo {
+        @Schedule(dayOfMonth = "last")
+        @Schedule(hour = 23)
+        public void doPeriodicCleanup() {
+
+        }
+    }
+
+    public static void repeatableTest() throws NoSuchMethodException {
+        Method doPeriodicCleanup = RepeatableAnnotationDemo.class.getMethod("doPeriodicCleanup");
+
+        Annotation[] annotations = doPeriodicCleanup.getAnnotations();
+        for (Annotation annotation : annotations) {
+            System.out.println("注解：" + annotation);
+        }
+    }
 
 
     // =============================================================================
@@ -159,6 +183,11 @@ public class JavaAnnotationTestDemo {
         deprecatedTest();
         suppressWarningsTest();
         safeVarargsTest();
+        try {
+            repeatableTest();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
         try {
             reflectionAnnotationTest();
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
