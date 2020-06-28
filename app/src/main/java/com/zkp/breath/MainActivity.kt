@@ -2,16 +2,11 @@ package com.zkp.breath
 
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.umeng.analytics.MobclickAgent
-import com.zkp.breath.component.activity.FragmentDemoActivity
 import com.zkp.breath.component.activity.base.BaseActivity
-import com.zkp.breath.component.activity.jetpack.LifecycleActivity
-import com.zkp.breath.component.activity.jetpack.LiveDataActivity
 import com.zkp.breath.component.activity.jetpack.ViewModelActivity
-import com.zkp.breath.component.activity.mvx.MvvmActivity
 import com.zkp.breath.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity() {
