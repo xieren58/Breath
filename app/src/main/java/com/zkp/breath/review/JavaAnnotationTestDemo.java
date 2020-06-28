@@ -21,7 +21,7 @@ public class JavaAnnotationTestDemo {
     }
 
     @Inheritable
-    class InheritableFather {
+    private static class InheritableFather {
         public InheritableFather() {
             // InheritableBase是否具有 Inheritable Annotation
             // Class类的isAnnotationPresent()方法，某个类是否有某个注解。
@@ -29,7 +29,7 @@ public class JavaAnnotationTestDemo {
         }
     }
 
-    public class InheritableSon extends InheritableFather {
+    private static class InheritableSon extends InheritableFather {
         public InheritableSon() {
             // 调用父类的构造函数
             super();
@@ -149,6 +149,7 @@ public class JavaAnnotationTestDemo {
         Schedule[] value();
     }
 
+    // 定义的注解指向其他注解，被指向的注解的值是定义注解的数组
     @Repeatable(Schedules.class)
     public @interface Schedule {
         String dayOfMonth() default "first";
@@ -179,6 +180,8 @@ public class JavaAnnotationTestDemo {
     // =============================================================================
 
     public static void main(String[] args) {
+        InheritableSon inheritableSon = new InheritableSon();
+
         // 如果有开发人员试图使用或重写被 @Deprecated 标示的方法，编译器会给相应的提示信息
         deprecatedTest();
         suppressWarningsTest();
