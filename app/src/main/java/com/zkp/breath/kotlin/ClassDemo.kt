@@ -96,10 +96,22 @@ class ClassDemo5 private constructor(s: String) {
 
 // 多个次构造函数（类似于java的方法重构）
 // 没有主构函数，不需要在次构函数后面加this()去表示调用主构函数
-class ClassDemo6 {
+open class ClassDemo6 {
     constructor(s: String)
     constructor(i: Int)
     constructor(s: String, i: Int)
+}
+
+// 类头的父类无（），所以要在类体中声明构造函数然后指向super
+class ClassDemo6X1 : ClassDemo6 {
+    constructor() : super("") {
+
+    }
+}
+
+// 直接在类头实现父类
+class ClassDemo6X2 : ClassDemo6("") {
+
 }
 
 class ClassDemo7 constructor(s: String) {
@@ -110,13 +122,12 @@ class ClassDemo7 constructor(s: String) {
 }
 
 // 主构函数参数存在默认值
-class ClassDemo8 constructor(s: String = "默认值") {
+open class ClassDemo8 constructor(s: String = "默认值") {
     // this()括号中可以不传值
     constructor(i: Int, s: String) : this() {
 
     }
 }
-
 
 class ClassDemo9 constructor(s: String) {
 
