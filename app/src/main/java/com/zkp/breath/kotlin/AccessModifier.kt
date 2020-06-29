@@ -1,10 +1,12 @@
 package com.zkp.breath.kotlin
 
-// 类的访问权限修饰符
-//private    仅在同一个文件中可见
-//protected  同一个文件中或子类可见
-//public     所有调用的地方都可见
-//internal   同一个模块中可见
+/**
+ * 可见性修饰符
+ * 1.public ：公开，可见性最大，哪里都可以引用。
+ * 2.private：私有，可见性最小，根据声明位置不同可分为类中可见和文件中可见。
+ * 3.protected：保护，相当于 private + 子类可见。
+ * 4.internal：内部，仅对 module 内可见。
+ */
 
 
 /**
