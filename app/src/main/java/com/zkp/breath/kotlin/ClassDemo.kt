@@ -4,7 +4,16 @@ package com.zkp.breath.kotlin
 // 没有自定义 getter (即默认隐式get访问器),因为get访问器能自定义返回的value（即动态），所以不符合常量的定义。
 const val CONST = 22
 
-class Demo {
+class Demo(name: String) {
+
+    // var/val变量在init代码块初始化，则可以不用马上初始化
+    val name1 = name
+    var name2 = name
+    var name3: String
+
+    init {
+        this.name3 = name
+    }
 
     // Kotlin 的变量是没有默认值的，Java 的 field 有默认值（但java的局部变量也是没有默认值的）
     // var 是 variable 的缩写， val 是 value(只读变量) 的缩写。
@@ -82,7 +91,6 @@ open class ClassDemo2
 
 // ‘constructor(参数)’关键字加构造参数表示主构造函数
 class ClassDemo3 constructor(s: String) {
-
 }
 
 // 没有任何注解或者可见性修饰符可以省略关键字‘constructor’
