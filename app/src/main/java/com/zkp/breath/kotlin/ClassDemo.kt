@@ -7,7 +7,7 @@ const val CONST = 22
 class Demo {
 
     // Kotlin 的变量是没有默认值的，Java 的 field 有默认值（但java的局部变量也是没有默认值的）
-    // var 是 variable 的缩写， val 是 value 的缩写。
+    // var 是 variable 的缩写， val 是 value(只读变量) 的缩写。
     // get/set访问器中使用到filed关键字则必须马上初始化（自动推断或者显示声明类型），因为kotlin没有默认初始值
     // field  幕后字段只能用于属性的get/set访问器。（在kotlin中，属性名=value会被编译器翻译成调用setter方法进而形成递归死循环,所以在get/set中kotlin提供了field关键字用于解决这个问题）
     var i: Int = 2
