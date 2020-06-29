@@ -22,6 +22,11 @@ fun main() {
     val strs: Array<String> = arrayOf("a", "b", "c")
 //    val anys: Array<Any> = strs // compile-error: Type mismatch
 
+    // java的数组子类对象是能赋值给父类变量，因为java的数组不支持泛型
+//    String[] strs = {"a", "b", "c"};
+//    Object[] objs = strs; // success
+
+
     // 可空类型
     val arrayOfNulls = arrayOfNulls<String>(3)
     val arrayOfNulls2: Array<String?> = arrayOfNulls(3) // 另外一种写法
