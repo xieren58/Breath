@@ -76,8 +76,7 @@ class ClassDemo {
 }
 
 // 无类体省略了花括号'{}'
-class ClassDemo2
-
+open class ClassDemo2
 
 // ‘constructor(参数)’关键字加构造参数表示主构造函数
 class ClassDemo3 constructor(s: String) {
@@ -102,17 +101,35 @@ open class ClassDemo6 {
     constructor(s: String, i: Int)
 }
 
-// 类头的父类无（），所以要在类体中声明构造函数然后指向super
+// 类头的父类无（），所以要在类体中声明的次构造函数要指向super或者调用指向super的this
 class ClassDemo6X1 : ClassDemo6 {
-    constructor() : super("") {
 
+    constructor(int: Int, s: String) : super("") {
+        println("ClassDemo6X1_无参数构造函数")
+    }
+
+    constructor(s: String) : this(0, "") {
+
+    }
+
+    constructor(int: Int) : super("")
+
+
+    init {
+        println("ClassDemo6X1的init{}")
     }
 }
 
 // 直接在类头实现父类
 class ClassDemo6X2 : ClassDemo6("") {
-
 }
+
+class ClassDemo6X3(s: String) {
+    init {
+        println(s)
+    }
+}
+
 
 class ClassDemo7 constructor(s: String) {
     // 存在主构的话则次构函数在参数后‘: this（主构函数参数）’表示间接调用主构函数
