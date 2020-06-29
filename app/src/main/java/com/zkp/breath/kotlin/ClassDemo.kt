@@ -49,10 +49,8 @@ class Demo {
     lateinit var lateinitStr: String
 
     fun test1() {
-        // 重要,判断是否初始化
-        // ::表示一个对象，然后对象才能使用.xxx调用其方法或者属性
+        // TODO 重要,判断是否初始化
         if (::lateinitStr.isInitialized) {
-
         }
     }
 }
