@@ -32,10 +32,14 @@ package com.zkp.breath.kotlin
  *  ...
  *  }
  *
- * object的意思就是创建了一个类的对象，然后调用这个对象的方法或者属性可以直接使用类名.方法/属性。
- * 其实就是java中的单例。object个人理解其实就是一个语法糖，省略了java的单例每次调用都需要：
- * “类名.getgetInstance().变量/方法” 中的getgetInstance（）,object类直接使用类名.变量/方法即可且不需要
- * 额外维护一个实例变量 sInstance。
+ *  kotlin的单例
+ *
+ *  object A {
+ *      val number: Int = 1
+ *      fun method() {
+ *          println("A.method()")
+ *      }
+ *  }
  *
  * 这种通过 object 实现的单例是一个饿汉式的单例，并且实现了线程安全，和 Java 相比的不同点有：
  * 和类的定义类似，但是把 class 换成了 object 。
