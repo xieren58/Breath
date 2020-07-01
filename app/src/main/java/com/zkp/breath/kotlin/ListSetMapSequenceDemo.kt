@@ -24,6 +24,8 @@ fun main() {
 
 /**
  *
+ * https://mp.weixin.qq.com/s/LR538GcADyY205Vhsk_Egw
+ *
  * Kotlin新的容器类型 Sequence（序列），它和 Iterable 一样用来遍历一组数据并可以对每个元素进行特定的处理。
  * 序列 Sequence 又被称为「惰性集合操作」，这种类似懒加载的实现有下面这些优点：
  * 1.一旦满足遍历退出的条件，就可以省略后续不必要的遍历过程。
