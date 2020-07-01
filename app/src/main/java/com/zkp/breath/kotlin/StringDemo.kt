@@ -1,5 +1,13 @@
 package com.zkp.breath.kotlin
 
+/**
+ * 字符串demo
+ *
+ * kt的== 和 ===：
+ *  1. == ：可以对基本数据类型以及 String（相当于 Java 中的 equals） 等类型进行内容比较,其实 Kotlin 中的
+ *    equals 函数是 == 的操作符重载
+ *  2. === ：对引用的内存地址进行比较，相当于 Java 中的 ==
+ */
 fun main() {
     val s = "abc"
 
@@ -40,6 +48,5 @@ fun main() {
     """
     println(price)
     println(price1)
-
 
 }
