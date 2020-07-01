@@ -23,9 +23,16 @@ fun main() {
     val s1 = "Hello, world!\n"
 
     // 原始字符串
+    // 有时候我们不希望写过多的转义字符，这种情况 Kotlin 通过「原生字符串」来实现，用法就是使用一对 """ 将字符串括起来：
+    // 这里有几个注意点：
+    //    1. \n 并不会被转义
+    //    2. 最后输出的内容与写的内容完全一致，包括实际的换行
+    //    3. $ 符号引用变量仍然生效
+    val name = "world"
+    val myName = "kotlin"
     val text = """
-    for (c in "foo")
-        print(c)
+      Hi $name!
+    My name is $myName.\n
     """
     println(text)
 
