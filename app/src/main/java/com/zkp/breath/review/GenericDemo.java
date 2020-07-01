@@ -1,5 +1,9 @@
 package com.zkp.breath.review;
 
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.TextView;
+
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,8 +18,17 @@ import java.util.List;
  * 生产者：? extends，上界通配符，使泛型支持协变（只能读取不能修改）。其中 ? 是个通配符，表示泛型类型是一个未知类型，
  * extends 限制了这个未知类型的上界，即为某个类型的间接或直接子类/实现类，也包括指定的上界类型。
  *
- * 消费者：? super，下界通配符，使泛型支持逆变（只能修改不能读取）。其中 ? 是个通配符，表示泛型类型是一个未知类型，
- * super 限制了这个未知类型的下界，即为某个类型的间接或者直接父类/接口，也包括指定的下界类型。
+ * 上界通配符的获取和添加概括：
+ * 只能用于获取，因为指定了上界的原因，实际类型要么是上界类型要么是上界的子类类型，符合多态的特性；不能用于添加，因为
+ * 实际类型可能是上界类型的子类，然后添加元素的类型是上界类型，这种行为是不允许的。
+ *
+ * 消费者：? super，下界通配符，使泛型支持逆变（只能修改不能读取，这里说的不能读取是指不能按照泛型类型读取，你如果按照
+ * Object 读出来再强转当然也是可以的）。其中 ? 是个通配符，表示泛型类型是一个未知类型，super 限制了这个未知类型的下界，
+ * 即为某个类型的间接或者直接父类/接口，也包括指定的下界类型。
+ *
+ * 下界通配符的获取和添加概括：
+ * 可以添加，因为添加元素的类型是下界类型，而对象的真实类型一定是下界类型或者下界的父类型，满足多态特性；也能用于获取
+ * ，但是获取出来的类型是Object类型。
  *
  * ？通配符：这样使用 List<?> 其实是 List<? extends Object> 的缩写。
  *
@@ -24,6 +37,10 @@ import java.util.List;
 public class GenericDemo {
 
     public static void main(String[] args) {
+
+        List<? extends TextView> textViews1 = new ArrayList<TextView>(); // 👈 本身
+        List<? extends TextView> textViews2 = new ArrayList<Button>(); // 👈 直接子类
+        List<? extends TextView> textViews3 = new ArrayList<RadioButton>(); // 👈 间接子类
 
         List<Integer> integers1 = new ArrayList<>();
         integers1.add(1);
