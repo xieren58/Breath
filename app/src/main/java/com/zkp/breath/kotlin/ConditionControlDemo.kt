@@ -45,6 +45,17 @@ fun hasPrefix(x: Any) = when (x) {
     else -> false
 }
 
+/**
+ * 还可以省略 when 后面的参数，每一个分支条件都可以是一个布尔表达式,哪一个条件先为 true 就执行哪个分支的代码块，
+ * 其余条件无论是否为true都不会被执行，因为Kotlin 自动为每个分支加上了 break。
+ */
+fun condition(str1: String, str2: String) {
+    when {
+        str1.contains("a") -> print("字符串 str1 包含 a")
+        str2.length == 3 -> print("字符串 str2 的长度为 3")
+    }
+}
+
 fun ifDemo(b: Boolean) {
     //  作为表达式像Java的三元操作符
     val c = if (b) 1 else 2
