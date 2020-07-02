@@ -86,12 +86,34 @@ public class GenericDemo {
         System.out.println();
         System.out.println();
 
+        // ===================================================
+        // ===================================================
 
         // 下面的写法都满足类定义的泛型的要求
         Bean2<Integer> bean2 = new Bean2<>();
+        Integer bean23 = bean2.get3();
+
         Bean2<Number> bean3 = new Bean2<>();
+        Number bean33 = bean3.get3();
+
+        // 上界通配符的泛型限制和类定义的泛型限定是一致的，所以下面的声明是允许的。
         Bean2<? extends Number> bean4 = new Bean2<Integer>();
+        Number bean43 = bean4.get3();
+
         Bean2<? super Integer> bean5 = new Bean2<Number>();
+        Number bean53 = bean5.get3();
+
+
+        // ===================================================
+        // ===================================================
+        Bean3<String> objectBean3 = new Bean3<>();
+        String t = objectBean3.getT();
+
+        Bean3<? extends Number> objectBean4 = new Bean3<>();
+        Number t1 = objectBean4.getT();
+
+        Bean3<? super Integer> objectBean5 = new Bean3<>();
+        Object t2 = objectBean5.getT();
 
 
         /**
@@ -197,6 +219,15 @@ public class GenericDemo {
             return t;
         }
     }
+
+    private static class Bean3<T> {
+        private T t;
+
+        public T getT() {
+            return t;
+        }
+    }
+
 
     private static <T extends Number> Number getT1(T t) {
         return t;
