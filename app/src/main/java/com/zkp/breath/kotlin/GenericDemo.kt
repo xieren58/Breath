@@ -144,27 +144,30 @@ fun main(args: Array<String>) {
     // 和 List 类似，Set 同样具有 covariant（协变）特性。
     val strSet = setOf("a", "b", "c")
 
+
     val list1: ArrayList<out Number> = ArrayList<Int>()
     val list2: ArrayList<out Number> = ArrayList<Number>()
     val list3: ArrayList<in Int> = ArrayList<Int>()
     val list4: ArrayList<in Int> = ArrayList<Number>()
+
 
     // * 相当于out any，这时候右边的泛型声明不能省略, *这种是不能自动推导的。
     val list5: List<*> = ArrayList<Any>()
     val list6: List<*> = ArrayList<String>()
     val list7: List<*> = ArrayList<Int>()
 
-    val fx2: Box<String> = Box("")
+
+    val box: Box<String> = Box("")
+    box.fill(Array(3) { i -> i.toString() }, "a")
     val ints: Array<Int> = arrayOf(1, 2, 3)
     val any = Array<Any>(3) { "" }
-//    fx2.copy1(ints, any) // error
-    fx2.copy2(ints, any)
+//    fx2.copy1(ints, any) //error， kotlin的数组是有泛型定义的，而泛型本身不具有协变
+    box.copy2(ints, any)
 
-    val strs = Array(3) { "" }
-    fx2.fill(strs, "a")
 
     val singletonList = singletonList(1)
     val singletonList1 = singletonList("我们")
+
 
     val arrayListOf = arrayListOf(1, 2, 3)
     val arrayListOf1 = arrayListOf(TempDemo())
@@ -178,29 +181,24 @@ fun main(args: Array<String>) {
     // 一般允许这种写法的话就表示在定义类里面已经存在out/in关键字，否则按照java的规则泛型是不允许多态的。
     val producer1: Producer<Number> = Producer<Int>()    //  // 👈 这里不写 out 也不会报错
     val producer2: Producer<out Number> = Producer<Int>() // 👈 out 可以但没必要
-    val producer3 = Producer<Int>()
+    val producer3 = Producer<Int>() // ===>  val producer3: Producer<Int> = Producer<Int>() ==》 val producer3: Producer<out Int> = Producer<Int>()
     val producer4: Producer<*> = Producer<Int>()
 
     val produce = producer1.produce()
     val produce1 = producer3.produce()
     val produce2 = producer4.produce()
 
-    // ========================================================
-    // ========================================================
 
-    val consumer1: Consumer<Int> = Consumer<Number>() // 👈 这里不写 in 也不会报错
-    val consumer2: Consumer<in Int> = Consumer<Number>() // 👈 in 可以但没必要
-    val consumer3: Consumer<Int> = Consumer()       // 只写前面，不写后面，已前面类型为准
-    val consumer4: Consumer<Int> = Consumer<Int>()      // 前后都一致类型，后面的可以省略不写
-    val consumer5 = Consumer<Int>()     // 根据后面的声明自动类型推断
-    val consumer6: Consumer<*> = Consumer<Int>()    // Nothing类型
+    val consumer1 = Consumer<Int>()     // ==>  val consumer: Consumer<Int> = Consumer<Int>()   ==> val consumer: Consumer<in Int> = Consumer<Int>()
+    val consumer2: Consumer<Int> = Consumer<Number>() // 👈 这里不写 in 也不会报错
+    val consumer3: Consumer<in Int> = Consumer<Number>() // 👈 in 可以但没必要
+    val consumer4: Consumer<*> = Consumer<Int>()    // Nothing类型, 无效写法
+//    consumer4.consume()
 
-    consumer1.consume(2)
 
     val c1: Consumer3<*> = Consumer3<Int>() // 相当于下面的写法
     val c: Consumer3<out Any> = Consumer3<Int>()
+    val ff1 = c1.ff()
     val ff = c.ff()
-
-
 }
 
