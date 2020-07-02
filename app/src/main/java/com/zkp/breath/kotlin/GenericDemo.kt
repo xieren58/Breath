@@ -140,8 +140,7 @@ fun main(args: Array<String>) {
     // kotlin的List接口本身就支持协变，看接口定义，只是把协变的写法提前定义了。
     val strs1: List<String> = listOf("a", "b", "c")
     val anys1: List<CharSequence> = strs1   // 1
-    val anys2: List<out CharSequence> = strs1   // 2相当于1, 其实1就是省略了out关键字，因为类定义的时候已经提前定义了out
-
+    val anys2: List<out CharSequence> = strs1   // 2，相当于1, 其实1就是省略了out关键字，因为类定义的时候已经提前定义了out
     // 和 List 类似，Set 同样具有 covariant（协变）特性。
     val strSet = setOf("a", "b", "c")
 
@@ -154,8 +153,6 @@ fun main(args: Array<String>) {
     // * 相当于out any，这时候右边的泛型声明不能省略, *这种是不能自动推导的。
     val list5: List<*> = ArrayList<Any>()
     val lis6: List<*> = ArrayList<String>()
-    val arrayList = ArrayList<String>() // 需要传入泛型类型
-    val arrayListOf3 = arrayListOf<Any>()   // 需要传入泛型类型
 
 
     val fx2: Box<String> = Box("")
