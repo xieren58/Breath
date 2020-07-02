@@ -146,14 +146,13 @@ fun main(args: Array<String>) {
 
     val list1: ArrayList<out Number> = ArrayList<Int>()
     val list2: ArrayList<out Number> = ArrayList<Number>()
-
     val list3: ArrayList<in Int> = ArrayList<Int>()
     val list4: ArrayList<in Int> = ArrayList<Number>()
 
     // * 相当于out any，这时候右边的泛型声明不能省略, *这种是不能自动推导的。
     val list5: List<*> = ArrayList<Any>()
-    val lis6: List<*> = ArrayList<String>()
-
+    val list6: List<*> = ArrayList<String>()
+    val list7: List<*> = ArrayList<Int>()
 
     val fx2: Box<String> = Box("")
     val ints: Array<Int> = arrayOf(1, 2, 3)
