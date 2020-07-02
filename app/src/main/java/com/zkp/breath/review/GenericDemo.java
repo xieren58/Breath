@@ -15,8 +15,9 @@ import java.util.List;
  *
  * Java 的泛型本身是不支持协变和逆变的（协变和逆变使泛型实现多态），PECS 法则：「Producer-Extends, Consumer-Super」
  *
- * 生产者：? extends，上界通配符，使泛型支持协变（只能读取不能修改）。其中 ? 是个通配符，表示泛型类型是一个未知类型，
- * extends 限制了这个未知类型的上界，即为某个类型的间接或直接子类/实现类，也包括指定的上界类型。
+ * 生产者：? extends，上界通配符，使泛型支持协变（只能读取不能修改，这里的修改仅指对泛型集合添加元素，如果是
+ * remove(int index) 以及 clear 当然是可以的）。其中 ? 是个通配符，表示泛型类型是一个未知类型，extends 限制了
+ * 这个未知类型的上界，即为某个类型的间接或直接子类/实现类，也包括指定的上界类型。
  *
  * 上界通配符的获取和添加概括：
  * 只能用于获取，因为指定了上界的原因，实际类型要么是上界类型要么是上界的子类类型，符合多态的特性；不能用于添加，因为
@@ -92,6 +93,7 @@ public class GenericDemo {
         Bean2<? extends Number> bean4 = new Bean2<Integer>();
         Bean2<? super Integer> bean5 = new Bean2<Number>();
 
+
         /**
          * 由于在程序中定义的 ArrayList 泛型类型实例化为 Integer 的对象，
          * 如果直接调用 add 方法则只能存储整形数据，不过当我们利用反射调用 add 方法时就可以存储字符串，
@@ -166,7 +168,7 @@ public class GenericDemo {
      */
     private static void consumerSuper(List<? super Integer> list) {
         try {
-            list.add(1);
+            list.add(1);    // 只能添加下界类型
 //            list.add(new Number(1))   // 是不允许的
 //            list.add(new Object())    // 是不允许的
             Object object = list.get(0);
@@ -188,6 +190,10 @@ public class GenericDemo {
         }
 
         public Serializable getT2() {
+            return t;
+        }
+
+        public T get3() {
             return t;
         }
     }
