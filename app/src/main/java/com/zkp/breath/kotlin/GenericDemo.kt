@@ -131,8 +131,24 @@ fun <T> process(value: T) {
     println(value.hashCode())
 }
 
-class TempDemo {
+private class TempDemo
 
+// =================================================================
+// =================================================================
+
+// 由于 Java 中的泛型存在类型擦除的情况，任何在运行时需要知道泛型确切类型信息的操作都没法用了。
+// 比如你不能检查一个对象是否为泛型类型 T 的实例：
+//fun <T> printIfTypeMatch1(item: Any) {
+//    if (item is T) { // 👈 IDE 会提示错误，Cannot check for instance of erased type: T
+//        println(item)
+//    }
+//}
+
+// 使用关键字 reified 配合 inline 来解决：
+inline fun <reified T> printIfTypeMatch2(item: Any) {
+    if (item is T) { // 👈 这里就不会在提示错误了
+        println(item)
+    }
 }
 
 fun main(args: Array<String>) {
