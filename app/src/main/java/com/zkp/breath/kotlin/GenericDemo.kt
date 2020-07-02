@@ -136,19 +136,14 @@ class TempDemo {
 }
 
 fun main(args: Array<String>) {
-    //创建方式1，as其实有提示，但是离开as可读性不好
-    val fx = Box("")
-    // 创建方式2，可读性好，但是太长
-    val fx1: Box<String> = Box<String>("")
-    // 创建方式3，强烈推荐，可读性好
-    val fx2: Box<String> = Box("")
 
-    // kotlin的List接口本身就支持协变，看接口定义。
+    // kotlin的List接口本身就支持协变，看接口定义，只是把协变的写法提前定义了。
     val strs1: List<String> = listOf("a", "b", "c")
-    val anys: List<Any> = strs1 // success
+    val anys1: List<CharSequence> = strs1   // 1
+    val anys2: List<out CharSequence> = strs1   // 2相当于1, 其实1就是省略了out关键字，因为类定义的时候已经提前定义了out
+
     // 和 List 类似，Set 同样具有 covariant（协变）特性。
     val strSet = setOf("a", "b", "c")
-
 
     val list1: ArrayList<out Number> = ArrayList<Int>()
     val list2: ArrayList<out Number> = ArrayList<Number>()
@@ -162,6 +157,8 @@ fun main(args: Array<String>) {
     val arrayList = ArrayList<String>() // 需要传入泛型类型
     val arrayListOf3 = arrayListOf<Any>()   // 需要传入泛型类型
 
+
+    val fx2: Box<String> = Box("")
     val ints: Array<Int> = arrayOf(1, 2, 3)
     val any = Array<Any>(3) { "" }
 //    fx2.copy1(ints, any) // error
