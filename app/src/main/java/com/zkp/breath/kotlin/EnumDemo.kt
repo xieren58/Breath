@@ -4,13 +4,16 @@ package com.zkp.breath.kotlin
 /**
  * 1. 枚举类能定义抽象方法
  * 2. 枚举类能实现接口，但不能继承抽象类。
+ * 3. 枚举类中的成员只有常量和抽象方法
  */
 
-enum class Color1 {
+// 和java的常规定义一致
+private enum class Color1 {
     RED, BLACK, BLUE, GREEN, WHITE
 }
 
-enum class Color(val rgb: Int, var alpha: Float = 1f) {
+// 可以在类头定义主构函数，但不能在类体定义次构函数（看注释第3点解析就知道）
+private enum class Color(val rgb: Int, var alpha: Float = 1f, s: String = "默认") {
     RED(0xFF0000, 0f),
     GREEN(0x00FF00, 0.5f),
     BLUE(0x0000FF);
