@@ -9,6 +9,7 @@ package com.zkp.breath.kotlin
 open class BaseClass {
     var s = "s"
     val s1 = "s1"
+
     // 属性添加open关键字表示可被子类重写
     open val s2 = "s2"
     open var s3 = "s3"
@@ -29,7 +30,7 @@ open class BaseClass {
     }
 }
 
-// 类名后面加上': 父类类名（）'表示一个子类
+// 类名后面加上': 父类类名（）'
 open class SonClass : BaseClass() {
 
     // 默认重写表示调用父类
