@@ -20,12 +20,12 @@ fun anonymityMethod() {
     // anonymityMethod1指向匿名函数的变量名，而不是方法名，但下面的调用看起来和普通的函数调用一样。
     val anonymityMethod11 = anonymityMethod1(1, 2)
 
-    // 使用匿名函数作为本地函数
+    // 使用匿名函数作为本地函数（嵌套函数）
     val anonymityMethod2 = fun(x: Int, y: Int): Int {
         return x + y
     }
 
-    // 使用普通函数作为本地函数
+    // 使用普通函数作为本地函数（嵌套函数）
     fun localMethod(x: Int, y: Int): Int {
         return x + y
     }
