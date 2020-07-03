@@ -19,46 +19,35 @@ private enum class Color(val rgb: Int, var alpha: Float = 1f, s: String = "默�
     BLUE(0x0000FF);
 }
 
-//定义一个接口
-interface ItemClickListener {
-    fun onClick(msg: String)
-}
-
-abstract class XXxxx {
-    abstract fun xxx()
-
+private interface CustomInterface {
+    fun invoke(msg: String)
 }
 
 //枚举类继承接口，每个常量都必须重写接口的方法
-enum class EnumDemo92 : ItemClickListener {
-    BUTTON {
-        override fun onClick(msg: String) {
+// 常量必须实现类内定义的抽象方法
+private enum class EnumInterface : CustomInterface {
+    A {
+        override fun absMethod(name: String): String {
+            TODO("Not yet implemented")
+        }
+
+        override fun invoke(msg: String) {
             print(msg)
         }
     },
-    IMAGE {
-        override fun onClick(msg: String) {
+    B {
+        override fun absMethod(name: String): String {
+            TODO("Not yet implemented")
+        }
+
+        override fun invoke(msg: String) {
             print(msg)
         }
-    }
-}
-
-enum class Person1(var code: Int) {
-
-    // 常量必须实现类内定义的抽象方法
-    NAME1(0) {
-        override fun showName(name: String): Person1 = NAME2
-    },
-
-    NAME2(1) {
-        override fun showName(name: String): Person1 = NAME2
     };
 
     // 枚举类内定义的抽象方法
-    abstract fun showName(name: String): Person1
-
+    abstract fun absMethod(name: String): String
 }
-
 
 fun main(args: Array<String>) {
     val color: Color = Color.BLUE
@@ -87,9 +76,5 @@ fun main(args: Array<String>) {
     println(color.ordinal)
     // 比较顺序。0表示相等，负数表示前者先于后者，正数反之
     println(Color.BLUE.compareTo(Color.RED))
-
-
-    // 重写的枚举类中声明的方法，可以被其实例调用
-    Person1.NAME1.showName("")
 
 }
