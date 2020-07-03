@@ -101,6 +101,8 @@ public class GenericDemo {
         Bean2<? extends Number> bean4 = new Bean2<Integer>();
         Number bean43 = bean4.get3();
 
+        // 为什么get3（）方法获取到到不是Object而是Number？
+        // 因为list的泛型定义没有指定范围，所以只能用顶层父类Object指向，而自定义类Bean2泛型声明指定了泛型父类（<T extends Number & Serializable>），优先拿该类型指向。
         Bean2<? super Integer> bean5 = new Bean2<Number>();
         Number bean53 = bean5.get3();
 
