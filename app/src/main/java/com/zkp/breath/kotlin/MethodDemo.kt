@@ -181,12 +181,12 @@ fun main() {
     }
     println(xxww2)
 
-    methodClass.filter2<String>("我们") { s -> s + "拼接字段" }
+    methodClass.filter2("我们") { s -> s + "拼接字段" }
 
-    val lock = methodClass.lock<String>(1) { i -> "hello to myself:$i" }
+    val lock = methodClass.lock(1) { i -> "hello to myself:$i" }
 
     // 返回类型为可null，能够自动推出类型
-    val bodyLock2: String? = methodClass.lock2(1, { "我们" })
+    val bodyLock2: String? = methodClass.lock2(1) { "我们" }
     // 传入函数参数null.
     val lock22 = methodClass.lock2<String>(1, null)
     // 函数类型声明，函数类型字面量。
@@ -194,12 +194,10 @@ fun main() {
     val body2: (() -> String)? = { "我们" }
     val lock2 = methodClass.lock2(1, body1)
     val lock21 = methodClass.lock2(1, body2)
-    val lock23 = methodClass.lock2(1) { "我们" }
-    val lock24 = methodClass.lock2(1) { null }
     println()
 
-    val arrayListOf = arrayListOf<Int>(1, 2, 3)
-    val cusMap = arrayListOf.cusMap<Int, Boolean> { it % 2 == 0 }
+    val arrayListOf = arrayListOf(1, 2, 3)
+    val cusMap = arrayListOf.cusMap { it % 2 == 0 }
 
     // 传递是lambda表达式，表达式内容需要用{}包裹
     arrayOf(3, 4, 5).filter { s -> s > 0 }
@@ -213,7 +211,7 @@ fun main() {
     }
     println()
 
-    arrayOf("你", "我", "ta").filter { it.equals("你") }
+    arrayOf("你", "我", "ta").filter { it == "你" }
     arrayOf("你", "我", "ta").filter("你"::equals)
     println()
 
