@@ -9,12 +9,12 @@ class MethodClass {
 
 
     // 函数类型常见写法1
-    fun lambad1(body: (a: Int, b: Int) -> Int) {
+    fun lambda1(body: (a: Int, b: Int) -> Int) {
         println(body(3, 4))
     }
 
     // 函数类型写法2，函数类型的参数名可以省略。
-    fun lambad2(body: (Int, Int) -> Int) {
+    fun lambda2(body: (Int, Int) -> Int) {
         println(body(3, 4))
     }
 
@@ -22,9 +22,10 @@ class MethodClass {
     /**
      * 函数重载的定义和java一样，参数类型不一致或者数量不同都可视为重载。
      * 但在kotlin注意，lambda表达式都是函数类型，即便你定义的函数类型中的参数个数相同，那么即便类型或者返回值不一致
-     * 也是重载不类的，但是如果函数类型中的参数个数不同，无论类型或者返回值是否相同都可以重载成功。
+     * 也是重载不类的，但是如果函数类型中的参数个数不同，无论类型或者返回值是否相同都可以重载成功。即kotlin中函数类型的参数
+     * 的重载条件是个数。
      */
-    fun lambad2(body: (a: String, b: String) -> String, s: String) {
+    fun lambda2(body: (a: String, b: String) -> String, s: String) {
 
     }
 
@@ -33,20 +34,20 @@ class MethodClass {
 //
 //    }
 
-    fun lambad2(s: String, body: (a: String, b: String) -> String) {
+    fun lambda2(s: String, body: (a: String, b: String) -> String) {
 
     }
 
-    fun lambad2(s: String, body: (a: String, b: String, c: String) -> String) {
+    fun lambda2(s: String, body: (a: String, b: String, c: String) -> String) {
 
     }
 
-    fun lambad2(s: String, body: (a: String, b: String, c: String, d: String) -> Int) {
+    fun lambda2(s: String, body: (a: String, b: String, c: String, d: String) -> Int) {
 
     }
 
     // 函数类型的参数类型为data类
-    fun lambad2(body: (p: Pair<Int, Int>) -> Int): Int {
+    fun lambda2(body: (p: Pair<Int, Int>) -> Int): Int {
         return body(Pair<Int, Int>(1, 2))
     }
 
@@ -145,10 +146,10 @@ fun main() {
 
     val methodClass = MethodClass()
 
-    methodClass.lambad1 { s, s1 -> s + s1 }     // 知道了类型，可以省略,切记参数不用加括号！！！！
-    methodClass.lambad1 { s: Int, s1: Int -> s + s1 }     // 最完整的写法，类型也写上，切记参数不用加括号！！！！
-    methodClass.lambad2 { (s, s1) -> s + s1 }   // 知道了类型，可以省略。注意这里加了圆括号，因为Pair有组建函数ComponetN,所以这里是解构声明的写法
-    methodClass.lambad2 { (s, s1): Pair<Int, Int> -> s + s1 }   // 最完整的写法，类型也写上。注
+    methodClass.lambda1 { s, s1 -> s + s1 }     // 知道了类型，可以省略,切记参数不用加括号！！！！
+    methodClass.lambda1 { s: Int, s1: Int -> s + s1 }     // 最完整的写法，类型也写上，切记参数不用加括号！！！！
+    methodClass.lambda2 { (s, s1) -> s + s1 }   // 知道了类型，可以省略。注意这里加了圆括号，因为Pair有组建函数ComponetN,所以这里是解构声明的写法
+    methodClass.lambda2 { (s, s1): Pair<Int, Int> -> s + s1 }   // 最完整的写法，类型也写上。注
 
     val body = { "我们" }
     val filter = methodClass.filter(body)
