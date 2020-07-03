@@ -2,7 +2,8 @@ package com.zkp.breath.kotlin
 
 
 /**
- * lambad和普通函数的区别：普通函数是准备好了逻辑，差参数；lambad是准备好了参数，差逻辑。
+ * java的lambda和kt的lambda不是同一个概念。
+ * lambda和普通函数的区别：普通函数是准备好了逻辑，差参数；lambda是准备好了参数，差逻辑。
  */
 class MethodClass {
 
