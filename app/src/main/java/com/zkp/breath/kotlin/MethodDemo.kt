@@ -123,7 +123,7 @@ fun comboTwoValue(a: Int, b: Int, method: (a: Int, b: Int) -> Int): Int {
 
 /**
  * Kotlin支持局部函数,也就是说函数可以嵌套。
- * 局部函数可以访问外部函数（即：闭包）的局部变量。
+ * 局部函数可以访问外部函数的局部变量。
  */
 fun dfs(s: String, i: Int) {
     fun dfs(i: Int): String {
