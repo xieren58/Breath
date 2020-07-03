@@ -126,6 +126,7 @@ interface B {
 }
 
 class C() : A(), B {
+    // 存在相同的方法
     override fun f() {
         super<A>.f()//调用 A.f()
         super<B>.f()//调用 B.f()
