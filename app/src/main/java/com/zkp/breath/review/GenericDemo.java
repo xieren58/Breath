@@ -138,6 +138,7 @@ public class GenericDemo {
         }
 
 
+        // 判断某个对象的泛型类型是否为指定类型
         List<String> stringList = new ArrayList<>();
         Object o = stringList;
         Class<? extends List> aClass1 = stringList.getClass();
@@ -152,6 +153,7 @@ public class GenericDemo {
 //    }
 
     private static <T> void check(Object item, Class<T> type) {
+        // item是否为type到实例对象
         if (type.isInstance(item)) {
             System.out.println("泛型类型检查成功");
         }
