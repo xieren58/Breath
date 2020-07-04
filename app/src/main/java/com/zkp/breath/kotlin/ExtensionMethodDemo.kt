@@ -160,7 +160,6 @@ class MyClass {
 
         fun companionFun1() {
             println("this is 1st companion function.")
-            // 伴生对象相当于java的静态成员（实际不是），所以这里看成静态方法，静态方法不能调用成员方法， 所以这里调用的是顶层方法
             foo()
         }
 
