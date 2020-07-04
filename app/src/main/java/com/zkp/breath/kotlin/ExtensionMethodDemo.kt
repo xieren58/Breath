@@ -237,12 +237,13 @@ val a: (Int) -> Unit = { println("$it") }
 val a1: String.(Int) -> Unit = String::method1
 
 // 这种写法也是合法的，知道左边的调用方式即可。
-val b: (String, Int) -> Unit = String::method1
+val a1x: (String, Int) -> Unit = String::method1
 val a2: String.(Int) -> Unit = {
     println("调用者:$this")
     println("参数:$it")
 }
 val a3: String.(Int) -> Unit = { i: Int ->
+    plus("调用者:$this")
     println("参数:$i")
 }
 
