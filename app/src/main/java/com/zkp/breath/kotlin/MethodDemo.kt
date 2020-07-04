@@ -215,7 +215,7 @@ fun main() {
     arrayOf("你", "我", "ta").filter("你"::equals)
     println()
 
-    // 创建函数对象（函数引用）后作为参数传递，而min方法又是静态方法，所以：：前面要加上类名
+    // 创建函数对象（函数引用）后作为参数传递，因为min是属于Math方法，所以在：：前加上类名标记说明这个方法的出处
     comboTwoValue(3, 4, Math::min)
     comboTwoValue(3, 4) { a, b -> Math.min(a, b) }
     println()
