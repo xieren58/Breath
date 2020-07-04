@@ -249,7 +249,7 @@ fun String?.toString(): String {
 // 扩展属性
 // 扩展属性允许定义在类或者kotlin文件中，不允许定义在函数中，扩展属性只能被声明为 val,扩展属性不能有初始化器，没有后端字段field。
 val <T> List<T>.cusLastIndex: Int
-    get() = size
+    get() = 1
 
 //  dp转px
 val Float.dp
@@ -262,6 +262,8 @@ val Float.dp
 val a: (Int) -> Unit = { println("$it") }
 
 // 把扩展函数的引用赋值给变量
+// lambda表达式，匿名函数，函数引用才能作为参数或者赋值给变量
+// 因为该函数是扩展函数，所以在：：前面加上类名
 val a1: String.(Int) -> Unit = String::method1
 
 // 这种写法也是合法的，知道左边的调用方式即可。
