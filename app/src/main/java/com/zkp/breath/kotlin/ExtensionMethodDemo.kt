@@ -236,9 +236,11 @@ val axx: (Int) -> Unit = fun(_: Int) {}   // 使用匿名函数替换lambda表�
 // lambda表达式，匿名函数，函数引用才能作为参数或者赋值给变量
 // 因为该函数是扩展函数，所以在：：前面加上类名
 val a1: String.(Int) -> Unit = String::method1
+val a1x1: String.(Int) -> Unit = ::method2
 
 // 扩展函数的扩展接受者可以作为一个参数定义。
 val a1x: (String, Int) -> Unit = String::method1
+val a1x2: (String, Int) -> Unit = ::method2
 
 // 左边忽略参数定义ide会提示this，而不是it。
 val a2: String.(Int) -> Unit = {
@@ -334,6 +336,11 @@ fun main(args: Array<String>) {
     "rengwuxian".a1(1)
     a1("rengwuxian", 1)
     a1.invoke("rengwuxian", 1)
+
+//    "rengwuxian".a1x(1)
+    a1x("", 1)
+    a1x.invoke("", 1)
+
 
     // 无接受者的函数引用赋值给有接受者的lambda表达式
     //    "rengwuxian".method2(1) // 不允许调用，报错
