@@ -183,8 +183,8 @@ class MyClass {
          * 2.类内的伴随对象扩展函数只能被类内的函数调用(无论其可见行是怎样的)。
          */
         // 下面两种写法都可以
-        MyClass.foo()
-        Companion.foo()
+        MyClass.foo()   // 类名 + 半生对象扩展函数名
+        Companion.foo()     // Companion关键字 + 半生对象扩展函数名
     }
 
     // 类内伴生对象扩展函数
