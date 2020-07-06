@@ -230,6 +230,7 @@ val Float.dp
     )
 
 val a: (Int) -> Unit = { println("$it") }
+val axx: (Int) -> Unit = fun(_: Int) {}   // 使用匿名函数替换lambda表达式的实例
 
 // 把扩展函数的引用赋值给变量
 // lambda表达式，匿名函数，函数引用才能作为参数或者赋值给变量
