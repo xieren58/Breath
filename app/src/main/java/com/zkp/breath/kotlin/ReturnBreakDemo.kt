@@ -88,9 +88,12 @@ fun foo() {
 
 fun fooCopy() {
     val listOf = listOf(1, 2, 3, 4, 5)
+
+    // 本地函数，嵌套函数
     fun x(list: List<Int>) {
         list.forEach {
-            if (it == 3) return // 非局部直接返回到 x() 的调用者,相当于返回到了44行。
+            // foreach内联函数的lambda表达式参数允许直接return，返回到x（）
+            if (it == 3) return
             println("当前it:${it}")
         }
     }
@@ -100,8 +103,8 @@ fun fooCopy() {
 
 fun foo1() {
     listOf(1, 2, 3, 4, 5).forEach {
-        // 局部返回类似于在常规循环中使用 continue。并没有 break 的直接等价形式
-        if (it == 3) return@forEach // 局部返回到该 lambda 表达式的调用者，即 forEach 循环。
+        // foreach内联函数的lambda表达式参数没有返回值，允许局部返回（相当于continue），返回到lambda表达式调用者，即 forEach（）
+        if (it == 3) return@forEach
         println("当前it:${it}")
     }
     println(" done with implicit label")
@@ -110,8 +113,8 @@ fun foo1() {
 fun foo2() {
     // 我们用一个匿名函数替代 lambda 表达式
     listOf(1, 2, 3, 4, 5).forEach(fun(value: Int) {
-        //  局部返回类似于在常规循环中使用 continue。并没有 break 的直接等价形式
-        if (value == 3) return  // 局部返回到匿名函数的调用者，即 forEach 循环
+        // foreach内联函数的lambda表达式参数没有返回值，允许局部返回（相当于continue），返回到lambda表达式调用者，即 forEach（）
+        if (value == 3) return
         println("当前it:${value}")
     })
     println(" done with anonymous function")
