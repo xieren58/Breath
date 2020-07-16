@@ -36,19 +36,16 @@ fun return1() {
     }
     println("end")
 
-    ordinaryFunctionX {
-        println("表达式退出")
-        return    // 内联函数的lambda表达式允许直接return
+    ordinaryFunction1 {
+        println("表达式退出1")
+        return    // 内联函数的lambda表达式允许直接return,退出return1函数
+//        return@ordinaryFunction1  // 退出lambda表达式
     }
-    println("end2")
+    println("end1")
 }
 
 fun ordinaryFunction(block: () -> Unit) {
     block.invoke()
-}
-
-inline fun ordinaryFunctionX(block: () -> Unit) {
-    block()
 }
 
 /**
