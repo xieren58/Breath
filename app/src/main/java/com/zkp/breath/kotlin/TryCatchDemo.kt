@@ -9,7 +9,7 @@ import java.lang.Integer.parseInt
  *  try-catch的操作。而Kotlin 中的异常是不会被检查的，只有在运行时如果抛出异常，才会出错，我们直接调用
  *  IDE是不会进行任何提示的。
  */
-@Throws(IOException::class)
+@Throws(IOException::class, NullPointerException::class, NumberFormatException::class)
 fun sayHi() {
 }
 
