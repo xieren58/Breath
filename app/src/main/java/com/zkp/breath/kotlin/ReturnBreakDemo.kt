@@ -56,7 +56,7 @@ fun return2() {
         return@ordinaryFunction1    // 退出到ordinaryFunction1
     }
 
-    // 因为该函数的lambda存在返回值，但是不能 return@ordinaryFunction2。
+    // 因为该函数的lambda存在返回值
     // 可以return 是因为该函数是inline函数, 这里的return是结束整个return2函数，是允许的。
     // 不能return@ordinaryFunction2是因为该lambda表达式有返回值，不能直接跳出。
     ordinaryFunction2 {
@@ -77,10 +77,10 @@ inline fun ordinaryFunction2(block: () -> String) {
 }
 
 
-// 注意，这种非局部的返回只支持传给内联函数的 lambda 表达式。
 fun foo() {
+    // foreach内联函数的lambda表达式参数允许直接return，返回到foo（）
     listOf(1, 2, 3, 4, 5).forEach {
-        if (it == 3) return // 非局部直接返回到 foo() 的调用者
+        if (it == 3) return
         println("当前it:${it}")
     }
     println("this point is unreachable")
