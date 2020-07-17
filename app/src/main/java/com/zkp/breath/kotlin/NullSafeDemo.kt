@@ -104,9 +104,7 @@ fun tes4(): String? {
     val x = null           // “x”具有类型 `Nothing?`
     val l = listOf(null)   // “l”具有类型 `List<Nothing?>
 
-    //...
-    val sss = ""
-    return sss
+    return ""
 }
 
 /**
@@ -131,6 +129,9 @@ fun test6() {
     var value: String = "hello"
 }
 
+/**
+ * 检查null
+ */
 fun check() {
     val age = -1
     require(age > 0) {
@@ -138,12 +139,21 @@ fun check() {
     }
 
     val name = null
-    checkNotNull(name) {
-
+    // 该函数存在返回值，当非null会返回自身，否则会抛出异常；null则执行参数2的lambda表达式，反之不成立；
+    try {
+        checkNotNull(name) {
+            println("checkNotNull_lambda")
+        }
+    } catch (e: Exception) {
+        println("checkNotNull_exception")
     }
-
-    requireNotNull(name) {
-
+    // 该函数存在返回值，当非null会返回自身，否则会抛出异常；null则执行参数2的lambda表达式，反之不成立；
+    try {
+        requireNotNull(name) {
+            println("requireNotNull_lambda")
+        }
+    } catch (e: Exception) {
+        println("requireNotNull_exception")
     }
 
 }
