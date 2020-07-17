@@ -1,5 +1,11 @@
 package com.zkp.breath.kotlin
 
+/**
+ * 普通的for循环是可以使用break、continue、return；
+ * 但是在循环的高阶函数中（参数是lambda表达式）无法使用break，continue，这里以函数forEach为例子。
+ *
+ */
+
 fun main() {
 //    label()
 //    foo()
@@ -24,11 +30,20 @@ fun label() {
     }
 }
 
+// =====================================================================
+// =====================================================================
 
 /**
- * 非内联函数的lambda表达式是不允许直接return
+ * 非内联函数的lambda表达式是不允许直接return；内联函数的lambda表达式可以直接return。
  */
 fun return1() {
+    // 因为该函数的lambda存在返回值
+    // 可以return 是因为该函数是inline函数, 这里的return是结束整个return2函数，是允许的。
+    // 不能return@ordinaryFunction2是因为该lambda表达式有返回值，不能直接跳出。
+    ordinaryFunction2 {
+        ""
+    }
+
     ordinaryFunction {
         println("表达式退出")
 //        return    // 非内联函数的lambda表达式不允许直接return
@@ -48,26 +63,6 @@ fun ordinaryFunction(block: () -> Unit) {
     block.invoke()
 }
 
-/**
- * 内联函数的lambda表达式可以直接return
- */
-fun return2() {
-    ordinaryFunction1 {
-        return@ordinaryFunction1    // 退出到ordinaryFunction1
-    }
-
-    // 因为该函数的lambda存在返回值
-    // 可以return 是因为该函数是inline函数, 这里的return是结束整个return2函数，是允许的。
-    // 不能return@ordinaryFunction2是因为该lambda表达式有返回值，不能直接跳出。
-    ordinaryFunction2 {
-        ""
-    }
-
-    ordinaryFunction1 {
-        return  // 退出return2函数，即该函数结束
-    }
-}
-
 inline fun ordinaryFunction1(block: () -> Unit) {
     block.invoke()
 }
@@ -76,6 +71,8 @@ inline fun ordinaryFunction2(block: () -> String) {
     block.invoke()
 }
 
+// =====================================================================
+// =====================================================================
 
 fun foo() {
     // foreach内联函数的lambda表达式参数允许直接return，返回到foo（）
