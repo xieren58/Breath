@@ -8,12 +8,11 @@ package com.zkp.breath.kotlin
 
 fun main() {
 //    label()
-//    foo()
 //    foo1()
 //    foo2()
 //    foo3()
-
-    fooCopy()
+//    foo4()
+//    foo5()
 }
 
 
@@ -71,10 +70,10 @@ inline fun ordinaryFunction2(block: () -> String) {
     block.invoke()
 }
 
-// =====================================================================
-// =====================================================================
+// ==============================循环高阶函数中的return=======================================
+// ==============================循环高阶函数中的return=======================================
 
-fun foo() {
+fun foo1() {
     // foreach内联函数的lambda表达式参数允许直接return，返回到foo（）
     listOf(1, 2, 3, 4, 5).forEach {
         if (it == 3) return
@@ -83,7 +82,7 @@ fun foo() {
     println("this point is unreachable")
 }
 
-fun fooCopy() {
+fun foo2() {
     val listOf = listOf(1, 2, 3, 4, 5)
 
     // 本地函数，嵌套函数
@@ -98,7 +97,7 @@ fun fooCopy() {
     println("this point is unreachable")
 }
 
-fun foo1() {
+fun foo3() {
     listOf(1, 2, 3, 4, 5).forEach {
         // foreach内联函数的lambda表达式参数没有返回值，允许局部返回（相当于continue），返回到lambda表达式调用者，即 forEach（）
         if (it == 3) return@forEach
@@ -107,7 +106,7 @@ fun foo1() {
     println(" done with implicit label")
 }
 
-fun foo2() {
+fun foo4() {
     // 我们用一个匿名函数替代 lambda 表达式
     listOf(1, 2, 3, 4, 5).forEach(fun(value: Int) {
         // foreach内联函数的lambda表达式参数没有返回值，允许局部返回（相当于continue），返回到lambda表达式调用者，即 forEach（）
@@ -118,7 +117,7 @@ fun foo2() {
 }
 
 // 通过增加另一层嵌套 lambda 表达式并从其中非局部返回
-fun foo3() {
+fun foo5() {
     run loop@{
         listOf(1, 2, 3, 4, 5).forEach {
             if (it == 3) return@loop // 从传入 run 的 lambda 表达式非局部返回
