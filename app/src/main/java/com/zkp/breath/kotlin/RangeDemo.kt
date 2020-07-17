@@ -18,7 +18,7 @@ fun main() {
         println("当前i为:$i")
     }
 
-    // 递减区间 downTo（不过递减没有半开区间的用法）
+    // 递减区间 downTo
     // 4，3，2，1
     for (i in 4 downTo 1) {
         print("$i, ")
