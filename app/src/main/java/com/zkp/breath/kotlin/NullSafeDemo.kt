@@ -88,8 +88,7 @@ fun test(s: String?): Unit? {
  * 因为 throw 和 return 在 Kotlin 中都是表达式，所以它们也可以用在 elvis 操作符右侧。这可能会非常方便，例如，检测函数参数
  */
 fun tes4(): String? {
-    // 注意：如果 tes4_C() 返回的值为null那么直接return结束该方法，而如果能够继续
-    // 往下执行，那么表示该返回值一定是非空类型。（有点像契约的作用）
+    // 注意：如果 tes4_C() 返回的值为null那么直接return结束该方法，而如果能够继续往下执行，那么表示该返回值一定是非空类型。
     val parent = tes4_C() ?: return null
 
 
