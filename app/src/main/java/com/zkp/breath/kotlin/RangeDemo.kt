@@ -28,7 +28,7 @@ fun main() {
         print("$i, ")
     }
 
-    // float只有闭合区间，没有半开区间
+    // Float 和 Double 不支持 downTo()和step()
     val floatRange = 0f..10f
 
     val longRange = 0L..10L
