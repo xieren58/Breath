@@ -28,6 +28,7 @@ interface AsImp : AS, AS2 {
     override fun ss() {
         // 多个父类存在相同的方法，调用父类的方法，要在super关键字后面加上"<父类名/接口名>"
         super<AS>.ss()
+        super<AS2>.ss()
     }
 }
 
