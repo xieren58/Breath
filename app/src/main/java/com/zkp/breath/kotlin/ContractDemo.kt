@@ -63,4 +63,12 @@ fun main() {
     requireNotNull(s) {
         println("requireNotNull为null的时候执行")
     }
+
+    // apply函数中的契约表示告诉编译器:调用apply函数后产生效果是指定block lamba表达式参数在适当的位置被调用。
+    // 适当位置就是block lambda表达式只能在自己函数(这里就是指外层apply函数)被调用期间被调用，当apply函数被调用结束后，
+    // block表达式不能被执行，并且指定了InvocationKind.EXACTLY_ONCE表示block lambda表达式只能被调用一次，
+    // 此外这个外层函数还必须是个inline内联函数。
+    s.apply {
+        plus("apply函数")
+    }
 }
