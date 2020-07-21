@@ -9,7 +9,9 @@ fun f1(x: Int) {
     // Java 中的默认分支使用的是 default 关键字，Kotlin 中使用的是 else。
     when (x) {
         1 -> print("x == 1")
-        2 -> print("x == 2")
+        2 -> {
+            print("x == $x")
+        }
         else -> { // 注意这个块
             print("x 不是 1 ，也不是 2")
         }
@@ -39,7 +41,7 @@ fun f3(x: Int) {
 
 // 配合is使用，一旦判断成功则自动转换该类型，就能使用该类型的方法或属性。
 // when 也可以作为返回值使用，分支中最后一行的结果作为返回值，需要注意的是，这时就必须要有 else 分支，使得无论怎样都
-    // 会有结果返回，除非已经列出了所有情况（密封类）
+// 会有结果返回，除非已经列出了所有情况（密封类）
 fun hasPrefix(x: Any) = when (x) {
     is String -> x.startsWith("prefix")
     else -> false
