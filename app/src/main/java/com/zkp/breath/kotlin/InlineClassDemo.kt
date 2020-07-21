@@ -1,8 +1,9 @@
 package com.zkp.breath.kotlin
 
 /**
- * https://www.kotlincn.net/docs/reference/inline-classes.html
+ * https://juejin.im/post/5c0558fa51882545e24edead
  *
+ * 内联类：对某种类型创建包装器类，但在实际运行中包装类的创建不会造成额外开销。
  *
  *  1.内联类必须包含一个基础值，这就意味它需要一个公有主构造器来接收，主构造函数中只声明一个val修饰的数据类型。
  *  2.没有init初始化块。
