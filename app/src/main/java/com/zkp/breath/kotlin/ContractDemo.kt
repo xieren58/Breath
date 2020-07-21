@@ -6,7 +6,9 @@ import kotlin.contracts.contract
 /**
  * https://juejin.im/post/5c0150f8e51d4540611e15e0#heading-3
  *
- * Contract契约：Kotlin中的Contract契约是一种向编译器通知函数行为的方法
+ * Contract契约（目前还处于实验阶段）：Kotlin中的Contract契约是一种向编译器通知函数行为的方法。（重点是ContractBuilder.kt和Effect.kt两个文件）
+ * 1、我们只能在顶层函数体内使用Contract契约，即我们不能在成员和类函数上使用它们。
+ * 2、Contract调用声明必须是函数体内第一条语句
  */
 
 fun isValid(token: String?): Boolean {
