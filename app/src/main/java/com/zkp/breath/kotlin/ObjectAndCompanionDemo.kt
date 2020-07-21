@@ -132,6 +132,12 @@ object Three : One(20), Two {
 
 interface TempI
 
+/**
+ * 伴生对象支持@JvmStatic,@JvmField:
+ * 他们作用主要是为了在Kotlin伴生对象中定义的一个函数或属性，能够在Java中像调用静态函数和静态属性那样类名.函数名/属性名方式调用，
+ * 让Java开发者完全无法感知这是一个来自Kotlin伴生对象中的函数或属性。如果不加注解那么在Java中调用方式就是类名.Companion.函数名/属性名。
+ * 你让一个Java开发者知道Companion存在，只会让他一脸懵逼。
+ */
 class Four {
     companion object {
         // 静态变量
@@ -141,6 +147,14 @@ class Four {
 
         fun function() {
             println("伴生对象的方法")
+        }
+
+        @JvmField
+        val sJvmField = ""
+
+        @JvmStatic
+        fun functionJvmStatic() {
+
         }
     }
 }
