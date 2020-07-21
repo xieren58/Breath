@@ -17,15 +17,26 @@ package com.zkp.breath.kotlin
  *
  *  1.内联类必须包含一个基础值，这就意味它需要一个公有主构造器来接收，主构造函数中只声明一个val修饰的数据类型。
  *  2.没有init初始化块。
- *  3.可以声明val属性（不能是延迟或者委托）和函数
- *  4.属性没有幕后字段，没有初始器，只能使用get方法且内部的操作还是针对构造器中的常量
- *  5. 可以实现接口，不能集成类
+ *  3.成员属性没有幕后字段，没有初始器，只能使用get方法，赋值的话只要它们仅基于构造器中那个基础值计算，或者从
+ *    可以静态解析的某个值或对象计算 - 来自单例，顶级对象，常量等。
+ *  4.不允许类继承 - 内联类不能继承另一个类，并且它们不能被另一个类继承。但可以实现接口
+ *  5.内联类必须在顶级声明。嵌套/内部类不能内联的。
  */
 
+object Conversions {
+    const val MINUTES_PER_HOUR = 60
+}
 
 inline class Hours(val value: Int) {
 
+    var s
+        get() = ""
+        set(value) {}
+
+    val valueAsMinutes get() = value * Conversions.MINUTES_PER_HOUR
+
     fun toMinutes() = value * 60
+
 
     // public static final int toMinutes(int $this) {
     //	return $this * 60;
