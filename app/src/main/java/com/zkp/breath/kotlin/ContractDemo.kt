@@ -15,8 +15,7 @@ fun isValid(token: String?): Boolean {
     return token != null && token.isNotBlank()
 }
 
-// 由于Contract契约API还是Experimental注解（可以查看contract函数的定义就有Experimental注解）
-// ，所以需要使用ExperimentalContracts注解声明。
+// 由于Contract契约API还是Experimental（可以查看contract函数的定义就有Experimental注解），所以需要使用ExperimentalContracts注解声明。
 @ExperimentalContracts
 fun isValidContract(token: String?): Boolean {
     /**
