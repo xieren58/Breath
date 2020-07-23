@@ -11,9 +11,11 @@ package com.zkp.breath.kotlin
  * 2. lambda表达式返回值总是返回函数体内部最后一行表达式的值。
  * 3. 可以使用typealias关键字给Lambda类型命名。
  * 4. 替代原有匿名内部类，但是需要注意一点就是只能替代含有单抽象方法的类。
- * 5. Kotlin和Java内部类或lambda访问局部变量的区别,java但匿名内部类或者lambda访问但局部变量
- *   必须需要final修饰，也就意味着在内部类内部或者lambda表达式的内部是无法去修改函数局部变量的值；而
- *   kotlin既可以访问final修饰的变量，也可以访问非final修饰的变量，也就意味着在Lambda的内部是可以直接修改函数局部变量的值。
+ * 5. Kotlin和Java内部类或lambda访问局部变量的区别,java但匿名内部类或者lambda访问但局部变量必须需要final修饰，
+ *   也就意味着在内部类内部或者lambda表达式的内部是无法去修改函数局部变量的值；而kotlin既可以访问final修饰的变量，
+ *   也可以访问非final修饰的变量，也就意味着在Lambda的内部是可以直接修改函数局部变量的值，这叫lambdab表达式的变量捕获。
+ *   （详情可看doc文件夹中" lambdab表达式的变量捕获.png"）
+ *
  */
 class MethodClass {
 
@@ -152,7 +154,17 @@ fun <T, R> List<T>.cusMap(transform: (T) -> R): List<R> {
 }
 
 
+class PersonDx(val name: String, val age: Int) {
+
+}
+
+
 fun main() {
+
+//    val persons = listOf(PersonDx(name = "Alice", age = 18), PersonDx(name = "Mikyou", age = 20))
+//    println(persons.maxBy { p: PersonDx -> p.age })
+//    println(persons.maxBy(PersonDx::age))
+
 
     val methodClass = MethodClass()
 
