@@ -2,18 +2,31 @@ package com.zkp.breath.kotlin
 
 
 /**
- * lambad和普通函数的区别：普通函数是准备好了逻辑，差参数；lambad是准备好了参数，差逻辑。
+ * https://juejin.im/post/5ac0dca8f265da237e09ddc1#heading-7
+ *
+ * java的lambda和kt的lambda不是同一个概念。
+ * lambda和普通函数的区别：普通函数是准备好了逻辑，差参数；lambda是准备好了参数，差逻辑。
+ *
+ * 1. lambda表达式分类:普通的lambda表达式;带接收者的lambda表达式。
+ * 2. lambda表达式返回值总是返回函数体内部最后一行表达式的值。
+ * 3. 可以使用typealias关键字给Lambda类型命名。
+ * 4. 替代原有匿名内部类，但是需要注意一点就是只能替代含有单抽象方法的类。
+ * 5. Kotlin和Java内部类或lambda访问局部变量的区别,java但匿名内部类或者lambda访问但局部变量必须需要final修饰，
+ *   也就意味着在内部类内部或者lambda表达式的内部是无法去修改函数局部变量的值；而kotlin既可以访问final修饰的变量，
+ *   也可以访问非final修饰的变量，也就意味着在Lambda的内部是可以直接修改函数局部变量的值，这叫lambdab表达式的变量捕获。
+ *   （详情可看doc文件夹中" lambdab表达式的变量捕获.png"）
+ *
  */
 class MethodClass {
 
 
     // 函数类型常见写法1
-    fun lambad1(body: (a: Int, b: Int) -> Int) {
+    fun lambda1(body: (a: Int, b: Int) -> Int) {
         println(body(3, 4))
     }
 
     // 函数类型写法2，函数类型的参数名可以省略。
-    fun lambad2(body: (Int, Int) -> Int) {
+    fun lambda2(body: (Int, Int) -> Int) {
         println(body(3, 4))
     }
 
@@ -21,9 +34,10 @@ class MethodClass {
     /**
      * 函数重载的定义和java一样，参数类型不一致或者数量不同都可视为重载。
      * 但在kotlin注意，lambda表达式都是函数类型，即便你定义的函数类型中的参数个数相同，那么即便类型或者返回值不一致
-     * 也是重载不类的，但是如果函数类型中的参数个数不同，无论类型或者返回值是否相同都可以重载成功。
+     * 也是重载不类的，但是如果函数类型中的参数个数不同，无论类型或者返回值是否相同都可以重载成功。即kotlin中函数类型的参数
+     * 的重载条件是个数。
      */
-    fun lambad2(body: (a: String, b: String) -> String, s: String) {
+    fun lambda2(body: (a: String, b: String) -> String, s: String) {
 
     }
 
@@ -32,20 +46,20 @@ class MethodClass {
 //
 //    }
 
-    fun lambad2(s: String, body: (a: String, b: String) -> String) {
+    fun lambda2(s: String, body: (a: String, b: String) -> String) {
 
     }
 
-    fun lambad2(s: String, body: (a: String, b: String, c: String) -> String) {
+    fun lambda2(s: String, body: (a: String, b: String, c: String) -> String) {
 
     }
 
-    fun lambad2(s: String, body: (a: String, b: String, c: String, d: String) -> Int) {
+    fun lambda2(s: String, body: (a: String, b: String, c: String, d: String) -> Int) {
 
     }
 
     // 函数类型的参数类型为data类
-    fun lambad2(body: (p: Pair<Int, Int>) -> Int): Int {
+    fun lambda2(body: (p: Pair<Int, Int>) -> Int): Int {
         return body(Pair<Int, Int>(1, 2))
     }
 
@@ -121,7 +135,7 @@ fun comboTwoValue(a: Int, b: Int, method: (a: Int, b: Int) -> Int): Int {
 
 /**
  * Kotlin支持局部函数,也就是说函数可以嵌套。
- * 局部函数可以访问外部函数（即：闭包）的局部变量。
+ * 局部函数可以访问外部函数的局部变量。
  */
 fun dfs(s: String, i: Int) {
     fun dfs(i: Int): String {
@@ -139,15 +153,14 @@ fun <T, R> List<T>.cusMap(transform: (T) -> R): List<R> {
     return result
 }
 
-
 fun main() {
 
     val methodClass = MethodClass()
 
-    methodClass.lambad1 { s, s1 -> s + s1 }     // 知道了类型，可以省略,切记参数不用加括号！！！！
-    methodClass.lambad1 { s: Int, s1: Int -> s + s1 }     // 最完整的写法，类型也写上，切记参数不用加括号！！！！
-    methodClass.lambad2 { (s, s1) -> s + s1 }   // 知道了类型，可以省略。注意这里加了圆括号，因为Pair有组建函数ComponetN,所以这里是解构声明的写法
-    methodClass.lambad2 { (s, s1): Pair<Int, Int> -> s + s1 }   // 最完整的写法，类型也写上。注
+    methodClass.lambda1 { s, s1 -> s + s1 }     // 知道了类型，可以省略,切记参数不用加括号！！！！
+    methodClass.lambda1 { s: Int, s1: Int -> s + s1 }     // 最完整的写法，类型也写上，切记参数不用加括号！！！！
+    methodClass.lambda2 { (s, s1) -> s + s1 }   // 知道了类型，可以省略。注意这里加了圆括号，因为Pair有组建函数ComponetN,所以这里是解构声明的写法
+    methodClass.lambda2 { (s, s1): Pair<Int, Int> -> s + s1 }   // 最完整的写法，类型也写上。注
 
     val body = { "我们" }
     val filter = methodClass.filter(body)
@@ -179,12 +192,12 @@ fun main() {
     }
     println(xxww2)
 
-    methodClass.filter2<String>("我们") { s -> s + "拼接字段" }
+    methodClass.filter2("我们") { s -> s + "拼接字段" }
 
-    val lock = methodClass.lock<String>(1) { i -> "hello to myself:$i" }
+    val lock = methodClass.lock(1) { i -> "hello to myself:$i" }
 
     // 返回类型为可null，能够自动推出类型
-    val bodyLock2: String? = methodClass.lock2(1, { "我们" })
+    val bodyLock2: String? = methodClass.lock2(1) { "我们" }
     // 传入函数参数null.
     val lock22 = methodClass.lock2<String>(1, null)
     // 函数类型声明，函数类型字面量。
@@ -192,12 +205,10 @@ fun main() {
     val body2: (() -> String)? = { "我们" }
     val lock2 = methodClass.lock2(1, body1)
     val lock21 = methodClass.lock2(1, body2)
-    val lock23 = methodClass.lock2(1) { "我们" }
-    val lock24 = methodClass.lock2(1) { null }
     println()
 
-    val arrayListOf = arrayListOf<Int>(1, 2, 3)
-    val cusMap = arrayListOf.cusMap<Int, Boolean> { it % 2 == 0 }
+    val arrayListOf = arrayListOf(1, 2, 3)
+    val cusMap = arrayListOf.cusMap { it % 2 == 0 }
 
     // 传递是lambda表达式，表达式内容需要用{}包裹
     arrayOf(3, 4, 5).filter { s -> s > 0 }
@@ -211,11 +222,11 @@ fun main() {
     }
     println()
 
-    arrayOf("你", "我", "ta").filter { it.equals("你") }
+    arrayOf("你", "我", "ta").filter { it == "你" }
     arrayOf("你", "我", "ta").filter("你"::equals)
     println()
 
-    // 创建函数对象（函数引用）后作为参数传递，而min方法又是静态方法，所以：：前面要加上类名
+    // 创建函数对象（函数引用）后作为参数传递，因为min是属于Math方法，所以在：：前加上类名标记说明这个方法的出处
     comboTwoValue(3, 4, Math::min)
     comboTwoValue(3, 4) { a, b -> Math.min(a, b) }
     println()

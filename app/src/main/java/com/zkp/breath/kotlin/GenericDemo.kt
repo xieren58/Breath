@@ -6,8 +6,6 @@ import java.io.Serializable
  * 使用关键字 out 来支持协变，等同于 Java 中的上界通配符 ? extends。
  * 使用关键字 in 来支持逆变，等同于 Java 中的下界通配符 ? super。
  *
- * kotlin的out和in也能放在声明处，即放在类的泛型声明处,表示只能泛型参数只用来输入或者输出。
- *
  * Java 中单个 ? 号也能作为泛型通配符使用，相当于 ? extends Object, Kotlin 中有等效的写法：* 号，相当于 out Any。
  * 和 Java 不同的地方是，如果你的类型定义里已经有了 out 或者 in，那这个限制在变量声明时也依然在，不会被 * 号去掉。
  * 比如你的类型定义里是 out T : Number 的，那它加上 <*> 之后的效果就不是 out Any，而是 out Number
@@ -36,14 +34,6 @@ class Box<T>(t: T) {
     // 类型为泛型
     var value = t
 
-    // 泛型约束
-    // 对于多个上界约束条件，可以用 where 子句
-    fun <T> copyWhenGreater(list: List<T>, threshold: T): List<String>
-            where T : CharSequence,
-                  T : Comparable<T> {
-        return list.filter { it > threshold }.map { it.toString() }
-    }
-
     // from没加out之前内部逻辑有可能出现对from进行写入，但我们传入的是int,有可能写入的是string。这时候就出现
     // 异常了，所以为了防止对from进行写入，我们应该加上out（生产者），表示只能获取而不能写入，如copy2（）方法。
     fun copy1(from: Array<Any>, to: Array<Any>) {
@@ -52,7 +42,7 @@ class Box<T>(t: T) {
             to[i] = from[i]
     }
 
-    // 协变
+    // 这个例子的作用是证明out只能用于获取
     fun copy2(from: Array<out Any>, to: Array<Any>) {
         assert(from.size == to.size)
         for (i in from.indices)
@@ -60,47 +50,53 @@ class Box<T>(t: T) {
             to[i] = from[i]
     }
 
-    // 逆变
+    // 这个例子的作用是证明in能用于添加
     fun fill(dest: Array<in String>, value: String) {
         dest[1] = value
-    }
-
-}
-
-// 使用 out 使得一个类型参数协变，协变类型参数只能用作输出，可以作为返回值类型但是无法作为入参的类
-class Runoob1<out A>(val a: A) {
-    fun foo(): A {
-        return a
+        val any = dest[1]
     }
 }
 
-// in 使得一个类型参数逆变，逆变类型参数只能用作输入，可以作为入参的类型但是无法作为返回值的类型：
-class Runoob2<in A>(a: A) {
-    fun foo(a: A) {
+
+// ===============================================================================
+// ===============================================================================
+
+// 提前定义上界的写法：协变，该泛型只能用于返回值，不能用于形参
+class Producer<out T> {
+    fun produce(): T? {
+        return null
     }
+
+    // 不允许用于形参
+//    fun produce1(t: T){
+//
+//    }
+}
+
+// 提前定义下界的写法 ：逆变，该泛型只能用于形参，不能用于返回值
+class Consumer<in T> {
+    fun consume(t: T) {
+
+    }
+
+    // 不允许用于返回值
+//    fun consume1() : T{
+//
+//    }
 }
 
 // 相当于java的 T extends Number的写法，表示泛型类型只能是Number或者Number的直接，间接类型。
-class Runoob3<T : Number>(t: T) {
-    // 因为泛型限定为Number的子类，所以符合多态写法
-    val t1: Number = t
-    val t2: T = t
-}
+class Consumer1<T : Number>
 
-// 设置多个边界可以使用 where 关键字，注意写在主构函数后面
+// 泛型约束
+// 对于多个约束条件，可以用 where 子句
 // 相当于java的 T extends Number & Serializable的写法
-class Runoob4<T>(t: T) where T : Number, T : Serializable {
-    val t1: Number = t
-    val t2: Serializable = t
-    val t3: T = t
-    val t4 = t
-}
+class Consumer2<T> where T : Number, T : Serializable
 
-// 表示这个泛型有限定类型范围，且该泛型具有协变
-class Runoob5<out T : Number>(t: T) {
-    val t1 = t
-    val t2: Number = t
-    fun getT() = t1
+class Consumer3<T> {
+    fun ff(): T? {
+        return null
+    }
 }
 
 // =============================泛型函数=============================
@@ -120,7 +116,9 @@ fun <T : Comparable<T>> cusSort(list: List<T>) {
     }
 }
 
-// 指定多个上限，使用where语句。必须满足是所有上限的共同子类
+
+// 泛型约束
+// 对于多个约束条件，可以用 where 子句，必须满足是所有上限的共同子类
 fun <T> cusCopyWhenGreater(list: List<T>) where T : CharSequence, T : Comparable<T> {
     list.forEach {
         println("打印:{$it}")
@@ -133,51 +131,59 @@ fun <T> process(value: T) {
     println(value.hashCode())
 }
 
-class TempDemo {
+private class TempDemo
 
+// =================================================================
+// =================================================================
+
+// 由于 Java 中的泛型存在类型擦除的情况，任何在运行时需要知道泛型确切类型信息的操作都没法用了。
+// 比如你不能检查一个对象是否为泛型类型 T 的实例：
+//fun <T> printIfTypeMatch1(item: Any) {
+//    if (item is T) { // 👈 IDE 会提示错误，Cannot check for instance of erased type: T
+//        println(item)
+//    }
+//}
+
+// 使用关键字 reified 配合 inline 来解决：
+inline fun <reified T> printIfTypeMatch2(item: Any) {
+    if (item is T) { // 👈 这里就不会在提示错误了
+        println(item)
+    }
 }
 
 fun main(args: Array<String>) {
-    //创建方式1，as其实有提示，但是离开as可读性不好
-    val fx = Box("")
-    // 创建方式2，可读性好，但是太长
-    val fx1: Box<String> = Box<String>("")
-    // 创建方式3，强烈推荐，可读性好
-    val fx2: Box<String> = Box("")
 
-    // kotlin的List接口本身就支持协变，看接口定义。
+    // kotlin的List接口本身就支持协变，看接口定义，只是把协变的写法提前定义了。
     val strs1: List<String> = listOf("a", "b", "c")
-    val anys: List<Any> = strs1 // success
+    val anys1: List<CharSequence> = strs1   // 1
+    val anys2: List<out CharSequence> = strs1   // 2，相当于1, 其实1就是省略了out关键字，因为类定义的时候已经提前定义了out
     // 和 List 类似，Set 同样具有 covariant（协变）特性。
     val strSet = setOf("a", "b", "c")
 
 
     val list1: ArrayList<out Number> = ArrayList<Int>()
     val list2: ArrayList<out Number> = ArrayList<Number>()
-
     val list3: ArrayList<in Int> = ArrayList<Int>()
     val list4: ArrayList<in Int> = ArrayList<Number>()
 
+
     // * 相当于out any，这时候右边的泛型声明不能省略, *这种是不能自动推导的。
     val list5: List<*> = ArrayList<Any>()
-    val lis6: List<*> = ArrayList<String>()
-    val arrayList = ArrayList<String>() // 需要传入泛型类型
-    val arrayListOf3 = arrayListOf<Any>()   // 需要传入泛型类型
+    val list6: List<*> = ArrayList<String>()
+    val list7: List<*> = ArrayList<Int>()
 
-    val runoob5 = Runoob5(1)
-    val runoob6 = Runoob5(1L)
-    val runoob7 = Runoob5(1f)
 
+    val box: Box<String> = Box("")
+    box.fill(Array(3) { i -> i.toString() }, "a")
     val ints: Array<Int> = arrayOf(1, 2, 3)
     val any = Array<Any>(3) { "" }
-//    fx2.copy1(ints, any) // error
-    fx2.copy2(ints, any)
+//    fx2.copy1(ints, any) //error， kotlin的数组是有泛型定义的，而泛型本身不具有协变
+    box.copy2(ints, any)
 
-    val strs = Array(3) { "" }
-    fx2.fill(strs, "a")
 
     val singletonList = singletonList(1)
     val singletonList1 = singletonList("我们")
+
 
     val arrayListOf = arrayListOf(1, 2, 3)
     val arrayListOf1 = arrayListOf(TempDemo())
@@ -187,5 +193,28 @@ fun main(args: Array<String>) {
     cusCopyWhenGreater(arrayListOf2)
 //    cusCopyWhenGreater(arrayListOf1)  // 编译不通过
 
+
+    // 一般允许这种写法的话就表示在定义类里面已经存在out/in关键字，否则按照java的规则泛型是不允许多态的。
+    val producer1: Producer<Number> = Producer<Int>()    //  // 👈 这里不写 out 也不会报错
+    val producer2: Producer<out Number> = Producer<Int>() // 👈 out 可以但没必要
+    val producer3 = Producer<Int>() // ===>  val producer3: Producer<Int> = Producer<Int>() ==》 val producer3: Producer<out Int> = Producer<Int>()
+    val producer4: Producer<*> = Producer<Int>()
+
+    val produce = producer1.produce()
+    val produce1 = producer3.produce()
+    val produce2 = producer4.produce()
+
+
+    val consumer1 = Consumer<Int>()     // ==>  val consumer: Consumer<Int> = Consumer<Int>()   ==> val consumer: Consumer<in Int> = Consumer<Int>()
+    val consumer2: Consumer<Int> = Consumer<Number>() // 👈 这里不写 in 也不会报错
+    val consumer3: Consumer<in Int> = Consumer<Number>() // 👈 in 可以但没必要
+    val consumer4: Consumer<*> = Consumer<Int>()    // Nothing类型, 无效写法
+//    consumer4.consume()
+
+
+    val c1: Consumer3<*> = Consumer3<Int>() // 相当于下面的写法
+    val c: Consumer3<out Any> = Consumer3<Int>()
+    val ff1 = c1.ff()
+    val ff = c.ff()
 }
 

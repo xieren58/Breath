@@ -114,35 +114,6 @@ class Connection(val host: Host, val port: Int) {
 // =====================================================
 // =====================================================
 
-class D {
-    fun bar() {
-        println("D bar")
-    }
-}
-
-class C2 {
-    fun baz() {
-        println("C baz")
-    }
-
-    fun bar() {
-        println("C bar")
-    }
-
-    fun D.foo() {
-        bar()   // 输出”D bar“。相当于this.bar()，该函数为扩展函数，所以this为接受者类型，即为D。
-        baz()   // 输出”C.baz“。相当于this@C2.baz()
-        this@C2.bar()  //   输出”C.bar“。本类存在和接收者类型所在类同名方法，如果要调用自身的方法，一定要加this@本类类名.方法名()
-    }
-
-    fun caller(d: D) {
-        d.foo()   // 调用扩展函数
-    }
-}
-
-// =====================================================
-// =====================================================
-
 open class D3 {
 }
 
@@ -189,7 +160,6 @@ class MyClass {
 
         fun companionFun1() {
             println("this is 1st companion function.")
-            // 伴生对象相当于java的静态成员（实际不是），所以这里看成静态方法，静态方法不能调用成员方法， 所以这里调用的是顶层方法
             foo()
         }
 
@@ -210,15 +180,15 @@ class MyClass {
         /**
          * 注意：
          * 1.类内的其它函数优先引用类内扩展的伴随对象函数，即对于类内其它成员函数来说，类内扩展屏蔽类外扩展.
-         * 2.类内的伴随对象扩展函数只能被类内的函数调用。
+         * 2.类内的伴随对象扩展函数只能被类内的函数调用(无论其可见行是怎样的)。
          */
         // 下面两种写法都可以
-        MyClass.foo()
-        Companion.foo()
+        MyClass.foo()   // 类名 + 半生对象扩展函数名
+        Companion.foo()     // Companion关键字 + 半生对象扩展函数名
     }
 
     // 类内伴生对象扩展函数
-    // 基于伴生对象依赖外部类，伴生对象的扩展函数也只能外部类才能调用。
+    // 基于伴生对象依赖外部类，伴生对象的扩展函数也只能外部类（内部）才能调用。
     fun Companion.foo() {
         println("伴随对象的扩展函数（内部）")
     }
@@ -249,7 +219,7 @@ fun String?.toString(): String {
 // 扩展属性
 // 扩展属性允许定义在类或者kotlin文件中，不允许定义在函数中，扩展属性只能被声明为 val,扩展属性不能有初始化器，没有后端字段field。
 val <T> List<T>.cusLastIndex: Int
-    get() = size
+    get() = 1
 
 //  dp转px
 val Float.dp
@@ -260,17 +230,26 @@ val Float.dp
     )
 
 val a: (Int) -> Unit = { println("$it") }
+val axx: (Int) -> Unit = fun(_: Int) {}   // 使用匿名函数替换lambda表达式的实例
 
 // 把扩展函数的引用赋值给变量
+// lambda表达式，匿名函数，函数引用才能作为参数或者赋值给变量
+// 因为该函数是扩展函数，所以在：：前面加上类名
 val a1: String.(Int) -> Unit = String::method1
+val a1x1: String.(Int) -> Unit = ::method2
 
-// 这种写法也是合法的，知道左边的调用方式即可。
-val b: (String, Int) -> Unit = String::method1
+// 扩展函数的扩展接受者可以作为一个参数定义。
+val a1x: (String, Int) -> Unit = String::method1
+val a1x2: (String, Int) -> Unit = ::method2
+
+// 左边忽略参数定义ide会提示this，而不是it。
 val a2: String.(Int) -> Unit = {
     println("调用者:$this")
     println("参数:$it")
 }
+
 val a3: String.(Int) -> Unit = { i: Int ->
+    plus("调用者:$this")
     println("参数:$i")
 }
 
@@ -322,14 +301,6 @@ fun main(args: Array<String>) {
     // =====================================================
     // =====================================================
 
-    val c: C2 = C2()
-    val d: D = D()
-    c.caller(d)
-    println()
-
-    // =====================================================
-    // =====================================================
-
     C3().caller(D3())   // 输出 "D.foo in C"
     C4().caller(D3())  // 输出 "D.foo in C1" —— 分发接收者虚拟解析
     C3().caller(D1())  // 输出 "D.foo in C" —— 扩展接收者静态解析
@@ -365,6 +336,11 @@ fun main(args: Array<String>) {
     "rengwuxian".a1(1)
     a1("rengwuxian", 1)
     a1.invoke("rengwuxian", 1)
+
+//    "rengwuxian".a1x(1)
+    a1x("", 1)
+    a1x.invoke("", 1)
+
 
     // 无接受者的函数引用赋值给有接受者的lambda表达式
     //    "rengwuxian".method2(1) // 不允许调用，报错

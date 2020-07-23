@@ -4,17 +4,33 @@ package com.zkp.breath.kotlin
 // 没有自定义 getter (即默认隐式get访问器),因为get访问器能自定义返回的value（即动态），所以不符合常量的定义。
 const val CONST = 22
 
-class Demo {
+class Demo(name: String) {
 
-    // var 是 variable 的缩写， val 是 value 的缩写。
+    // var/val变量在init代码块初始化，则可以不用马上初始化
+    val name1 = name
+    var name2 = name
+    var name3: String
+
+    init {
+        this.name3 = name
+    }
+
+    // Kotlin 的变量是没有默认值的，Java 的 field 有默认值（但java的局部变量也是没有默认值的）
+    // var 是 variable 的缩写， val 是 value(只读变量) 的缩写。
     // get/set访问器中使用到filed关键字则必须马上初始化（自动推断或者显示声明类型），因为kotlin没有默认初始值
     // field  幕后字段只能用于属性的get/set访问器。（在kotlin中，属性名=value会被编译器翻译成调用setter方法进而形成递归死循环,所以在get/set中kotlin提供了field关键字用于解决这个问题）
     var i: Int = 2
+        // setter 函数参数是 value
         set(value) {
-            // field幕后字段，代表该属性
+            // field幕后字段，代表该属性，相当于java中的this.属性名的简写
             field += value
         }
         get() = field + 1
+
+    // 因为没有用到field幕后字段，可以不需要初始化
+    var i3
+        get() = i       // 获取值的时候就知道i3的类型和值
+        set(value) {}   // 无效的赋值操作，所以不用管i3到底是什么类型，当前值是什么，所以也就不用初始化。
 
     val i1 = 22
         get() = field + 2
@@ -26,15 +42,15 @@ class Demo {
         get() = i == 3
 
     // 虽然 val 修饰的变量不能二次赋值，但可以通过自定义变量的 getter 函数，让变量每次被访问时，返回动态获取的值。
-    // val修饰声明了get访问器就可以不需要显示初始化。
     val ss
         // 幕后属性，指向别的属性的值来作为自身的初始值
         get() = s
 
     /**
+     * 「我很确定我用的时候绝对不为空，但第一时间我没法给它赋值」
      * 关键字lateinit，延迟初始化属性,用于类体中的属性，顶层属性与局部变量。
      * 注意：
-     * 1.不允许自定义get/set访问器（get访问器相当于初始化，而且get/set方法中使用到field幕后字段是需要马上初始化的，而关键字本上就是要延迟初始化，所以作用互斥）
+     * 1.不允许自定义get/set访问器（get/set访问器中使用到field幕后字段是需要马上初始化的，而关键字本上就是要延迟初始化，所以作用互斥）
      * 2.必须是非空类型且不能是原生类型(你声明为Int是不被允许的)。
      * 3.只能是var修饰（延迟赋值，不是不能赋值，而val定义后不能修改值所以不符合）
      * 4.必须指定类型
@@ -42,10 +58,8 @@ class Demo {
     lateinit var lateinitStr: String
 
     fun test1() {
-        // 重要,判断是否初始化
-        // ::表示一个对象，然后对象才能使用.xxx调用其方法或者属性
+        // TODO 重要,判断是否初始化
         if (::lateinitStr.isInitialized) {
-
         }
     }
 }
@@ -73,12 +87,10 @@ class ClassDemo {
 }
 
 // 无类体省略了花括号'{}'
-class ClassDemo2
-
+open class ClassDemo2
 
 // ‘constructor(参数)’关键字加构造参数表示主构造函数
 class ClassDemo3 constructor(s: String) {
-
 }
 
 // 没有任何注解或者可见性修饰符可以省略关键字‘constructor’
@@ -93,11 +105,41 @@ class ClassDemo5 private constructor(s: String) {
 
 // 多个次构造函数（类似于java的方法重构）
 // 没有主构函数，不需要在次构函数后面加this()去表示调用主构函数
-class ClassDemo6 {
+open class ClassDemo6 {
     constructor(s: String)
     constructor(i: Int)
     constructor(s: String, i: Int)
 }
+
+// 类头的父类无（），所以要在类体中声明的次构造函数要指向super或者调用指向super的this
+class ClassDemo6X1 : ClassDemo6 {
+
+    constructor(int: Int, s: String) : super("") {
+        println("ClassDemo6X1_无参数构造函数")
+    }
+
+    constructor(s: String) : this(0, "") {
+
+    }
+
+    constructor(int: Int) : super("")
+
+
+    init {
+        println("ClassDemo6X1的init{}")
+    }
+}
+
+// 直接在类头实现父类
+class ClassDemo6X2 : ClassDemo6("") {
+}
+
+class ClassDemo6X3(s: String) {
+    init {
+        println(s)
+    }
+}
+
 
 class ClassDemo7 constructor(s: String) {
     // 存在主构的话则次构函数在参数后‘: this（主构函数参数）’表示间接调用主构函数
@@ -107,13 +149,12 @@ class ClassDemo7 constructor(s: String) {
 }
 
 // 主构函数参数存在默认值
-class ClassDemo8 constructor(s: String = "默认值") {
+open class ClassDemo8 constructor(s: String = "默认值") {
     // this()括号中可以不传值
     constructor(i: Int, s: String) : this() {
 
     }
 }
-
 
 class ClassDemo9 constructor(s: String) {
 

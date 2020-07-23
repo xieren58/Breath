@@ -1,7 +1,5 @@
 package com.zkp.breath.review.polymorphic;
 
-import com.zkp.breath.kotlin.D;
-import com.zkp.breath.kotlin.Demo;
 
 public class DemoA {
 

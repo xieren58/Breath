@@ -1,20 +1,38 @@
 package com.zkp.breath.kotlin
 
 /**
- * 1.object类其实就是饿汉式线程安全的单例，object修饰的类也可以实现接口；object：也可以用来创建匿名类的对象。
+ * 1.object类其实就是饿汉式线程安全的单例，object修饰的类也可以实现接口；object也可以用来创建匿名类的对象。
  * 2.companion object伴随外部类而存在，一个类中最多只有一个伴生对象。Java 静态变量和方法的等价写法：companion object 中的变量和函数。
  *   其实companion object修饰的类在外部类被加载的时候就随之被实例化，所以实际上还是通过实例去调用方法/变量，虽然说是等价
  *   java的静态变量和静态方法的写法，但实际其实不是，且kotlin没有静态变量和静态方法这两个概念。
  *
  *
- * 静态方法或者静态变量在实际使用中，在 object、companion object 和 top-level 中应如何选择：
+ * 在实际使用中，在 object、companion object 和 top-level 中应如何选择：
  * 1.如果想写工具类的功能，直接创建文件，写 top-level「顶层」函数。推荐
  * 2.如果需要继承别的类或者实现接口，用companion object或者object，但是object是一个单例还是不要泛滥使用，
  *  而companion object的使用是与外部类存在某种关联才去使用。
  *
- * 常量：
- * Kotlin 的常量（const val）必须声明在对象（包括伴生对象）或者「top-level 顶层」中，
- * Kotlin 中只有基本类型和 String 类型可以声明成常量（防止其他类型实例后对内部的变量进行修改）。
+ * 常量（编译时常量）：
+ * 1.Kotlin 的常量（const val）必须声明在对象（包括伴生对象）或者「top-level 顶层」中，因为常量是静态的。
+ * 2.Kotlin 中只有基本类型和 String 类型可以声明成常量（防止其他类型实例后对内部的变量进行修改）。java的常量没有
+ * 限制类型，自定义类的常量还是能对内部的值进行修改，所以是一种伪常量，而kotlin因为限制了类型所以不可修改也就不存在
+ * 可修改这种问题。
+ *
+ *
+ *  // java的伪常量的例子
+ * public class User {
+ *      int id; // 👈 可修改
+ *      String name; // 👈 可修改
+ *      public User(int id, String name) {
+ *          this.id = id;
+ *          this.name = name;
+ *      }
+ *  }
+ *
+ *  // 虽然这个常量不能二次赋值，但是可以修改其内部的成员变量的值
+ *  static final User user = new User(123, "Zhangsan");
+ *  user.name = "Lisi";
+ *
  */
 
 
@@ -32,16 +50,23 @@ package com.zkp.breath.kotlin
  *  ...
  *  }
  *
- * object的意思就是创建了一个类的对象，然后调用这个对象的方法或者属性可以直接使用类名.方法/属性。
- * 其实就是java中的单例。object个人理解其实就是一个语法糖，省略了java的单例每次调用都需要：
- * “类名.getgetInstance().变量/方法” 中的getgetInstance（）,object类直接使用类名.变量/方法即可且不需要
- * 额外维护一个实例变量 sInstance。
+ *  kotlin的单例
+ *
+ *  object A {
+ *      val number: Int = 1
+ *      fun method() {
+ *          println("A.method()")
+ *      }
+ *  }
  *
  * 这种通过 object 实现的单例是一个饿汉式的单例，并且实现了线程安全，和 Java 相比的不同点有：
  * 和类的定义类似，但是把 class 换成了 object 。
  * 不需要额外维护一个实例变量 sInstance。
  * 不需要「保证实例只创建一次」的 getInstance() 方法。
  */
+
+
+// object关键字：创建了一个类，并且创建一个这个类的对象。 在代码中如果要使用这个对象，直接通过它的类名就可以访问。
 object Sample {
     val name = "A name"
 }
@@ -96,6 +121,7 @@ interface Two {
     fun towFunction()
 }
 
+// object定义的类可以继承类和实现接口
 object Three : One(20), Two {
     override fun towFunction() {
     }
@@ -106,11 +132,29 @@ object Three : One(20), Two {
 
 interface TempI
 
+/**
+ * 伴生对象支持@JvmStatic,@JvmField:
+ * 他们作用主要是为了在Kotlin伴生对象中定义的一个函数或属性，能够在Java中像调用静态函数和静态属性那样类名.函数名/属性名方式调用，
+ * 让Java开发者完全无法感知这是一个来自Kotlin伴生对象中的函数或属性。如果不加注解那么在Java中调用方式就是类名.Companion.函数名/属性名。
+ * 你让一个Java开发者知道Companion存在，只会让他一脸懵逼。
+ */
 class Four {
     companion object {
+        // 静态变量
         var s: String = "伴生对象的变量"
+        const val CONST_NUMBER = 1
+        val s2: String = "ss"
+
         fun function() {
             println("伴生对象的方法")
+        }
+
+        @JvmField
+        val sJvmField = ""
+
+        @JvmStatic
+        fun functionJvmStatic() {
+
         }
     }
 }

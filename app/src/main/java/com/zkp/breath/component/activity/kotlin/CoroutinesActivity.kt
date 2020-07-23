@@ -45,7 +45,7 @@ class CoroutinesActivity : BaseActivity() {
     private fun init() {
         // kotlin提供的函数简化了对Thread的使用
         thread {
-            Log.i(TAG, "thread: ${Thread.currentThread().name}");
+            Log.i(TAG, "thread: ${Thread.currentThread().name}")
         }
 
         // 如果没有ui操作就没必要使用Dispatchers.Main，否则会报错。
@@ -77,11 +77,11 @@ class CoroutinesActivity : BaseActivity() {
     }
 
     // 可以把withContext放进单独的一个函数内部，但函数需要添加suspend关键字（因为withContext 是一个 suspend 函数，它需要在协程或者是另一个 suspend 函数中调用）
-    suspend fun extractWithContext() = withContext(Dispatchers.IO) {
+    private suspend fun extractWithContext() = withContext(Dispatchers.IO) {
         Log.i(TAG, "extractWithContext_IO3: ${Thread.currentThread().name}")
     }
 
-    suspend fun extractDelay() {
+    private suspend fun extractDelay() {
         // 等待一段时间后再继续往下执行代码,使用它就可以实现刚才提到的等待类型的耗时操作
         delay(1000)
         Log.i(TAG, "extractDelay: ${Thread.currentThread().name}")

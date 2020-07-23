@@ -1,5 +1,9 @@
 package com.zkp.breath.review;
 
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.TextView;
+
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -11,19 +15,34 @@ import java.util.List;
  *
  * Java 的泛型本身是不支持协变和逆变的（协变和逆变使泛型实现多态），PECS 法则：「Producer-Extends, Consumer-Super」
  *
- * 生产者：? extends，上界通配符，使泛型支持协变（只能读取不能修改）。其中 ? 是个通配符，表示泛型类型是一个未知类型，
- * extends 限制了这个未知类型的上界，即为某个类型的间接或直接子类/实现类，也包括指定的上界类型。
+ * 生产者：? extends，上界通配符，使泛型支持协变（只能读取不能修改，这里的修改仅指对泛型集合添加元素，如果是
+ * remove(int index) 以及 clear 当然是可以的）。其中 ? 是个通配符，表示泛型类型是一个未知类型，extends 限制了
+ * 这个未知类型的上界，即为某个类型的间接或直接子类/实现类，也包括指定的上界类型。
  *
- * 消费者：? super，下界通配符，使泛型支持逆变（只能修改不能读取）。其中 ? 是个通配符，表示泛型类型是一个未知类型，
- * super 限制了这个未知类型的下界，即为某个类型的间接或者直接父类/接口，也包括指定的下界类型。
+ * 上界通配符的获取和添加概括：
+ * 只能用于获取，因为指定了上界的原因，实际类型要么是上界类型要么是上界的子类类型，符合多态的特性；不能用于添加，因为
+ * 实际类型可能是上界类型的子类，然后添加元素的类型是上界类型，这种行为是不允许的。
+ *
+ * 消费者：? super，下界通配符，使泛型支持逆变（只能修改不能读取，这里说的不能读取是指不能按照泛型类型读取，你如果按照
+ * Object 读出来再强转当然也是可以的）。其中 ? 是个通配符，表示泛型类型是一个未知类型，super 限制了这个未知类型的下界，
+ * 即为某个类型的间接或者直接父类/接口，也包括指定的下界类型。
+ *
+ * 下界通配符的获取和添加概括：
+ * 可以添加，因为添加元素的类型是下界类型，而对象的真实类型一定是下界类型或者下界的父类型，满足多态特性；也能用于获取
+ * ，但是获取出来的类型是Object类型。
  *
  * ？通配符：这样使用 List<?> 其实是 List<? extends Object> 的缩写。
  *
- * Java 中声明类,接口,方法的时候，可以使用 extends（没有super，注意这个是声明类或接口的时候用的） 来设置边界，将泛型类型参数限制为某个类型的子集。
+ * Java 中声明类,接口,方法的时候，可以使用 extends（没有super，注意这个是声明类或接口的时候用的） 来设置边界，将
+ * 泛型类型参数限制为某个类型的子集。
  */
 public class GenericDemo {
 
     public static void main(String[] args) {
+
+        List<? extends TextView> textViews1 = new ArrayList<TextView>(); // 👈 本身
+        List<? extends TextView> textViews2 = new ArrayList<Button>(); // 👈 直接子类
+        List<? extends TextView> textViews3 = new ArrayList<RadioButton>(); // 👈 间接子类
 
         List<Integer> integers1 = new ArrayList<>();
         integers1.add(1);
@@ -68,12 +87,37 @@ public class GenericDemo {
         System.out.println();
         System.out.println();
 
+        // ===================================================
+        // ===================================================
 
         // 下面的写法都满足类定义的泛型的要求
         Bean2<Integer> bean2 = new Bean2<>();
+        Integer bean23 = bean2.get3();
+
         Bean2<Number> bean3 = new Bean2<>();
+        Number bean33 = bean3.get3();
+
+        // 上界通配符的泛型限制和类定义的泛型限定是一致的，所以下面的声明是允许的。
         Bean2<? extends Number> bean4 = new Bean2<Integer>();
+        Number bean43 = bean4.get3();
+
+        // 为什么get3（）方法获取到到不是Object而是Number？
+        // 因为list的泛型定义没有指定范围，所以只能用顶层父类Object指向，而自定义类Bean2泛型声明指定了泛型父类（<T extends Number & Serializable>），优先拿该类型指向。
         Bean2<? super Integer> bean5 = new Bean2<Number>();
+        Number bean53 = bean5.get3();
+
+
+        // ===================================================
+        // ===================================================
+        Bean3<String> objectBean3 = new Bean3<>();
+        String t = objectBean3.getT();
+
+        Bean3<? extends Number> objectBean4 = new Bean3<>();
+        Number t1 = objectBean4.getT();
+
+        Bean3<? super Integer> objectBean5 = new Bean3<>();
+        Object t2 = objectBean5.getT();
+
 
         /**
          * 由于在程序中定义的 ArrayList 泛型类型实例化为 Integer 的对象，
@@ -94,6 +138,7 @@ public class GenericDemo {
         }
 
 
+        // 判断某个对象的泛型类型是否为指定类型
         List<String> stringList = new ArrayList<>();
         Object o = stringList;
         Class<? extends List> aClass1 = stringList.getClass();
@@ -108,6 +153,7 @@ public class GenericDemo {
 //    }
 
     private static <T> void check(Object item, Class<T> type) {
+        // item是否为type到实例对象
         if (type.isInstance(item)) {
             System.out.println("泛型类型检查成功");
         }
@@ -149,7 +195,7 @@ public class GenericDemo {
      */
     private static void consumerSuper(List<? super Integer> list) {
         try {
-            list.add(1);
+            list.add(1);    // 只能添加下界类型
 //            list.add(new Number(1))   // 是不允许的
 //            list.add(new Object())    // 是不允许的
             Object object = list.get(0);
@@ -173,7 +219,20 @@ public class GenericDemo {
         public Serializable getT2() {
             return t;
         }
+
+        public T get3() {
+            return t;
+        }
     }
+
+    private static class Bean3<T> {
+        private T t;
+
+        public T getT() {
+            return t;
+        }
+    }
+
 
     private static <T extends Number> Number getT1(T t) {
         return t;

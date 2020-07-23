@@ -5,7 +5,7 @@ package com.zkp.breath.kotlin
  * 可空安全操作符（?.）：如果使用一个可null的类型的变量去调用其成员的时候，要在点号前面加上?表示这个变量有可能为null，
  * 而当这个变量为null的时候是不会去调用其成员的，这样就不会出现java的NPE（空指针异常）。
  *
- * ?:：配合空安全操作符使用，当变量为null的时候会执行?:后面的逻辑。
+ * ?:( Elvis 操作符)：配合空安全操作符使用，当变量为null的时候会执行?:后面的逻辑。
  *
  * 非空断言运算符(!!),若该值为空则抛出异常（NPE 异常）,否则将值转换为非空类型。
  */
@@ -53,6 +53,19 @@ fun test3() {
     val l2 = b?.length ?: -1
 }
 
+// Elvis 操作符还有另外一种常见用法，如下：
+fun validate(user: User) {
+    val id = user.id ?: return // 👈 验证 user.id 是否为空，为空时 return
+
+    // 等同于
+//    fun validate(user: User) {
+//        if (user.id == null) {
+//            return
+//        }
+//        val id = user.id
+//    }
+}
+
 fun tes4_C(): String? {
     return null
 }
@@ -75,8 +88,7 @@ fun test(s: String?): Unit? {
  * 因为 throw 和 return 在 Kotlin 中都是表达式，所以它们也可以用在 elvis 操作符右侧。这可能会非常方便，例如，检测函数参数
  */
 fun tes4(): String? {
-    // 注意：如果 tes4_C() 返回的值为null那么直接return结束该方法，而如果能够继续
-    // 往下执行，那么表示该返回值一定是非空类型。（有点像契约的作用）
+    // 注意：如果 tes4_C() 返回的值为null那么直接return结束该方法，而如果能够继续往下执行，那么表示该返回值一定是非空类型。
     val parent = tes4_C() ?: return null
 
 
@@ -92,9 +104,7 @@ fun tes4(): String? {
     val x = null           // “x”具有类型 `Nothing?`
     val l = listOf(null)   // “l”具有类型 `List<Nothing?>
 
-    //...
-    val sss = ""
-    return sss
+    return ""
 }
 
 /**
@@ -102,4 +112,48 @@ fun tes4(): String? {
  */
 fun test5(b: String?) {
     val l = b!!.length
+}
+
+/**
+ * Java 里面的 @Nullable 和 @NonNull 注解，在转换成 Kotlin 后对应的就是可空变量和不可空变量
+ */
+fun test6() {
+    // java
+//    @Nullable
+//    String name;
+//    @NonNull
+//    String value = "hello";
+
+    // kotlin
+    var name: String? = null
+    var value: String = "hello"
+}
+
+/**
+ * 检查null
+ */
+fun check() {
+    val age = -1
+    require(age > 0) {
+
+    }
+
+    val name = null
+    // 该函数存在返回值，当非null会返回自身，否则会抛出异常；null则执行参数2的lambda表达式，反之不成立；
+    try {
+        checkNotNull(name) {
+            println("checkNotNull_lambda")
+        }
+    } catch (e: Exception) {
+        println("checkNotNull_exception")
+    }
+    // 该函数存在返回值，当非null会返回自身，否则会抛出异常；null则执行参数2的lambda表达式，反之不成立；
+    try {
+        requireNotNull(name) {
+            println("requireNotNull_lambda")
+        }
+    } catch (e: Exception) {
+        println("requireNotNull_exception")
+    }
+
 }

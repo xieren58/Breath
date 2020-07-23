@@ -68,8 +68,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions {
+            jvmTarget = '1.8'
+            freeCompilerArgs = ['-XXLanguage:+InlineClasses']
+        }
     }
 
     sourceSets {
@@ -148,7 +151,7 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'com.google.android.material:material:1.1.0'
 
-    implementation 'com.blankj:utilcodex:1.28.4'
+    implementation 'com.blankj:utilcodex:1.29.0'
 
     implementation 'io.reactivex.rxjava3:rxjava:3.0.3'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
@@ -188,7 +191,7 @@ dependencies {
     kapt 'com.alibaba:arouter-compiler:1.2.2'
 
     // 浏览器查看sp或者数据库神器
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
     // 内存泄露检验工具
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'

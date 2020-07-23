@@ -18,9 +18,14 @@ fun main() {
     intArrayOf()    // 相当于java的int[]，没有封箱
     arrayOf<Int>()  // 相当于java的object[]，但存放的是int，有封箱
 
-    // kotlin的数组语言层面支持泛型，而泛型不支持协变。
+    // kotlin的数组语言层面支持泛型，而泛型不支持协变（子类对象不能赋值给父类变量）。
     val strs: Array<String> = arrayOf("a", "b", "c")
-//    val anys: Array<Any> = strs // compile-error: Type mismatch，
+//    val anys: Array<Any> = strs // compile-error: Type mismatch
+
+    // java的数组子类对象是能赋值给父类变量，因为java的数组不支持泛型
+//    String[] strs = {"a", "b", "c"};
+//    Object[] objs = strs; // success
+
 
     // 可空类型
     val arrayOfNulls = arrayOfNulls<String>(3)

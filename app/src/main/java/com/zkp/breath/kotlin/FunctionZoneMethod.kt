@@ -67,54 +67,21 @@ fun main() {
 
     letDemo()
     runDemo()
+    alsoDemo()
+    applyDemo()
+    withDemo()
 
-    // ==================根据返回值的选择对应的功能与函数==================
-    // ==================根据返回值的选择对应的功能与函数==================
-    // 有点rx的操作符的味道
-    val numberList = mutableListOf<Double>()
-    numberList.also {
-        println("Populating the list")
-    }.apply {
-        add(2.71)
-        add(3.14)
-        add(1.0)
-    }.also {
-        println("Sorting the list")
-    }.sort()
+    takeDemo()
+    repeatDemo()
 
+}
 
-    // 因为also最终返回的是上下文对象，所以可以配合return
-    fun getRandomInt(): Int {
-        return Random.nextInt(100).also {
-            println("getRandomInt() generated value $it")
-        }
-    }
+private fun repeatDemo() {
+    // 执行次数重复执行一个闭包（和for效果一样，比for更加简洁）
+    repeat(8) { println("重复执行8次") }
+}
 
-    val i = getRandomInt()
-
-
-    val mutableListOf = mutableListOf("A", "B", "C")
-    val number = mutableListOf.run {
-        add("D")
-        add("E")
-        add("F")
-        // 最有一句最为返回值，所以看count功能域函数的返回值
-        count {
-            it.endsWith("e", true)
-        }
-    }
-    println("There are $number elements that end with e.")
-
-
-    // with:仅使用作用域函数为变量创建一个临时作用域
-    val mutableListOf1 = mutableListOf("one", "two", "three")
-    with(mutableListOf1) {
-        val firstItem = first()
-        val lastItem = last()
-        println("First item: $firstItem, last item: $lastItem")
-    }
-
-
+private fun takeDemo() {
     val number1 = Random.nextInt(100)
     println("it：{$number1}")
     // takeIf（如果）：如果lambda返回true则返回调用者，否则返回null
@@ -122,10 +89,15 @@ fun main() {
     // takeUnless（除非）：如果lambda返回true则返回null，否则返回对象
     val oddOrNull = number1.takeUnless { it % 2 == 0 }
     println("even: $evenOrNull, odd: $oddOrNull")
+}
 
-    // 执行次数重复执行一个闭包（和for效果一样，比for更加简洁）
-    repeat(8) { println("重复执行8次") }
-
+private fun withDemo() {
+    val mutableListOf1 = mutableListOf("one", "two", "three")
+    with(mutableListOf1) {
+        val firstItem = first()
+        val lastItem = last()
+        println("First item: $firstItem, last item: $lastItem")
+    }
 }
 
 private fun applyDemo() {
@@ -143,6 +115,16 @@ private fun alsoDemo() {
         println(it.first())
         println(it.last())
     }.length
+
+
+    // 因为also最终返回的是上下文对象，所以可以配合return
+    fun getRandomInt(): Int {
+        return Random.nextInt(100).also {
+            println("getRandomInt() generated value $it")
+        }
+    }
+
+    val i = getRandomInt()
 }
 
 private fun runDemo() {
@@ -155,6 +137,19 @@ private fun runDemo() {
         println("The receiver string length: $length")
     }
     str.run(block)
+
+
+    val mutableListOf = mutableListOf("A", "B", "C")
+    val number = mutableListOf.run {
+        add("D")
+        add("E")
+        add("F")
+        // 最有一句最为返回值，所以看count功能域函数的返回值
+        count {
+            it.endsWith("e", true)
+        }
+    }
+    println("There are $number elements that end with e.")
 }
 
 // let功能域函数的demo

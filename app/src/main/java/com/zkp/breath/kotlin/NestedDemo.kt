@@ -59,6 +59,7 @@ class Bar : Foo() {
 // 知识点3
 class Test {
     var v = "成员属性"
+
     // 成员匿名内部类
     val ss = object : TestInterFace {
         override fun test() {
@@ -66,7 +67,7 @@ class Test {
             var zz = this@Test
             print(zz.v)
 
-            // 个人感觉就是类似上面的写法，只是帮我们自动转换了而已
+            // 等同于上面的写法
             print(v)
         }
 
