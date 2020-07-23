@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.blankj.utilcode.util.ToastUtils
 import com.umeng.analytics.MobclickAgent
 import com.zkp.breath.adpter.EntranceAdapter
+import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityMainBinding
 import kotlin.system.exitProcess
@@ -31,6 +32,7 @@ class MainActivity : BaseActivity() {
 
     private fun initRcv() {
         val rcv = binding.rcv
+        rcv.addItemDecoration(EntranceItemDecoration())
         rcv.itemAnimator?.changeDuration = 0
         rcv.overScrollMode = View.OVER_SCROLL_NEVER
         val gridLayoutManager = GridLayoutManager(rcv.context, 2)
