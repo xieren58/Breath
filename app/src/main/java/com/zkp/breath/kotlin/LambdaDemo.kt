@@ -153,18 +153,7 @@ fun <T, R> List<T>.cusMap(transform: (T) -> R): List<R> {
     return result
 }
 
-
-class PersonDx(val name: String, val age: Int) {
-
-}
-
-
 fun main() {
-
-//    val persons = listOf(PersonDx(name = "Alice", age = 18), PersonDx(name = "Mikyou", age = 20))
-//    println(persons.maxBy { p: PersonDx -> p.age })
-//    println(persons.maxBy(PersonDx::age))
-
 
     val methodClass = MethodClass()
 
