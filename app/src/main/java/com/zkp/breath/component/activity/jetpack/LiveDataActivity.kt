@@ -9,7 +9,6 @@ import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityLivedataBinding
 import com.zkp.breath.jetpack.livedata.JetPackLiveData
-import kotlin.math.log
 
 /**
  * https://developer.android.google.cn/topic/libraries/architecture/livedata#kotlin
@@ -65,7 +64,7 @@ class LiveDataActivity : BaseActivity() {
 
         // 测试MediatorLiveData
         viewModel.mediatorLiveData.observe(this, Observer<String> {
-            Log.i(TAG, "MediatorLiveData: $it")
+            Log.i(ACTIVITY_TAG, "MediatorLiveData: $it")
         })
     }
 

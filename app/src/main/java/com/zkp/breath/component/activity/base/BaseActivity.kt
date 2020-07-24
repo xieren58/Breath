@@ -12,7 +12,6 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
-import com.umeng.analytics.MobclickAgent
 import com.umeng.message.PushAgent
 import me.jessyan.autosize.AutoSizeConfig
 
@@ -26,11 +25,11 @@ import me.jessyan.autosize.AutoSizeConfig
 // Api27及其以上AppCompatActivity支持主构函数传入LayoutId,默认为0表示此布局id无效，但还是推荐viewbinding进行（因为viewbinding可以获取子view对象，不需要再进行findViewById()）
 abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActivity(contentLayoutId) {
 
-    val TAG = this::class.simpleName
+    val ACTIVITY_TAG = this::class.simpleName
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase)
-        Log.i(TAG, "attachBaseContext(newBase: Context?)")
+        Log.i(ACTIVITY_TAG, "attachBaseContext(newBase: Context?)")
     }
 
     /**
@@ -42,7 +41,7 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
         super.onCreate(savedInstanceState)
         // activity使用arouter需要inject
         ARouter.getInstance().inject(this)
-        Log.i(TAG, "onCreate(savedInstanceState: Bundle?)")
+        Log.i(ACTIVITY_TAG, "onCreate(savedInstanceState: Bundle?)")
 //        hideTitleBarAndStateBar()
 
         // 该方法是【友盟+】Push后台进行日活统计及多维度推送的必调用方法，请务必调用！
@@ -92,12 +91,12 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
      */
     override fun onResume() {
         super.onResume()
-        Log.i(TAG, "onResume()")
+        Log.i(ACTIVITY_TAG, "onResume()")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.i(TAG, "onPause()")
+        Log.i(ACTIVITY_TAG, "onPause()")
     }
 
     /**
@@ -105,24 +104,24 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
      */
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        Log.i(TAG, "onAttachedToWindow()")
+        Log.i(ACTIVITY_TAG, "onAttachedToWindow()")
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        Log.i(TAG, "onDetachedFromWindow()")
+        Log.i(ACTIVITY_TAG, "onDetachedFromWindow()")
     }
 
     //应用的启动图标在桌面上的位置有变化，可在此收到新的位置信息，
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        Log.i(TAG, "onNewIntent(intent: Intent?)")
+        Log.i(ACTIVITY_TAG, "onNewIntent(intent: Intent?)")
     }
 
     // 当setContentView设置显示后会回调Activity的onContentChanged方法
     override fun onContentChanged() {
         super.onContentChanged()
-        Log.i(TAG, "onContentChanged()")
+        Log.i(ACTIVITY_TAG, "onContentChanged()")
     }
 
 }

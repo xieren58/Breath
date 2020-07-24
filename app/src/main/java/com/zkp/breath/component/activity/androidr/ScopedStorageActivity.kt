@@ -103,21 +103,21 @@ class ScopedStorageActivity : BaseActivity() {
 
     fun innerOrOuterPath() {
         val filesDir = this.filesDir
-        Log.i(TAG, "filesDir: $filesDir");
+        Log.i(ACTIVITY_TAG, "filesDir: $filesDir");
 
         val cacheDir = this.cacheDir
-        Log.i(TAG, "cacheDir: $cacheDir");
+        Log.i(ACTIVITY_TAG, "cacheDir: $cacheDir");
 
         // 无需权限，且卸载应用时会自动删除
         val externalCacheDir = this.externalCacheDir
-        Log.i(TAG, "externalCacheDir: $externalCacheDir");
+        Log.i(ACTIVITY_TAG, "externalCacheDir: $externalCacheDir");
 
         // 无需权限，且卸载应用时会自动删除
         val externalFilesDir = this.getExternalFilesDir("apk")
-        Log.i(TAG, "externalFilesDir: $externalFilesDir")
+        Log.i(ACTIVITY_TAG, "externalFilesDir: $externalFilesDir")
 
         val absoluteFile = Environment.getExternalStorageDirectory().absoluteFile
-        Log.i(TAG, "absoluteFile: $absoluteFile")
+        Log.i(ACTIVITY_TAG, "absoluteFile: $absoluteFile")
 
         // 使用Environment.isExternalStorageLegacy()来检查APP的运行模式
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !Environment.isExternalStorageLegacy()) {

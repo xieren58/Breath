@@ -47,7 +47,7 @@ class Test2ArouterActivity : BaseActivity() {
         binding = ActivityAruoterTestBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
         ToastUtils.showShort("Test2ArouterActivity")
-        Log.i(TAG, "toString(): ${toString()}");
+        Log.i(ACTIVITY_TAG, "toString(): ${toString()}");
     }
 
     override fun toString(): String {
