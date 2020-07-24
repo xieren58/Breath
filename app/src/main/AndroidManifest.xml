@@ -185,6 +185,7 @@
         <activity android:name=".component.activity.jetpack.LiveDataActivity" />
         <activity android:name=".component.activity.jetpack.RoomActivity" />
         <activity android:name=".component.activity.jetpack.WorkManagerActivity" />
+        <activity android:name=".component.activity.jetpack.AppStartupActivity" />
 
         <service
             android:name=".component.service.IntentServiceA"
