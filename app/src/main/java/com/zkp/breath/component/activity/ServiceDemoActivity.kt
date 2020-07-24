@@ -15,9 +15,9 @@ import com.zkp.breath.component.service.ServiceA
 import com.zkp.breath.databinding.ActivityABinding
 
 
-class ActivityA : AppCompatActivity(), View.OnClickListener {
+class ServiceDemoActivity : AppCompatActivity(), View.OnClickListener {
 
-    val TAG = ActivityA::class.simpleName
+    val TAG = ServiceDemoActivity::class.simpleName
     lateinit var intentServiceA: Intent
     var isBindServiceConnectionImp = false
     var isBindRemoteServiceConnectionImp = false

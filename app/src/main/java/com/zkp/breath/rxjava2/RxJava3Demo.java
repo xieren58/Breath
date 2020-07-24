@@ -37,7 +37,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * <p>
  * 其实就是代理模式，然后一层一层传递调用。
  */
-public class RxJava2Demo {
+public class RxJava3Demo {
 
 
     /**

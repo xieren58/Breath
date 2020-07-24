@@ -66,7 +66,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.ActivityA">
+        <activity android:name=".component.activity.ServiceDemoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -141,7 +141,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.RxJava2Activity">
+        <activity android:name=".component.activity.RxJava3Activity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>

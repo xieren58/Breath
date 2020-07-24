@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.umeng.analytics.MobclickAgent
 import com.zkp.breath.adpter.EntranceAdapter
 import com.zkp.breath.adpter.decoration.EntranceItemDecoration
+import com.zkp.breath.component.activity.*
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityMainBinding
 import kotlin.system.exitProcess
@@ -17,7 +20,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val listOf = mutableListOf(
-            "kotlin", "java", "jetpack"
+            "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +41,31 @@ class MainActivity : BaseActivity() {
         val gridLayoutManager = GridLayoutManager(rcv.context, 2)
         rcv.layoutManager = gridLayoutManager
         val gridAdapter = EntranceAdapter(listOf)
+        gridAdapter.setOnItemClickListener(onItemChildClickListener)
         rcv.adapter = gridAdapter
+    }
+
+    private val onItemChildClickListener = OnItemClickListener { _, _, position ->
+        when (val type = listOf[position]) {
+            "Rxjava3" -> {
+                ActivityUtils.startActivity(RxJava3Activity::class.java)
+            }
+            "Glide4" -> {
+                ActivityUtils.startActivity(GlideActivity::class.java)
+            }
+            "Fragment" -> {
+                ActivityUtils.startActivity(FragmentDemoActivity::class.java)
+            }
+            "ViewEvent" -> {
+                ActivityUtils.startActivity(EventActivity::class.java)
+            }
+            "Service" -> {
+                ActivityUtils.startActivity(ServiceDemoActivity::class.java)
+            }
+            else -> {
+                ToastUtils.showShort(type)
+            }
+        }
     }
 
     private fun umEvent() {

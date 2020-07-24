@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardBackgroundColor="@color/color008577"
-        app:cardCornerRadius="3dp"
+        app:cardCornerRadius="6dp"
         app:cardElevation="0dp" />
 
     <TextView
