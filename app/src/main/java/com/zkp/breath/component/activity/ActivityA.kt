@@ -38,22 +38,22 @@ class ActivityA : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            com.zkp.breath.R.id.btn_activity_a1 -> {
+            R.id.btn_activity_a1 -> {
                 startActivityForResult(Intent(this, ActivityB::class.java), RequestCode.ActivityACode)
             }
-            com.zkp.breath.R.id.btn_activity_a2 -> {
+            R.id.btn_activity_a2 -> {
                 startActivity(Intent(this, ActivityB::class.java))
             }
-            com.zkp.breath.R.id.btn_service_a1 -> {
+            R.id.btn_service_a1 -> {
                 intentServiceA = Intent(this, ServiceA::class.java)
                 startService(intentServiceA)
             }
-            com.zkp.breath.R.id.btn_service_a2 -> {
+            R.id.btn_service_a2 -> {
                 bindService(Intent(this, ServiceA::class.java),
                         serviceConnectionImp, Context.BIND_AUTO_CREATE)
                 isBindServiceConnectionImp = true
             }
-            com.zkp.breath.R.id.btn_service_remote -> {
+            R.id.btn_service_remote -> {
                 bindService(Intent(this, LibraryManagerService::class.java), remoteServiceConnectionImp, Context.BIND_AUTO_CREATE)
                 isBindRemoteServiceConnectionImp = true
             }
