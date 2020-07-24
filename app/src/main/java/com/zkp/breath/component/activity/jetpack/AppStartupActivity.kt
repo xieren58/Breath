@@ -2,8 +2,10 @@ package com.zkp.breath.component.activity.jetpack
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.startup.AppInitializer
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityAppStartupBinding
+import com.zkp.breath.jetpack.startup.StartUpLibrary3
 
 /**
  * https://juejin.im/post/5ee4bbe4f265da76b559bdfe
@@ -11,6 +13,10 @@ import com.zkp.breath.databinding.ActivityAppStartupBinding
  * App Startup：提供了在 App 启动时初始化组件简单、高效的方法，简单的说就是 App Startup 提供了一个ContentProvider
  * 来运行所有依赖项的初始化，避免每个第三方库使用自身提供ContentProvider进行初始化，从而提高了应用的程序的启动速度。（
  * 可参考AppStartup的作用.jpeg）
+ *
+ * 作用（基本没作用）：
+ * 1. 第三方还是使用自身的提供ContentProvider进行初始化。
+ * 2. 即便自身提供的库是内部使用，这么约定好还是可以用，除非能达到优化，否则强行使用startup感觉没必要。
  */
 class AppStartupActivity : BaseActivity() {
 
@@ -20,6 +26,9 @@ class AppStartupActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAppStartupBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+
+        // 手动初始化（延迟初始化）
+        AppInitializer.getInstance(this).initializeComponent(StartUpLibrary3::class.java)
     }
 
 
