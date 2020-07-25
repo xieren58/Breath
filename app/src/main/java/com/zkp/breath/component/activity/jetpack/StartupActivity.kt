@@ -19,7 +19,7 @@ import com.zkp.breath.jetpack.startup.StartUpLibrary3
  * 1. 第三方还是使用自身的提供ContentProvider进行初始化。
  * 2. 即便自身提供的库是内部使用，这么约定好还是可以用，除非能达到优化，否则强行使用startup感觉没必要。
  */
-class AppStartupActivity : BaseActivity() {
+class StartupActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAppStartupBinding
 
