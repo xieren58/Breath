@@ -7,6 +7,7 @@ buildscript {
     ext.lifecycle_version = "2.2.0"
     ext.room_version = "2.2.5"
     ext.work_version = "2.3.4"
+    ext.hilt_version = "2.28-alpha"
     repositories {
         google()
         jcenter()
@@ -17,6 +18,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:${gradle_version}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath 'com.jakewharton:butterknife-gradle-plugin:10.1.0'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
         classpath 'com.android.tools.build:gradle:3.6.1'

@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'com.didi.dokit'
 
@@ -142,6 +143,10 @@ dependencies {
 
     // startup
     implementation "androidx.startup:startup-runtime:1.0.0-alpha02"
+
+    // hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     implementation 'androidx.multidex:multidex:2.0.1'
 
