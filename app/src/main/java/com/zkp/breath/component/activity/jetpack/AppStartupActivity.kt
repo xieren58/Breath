@@ -11,8 +11,8 @@ import com.zkp.breath.jetpack.startup.StartUpLibrary3
  * https://juejin.im/post/5ee4bbe4f265da76b559bdfe
  *
  * App Startup：提供了在 App 启动时初始化组件简单、高效的方法，简单的说就是 App Startup 提供了一个ContentProvider
- * 来运行所有依赖项的初始化，避免每个第三方库使用自身提供ContentProvider进行初始化，从而提高了应用的程序的启动速度。（
- * 可参考AppStartup的作用.jpeg）
+ * 来运行所有依赖项的初始化，避免每个第三方库使用自身提供ContentProvider进行初始化，从而提高了应用的程序的启动速度，（
+ * 可参考AppStartup的作用.jpeg），有自动初始化和手动（延迟）初始化两种方法。
  *
  * 作用（基本没作用）：
  * 1. 第三方还是使用自身的提供ContentProvider进行初始化。
