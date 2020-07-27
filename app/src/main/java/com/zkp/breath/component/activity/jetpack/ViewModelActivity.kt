@@ -1,7 +1,6 @@
 package com.zkp.breath.component.activity.jetpack
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,9 +36,10 @@ import com.zkp.breath.jetpack.viewmodel.JetPackViewModel
  *  （其实就是activity，fragment），引用activity上下文的类都会引起内存泄露。但是可以包含LifecycleObservers，如 LiveData 对象
  * 3.如果 ViewModel 需要 Application 上下文（例如，为了查找系统服务），它可以扩展 AndroidViewModel 类并设置用
  *   于接收 Application 的构造函数。
- * 4.Fragment 之间共享数据。
+ * 4.Fragment 之间共享数据。由于 两个 fragment 使用的都是 activity 范围的 ViewModel （ViewModelProvider 构造
+ *   器传入的activity ），因此它们获得了相同的 ViewModel 实例，自然其持有的数据也是相同的，这也 保证了数据的一致性。
  *   > Activity 不需要执行任何操作，也不需要对此通信有任何了解。
- *   > Fragment 不需要相互了解。
+ *   > Fragment 不需要相互了解，并且不受另一个 fragment 的生命周期影响，如果其中一个 fragment 消失了，则另一个继续照常工作。
  *
  *
  * 保存界面状态的方法：https://developer.android.google.cn/topic/libraries/architecture/saving-states
