@@ -43,6 +43,7 @@ import com.zkp.breath.jetpack.viewmodel.JetPackViewModel
  *
  *
  * 保存界面状态的方法：https://developer.android.google.cn/topic/libraries/architecture/saving-states
+ * https://juejin.im/post/5e738d12518825495d69cfb9#heading-10
  *
  * https://blog.csdn.net/fly_with_24/article/details/105063485
  *
