@@ -6,6 +6,11 @@ import android.view.LayoutInflater
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityViewbindingBinding
 
+/**
+ * ViewBinding优势：
+ * 1.防止类型转换异常，修改了控件类型马上进行错误提示。
+ * 2.防止空异常。（一般的获取操作一定是非空）
+ */
 class ViewBindingActivity : BaseActivity() {
 
     private lateinit var binding: ActivityViewbindingBinding
