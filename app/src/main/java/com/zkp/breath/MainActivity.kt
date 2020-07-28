@@ -13,6 +13,7 @@ import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.*
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.activity.jetpack.StartupActivity
+import com.zkp.breath.component.activity.jetpack.ViewBindingActivity
 import com.zkp.breath.component.activity.jetpack.ViewModelActivity
 import com.zkp.breath.databinding.ActivityMainBinding
 import kotlin.system.exitProcess
@@ -23,7 +24,7 @@ class MainActivity : BaseActivity() {
 
     private val listOf = mutableListOf(
             "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service", "StartUp",
-            "ViewModel"
+            "ViewModel", "ViewBinding"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +71,9 @@ class MainActivity : BaseActivity() {
             }
             "ViewModel" -> {
                 ActivityUtils.startActivity(ViewModelActivity::class.java)
+            }
+            "ViewBinding" -> {
+                ActivityUtils.startActivity(ViewBindingActivity::class.java)
             }
             else -> {
                 ToastUtils.showShort(type)
