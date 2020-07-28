@@ -6,6 +6,7 @@ import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.LayoutRes
@@ -86,6 +87,33 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
         BarUtils.setStatusBarVisibility(this, false)
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        Log.i(ACTIVITY_TAG, "onRestart()")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.i(ACTIVITY_TAG, "onStart()")
+    }
+
+    // 方法在onStart之后，onSaveInstanceState()保存的数据会传到onRestoreInstanceState与onCreate方法
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        Log.i(ACTIVITY_TAG, "onRestoreInstanceState()")
+    }
+
+    /**
+     * 方法在onStart之后，onSaveInstanceState()保存的数据会传到onRestoreInstanceState与onCreate方法
+     * 两个参数的方法是5.0给我们提供的新的方法，使用前提在清单文件配置android:persistableMode="persistAcrossReboots"，
+     * 然后我们的Activity就拥有了持久化的能力了， Activity拥有了持久化的能力，增加的这个PersistableBundle参数令这些方法
+     * 拥有了系统关机后重启的数据恢复能力！而且不影响我们其他的序列化操作，可能内部的操作是另外弄了个文件保存吧~！API版本需要>=21，就是要5.0以上的版本才有效。
+     */
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState)
+        Log.i(ACTIVITY_TAG, "onRestoreInstanceState()")
+    }
+
     /**
      * 通过ViewRootImpl将DecorView和PhoneWindow进行绑定,正真触发绘制流程。
      */
@@ -97,6 +125,18 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
     override fun onPause() {
         super.onPause()
         Log.i(ACTIVITY_TAG, "onPause()")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        // 在onStop（）方法前调用，但和onPause没有时序关系
+        super.onSaveInstanceState(outState)
+        Log.i(ACTIVITY_TAG, "onSaveInstanceState()")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        // 在onStop（）方法前调用，但和onPause没有时序关系
+        super.onSaveInstanceState(outState, outPersistentState)
+        Log.i(ACTIVITY_TAG, "onSaveInstanceState()")
     }
 
     /**
