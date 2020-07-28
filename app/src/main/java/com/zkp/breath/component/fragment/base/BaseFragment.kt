@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(contentLayoutId) {
 
     val TAG = this::class.simpleName
+
     /**
      * 该上下文是Fragment的宿主Activity，需要使用到Activity的时候自己强转为Activity即可
      */
