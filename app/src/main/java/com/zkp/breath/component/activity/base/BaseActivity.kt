@@ -176,4 +176,19 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
         super.onBackPressed()
     }
 
+    /**
+     *  1. 在A界面调用startActivityForResult(intent,requestCode);
+     *  2. 在B界面调用setResult(resultCode,intent); finish();
+     *  3. 在A界面重写onActivityResult(int requestCode, int resultCode, Intent data)方法，同时判断
+     *  requestCode与resultCode，只有同时满足两个条件，才表明接收到数据，从而执行处理数据的代码，这种才是安全的。
+     *  如果符合则通过data对象获取传递的参数。
+     *
+     *  注意：只有使用startActivityForResult返回才会触发onActivityResult（如果startActivity是不会触发的，
+     *      猜想是内部有个标记判断，如果该标记为true则调用onActivityResult()方法），而setResult只是为了区分
+     *      是哪个界面返回并且携带数据。
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
 }
