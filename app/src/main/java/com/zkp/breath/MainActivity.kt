@@ -1,7 +1,6 @@
 package com.zkp.breath
 
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.blankj.utilcode.util.ActivityUtils
@@ -92,16 +91,13 @@ class MainActivity : BaseActivity() {
     //  保存点击的时间
     private var exitTime: Long = 0
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (System.currentTimeMillis() - exitTime > 2000) {
-                ToastUtils.showShort("再按一次退出程序")
-                exitTime = System.currentTimeMillis()
-            } else {
-                exitProcess(0)
-            }
-            return false
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() - exitTime > 2000) {
+            ToastUtils.showShort("再按一次退出程序")
+            exitTime = System.currentTimeMillis()
+        } else {
+            exitProcess(0)
         }
-        return super.onKeyDown(keyCode, event)
     }
+
 }

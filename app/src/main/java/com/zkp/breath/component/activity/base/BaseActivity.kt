@@ -124,4 +124,9 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
         Log.i(ACTIVITY_TAG, "onContentChanged()")
     }
 
+    // 当用户点击回退键的时候回调，由onKeyDown()触发
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
+
 }
