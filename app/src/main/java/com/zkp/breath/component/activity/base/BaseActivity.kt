@@ -97,7 +97,14 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
         Log.i(ACTIVITY_TAG, "onStart()")
     }
 
-    // 方法在onStart之后，onSaveInstanceState()保存的数据会传到onRestoreInstanceState与onCreate方法
+    /**
+     * 在onStop()之前执行，但不保证一定在onPause之前或者之后，保存的数据会传到onRestoreInstanceState与onCreate方法
+     * 触发条件：
+     * 1.点击home键回到主页或切换到其他程序
+     * 2.按下电源键关闭屏幕
+     * 3.启动新的Activity
+     * 4.横竖屏切换时，肯定会执行，因为横竖屏切换的时候会先销毁Activity，然后再重新创建
+     */
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         Log.i(ACTIVITY_TAG, "onRestoreInstanceState()")
