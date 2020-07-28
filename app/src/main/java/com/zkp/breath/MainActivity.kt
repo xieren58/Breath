@@ -22,8 +22,8 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val listOf = mutableListOf(
-            "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service", "StartUp",
-            "ViewModel", "ViewBinding"
+            "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service",
+            "StartUp", "ViewModel", "ViewBinding"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
