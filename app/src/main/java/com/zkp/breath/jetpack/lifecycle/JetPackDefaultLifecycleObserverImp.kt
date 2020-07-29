@@ -20,9 +20,9 @@ import androidx.lifecycle.LifecycleOwner
  * State：INITIALIZED、DESTROYED、CREATED、STARTED、RESUMED。
  *
  */
-class JetPackLifecycle : DefaultLifecycleObserver {
+class JetPackDefaultLifecycleObserverImp : DefaultLifecycleObserver {
 
-    val TAG = JetPackLifecycle::class.simpleName
+    val TAG = JetPackDefaultLifecycleObserverImp::class.simpleName
 
     override fun onCreate(owner: LifecycleOwner) {
         Log.i(TAG, "onCreate()")
