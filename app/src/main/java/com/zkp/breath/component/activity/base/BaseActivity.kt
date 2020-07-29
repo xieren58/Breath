@@ -97,25 +97,12 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
         Log.i(ACTIVITY_TAG, "onStart()")
     }
 
-    /**
-     * 在onStop()之前执行，但不保证一定在onPause之前或者之后，保存的数据会传到onRestoreInstanceState与onCreate方法
-     * 触发条件：
-     * 1.点击home键回到主页或切换到其他程序
-     * 2.按下电源键关闭屏幕
-     * 3.启动新的Activity
-     * 4.横竖屏切换时，肯定会执行，因为横竖屏切换的时候会先销毁Activity，然后再重新创建
-     */
+
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         Log.i(ACTIVITY_TAG, "onRestoreInstanceState()")
     }
 
-    /**
-     * 方法在onStart之后，onSaveInstanceState()保存的数据会传到onRestoreInstanceState与onCreate方法
-     * 两个参数的方法是5.0给我们提供的新的方法，使用前提在清单文件配置android:persistableMode="persistAcrossReboots"，
-     * 然后我们的Activity就拥有了持久化的能力了， Activity拥有了持久化的能力，增加的这个PersistableBundle参数令这些方法
-     * 拥有了系统关机后重启的数据恢复能力！而且不影响我们其他的序列化操作，可能内部的操作是另外弄了个文件保存吧~！API版本需要>=21，就是要5.0以上的版本才有效。
-     */
     override fun onRestoreInstanceState(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onRestoreInstanceState(savedInstanceState, persistentState)
         Log.i(ACTIVITY_TAG, "onRestoreInstanceState()")
@@ -134,14 +121,26 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
         Log.i(ACTIVITY_TAG, "onPause()")
     }
 
+    /**
+     * 在onStop()之前执行，但不保证一定在onPause之前或者之后，保存的数据会传到onRestoreInstanceState与onCreate方法
+     * 触发条件：
+     * 1.点击home键回到主页或切换到其他程序
+     * 2.按下电源键关闭屏幕
+     * 3.启动新的Activity
+     * 4.横竖屏切换时，肯定会执行，因为横竖屏切换的时候会先销毁Activity，然后再重新创建
+     */
     override fun onSaveInstanceState(outState: Bundle) {
-        // 在onStop（）方法前调用，但和onPause没有时序关系
         super.onSaveInstanceState(outState)
         Log.i(ACTIVITY_TAG, "onSaveInstanceState()")
     }
 
+    /**
+     * 在onStop（）方法前调用，onSaveInstanceState()保存的数据会传到onRestoreInstanceState与onCreate方法
+     * 两个参数的方法是5.0给我们提供的新的方法，使用前提在清单文件配置android:persistableMode="persistAcrossReboots"，
+     * 然后我们的Activity就拥有了持久化的能力了， Activity拥有了持久化的能力，增加的这个PersistableBundle参数令这些方法
+     * 拥有了系统关机后重启的数据恢复能力！而且不影响我们其他的序列化操作，可能内部的操作是另外弄了个文件保存吧~！API版本需要>=21，就是要5.0以上的版本才有效。
+     */
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        // 在onStop（）方法前调用，但和onPause没有时序关系
         super.onSaveInstanceState(outState, outPersistentState)
         Log.i(ACTIVITY_TAG, "onSaveInstanceState()")
     }
