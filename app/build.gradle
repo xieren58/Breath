@@ -228,8 +228,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
     //没有使用特殊Header，可以不加这行
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.2'
-}
 
-//kapt {
-//    generateStubs = true
-//}
+    // 腾讯ui
+    implementation 'com.qmuiteam:qmui:2.0.0-alpha10'
+}
