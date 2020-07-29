@@ -1,5 +1,6 @@
 package com.zkp.breath.jetpack.viewmodel
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -14,8 +15,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 /**
  * AndroidViewModel用于获取上下文
  */
-class JetPackAndroidViewModel(application: BaseApplication = BaseApplication.getInstance())
-    : AndroidViewModel(application) {
+class JetPackAndroidViewModel(application: Application) : AndroidViewModel(application) {
 
     var data: MutableLiveData<String>? = null
     private val mTasks: ListCompositeDisposable = ListCompositeDisposable()
