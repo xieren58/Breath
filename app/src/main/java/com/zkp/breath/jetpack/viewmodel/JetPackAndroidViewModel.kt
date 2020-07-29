@@ -23,9 +23,12 @@ class JetPackAndroidViewModel(application: BaseApplication = BaseApplication.get
     fun initData(): MutableLiveData<String>? {
         if (data == null) {
             Observable.create<String> {
-                Thread.sleep(3000)
-                it.onNext("我是初始化数据")
-                it.onComplete()
+                try {
+                    Thread.sleep(3000)
+                    it.onNext("我是初始化数据")
+                    it.onComplete()
+                } catch (e: Exception) {
+                }
             }.subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : Observer<String> {
@@ -52,6 +55,9 @@ class JetPackAndroidViewModel(application: BaseApplication = BaseApplication.get
 
     override fun onCleared() {
         super.onCleared()
-        mTasks.clear()
+        try {
+            mTasks.clear()
+        } catch (e: Exception) {
+        }
     }
 }
