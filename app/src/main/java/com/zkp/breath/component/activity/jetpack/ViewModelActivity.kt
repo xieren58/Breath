@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.fragment.base.BaseFragment
 import com.zkp.breath.databinding.ActivityVmBinding
@@ -75,12 +77,12 @@ class ViewModelActivity : BaseActivity() {
         })
 
         // 模拟fragment之间的资源共享的场景。（因为vm的寄宿对象是activity）
-//        val viewModelAFragment = ViewModelAFragment()
-//        FragmentUtils.add(supportFragmentManager, viewModelAFragment, R.id.rlt, false)
-//        binding.mb.setOnClickListener {
-//            val viewModelBFragment = ViewModelBFragment()
-//            FragmentUtils.add(supportFragmentManager, viewModelBFragment, R.id.rlt, false)
-//        }
+        val viewModelAFragment = ViewModelAFragment()
+        FragmentUtils.add(supportFragmentManager, viewModelAFragment, R.id.rlt, false)
+        binding.mb.setOnClickListener {
+            val viewModelBFragment = ViewModelBFragment()
+            FragmentUtils.add(supportFragmentManager, viewModelBFragment, R.id.rlt, false)
+        }
     }
 
 
