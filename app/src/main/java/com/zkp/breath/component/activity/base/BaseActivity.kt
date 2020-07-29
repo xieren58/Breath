@@ -148,6 +148,16 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
         Log.i(ACTIVITY_TAG, "onSaveInstanceState()")
     }
 
+    override fun onStop() {
+        super.onStop()
+        Log.i(ACTIVITY_TAG, "onStop()")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(ACTIVITY_TAG, "onDestroy()")
+    }
+
     /**
      * DecordView和PhoneWindow绑定完成
      */
