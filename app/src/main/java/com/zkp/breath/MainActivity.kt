@@ -11,6 +11,7 @@ import com.zkp.breath.adpter.EntranceAdapter
 import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.*
 import com.zkp.breath.component.activity.base.BaseActivity
+import com.zkp.breath.component.activity.jetpack.LifecycleActivity
 import com.zkp.breath.component.activity.jetpack.StartupActivity
 import com.zkp.breath.component.activity.jetpack.ViewBindingActivity
 import com.zkp.breath.component.activity.jetpack.ViewModelActivity
@@ -23,7 +24,7 @@ class MainActivity : BaseActivity() {
 
     private val listOf = mutableListOf(
             "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service",
-            "StartUp", "ViewModel", "ViewBinding"
+            "StartUp", "ViewModel", "ViewBinding", "Lifecycle"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +74,9 @@ class MainActivity : BaseActivity() {
             }
             "ViewBinding" -> {
                 ActivityUtils.startActivity(ViewBindingActivity::class.java)
+            }
+            "Lifecycle" -> {
+                ActivityUtils.startActivity(LifecycleActivity::class.java)
             }
             else -> {
                 ToastUtils.showShort(type)

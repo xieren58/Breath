@@ -2,9 +2,7 @@ package com.zkp.breath.jetpack.lifecycle
 
 import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
 
 /**
  * https://www.jianshu.com/p/2c9bcbf092bc
@@ -25,7 +23,6 @@ import androidx.lifecycle.OnLifecycleEvent
 class JetPackLifecycle : DefaultLifecycleObserver {
 
     val TAG = JetPackLifecycle::class.simpleName
-
 
     override fun onCreate(owner: LifecycleOwner) {
         Log.i(TAG, "onCreate()")
