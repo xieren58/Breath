@@ -2,12 +2,15 @@ package com.zkp.breath.component.activity.jetpack
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.fragment.base.BaseFragment
 import com.zkp.breath.databinding.ActivityVmBinding
@@ -53,8 +56,15 @@ class ViewModelActivity : BaseActivity() {
     private lateinit var viewModel: JetPackViewModel
     private lateinit var androidViewModel: JetPackAndroidViewModel
 
+    private val testSaveKey = "test_key"
+    private val testSaveValue = "test_value"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val string = savedInstanceState?.getString(testSaveKey)
+        Log.i(ACTIVITY_TAG, "savedInstanceState的内容_1：$string")
+
         binding = ActivityVmBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
@@ -73,21 +83,23 @@ class ViewModelActivity : BaseActivity() {
         })
 
         // 模拟fragment之间的资源共享的场景。（因为vm的寄宿对象是activity）
-//        val viewModelAFragment = ViewModelAFragment()
-//        FragmentUtils.add(supportFragmentManager, viewModelAFragment, R.id.rlt, false)
-//        binding.mb.setOnClickListener {
-//            val viewModelBFragment = ViewModelBFragment()
-//            FragmentUtils.add(supportFragmentManager, viewModelBFragment, R.id.rlt, false)
-//        }
+        val viewModelAFragment = ViewModelAFragment()
+        FragmentUtils.add(supportFragmentManager, viewModelAFragment, R.id.rlt, false)
+        binding.mb.setOnClickListener {
+            val viewModelBFragment = ViewModelBFragment()
+            FragmentUtils.add(supportFragmentManager, viewModelBFragment, R.id.rlt, false)
+        }
     }
-
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        outState.putString(testSaveKey, testSaveValue)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
+        val string = savedInstanceState.getString(testSaveKey)
+        Log.i(ACTIVITY_TAG, "savedInstanceState的内容_2：$string")
     }
 
     class ViewModelAFragment : BaseFragment() {
