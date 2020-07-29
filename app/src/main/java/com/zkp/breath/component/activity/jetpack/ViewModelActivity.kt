@@ -18,6 +18,8 @@ import com.zkp.breath.jetpack.viewmodel.JetPackAndroidViewModel
 import com.zkp.breath.jetpack.viewmodel.JetPackViewModel
 
 /**
+ * https://blog.csdn.net/fly_with_24/article/details/105063485
+ *
  * ViewModel解决的问题：
  * 1.数据持久化:当我们的Activity/Fragment因为某些因素被销毁重建时(屏幕旋转)，这里就涉及到数据保存的问题，显然重新请求
  * 或加载数据是不友好的。在 ViewModel 出现之前我们可以用 activity 的onSaveInstanceState()机制保存和恢复数据，
@@ -42,10 +44,9 @@ import com.zkp.breath.jetpack.viewmodel.JetPackViewModel
  *   > Fragment 不需要相互了解，并且不受另一个 fragment 的生命周期影响，如果其中一个 fragment 消失了，则另一个继续照常工作。
  *
  *
- * 保存界面状态的方法：https://developer.android.google.cn/topic/libraries/architecture/saving-states
+ * 保存界面状态的方法：
+ * https://developer.android.google.cn/topic/libraries/architecture/saving-states
  * https://juejin.im/post/5e738d12518825495d69cfb9#heading-10
- *
- * https://blog.csdn.net/fly_with_24/article/details/105063485
  *
  */
 class ViewModelActivity : BaseActivity() {
