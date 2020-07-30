@@ -10,10 +10,10 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.internal.disposables.ListCompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class JetPackLiveData : ViewModel() {
+class JetPackLiveDataViewModel : ViewModel() {
+    private val mTasks: ListCompositeDisposable = ListCompositeDisposable()
 
     var data: MutableLiveData<String>? = null
-    private val mTasks: ListCompositeDisposable = ListCompositeDisposable()
     val cusLiveData = CusLiveData()
 
     // MediatorLiveData的使用例子

@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityLivedataBinding
-import com.zkp.breath.jetpack.livedata.JetPackLiveData
+import com.zkp.breath.jetpack.livedata.JetPackLiveDataViewModel
 
 /**
  * https://developer.android.google.cn/topic/libraries/architecture/livedata#kotlin
@@ -18,7 +18,7 @@ import com.zkp.breath.jetpack.livedata.JetPackLiveData
  * Fragment、Activity,防止内存泄露。内部获取了组件的生理周期管理对象，然后创建自己的生命周期观察者对象注入，这样就能响应了。
  * 2.数据存储器：就是存放数据的容器。
  * 3.可观察：可以被观察者订阅，只有在组件出于激活状态（STARTED、RESUMED）才会通知观察者有数据更新。
- *
+ * 4.并不是所有数据都需要使用LiveData作为容器，使用LiveData的前提是因为数据需要感知组件的生命周期进行ui显示。
  *
  * 注意：
  * 请确保将用于更新界面的 LiveData 对象存储在 ViewModel 对象中，而不是将其存储在 Activity 或 Fragment 中，原因如下：
@@ -39,7 +39,7 @@ import com.zkp.breath.jetpack.livedata.JetPackLiveData
 class LiveDataActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLivedataBinding
-    private lateinit var viewModel: JetPackLiveData
+    private lateinit var viewModel: JetPackLiveDataViewModel
     private var isObserveForever: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +47,7 @@ class LiveDataActivity : BaseActivity() {
         binding = ActivityLivedataBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this).get(JetPackLiveData::class.java)
+        viewModel = ViewModelProvider(this).get(JetPackLiveDataViewModel::class.java)
 
         observe()
 //        observeForever()
