@@ -15,7 +15,7 @@ import com.zkp.breath.jetpack.livedata.JetPackLiveData
  *
  * LiveData 具有生命周期感知能力的可观察的数据存储器类。（响应生命周期，数据存储器，可观察）
  * 1.响应生命周期：能够感知组件（Fragment、Activity、Service）的生命周期，这里的“组件”皆指实现了LifecycleOwner接口
- * Fragment、Activity,防止内存泄露。内部获取了组建的生理周期管理对象，然后创建自己的生命周期观察者对象注入，这样就能响应了。
+ * Fragment、Activity,防止内存泄露。内部获取了组件的生理周期管理对象，然后创建自己的生命周期观察者对象注入，这样就能响应了。
  * 2.数据存储器：就是存放数据的容器。
  * 3.可观察：可以被观察者订阅，只有在组件出于激活状态（STARTED、RESUMED）才会通知观察者有数据更新。
  *
@@ -40,6 +40,7 @@ class LiveDataActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLivedataBinding
     private lateinit var viewModel: JetPackLiveData
+    private var isObserveForever: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,24 +69,39 @@ class LiveDataActivity : BaseActivity() {
         })
     }
 
+    /**
+     * LiveData使用observe（）会在生命周期的OnDestory自动移除观察者（即回调监听）。
+     */
     private fun observe() {
-        // 主线程调用observe()方法
+        isObserveForever = false
         viewModel.initData()?.observe(this, Observer<String> {
             binding.tv.text = it
         })
     }
 
     /**
-     * 没有关联LifecycleOwner对象，无法感知生命周期。在这种情况始终会收到关于修改的通知。
+     * 没有关联LifecycleOwner对象，无法感知生命周期，在这种情况始终会收到关于修改的通知（不会对生命状态进行判断）。
      */
     private fun observeForever() {
-        viewModel.initData()?.observeForever(Observer<String> {
-            ToastUtils.showShort("数据发生改变:$it")
-        })
+        isObserveForever = true
+        viewModel.initData()?.observeForever(observeForever)
+    }
 
-        // 可以手动调用移除观察者
-//         使用observe（）会在生命周期的OnDestory自动调用
-//        viewModel.initData().removeObserver()
+    private val observeForever = Observer<String> { s -> ToastUtils.showShort("数据发生改变:$s") }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isObserveForever) {
+            // 通过observeForever添加的观察者使用下面的方法进行移除
+            viewModel.initData()?.removeObserver(observeForever)
+        } else {
+            // 通过observe注册的观察者通过下面的方法进行移除，该方法内部会判断是否响应生命周期组件，响应的才会进行
+            // 移除，而通过observe注册的观察者会生成自己的LifecycleObserver然后添加到生命周期组件中。
+            viewModel.initData()?.removeObservers(this)
+        }
+        // 判断是否存在LiveData的观察者
+        val hasActiveObservers = viewModel.initData()?.hasActiveObservers()
+        Log.i(ACTIVITY_TAG, "是否存在LiveData的注册观察者：$hasActiveObservers")
     }
 
 
