@@ -1,6 +1,8 @@
 package com.zkp.breath.jetpack.livedata
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.blankj.utilcode.util.ToastUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -43,7 +45,10 @@ class JetPackLiveData : ViewModel() {
 
             Observable.create<String> {
                 ToastUtils.showShort("请求初始化数据")
-                Thread.sleep(5000)
+                try {
+                    Thread.sleep(5000)
+                } catch (e: Exception) {
+                }
                 it.onNext("初始化数据")
                 it.onComplete()
             }.subscribeOn(Schedulers.newThread())
@@ -76,7 +81,10 @@ class JetPackLiveData : ViewModel() {
     fun updateData(): MutableLiveData<String>? {
         Observable.create<String> {
             ToastUtils.showShort("请求更新数据")
-            Thread.sleep(3000)
+            try {
+                Thread.sleep(3000)
+            } catch (e: Exception) {
+            }
             it.onNext("更新数据")
             it.onComplete()
         }.subscribeOn(Schedulers.newThread())
@@ -102,7 +110,10 @@ class JetPackLiveData : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        mTasks.clear()
+        try {
+            mTasks.clear()
+        } catch (e: Exception) {
+        }
     }
 
 }

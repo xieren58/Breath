@@ -11,10 +11,7 @@ import com.zkp.breath.adpter.EntranceAdapter
 import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.*
 import com.zkp.breath.component.activity.base.BaseActivity
-import com.zkp.breath.component.activity.jetpack.LifecycleActivity
-import com.zkp.breath.component.activity.jetpack.StartupActivity
-import com.zkp.breath.component.activity.jetpack.ViewBindingActivity
-import com.zkp.breath.component.activity.jetpack.ViewModelActivity
+import com.zkp.breath.component.activity.jetpack.*
 import com.zkp.breath.databinding.ActivityMainBinding
 import kotlin.system.exitProcess
 
@@ -24,7 +21,8 @@ class MainActivity : BaseActivity() {
 
     private val listOf = mutableListOf(
             "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service",
-            "StartUp", "ViewModel", "ViewBinding", "Lifecycle"
+            "JetPackStartUp", "JetPackViewModel", "JetPackViewBinding",
+            "JetPackLifecycle", "JetPackLiveData"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,17 +64,20 @@ class MainActivity : BaseActivity() {
             "Service" -> {
                 ActivityUtils.startActivity(ServiceDemoActivity::class.java)
             }
-            "StartUp" -> {
+            "JetPackStartUp" -> {
                 ActivityUtils.startActivity(StartupActivity::class.java)
             }
-            "ViewModel" -> {
+            "JetPackViewModel" -> {
                 ActivityUtils.startActivity(ViewModelActivity::class.java)
             }
-            "ViewBinding" -> {
+            "JetPackViewBinding" -> {
                 ActivityUtils.startActivity(ViewBindingActivity::class.java)
             }
-            "Lifecycle" -> {
+            "JetPackLifecycle" -> {
                 ActivityUtils.startActivity(LifecycleActivity::class.java)
+            }
+            "JetPackLiveData" -> {
+                ActivityUtils.startActivity(LiveDataActivity::class.java)
             }
             else -> {
                 ToastUtils.showShort(type)
