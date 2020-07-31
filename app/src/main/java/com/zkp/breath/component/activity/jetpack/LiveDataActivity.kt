@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.component.activity.base.BaseActivity
@@ -74,9 +75,22 @@ class LiveDataActivity : BaseActivity() {
      */
     private fun observe() {
         isObserveForever = false
-        viewModel.initData()?.observe(this, Observer<String> {
+
+        // 数据转换Transformations.map
+        viewModel.initData()?.let {
+            Transformations.map(it) {
+                it.plus("_拼接")
+            }
+        }?.observe(this, Observer<String> {
             binding.tv.text = it
         })
+
+//        viewModel.initData()?.let {
+//            Transformations.switchMap(it) {
+//                MutableLiveData<String>()
+//            }
+//        }
+
     }
 
     /**
