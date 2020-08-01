@@ -76,25 +76,22 @@ class LiveDataActivity : BaseActivity() {
     private fun observe() {
         isObserveForever = false
 
-        // 单纯对LiveData内部的数据进行转换
+        // Transformations.map会生成一个新的MediatorLiveData
         viewModel.initData()?.let {
             Transformations.map(it) {
                 it.plus("_拼接")
             }
-        }?.observe(this, Observer<String> {
-            binding.tv.text = it
-        })
 
-        // 生成一个新的LiveData
-//        viewModel.initData()?.let {
+            // Transformations.map会生成一个新的MediatorLiveData
 //            Transformations.switchMap(it) {
 //                val mutableLiveData = MutableLiveData<String>()
 //                mutableLiveData.value = it.plus("_我是新的LiveData")
 //                mutableLiveData
 //            }
-//        }?.observe(this, Observer<String> {
-//            binding.tv.text = it
-//        })
+
+        }?.observe(this, Observer<String> {
+            binding.tv.text = it
+        })
 
     }
 
