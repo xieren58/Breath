@@ -16,7 +16,10 @@ class JetPackLiveDataViewModel : ViewModel() {
     var data: MutableLiveData<String>? = null
     val cusLiveData = CusLiveData()
 
-    // MediatorLiveData的使用例子
+    /**
+     * MediatorLiveData 允许您将一个或多个数据源添加到单个可观察的 LiveData 中，当任何一个数据源变化时，
+     * result 会更新。即是观察者，也是被观察者，
+     */
     var mediatorLiveData: MediatorLiveData<String> = MediatorLiveData()
     private var liveData1 = MutableLiveData<String>()
     private var liveData2 = MutableLiveData<String>()
@@ -24,7 +27,7 @@ class JetPackLiveDataViewModel : ViewModel() {
 
 
     init {
-        // 即时观察者，也是被观察者。
+        // 即是观察者，也是被观察者。
         // 合并多个 LiveData 源，只要任何原始的 LiveData 源对象发生更改，就会触发 MediatorLiveData 对象的观察者
         // mediatorLiveData监听其它的liveData源，然后可以通过调用自己的setValue（）告诉观察者。
         mediatorLiveData.addSource(liveData1) {
