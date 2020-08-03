@@ -1,6 +1,8 @@
 package com.zkp.breath.jetpack.livedata
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.blankj.utilcode.util.ToastUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -8,13 +10,16 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.internal.disposables.ListCompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class JetPackLiveData : ViewModel() {
+class JetPackLiveDataViewModel : ViewModel() {
+    private val mTasks: ListCompositeDisposable = ListCompositeDisposable()
 
     var data: MutableLiveData<String>? = null
-    private val mTasks: ListCompositeDisposable = ListCompositeDisposable()
     val cusLiveData = CusLiveData()
 
-    // MediatorLiveData的使用例子
+    /**
+     * MediatorLiveData 允许您将一个或多个数据源添加到单个可观察的 LiveData 中，当任何一个数据源变化时，
+     * result 会更新。即是观察者，也是被观察者，
+     */
     var mediatorLiveData: MediatorLiveData<String> = MediatorLiveData()
     private var liveData1 = MutableLiveData<String>()
     private var liveData2 = MutableLiveData<String>()
@@ -22,7 +27,7 @@ class JetPackLiveData : ViewModel() {
 
 
     init {
-        // 即时观察者，也是被观察者。
+        // 即是观察者，也是被观察者。
         // 合并多个 LiveData 源，只要任何原始的 LiveData 源对象发生更改，就会触发 MediatorLiveData 对象的观察者
         // mediatorLiveData监听其它的liveData源，然后可以通过调用自己的setValue（）告诉观察者。
         mediatorLiveData.addSource(liveData1) {
@@ -43,7 +48,10 @@ class JetPackLiveData : ViewModel() {
 
             Observable.create<String> {
                 ToastUtils.showShort("请求初始化数据")
-                Thread.sleep(5000)
+                try {
+                    Thread.sleep(5000)
+                } catch (e: Exception) {
+                }
                 it.onNext("初始化数据")
                 it.onComplete()
             }.subscribeOn(Schedulers.newThread())
@@ -76,7 +84,10 @@ class JetPackLiveData : ViewModel() {
     fun updateData(): MutableLiveData<String>? {
         Observable.create<String> {
             ToastUtils.showShort("请求更新数据")
-            Thread.sleep(3000)
+            try {
+                Thread.sleep(3000)
+            } catch (e: Exception) {
+            }
             it.onNext("更新数据")
             it.onComplete()
         }.subscribeOn(Schedulers.newThread())
@@ -102,7 +113,10 @@ class JetPackLiveData : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        mTasks.clear()
+        try {
+            mTasks.clear()
+        } catch (e: Exception) {
+        }
     }
 
 }

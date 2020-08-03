@@ -8,7 +8,6 @@ import com.zkp.breath.BaseApplication
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.internal.disposables.ListCompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -16,8 +15,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 /**
  * AndroidViewModel用于获取上下文
  */
-class JetPackAndroidViewModel(application: BaseApplication = BaseApplication.getInstance())
-    : AndroidViewModel(application) {
+class JetPackAndroidViewModel(application: Application) : AndroidViewModel(application) {
 
     var data: MutableLiveData<String>? = null
     private val mTasks: ListCompositeDisposable = ListCompositeDisposable()
@@ -25,9 +23,12 @@ class JetPackAndroidViewModel(application: BaseApplication = BaseApplication.get
     fun initData(): MutableLiveData<String>? {
         if (data == null) {
             Observable.create<String> {
-                Thread.sleep(3000)
-                it.onNext("我是初始化数据")
-                it.onComplete()
+                try {
+                    Thread.sleep(3000)
+                    it.onNext("我是初始化数据")
+                    it.onComplete()
+                } catch (e: Exception) {
+                }
             }.subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : Observer<String> {
@@ -54,6 +55,9 @@ class JetPackAndroidViewModel(application: BaseApplication = BaseApplication.get
 
     override fun onCleared() {
         super.onCleared()
-        mTasks.clear()
+        try {
+            mTasks.clear()
+        } catch (e: Exception) {
+        }
     }
 }

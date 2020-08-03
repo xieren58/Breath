@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'com.didi.dokit'
 
@@ -140,6 +141,13 @@ dependencies {
     implementation "androidx.work:work-runtime:$work_version"
     implementation "androidx.work:work-runtime-ktx:$work_version"
 
+    // startup
+    implementation "androidx.startup:startup-runtime:1.0.0-alpha02"
+
+    // hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
     implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation project(':zkplib')
@@ -160,15 +168,15 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
-    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"
+    implementation "com.jakewharton:butterknife:$butterknife_version"
 
     implementation 'org.greenrobot:greendao:3.2.2'
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
-    implementation 'com.squareup.retrofit2:retrofit:2.8.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     // 测试集成腾讯云IM（tuikit版本，包含UI）
 //    implementation 'com.tencent.imsdk:tuikit:4.5.45'
@@ -220,8 +228,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
     //没有使用特殊Header，可以不加这行
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.2'
-}
 
-//kapt {
-//    generateStubs = true
-//}
+    // 腾讯ui
+    implementation 'com.qmuiteam:qmui:2.0.0-alpha10'
+}

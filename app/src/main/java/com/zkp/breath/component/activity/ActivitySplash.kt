@@ -22,18 +22,18 @@ class ActivitySplash : BaseActivity() {
     private fun requestPermission() {
         PermissionUtils.permission(PermissionConstants.STORAGE, PermissionConstants.MICROPHONE)
                 .rationale { activity, shouldRequest ->
-                    Log.i(TAG, "rationale")
+                    Log.i(ACTIVITY_TAG, "rationale")
                     shouldRequest?.again(true)
                 }
                 .callback(object : PermissionUtils.FullCallback {
                     override fun onGranted(granted: MutableList<String>) {
-                        Log.i(TAG, "onGranted")
+                        Log.i(ACTIVITY_TAG, "onGranted")
                         ActivityUtils.startActivity(MainActivity::class.java)
                         ActivityUtils.finishActivity(this@ActivitySplash)
                     }
 
                     override fun onDenied(deniedForever: MutableList<String>, denied: MutableList<String>) {
-                        Log.i(TAG, "onDenied")
+                        Log.i(ACTIVITY_TAG, "onDenied")
                         if (deniedForever.isNotEmpty()) {
                             // 防止title和message无显示
                             val builder: AlertDialog.Builder = AlertDialog.Builder(

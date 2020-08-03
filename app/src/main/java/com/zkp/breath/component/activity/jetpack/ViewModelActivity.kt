@@ -1,8 +1,8 @@
 package com.zkp.breath.component.activity.jetpack
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +19,8 @@ import com.zkp.breath.jetpack.viewmodel.JetPackAndroidViewModel
 import com.zkp.breath.jetpack.viewmodel.JetPackViewModel
 
 /**
+ * https://blog.csdn.net/fly_with_24/article/details/105063485
+ *
  * ViewModel解决的问题：
  * 1.数据持久化:当我们的Activity/Fragment因为某些因素被销毁重建时(屏幕旋转)，这里就涉及到数据保存的问题，显然重新请求
  * 或加载数据是不友好的。在 ViewModel 出现之前我们可以用 activity 的onSaveInstanceState()机制保存和恢复数据，
@@ -37,12 +39,15 @@ import com.zkp.breath.jetpack.viewmodel.JetPackViewModel
  *  （其实就是activity，fragment），引用activity上下文的类都会引起内存泄露。但是可以包含LifecycleObservers，如 LiveData 对象
  * 3.如果 ViewModel 需要 Application 上下文（例如，为了查找系统服务），它可以扩展 AndroidViewModel 类并设置用
  *   于接收 Application 的构造函数。
- * 4.Fragment 之间共享数据。
+ * 4.Fragment 之间共享数据。由于 两个 fragment 使用的都是 activity 范围的 ViewModel （ViewModelProvider 构造
+ *   器传入的activity ），因此它们获得了相同的 ViewModel 实例，自然其持有的数据也是相同的，这也 保证了数据的一致性。
  *   > Activity 不需要执行任何操作，也不需要对此通信有任何了解。
- *   > Fragment 不需要相互了解。
+ *   > Fragment 不需要相互了解，并且不受另一个 fragment 的生命周期影响，如果其中一个 fragment 消失了，则另一个继续照常工作。
  *
  *
- * 保存界面状态的方法：https://developer.android.google.cn/topic/libraries/architecture/saving-states
+ * 保存界面状态的方法：
+ * https://developer.android.google.cn/topic/libraries/architecture/saving-states
+ * https://juejin.im/post/5e738d12518825495d69cfb9#heading-10
  *
  */
 class ViewModelActivity : BaseActivity() {
@@ -51,8 +56,15 @@ class ViewModelActivity : BaseActivity() {
     private lateinit var viewModel: JetPackViewModel
     private lateinit var androidViewModel: JetPackAndroidViewModel
 
+    private val testSaveKey = "test_key"
+    private val testSaveValue = "test_value"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val string = savedInstanceState?.getString(testSaveKey)
+        Log.i(ACTIVITY_TAG, "savedInstanceState的内容_1：$string")
+
         binding = ActivityVmBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
@@ -79,6 +91,16 @@ class ViewModelActivity : BaseActivity() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(testSaveKey, testSaveValue)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val string = savedInstanceState.getString(testSaveKey)
+        Log.i(ACTIVITY_TAG, "savedInstanceState的内容_2：$string")
+    }
 
     class ViewModelAFragment : BaseFragment() {
 
@@ -131,8 +153,6 @@ class ViewModelActivity : BaseActivity() {
                 viewModel.initData()
             } ?: throw Exception("Invalid Activity")
         }
-
     }
-
 
 }

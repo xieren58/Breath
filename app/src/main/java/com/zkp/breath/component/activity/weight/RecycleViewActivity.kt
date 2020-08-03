@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.blankj.utilcode.util.ToastUtils
@@ -134,7 +133,7 @@ class RecycleViewActivity : BaseActivity() {
                 // 模拟load数据的过程
                 withContext(Dispatchers.IO) {
                     Thread.sleep(3000)
-                    Log.i(TAG, "launch_IO1: ${Thread.currentThread().name}")
+                    Log.i(ACTIVITY_TAG, "launch_IO1: ${Thread.currentThread().name}")
                 }
 
                 when (reqCount) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.zkp.breath">
 
     <!--  Manifest提示GoogleAppIndexingWarning  https://www.jianshu.com/p/ba43bf1ba7c2-->
@@ -66,7 +67,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.ActivityA">
+        <activity android:name=".component.activity.ServiceDemoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -141,7 +142,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.RxJava2Activity">
+        <activity android:name=".component.activity.RxJava3Activity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -185,6 +186,8 @@
         <activity android:name=".component.activity.jetpack.LiveDataActivity" />
         <activity android:name=".component.activity.jetpack.RoomActivity" />
         <activity android:name=".component.activity.jetpack.WorkManagerActivity" />
+        <activity android:name=".component.activity.jetpack.StartupActivity" />
+        <activity android:name=".component.activity.jetpack.ViewBindingActivity" />
 
         <service
             android:name=".component.service.IntentServiceA"
@@ -203,6 +206,31 @@
         <service
             android:name=".LibraryManagerService"
             android:process=":aidl_remote" />
+
+<!--        <provider-->
+<!--            android:name="androidx.startup.InitializationProvider"-->
+<!--            android:authorities="${applicationId}.androidx-startup"-->
+<!--            android:exported="false"-->
+<!--            tools:node="merge">-->
+
+<!--            &lt;!&ndash; 自动初始化 &ndash;&gt;-->
+<!--            <meta-data-->
+<!--                android:name="com.zkp.breath.jetpack.startup.StartUpLibraryC"-->
+<!--                android:value="androidx.startup" />-->
+<!--        </provider>-->
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+
+            <!-- 手动初始化 -->
+            <meta-data
+                android:name="com.zkp.breath.jetpack.startup.StartUpLibrary3"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
 
     </application>
 

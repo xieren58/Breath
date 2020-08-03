@@ -1,8 +1,6 @@
 package com.zkp.breath.jetpack.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.blankj.utilcode.util.ToastUtils
@@ -24,9 +22,13 @@ class JetPackViewModel : ViewModel() {
 
             Observable.create<String> {
                 ToastUtils.showShort("请求数据")
-                Thread.sleep(3000)
-                it.onNext("我是新数据")
-                it.onComplete()
+                try {
+                    Thread.sleep(3000)
+                    it.onNext("我是新数据")
+                    it.onComplete()
+                } catch (e: Exception) {
+                    Log.i("JetPackViewModel", "1_$e")
+                }
             }.subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : io.reactivex.rxjava3.core.Observer<String> {
@@ -42,6 +44,7 @@ class JetPackViewModel : ViewModel() {
                         }
 
                         override fun onError(e: Throwable?) {
+                            Log.i("JetPackViewModel", "2_$e")
                         }
 
                     })
@@ -50,8 +53,11 @@ class JetPackViewModel : ViewModel() {
     }
 
     override fun onCleared() {
-        super.onCleared()
-        mTasks.clear()
+        try {
+            mTasks.clear()
+        } catch (e: Exception) {
+            Log.i("JetPackViewModel", "3_$e")
+        }
         Log.i("JetPackViewModel", "onCleared()")
     }
 

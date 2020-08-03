@@ -30,7 +30,7 @@ class EntranceItemDecoration : BaseItemDecoration() {
         if (isFirstRaw(parent, current, spanCount)) {
             outRect.top = AutoSizeUtils.dp2px(parent.context, 15f)
         } else {
-            if (isLastRaw(parent, current, spanCount, itemCount)) {
+            if (isLastRow(parent, current, spanCount, itemCount)) {
                 outRect.top = AutoSizeUtils.dp2px(parent.context, 12f)
                 outRect.bottom = AutoSizeUtils.dp2px(parent.context, 15f)
             } else {
