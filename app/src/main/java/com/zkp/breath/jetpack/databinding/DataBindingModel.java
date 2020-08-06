@@ -1,6 +1,6 @@
-package com.zkp.breath.designpattern.mvvm;
+package com.zkp.breath.jetpack.databinding;
 
-public class Model {
+public class DataBindingModel {
 
     private int num = 0;
 

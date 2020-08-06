@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.zkp.breath.designpattern.mvvm.ViewModel" />
+            type="com.zkp.breath.jetpack.databinding.DataBindingViewModel" />
 
     </data>
 
