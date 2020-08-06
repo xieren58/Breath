@@ -107,10 +107,14 @@ class LiveDataActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+
         if (isObserveForever) {
             // 通过observeForever添加的观察者使用下面的方法进行移除
             viewModel.initData()?.removeObserver(observeForever)
         } else {
+            // 通过observe注册的livedata会绑定组件的生命周期的，所以内部会自动回收。下面的示例只是为了展示提前移除观察者，
+            // 可以注释下面的移除代码，然后观察打印结果就可以知道是有自动回收的。
+
             // 通过observe注册的观察者通过下面的方法进行移除，该方法内部会判断是否响应生命周期组件，响应的才会进行
             // 移除，而通过observe注册的观察者会生成自己的LifecycleObserver然后添加到生命周期组件中。
             viewModel.initData()?.removeObservers(this)
