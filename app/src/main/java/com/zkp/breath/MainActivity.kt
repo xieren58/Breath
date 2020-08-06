@@ -22,7 +22,7 @@ class MainActivity : BaseActivity() {
     private val listOf = mutableListOf(
             "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service",
             "JetPackStartUp", "JetPackViewModel", "JetPackViewBinding",
-            "JetPackLifecycle", "JetPackLiveData"
+            "JetPackLifecycle", "JetPackLiveData", "JetPackDataBinding"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,6 +78,9 @@ class MainActivity : BaseActivity() {
             }
             "JetPackLiveData" -> {
                 ActivityUtils.startActivity(LiveDataActivity::class.java)
+            }
+            "JetPackDataBinding" -> {
+                ActivityUtils.startActivity(DataBindingActivity::class.java)
             }
             else -> {
                 ToastUtils.showShort(type)
