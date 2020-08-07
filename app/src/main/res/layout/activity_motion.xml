@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorFFFFFF"
-    app:layoutDescription="@xml/activity_motion_scene">
+    app:layoutDescription="@xml/activity_motion_scene"
+    app:showPaths="true">
 
     <View
         android:id="@+id/vStartStatus"
