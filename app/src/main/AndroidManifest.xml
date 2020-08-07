@@ -79,6 +79,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".component.activity.weight.ConstraintLayoutActivity" />
+        <activity android:name=".component.activity.weight.MotionLayoutActivity" />
         <activity android:name=".component.activity.weight.RecycleViewActivity" />
         <activity android:name=".component.activity.weight.ViewPager2Activity" />
 
