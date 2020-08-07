@@ -107,7 +107,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
 
     testImplementation 'junit:junit:4.12'
     // 模拟框架（一般用于jvm的单元测试隔离android库的依赖）
