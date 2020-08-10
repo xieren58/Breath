@@ -55,7 +55,7 @@
     autoTransition:是否自动开启动画。取值有：animateToStart过渡到初始状态、animateToEnd过渡到结束状态、
                 jumpToEnd跳到结束状态、jumpToStart跳到初始状态、none不开始状态。默认情况下是none,当设为其他值时，
                 不用和用户交互即自动开启动画。
-    motionInterpolator:插值器。取值有：linear线性、bounce弹簧、easeIn淡入、easeOut淡出、easeInOut淡入淡出;
+    motionInterpolator:插值器。取值有：linear线性(匀速)、bounce弹簧、easeIn淡入（缓慢开始）、easeOut淡出（缓慢结束）、easeInOut淡入淡出(缓慢开始和结束);
     transitionDisable：允许动画功能。取值：false和true；
     layoutDuringTransition:动画过程中，MotionLayout子View调用reqeustLayout，是否做出响应。
                             取值honorRequest响应、ignoreRequest忽略；(beta 4)
