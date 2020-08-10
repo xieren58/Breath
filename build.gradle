@@ -9,6 +9,7 @@ buildscript {
     ext.room_version = "2.2.5"
     ext.work_version = "2.4.0"
     ext.hilt_version = "2.28-alpha"
+    ext.paging_version = "2.1.2"
     ext.butterknife_version = "10.2.1"
 
     repositories {
