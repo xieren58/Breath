@@ -16,6 +16,8 @@ import com.zkp.breath.jetpack.paging.StudentDb
 
 /**
  * https://www.jianshu.com/p/10bf4bf59122
+ *
+ * 原理可以查看doc文件夹：Paging原理详解.gif
  */
 class PagingActivity : BaseActivity() {
 
@@ -39,9 +41,9 @@ class PagingActivity : BaseActivity() {
         val dao = StudentDb.get(app).studentDao()
 
         val allStudents = LivePagedListBuilder(dao.getAllStudent(), PagedList.Config.Builder()
+                .setInitialLoadSizeHint(PAGE_SIZE)              //初始化加载的数量
                 .setPageSize(PAGE_SIZE)                         //配置分页加载的数量
                 .setEnablePlaceholders(ENABLE_PLACEHOLDERS)     //配置是否启动PlaceHolders
-                .setInitialLoadSizeHint(PAGE_SIZE)              //初始化加载的数量
                 .build()).build()
 
         companion object {
