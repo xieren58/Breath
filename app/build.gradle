@@ -50,6 +50,11 @@ android {
             }
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
     buildTypes {
         release {
             // 混淆
@@ -62,6 +67,17 @@ android {
         debug {
             minifyEnabled false
             signingConfig signingConfigs.debug
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def time = new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("UTC"))
+            if (variant.buildType.name == 'release') {
+                outputFileName = "Breath_" + "${variant.mergedFlavor.versionName}_release.apk"
+            } else if (variant.buildType.name == 'debug') {
+                outputFileName = "Breath_" + "${variant.mergedFlavor.versionName}_debug.apk"
+            }
         }
     }
 
