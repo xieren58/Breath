@@ -12,6 +12,7 @@ import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.*
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.activity.jetpack.*
+import com.zkp.breath.component.activity.weight.MotionLayoutActivity
 import com.zkp.breath.databinding.ActivityMainBinding
 import kotlin.system.exitProcess
 
@@ -20,9 +21,10 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val listOf = mutableListOf(
+            "MotionLayout",
             "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service",
             "JetPackStartUp", "JetPackViewModel", "JetPackViewBinding",
-            "JetPackLifecycle", "JetPackLiveData"
+            "JetPackLifecycle", "JetPackLiveData", "JetPackDataBinding", "JetPackPaging"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +51,9 @@ class MainActivity : BaseActivity() {
 
     private val onItemChildClickListener = OnItemClickListener { _, _, position ->
         when (val type = listOf[position]) {
+            "MotionLayout" -> {
+                ActivityUtils.startActivity(MotionLayoutActivity::class.java)
+            }
             "Rxjava3" -> {
                 ActivityUtils.startActivity(RxJava3Activity::class.java)
             }
@@ -78,6 +83,12 @@ class MainActivity : BaseActivity() {
             }
             "JetPackLiveData" -> {
                 ActivityUtils.startActivity(LiveDataActivity::class.java)
+            }
+            "JetPackDataBinding" -> {
+                ActivityUtils.startActivity(DataBindingActivity::class.java)
+            }
+            "JetPackPaging" -> {
+                ActivityUtils.startActivity(PagingActivity::class.java)
             }
             else -> {
                 ToastUtils.showShort(type)

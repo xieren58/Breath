@@ -74,6 +74,9 @@ class CoroutinesActivity : BaseActivity() {
             Log.i(ACTIVITY_TAG, "launch_Main: ${Thread.currentThread().name}")
         }
 
+        // 0
+        Log.i(ACTIVITY_TAG, "main_out: ${Thread.currentThread().name}")
+
     }
 
     // 可以把withContext放进单独的一个函数内部，但函数需要添加suspend关键字（因为withContext 是一个 suspend 函数，它需要在协程或者是另一个 suspend 函数中调用）

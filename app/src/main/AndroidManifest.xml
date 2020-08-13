@@ -79,6 +79,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".component.activity.weight.ConstraintLayoutActivity" />
+        <activity android:name=".component.activity.weight.MotionLayoutActivity" />
         <activity android:name=".component.activity.weight.RecycleViewActivity" />
         <activity android:name=".component.activity.weight.ViewPager2Activity" />
 
@@ -94,11 +95,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.mvx.MvvmActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
 
         <activity android:name=".component.activity.DatabaseActivity">
             <intent-filter>
@@ -185,9 +181,11 @@
         <activity android:name=".component.activity.jetpack.LifecycleActivity" />
         <activity android:name=".component.activity.jetpack.LiveDataActivity" />
         <activity android:name=".component.activity.jetpack.RoomActivity" />
+        <activity android:name=".component.activity.jetpack.PagingActivity" />
         <activity android:name=".component.activity.jetpack.WorkManagerActivity" />
         <activity android:name=".component.activity.jetpack.StartupActivity" />
         <activity android:name=".component.activity.jetpack.ViewBindingActivity" />
+        <activity android:name=".component.activity.jetpack.DataBindingActivity" />
 
         <service
             android:name=".component.service.IntentServiceA"
@@ -207,17 +205,17 @@
             android:name=".LibraryManagerService"
             android:process=":aidl_remote" />
 
-<!--        <provider-->
-<!--            android:name="androidx.startup.InitializationProvider"-->
-<!--            android:authorities="${applicationId}.androidx-startup"-->
-<!--            android:exported="false"-->
-<!--            tools:node="merge">-->
+        <!--        <provider-->
+        <!--            android:name="androidx.startup.InitializationProvider"-->
+        <!--            android:authorities="${applicationId}.androidx-startup"-->
+        <!--            android:exported="false"-->
+        <!--            tools:node="merge">-->
 
-<!--            &lt;!&ndash; 自动初始化 &ndash;&gt;-->
-<!--            <meta-data-->
-<!--                android:name="com.zkp.breath.jetpack.startup.StartUpLibraryC"-->
-<!--                android:value="androidx.startup" />-->
-<!--        </provider>-->
+        <!--            &lt;!&ndash; 自动初始化 &ndash;&gt;-->
+        <!--            <meta-data-->
+        <!--                android:name="com.zkp.breath.jetpack.startup.StartUpLibraryC"-->
+        <!--                android:value="androidx.startup" />-->
+        <!--        </provider>-->
 
         <provider
             android:name="androidx.startup.InitializationProvider"

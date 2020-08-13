@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorFFFFFF"
+    app:layoutDescription="@xml/activity_motion_scene"
+    app:showPaths="true">
+
+    <!--
+     showPaths：可以看到运动轨迹
+     layoutDescription：指向一个xml动画文件，必写的属性，不然会报错
+    -->
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/color000000" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/color3F51B5" />
+
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

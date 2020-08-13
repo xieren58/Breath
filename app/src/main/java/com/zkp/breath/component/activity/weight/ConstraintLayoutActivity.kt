@@ -6,10 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.zkp.breath.databinding.ActivityConstraintLayoutBinding
 
 /**
+ * 约束布局的demo
  */
 class ConstraintLayoutActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityConstraintLayoutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

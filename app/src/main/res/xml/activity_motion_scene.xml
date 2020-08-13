@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:defaultDuration="500">
+
+    <!-- 开始动画 -->
+    <ConstraintSet android:id="@+id/start">
+        <!--执行动画的控件，id一定要写，要和布局中的id一致；宽高也要写，不然没效果-->
+        <Constraint
+            android:id="@id/view1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@id/view2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </ConstraintSet>
+
+    <!-- 结束动画 -->
+    <ConstraintSet android:id="@+id/end">
+        <!--执行动画的控件，id一定要写，要和布局中的id一致；宽高也要写，不然没效果-->
+        <Constraint
+            android:id="@id/view1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <Constraint
+            android:id="@id/view2"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+    </ConstraintSet>
+
+
+    <!--
+    Transition表示一个动画，常用属性：
+
+    constraintSetStart:指定动画初始状态；
+    constraintSetEnd:指定动画结束状态；
+    duration:指定动画时长；
+    autoTransition:是否自动开启动画。取值有：animateToStart过渡到初始状态、animateToEnd过渡到结束状态、
+                jumpToEnd跳到结束状态、jumpToStart跳到初始状态、none不开始状态。默认情况下是none,当设为其他值时，
+                不用和用户交互即自动开启动画。
+    motionInterpolator:插值器。取值有：linear线性(匀速)、bounce弹簧、easeIn淡入（缓慢开始）、easeOut淡出（缓慢结束）、easeInOut淡入淡出(缓慢开始和结束);
+    transitionDisable：允许动画功能。取值：false和true；
+    layoutDuringTransition:动画过程中，MotionLayout子View调用reqeustLayout，是否做出响应。
+                            取值honorRequest响应、ignoreRequest忽略；(beta 4)
+    -->
+    <Transition
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@id/start"
+        app:duration="5000"
+        app:motionInterpolator="linear">
+
+        <!--
+        targetId:指定点击触发动画的控件
+        clickAction：响应用户的操作。toggle：初始和结束状态循环切换；transitionToStart:过渡到开始状态；
+                    transitionToEnd:过渡到结束状态；jumpToStart:直接跳到开始状态；jumpToEnd: 直接跳到结束状态。
+                    其实这里和Transition标签的autoTransition属性类似。只是前者是手动触发，后者是自动触发
+        -->
+        <OnClick
+            app:clickAction="toggle"
+            app:targetId="@id/view1" />
+
+        <!-- 关键帧：KeyFrameSet标签：用来指定"某个中间状态"的位置和属性。其实和过渡动画的关键帧是一样的概念。
+        KeyFrameSet标签含有KeyPosition和KeyAttribute两个子标签，这些共同构成过渡动画过程中某特殊状态的位置和属性。
+
+        KeyPosition位置关键帧标签的属性：
+        framePosition：当前关键帧的位置，把整个运动动画分成100个位置，取值0到99，那么初始状态的位置就是0，结束状态就是99。
+        keyPositionType:参考坐标系的选择，决定了percentX和percentY属性取值的结果。
+                        1.parentRelative：坐标系基于motionTarget指向的控件的父视图。（demo里面的父视图是全局，
+                          所以坐标系原点在屏幕的左上角）；
+                        2.deltaRelative：坐标系选择参照整个过渡动画的位置，那么起始状态的位置就是原点（0,0），
+                          结束状态的位置就是终点（1,1）（但是以我们demo为例子，结束状态的x轴没有发生偏移，所以
+                          以这种模式去设置percentX是没有效果的）；
+                        3.pathRelative:坐标系选择参照整个运动路径，即起始和终点的直线距离构成X轴，此时y轴就有正
+                        负之分，表示在X轴的左边还是右边。x轴和y轴的长度都是等于路径的长度。
+
+        percentWidth和percentHeight属性表示视图自身大小，如果整个动画过程中，视图大小不存在变化，是没有效果的。
+        将正方形在起始状态和结束状态的大小改为不一致，就可以看到效果，percentWidth和percentHeight属性会导致
+        sizePercent属性失效。
+         -->
+        <KeyFrameSet>
+            <KeyPosition
+                app:framePosition="25"
+                app:keyPositionType="parentRelative"
+                app:motionTarget="@id/view1"
+                app:percentX="0.25"
+                app:percentY="0.25" />
+
+            <KeyPosition
+                app:framePosition="75"
+                app:keyPositionType="parentRelative"
+                app:motionTarget="@id/view1"
+                app:percentX="0.75"
+                app:percentY="0.75" />
+
+            <!--            <KeyPosition-->
+            <!--                app:framePosition="90"-->
+            <!--                app:motionTarget="@id/view2"-->
+            <!--                app:percentHeight="1"-->
+            <!--                app:percentWidth="0" />-->
+
+            <!--            <KeyAttribute-->
+            <!--                android:rotation="90"-->
+            <!--                app:framePosition="50"-->
+            <!--                app:motionTarget="@id/view2" />-->
+
+            <!--            <KeyAttribute-->
+            <!--                android:rotationX="90"-->
+            <!--                app:framePosition="50"-->
+            <!--                app:motionTarget="@id/view2" />-->
+
+            <!--            <KeyAttribute-->
+            <!--                android:rotationY="90"-->
+            <!--                app:framePosition="50"-->
+            <!--                app:motionTarget="@id/view2" />-->
+
+            <!--            <KeyAttribute-->
+            <!--                android:alpha="0"-->
+            <!--                app:framePosition="50"-->
+            <!--                app:motionTarget="@id/view2" />-->
+
+            <!--            <KeyAttribute-->
+            <!--                android:scaleX="0"-->
+            <!--                app:framePosition="50"-->
+            <!--                app:motionTarget="@id/view2" />-->
+
+            <!--            <KeyAttribute-->
+            <!--                android:scaleY="0"-->
+            <!--                app:framePosition="50"-->
+            <!--                app:motionTarget="@id/view2" />-->
+
+
+<!--            <KeyAttribute-->
+<!--                android:translationX="90dp"-->
+<!--                app:framePosition="50"-->
+<!--                app:motionTarget="@id/view2" />-->
+
+<!--            <KeyAttribute-->
+<!--                android:translationY="90dp"-->
+<!--                app:framePosition="50"-->
+<!--                app:motionTarget="@id/view2" />-->
+
+<!--            <KeyAttribute-->
+<!--                android:translationZ="90dp"-->
+<!--                app:framePosition="50"-->
+<!--                app:motionTarget="@id/view2" />-->
+
+
+        </KeyFrameSet>
+
+    </Transition>
+
+</MotionScene>
