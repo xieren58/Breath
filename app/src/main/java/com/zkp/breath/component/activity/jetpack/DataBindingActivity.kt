@@ -25,7 +25,14 @@ import com.zkp.breath.jetpack.databinding.DataBindingViewModel
  *
  *
  * 原理解析：使用DataBinding会生成一个"布局文件名 + Binding + Impl"的类，在xml的variable标签中定义的name会在该类
- * 自动生成"set+Name（）"的方法，所以在view层进行数据赋值的时候其实就是调用了这个类的"set+Name（）"方法。
+ * 自动生成"set+Name（）"的方法，所以在view层进行数据赋值的时候其实就是调用了这个类的"set+Name（）"方法；而BaseObservable
+ * 起到双向绑定的作用，内部的操作逻辑可以看成是也在调用"布局文件名 + Binding + Impl"该类的方法。
+ *
+ * 缺点：1.BaseObservable的实现类作为的Vm层是不具备数据持久化的，不像ViewModel的实现类是具备数据持久化的；
+ *      2.ViewModel内部的LiveData可以感知组件的生命周期，而且数据可以进行数据刷新回调；而BaseObservable的实现类
+ *      本身就具备双向绑定的功能，但是不具备感觉感知组件的生命周期的功能。
+ *      3.处理ImageView的加载图片，需要自定义属性后自定义BindingAdapter进行处理。（无法使用import glide进入xml中，
+ *        因为需要上下文，而xml没有上下文可以获取）
  */
 class DataBindingActivity : AppCompatActivity() {
 
@@ -42,6 +49,7 @@ class DataBindingActivity : AppCompatActivity() {
         // 相当于viewbinding的用法
         binding.tvPlainUser.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
+                // 测试空安全
                 val plainUser = PlainUser()
                 plainUser.lastName.set("我是最后的LastName")
                 binding.plainUser = plainUser

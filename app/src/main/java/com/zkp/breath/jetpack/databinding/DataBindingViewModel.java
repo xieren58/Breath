@@ -11,6 +11,7 @@ import com.zkp.breath.BR;
 public class DataBindingViewModel extends BaseObservable {
 
     private String num = "0";
+    private String url = "";
 
     private final DataBindingModel mNumDataBindingModel;
 
@@ -26,6 +27,16 @@ public class DataBindingViewModel extends BaseObservable {
     public void setNum(String num) {
         this.num = num;
         notifyPropertyChanged(BR.num);//更新UI
+    }
+
+    @Bindable
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+        notifyPropertyChanged(BR.url);//更新UI
     }
 
     public void onClickAdd(View v) {//点击事件处理

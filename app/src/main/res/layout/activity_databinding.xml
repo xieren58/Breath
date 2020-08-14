@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!--
     定义数据名和数据类型，下面的写法其实就相当于成员变量的声明（ int i ==》 type name ），变量的实际赋值在view层进行，
-    而布局内的控件就使用"@{}"方式去获取对应的实际数据，
+    而布局内的控件就使用"@{}"方式去获取对应的实际数据。
+
+    注意：1.尽可能少的variable和import，最直观的感受就是xml的可读性会下降以及职责不单一。
+         2.避免使用复杂的表达式，因为可读性不好，数据的操作都应放在外层进行。
     -->
     <data>
 
@@ -35,7 +40,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:gravity="center"
-            android:text="@{plain_user.lastName}" />
+            android:text="@{plain_user.lastName}"
+            tools:text="哈哈哈哈哈哈" />
 
         <TextView
             android:id="@+id/tv_str"
@@ -52,12 +58,14 @@
             android:gravity="center"
             android:text="@{vm.num,default=my_default}" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:onClick="@{vm.onClickAdd}"
-            android:text="点击+1" />
+            android:text="点击+1"
+            app:url="@{vm.url}" />
+
     </LinearLayout>
 
 
