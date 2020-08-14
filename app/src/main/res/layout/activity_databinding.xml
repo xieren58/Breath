@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- 定义和view绑定view_model -->
+    <!--
+    定义数据名和数据类型，下面的写法其实就相当于成员变量的声明（ int i ==》 type name ），变量的实际赋值在view层进行，
+    而布局内的控件就使用"@{}"方式去获取对应的实际数据，
+    -->
     <data>
 
         <variable
             name="vm"
             type="com.zkp.breath.jetpack.databinding.DataBindingViewModel" />
+
+        <variable
+            name="vm_str"
+            type="String" />
+
+        <!-- 引入工具类，但是不推荐在xml使用工具方法的做法，数据的所有操作应该在外层进行，避免造成xml冗余 -->
+        <import type="com.blankj.utilcode.util.StringUtils" />
 
     </data>
 
@@ -15,6 +25,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_str"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="@{vm_str ?? StringUtils.reverse(vm_str)}" />
+        <!-- ??: Null Coalescing 运算符，等价 xx!=null  ? xx : yy -->
 
         <TextView
             android:id="@+id/tv"
