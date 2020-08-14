@@ -1,16 +1,21 @@
 package com.zkp.breath.component.activity.jetpack
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import com.zkp.breath.R
 import com.zkp.breath.databinding.ActivityDatabindingBinding
 import com.zkp.breath.jetpack.databinding.DataBindingViewModel
 
+
 /**
  *
  * DataBinding 会为每个在布局声明 layout 标签的 xml 布局文件生成一个绑定类， 默认情况下类的名称基于布局文件的名称，
- * DataBinding是 MVVM 模式在 Android 上的一种实现。
+ * DataBinding是 MVVM 模式在 Android 上的一种实现。在xml中的变量都是自动空安全的，即便没有在外面赋值，在xml中直接
+ * 调用也不会有Null异常（很牛的设计）。
  *
  * DataBinding各层责任划分：
  * 1. xml：负责定义数据类型和定义变量名，具体控件使用变量名进行数据填充，xml的责任很明确也很简洁，就是在进行数据填充。
@@ -35,11 +40,27 @@ class DataBindingActivity : AppCompatActivity() {
         binding.vmStr = "我们"
 
         // 相当于viewbinding的用法
-        binding.tv.text = ""
+        binding.tvPlainUser.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                val plainUser = PlainUser()
+                plainUser.lastName.set("我是最后的LastName")
+                binding.plainUser = plainUser
+            }
+        })
     }
 
     override fun onDestroy() {
         super.onDestroy()
         binding.unbind()
+    }
+
+    /**
+     * 一种更细粒度的绑定方式，可以具体到成员变量，这种方式无需继承 BaseObservable，一个简单的 POJO 就可以实现。
+     * 其实内部帮我们自己继承了BaseObservable
+     */
+    class PlainUser {
+        val firstName = ObservableField<String>()
+        val lastName = ObservableField<String>()
+        val age = ObservableInt()
     }
 }
