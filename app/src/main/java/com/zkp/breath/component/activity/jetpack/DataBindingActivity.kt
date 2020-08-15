@@ -36,6 +36,9 @@ import com.zkp.breath.jetpack.databinding.DataBindingViewModel
  *      本身就具备双向绑定的功能，但是不具备感觉感知组件的生命周期的功能。
  *      3.处理ImageView的加载图片，需要自定义属性后自定义BindingAdapter进行处理。（无法使用import glide进入xml中，
  *        因为需要上下文，而xml没有上下文可以获取）
+ *
+ *
+ * https://juejin.im/post/6844903609079971854
  */
 class DataBindingActivity : AppCompatActivity() {
 
