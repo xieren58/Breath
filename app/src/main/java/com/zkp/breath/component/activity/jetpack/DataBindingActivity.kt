@@ -4,10 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.Observable
-import androidx.databinding.ObservableField
-import androidx.databinding.ObservableInt
+import androidx.databinding.*
 import com.zkp.breath.BR
 import com.zkp.breath.R
 import com.zkp.breath.databinding.ActivityDatabindingBinding
@@ -94,6 +91,8 @@ class DataBindingActivity : AppCompatActivity() {
      * 其实内部帮我们自己继承了BaseObservable
      */
     class PlainUser {
+        var list: ObservableList<String> = ObservableArrayList()
+        val map: ObservableMap<String, String> = ObservableArrayMap()
         val lastName = ObservableField<String>()
         val age = ObservableInt()
     }
