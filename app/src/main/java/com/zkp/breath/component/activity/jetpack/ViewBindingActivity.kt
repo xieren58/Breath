@@ -7,6 +7,8 @@ import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityViewbindingBinding
 
 /**
+ * https://mp.weixin.qq.com/s/BSdzKSOiAWG08epvXN5q2w
+ *
  * ViewBinding优势：
  * 1.防止类型转换异常，修改了控件类型马上进行错误提示。
  * 2.防止空异常。（一般的获取操作一定是非空）
