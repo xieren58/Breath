@@ -1,11 +1,14 @@
 package com.zkp.breath.component.activity.jetpack
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
+import com.zkp.breath.BR
 import com.zkp.breath.R
 import com.zkp.breath.databinding.ActivityDatabindingBinding
 import com.zkp.breath.jetpack.databinding.DataBindingViewModel
@@ -36,6 +39,8 @@ import com.zkp.breath.jetpack.databinding.DataBindingViewModel
  */
 class DataBindingActivity : AppCompatActivity() {
 
+    val tag = this::class.java.simpleName + "_Tag"
+
     private lateinit var binding: ActivityDatabindingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +48,26 @@ class DataBindingActivity : AppCompatActivity() {
         // 绑定view
         binding = DataBindingUtil.setContentView(this, R.layout.activity_databinding)
         // 绑定view_model
-        binding.vm = DataBindingViewModel()
+
+        val dataBindingViewModel = DataBindingViewModel()
+        /**
+         * 实现了 Observable 接口的类允许注册一个监听器，当可观察对象的属性更改时就会通知这个监听器，
+         * 此时就需要用到 OnPropertyChangedCallback
+         */
+        dataBindingViewModel.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                // 参数1就是调用注册方法的对象
+                when (propertyId) {
+                    BR.num -> {
+                        Log.i(tag, "BR.num")
+                    }
+                    BR.url -> {
+                        Log.i(tag, "BR.url")
+                    }
+                }
+            }
+        })
+        binding.vm = dataBindingViewModel
         binding.vmStr = "我们"
 
         // 相当于viewbinding的用法
@@ -67,7 +91,6 @@ class DataBindingActivity : AppCompatActivity() {
      * 其实内部帮我们自己继承了BaseObservable
      */
     class PlainUser {
-        val firstName = ObservableField<String>()
         val lastName = ObservableField<String>()
         val age = ObservableInt()
     }
