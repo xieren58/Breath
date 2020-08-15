@@ -9,6 +9,7 @@ package com.zkp.breath.kotlin
  *      2.主构函数必须带有全局变量。
  *      3.针对Gson反序列化的情况，必须声明默认无参构造函数或者主沟函数的变量设置默认值，
  *      （防止出现变量为非空类型，但获取的实际值还是null）。https://mp.weixin.qq.com/s/jVRTFTiwTtr7P7vyAj8G7A
+ *      4.不能有子类  （好扯蛋的限制）
  */
 data class DataClass(val s: String, var i: Int) {
     val ss: String = ""
