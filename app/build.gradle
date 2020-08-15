@@ -219,7 +219,7 @@ dependencies {
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
     kapt 'com.alibaba:arouter-compiler:1.2.2'
 
-    // 浏览器查看sp或者数据库神器
+    // 浏览器查看sp或者数据库神器(Logcat:DebugDB)
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
     // 内存泄露检验工具
