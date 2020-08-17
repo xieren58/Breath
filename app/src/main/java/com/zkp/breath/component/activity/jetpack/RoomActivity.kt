@@ -11,6 +11,10 @@ import com.zkp.breath.databinding.ActivityRoomBinding
  * 2. DAO（Data Access Object） 包含用于访问数据库的方法
  * 3. Entity 表示数据库中的表。
  *
+ * 注意：
+ * 1、编译时会检查SQL语句是否正确
+ * 2、不要在主线程中进行数据库操作
+ * 3、RoomDatabase最好使用单例模式
  *
  */
 class RoomActivity : BaseActivity() {
