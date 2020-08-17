@@ -7,9 +7,11 @@ import com.zkp.breath.databinding.ActivityRoomBinding
 
 /**
  * Room 包含 3 个主要组件：
- * 1. 数据库
- * 2. DAO 包含用于访问数据库的方法
+ * 1. RoomDatabase（数据库），包含了DAO，并且提供创建和连接数据库的方法。
+ * 2. DAO（Data Access Object） 包含用于访问数据库的方法
  * 3. Entity 表示数据库中的表。
+ *
+ *
  */
 class RoomActivity : BaseActivity() {
 
