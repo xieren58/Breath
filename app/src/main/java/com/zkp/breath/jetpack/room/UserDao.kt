@@ -1,9 +1,6 @@
 package com.zkp.breath.jetpack.room
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 @Dao
 interface UserDao {
@@ -20,4 +17,6 @@ interface UserDao {
     @Update
     fun update(vararg user: User)
 
+    @Delete
+    fun delete(vararg user: User)
 }

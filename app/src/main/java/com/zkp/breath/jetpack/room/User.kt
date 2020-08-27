@@ -14,7 +14,6 @@ import androidx.room.*
  *   可以在Entity类对象中加@Embedded标注。
  * 7.通过@ForeignKey注解来进行表的关联。
  *
- * https://juejin.im/post/6844903763296124942
  */
 @Entity(tableName = "user_table")
 open class User {
@@ -42,6 +41,10 @@ open class User {
 
         @ColumnInfo(name = "post_code")
         var postCode: Int = -1
+
+        override fun toString(): String {
+            return "Address(street=$street, state=$state, city=$city, postCode=$postCode)"
+        }
     }
 
     @Entity(foreignKeys = [
@@ -55,11 +58,21 @@ open class User {
 
         @ColumnInfo(name = "user_id")
         var userId: Int = -1
+
+        override fun toString(): String {
+            return "Book(bookId=$bookId, title=$title, userId=$userId)"
+        }
+
     }
 
 
     @Entity(ignoredColumns = ["lastName"])
     class UserSub : User()
+
+
+    override fun toString(): String {
+        return "User(uid=$uid, firstName=$firstName, lastName=$lastName, ignore=$ignore, address=$address)"
+    }
 
 }
 

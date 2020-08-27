@@ -24,7 +24,7 @@ class MainActivity : BaseActivity() {
             "MotionLayout",
             "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service",
             "JetPackStartUp", "JetPackViewModel", "JetPackViewBinding",
-            "JetPackLifecycle", "JetPackLiveData", "JetPackDataBinding", "JetPackPaging"
+            "JetPackLifecycle", "JetPackLiveData", "JetPackDataBinding", "JetPackPaging", "JetPackRoom"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,6 +89,9 @@ class MainActivity : BaseActivity() {
             }
             "JetPackPaging" -> {
                 ActivityUtils.startActivity(PagingActivity::class.java)
+            }
+            "JetPackRoom" -> {
+                ActivityUtils.startActivity(RoomActivity::class.java)
             }
             else -> {
                 ToastUtils.showShort(type)

@@ -3,8 +3,17 @@ package com.zkp.breath.component.activity.jetpack
 import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.blankj.utilcode.util.ClickUtils
+import com.blankj.utilcode.util.CollectionUtils
+import com.blankj.utilcode.util.ToastUtils
+import com.zkp.breath.adpter.RoomAdapter
+import com.zkp.breath.adpter.decoration.RoomItemDecoration
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityRoomBinding
 import com.zkp.breath.jetpack.room.User
@@ -26,30 +35,79 @@ import io.reactivex.rxjava3.schedulers.Schedulers
  * 2、不要在主线程中进行数据库操作
  * 3、RoomDatabase最好使用单例模式
  *
+ * https://juejin.im/post/6844903763296124942
  */
 class RoomActivity : BaseActivity() {
 
     private lateinit var binding: ActivityRoomBinding
+    private lateinit var roomViewModel: RoomViewModel
+    private lateinit var roomAdapter: RoomAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRoomBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
+        roomViewModel = ViewModelProvider(this).get(RoomViewModel::class.java)
+        roomViewModel.data.observe(this@RoomActivity, Observer {
+            it?.let {
+                refreshData(it)
+            }
+        })
         initView()
+        initData()
+    }
+
+    private fun initData() {
+        roomViewModel.query()
     }
 
     private fun initView() {
+        binding.tvAdd.setOnClickListener(onClickListener)
+        binding.tvDelete.setOnClickListener(onClickListener)
+        binding.tvUpdate.setOnClickListener(onClickListener)
+        binding.tvQuery.setOnClickListener(onClickListener)
 
+        binding.rcv.layoutManager = LinearLayoutManager(binding.rcv.context)
+        roomAdapter = RoomAdapter(null)
+        binding.rcv.adapter = roomAdapter
+        binding.rcv.addItemDecoration(RoomItemDecoration())
     }
+
+    private fun refreshData(list: MutableList<User>) {
+        roomAdapter.setNewInstance(list)
+    }
+
+    private val onClickListener = object : ClickUtils.OnDebouncingClickListener() {
+        override fun onDebouncingClick(v: View?) {
+
+            if (v == binding.tvAdd) {
+                roomViewModel.add()
+            }
+
+            if (v == binding.tvDelete) {
+                roomViewModel.delete()
+            }
+
+            if (v == binding.tvUpdate) {
+                roomViewModel.update()
+            }
+
+            if (v == binding.tvQuery) {
+                roomViewModel.query()
+                return
+            }
+        }
+    }
+
 
     class RoomViewModel(app: Application) : AndroidViewModel(app) {
 
         private val mTasks: ListCompositeDisposable = ListCompositeDisposable()
         val userDao = UserRoomDatabase.get(app).userDao()
-        var data: MutableLiveData<List<User>>? = null
+        var data: MutableLiveData<MutableList<User>> = MutableLiveData()
 
-        fun add(): MutableLiveData<List<User>>? {
+        fun add() {
 
             Observable.create<MutableList<User>> {
 
@@ -79,6 +137,8 @@ class RoomActivity : BaseActivity() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : io.reactivex.rxjava3.core.Observer<MutableList<User>> {
                         override fun onComplete() {
+                            ToastUtils.showShort("添加成功")
+                            query()
                         }
 
                         override fun onSubscribe(d: Disposable?) {
@@ -86,18 +146,16 @@ class RoomActivity : BaseActivity() {
                         }
 
                         override fun onNext(t: MutableList<User>?) {
-                            data?.value = t
+
                         }
 
                         override fun onError(e: Throwable?) {
+                            ToastUtils.showShort(e.toString())
                         }
-
                     })
-            return data
         }
 
-        fun query(): MutableLiveData<List<User>>? {
-
+        fun query() {
             Observable.create<MutableList<User>> {
                 val queryUsers = userDao.queryUsers()
                 it.onNext(queryUsers)
@@ -114,26 +172,66 @@ class RoomActivity : BaseActivity() {
                         }
 
                         override fun onNext(t: MutableList<User>?) {
-                            data?.value = t
+                            if (CollectionUtils.isEmpty(t)) {
+                                add()
+                            } else {
+                                data.value = t
+                            }
                         }
 
                         override fun onError(e: Throwable?) {
                         }
 
                     })
-            return data
         }
 
-        fun update(): MutableLiveData<List<User>>? {
-
-            Observable.create<MutableList<User>> {
-                val queryUsers = userDao.queryUsers()
-                it.onNext(queryUsers)
-                it.onComplete()
-
+        fun update() {
+            Observable.create<User> { emitter ->
+                val value = data.value
+                if (CollectionUtils.isEmpty(value)) {
+                    emitter.onComplete()
+                }
+                val get = value?.get(0)
+                get?.lastName = "我是修改过的名字"
+                get?.let {
+                    userDao.update(get)
+                    emitter.onNext(get)
+                }
+                emitter.onComplete()
             }.subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(object : io.reactivex.rxjava3.core.Observer<MutableList<User>> {
+                    .subscribe(object : io.reactivex.rxjava3.core.Observer<User> {
+                        override fun onComplete() {
+
+                        }
+
+                        override fun onSubscribe(d: Disposable?) {
+                            mTasks.add(d)
+                        }
+
+                        override fun onNext(t: User) {
+                            query()
+                            ToastUtils.showShort("修改成功")
+                        }
+
+                        override fun onError(e: Throwable?) {
+                        }
+
+                    })
+        }
+
+        fun delete() {
+            Observable.create<User> { emitter ->
+                val value = data.value
+                if (CollectionUtils.isEmpty(value)) {
+                    emitter.onComplete()
+                }
+                userDao.delete()
+                emitter.onNext(User())
+                emitter.onComplete()
+            }.subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(object : io.reactivex.rxjava3.core.Observer<User> {
                         override fun onComplete() {
                         }
 
@@ -141,15 +239,14 @@ class RoomActivity : BaseActivity() {
                             mTasks.add(d)
                         }
 
-                        override fun onNext(t: MutableList<User>?) {
-                            data?.value = t
+                        override fun onNext(t: User?) {
+                            data.value = null
                         }
 
                         override fun onError(e: Throwable?) {
                         }
 
                     })
-            return data
         }
 
         override fun onCleared() {
@@ -160,6 +257,5 @@ class RoomActivity : BaseActivity() {
             }
         }
     }
-
 
 }
