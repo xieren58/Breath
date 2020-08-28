@@ -50,9 +50,7 @@ class RoomActivity : BaseActivity() {
 
         roomViewModel = ViewModelProvider(this).get(RoomViewModel::class.java)
         roomViewModel.data.observe(this@RoomActivity, Observer {
-            it?.let {
-                refreshData(it)
-            }
+            refreshData(it)
         })
         initView()
         initData()
@@ -74,7 +72,7 @@ class RoomActivity : BaseActivity() {
         binding.rcv.addItemDecoration(RoomItemDecoration())
     }
 
-    private fun refreshData(list: MutableList<User>) {
+    private fun refreshData(list: MutableList<User>?) {
         roomAdapter.setNewInstance(list)
     }
 
@@ -105,7 +103,7 @@ class RoomActivity : BaseActivity() {
 
         private val mTasks: ListCompositeDisposable = ListCompositeDisposable()
         val userDao = UserRoomDatabase.get(app).userDao()
-        var data: MutableLiveData<MutableList<User>> = MutableLiveData()
+        var data: MutableLiveData<MutableList<User>?> = MutableLiveData()
 
         fun add() {
 
@@ -226,8 +224,11 @@ class RoomActivity : BaseActivity() {
                 if (CollectionUtils.isEmpty(value)) {
                     emitter.onComplete()
                 }
-                userDao.delete()
-                emitter.onNext(User())
+                val toTypedArray = value?.toTypedArray()
+                toTypedArray?.let {
+                    userDao.delete(*toTypedArray)
+                    emitter.onNext(User())
+                }
                 emitter.onComplete()
             }.subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
