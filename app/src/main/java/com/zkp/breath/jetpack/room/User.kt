@@ -27,6 +27,10 @@ open class User {
     @ColumnInfo(name = "last_name")
     var lastName: String? = null
 
+    // 迁移测试的字段
+//    @ColumnInfo(name = "sex")
+//    var sex: String? = "男"
+
     @Ignore
     var ignore: Int = -1
 
@@ -69,10 +73,11 @@ open class User {
     @Entity(ignoredColumns = ["lastName"])
     class UserSub : User()
 
-
     override fun toString(): String {
-        return "User(uid=$uid, firstName=$firstName, lastName=$lastName, ignore=$ignore, address=$address)"
+        return "User(uid=$uid, firstName=$firstName, lastName=$lastName,ignore=$ignore, address=$address)"
+//        return "User(uid=$uid, firstName=$firstName, lastName=$lastName, sex=$sex, ignore=$ignore, address=$address)"
     }
+
 
 }
 
