@@ -41,12 +41,18 @@ fun main() {
     val string1 = arrayOfNulls[1]
     val first = arrayOfNulls.first()
     val last = arrayOfNulls.last()
-    val find = arrayOfNulls.find { it.equals("b") }
+    val find = arrayOfNulls.find { it.equals("b") } // 常用
 
     // 过滤，返回List集合，List支持协变，即子类型可以赋值给夫类型。
     val filter = arrayOfNulls.filter { it.equals("") }
+    val filter2: List<Any?> = filter    // 支持协变
+
     // 排序
     arrayOfNulls.sort()
+    // 范围排序，包头不包尾
+    val intArrayOf1 = intArrayOf(3, 5, 1, 8, 2, 0)
+    intArrayOf1.sort(2, 5)  // 【3，5，1，2，8，0】
+
     // 存在一个或者多个元素则返回true，没有任何一个元素则返回false
     arrayOfNulls.any()
     // 数组长度 （元素数量）
@@ -64,19 +70,14 @@ fun main() {
     }
 
     // 定义一个初始值，然后传入数组的每个元素和初始值的操作逻辑的lambda表达式
-    arrayOfNulls.fold("我是flod的初始值") { s, sNull -> s + sNull }
+    arrayOfNulls.fold("我是flod的初始值") { initial, element -> initial + element }
 
 //    arrayOfNulls.groupBy {  }
 
     // 遍历
-    arrayOfNulls.forEach { println("字符串数组内容: $it") }
-    println()
-
-    // 自动推断类型
     val arrayOf = arrayOf(1, 2, 3)
     arrayOf.forEach { println("int数组内容: $it") }
 
-    // 指定类型
     val intArrayOf = intArrayOf(1, 2, 3)
     intArrayOf.forEach { println("无封箱int数组内容: $it") }
 
