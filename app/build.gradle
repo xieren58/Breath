@@ -189,6 +189,7 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"
+    kapt "com.jakewharton:butterknife-compiler:$butterknife_version"
     implementation "com.jakewharton:butterknife:$butterknife_version"
 
     implementation 'org.greenrobot:greendao:3.2.2'
