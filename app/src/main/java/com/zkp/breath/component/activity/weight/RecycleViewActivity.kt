@@ -47,6 +47,9 @@ import kotlinx.coroutines.withContext
  *  框架实现。
  *
  *
+ *  RecyclerView的Api讲解：
+ *  1.LinearLayoutManager#stackFromEnd：是否显示最后一页。
+ *
  */
 class RecycleViewActivity : BaseActivity() {
 
