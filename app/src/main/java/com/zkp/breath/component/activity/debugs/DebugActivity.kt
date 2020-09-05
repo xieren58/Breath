@@ -12,8 +12,11 @@ import com.zkp.breath.adpter.DebugAdapter
 import com.zkp.breath.adpter.decoration.RoomItemDecoration
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityDebugBinding
+import kotlin.concurrent.thread
 
-
+/**
+ * https://mp.weixin.qq.com/s/ppJ-pRDifyPpQoPIyYbxww
+ */
 class DebugActivity : BaseActivity() {
 
     private lateinit var binding: ActivityDebugBinding
@@ -23,6 +26,13 @@ class DebugActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDebugBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+
+        thread {
+            // 挂起线程断点： Suspend默认是选中all，一旦断点所有线程都会被挂起，那么界面的渲染就看不到。
+            // 举例来说，您可能想要验证某个后台线程阻塞时，应用的其他功能是否能够正常工作，或者您希望了解在执行一个
+            // 后台任务时，UI 能不能够持续进行渲染。那么这时候只要选中thread即可。
+            Log.i("sdsds", "onCreate: ")
+        }
 
         initView()
     }
@@ -71,6 +81,8 @@ class DebugActivity : BaseActivity() {
 
             if (v == binding.tvExceptionDebug) {
                 ToastUtils.showShort("异常断点")
+                // 异常断点：java exception breakpoint选中后开启断点即可，在发生异常的地方会自动挂起。
+                throw Exception("异常断点")
             }
 
         }
