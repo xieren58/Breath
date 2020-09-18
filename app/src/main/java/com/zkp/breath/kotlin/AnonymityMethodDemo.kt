@@ -10,6 +10,7 @@ var anonymityMethod2 = fun(x: Int, y: Int) = x + y
 val anonymityMethod3 = fun(x: Int, y: Int): Int {
     return x + y
 }
+val anonymityMethod4: (Int, Int) -> Int = fun(x: Int, y: Int) = x + y
 
 fun lambdaAnonymityMethod(body: (Int, Int) -> Int, x: Int, y: Int) {
     body(x, y)

@@ -3,6 +3,7 @@
 *.apk
 *.ap_
 app/release/output.json
+app/schemas
 
 # Files for the ART/Dalvik VM
 *.dex
@@ -40,3 +41,7 @@ captures/
 
 # Keystore files
 #*.jks
+app/schemas/
+app/src/main/java/com/zkp/breath/database/greendao/DaoMaster.java
+app/src/main/java/com/zkp/breath/database/greendao/DaoSession.java
+app/src/main/java/com/zkp/breath/database/greendao/StudentDao.java

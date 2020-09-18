@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 定义和view绑定view_model -->
+    <!--
+    定义数据名和数据类型，下面的写法其实就相当于成员变量的声明（ int i ==》 type name ），变量的实际赋值在view层进行，
+    而布局内的控件就使用"@{}"方式去获取对应的实际数据。
+
+    注意：1.尽可能少的variable和import，最直观的感受就是xml的可读性会下降以及职责不单一。
+         2.避免使用复杂的表达式，因为可读性不好，数据的操作都应放在外层进行。
+    -->
     <data>
 
         <variable
             name="vm"
             type="com.zkp.breath.jetpack.databinding.DataBindingViewModel" />
+
+        <variable
+            name="vm_str"
+            type="String" />
+
+        <variable
+            name="plain_user"
+            type="com.zkp.breath.component.activity.jetpack.DataBindingActivity.PlainUser" />
+
+        <!-- 引入工具类，但是不推荐在xml使用工具方法的做法，数据的所有操作应该在外层进行，避免造成xml冗余 -->
+        <import type="com.blankj.utilcode.util.StringUtils" />
 
     </data>
 
@@ -17,18 +36,36 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_plain_user"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="@{plain_user.lastName}"
+            tools:text="哈哈哈哈哈哈" />
+
+        <TextView
+            android:id="@+id/tv_str"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="@{vm_str ?? StringUtils.reverse(vm_str)}" />
+        <!-- ??: Null Coalescing 运算符，等价 xx!=null  ? xx : yy -->
+
+        <TextView
             android:id="@+id/tv"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:gravity="center"
             android:text="@{vm.num,default=my_default}" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:onClick="@{vm::onClickAdd}"
-            android:text="点击+1" />
+            android:onClick="@{vm.onClickAdd}"
+            android:text="点击+1"
+            app:url="@{vm.url}" />
+
     </LinearLayout>
 
 

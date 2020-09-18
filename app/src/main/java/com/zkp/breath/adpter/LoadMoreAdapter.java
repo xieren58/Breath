@@ -1,18 +1,14 @@
 package com.zkp.breath.adpter;
 
-import android.animation.Animator;
 import android.util.Log;
 import android.view.View;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.zkp.breath.R;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Random;
@@ -27,7 +23,7 @@ public class LoadMoreAdapter extends BaseQuickAdapter<String, BaseViewHolder> im
     }
 
     @Override
-    protected void convert(@NotNull BaseViewHolder baseViewHolder, String item) {
+    protected void convert(BaseViewHolder baseViewHolder, String item) {
         Random random = new Random();
         int i = random.nextInt(colors.length);
         baseViewHolder.setText(R.id.tv, item);
@@ -41,7 +37,7 @@ public class LoadMoreAdapter extends BaseQuickAdapter<String, BaseViewHolder> im
      * 触发，实际是参数二发挥效果，类似一种标记作用。
      */
     @Override
-    protected void convert(@NotNull BaseViewHolder holder, String item, @NotNull List<?> payloads) {
+    protected void convert(BaseViewHolder holder, String item, List<?> payloads) {
         super.convert(holder, item, payloads);
         Log.i(TAG, "convert_payloads: " + holder.getAdapterPosition() + ",payloads: " + payloads.get(0));
     }

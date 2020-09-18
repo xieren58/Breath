@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="166dp"
     android:layout_height="166dp">
 
@@ -11,6 +12,11 @@
         app:cardCornerRadius="6dp"
         app:cardElevation="0dp" />
 
+    <!--
+    tools可以告诉Android Studio，哪些属性在运行的时候是被忽略的，只在设计布局的时候有效。tools可以覆盖android的
+    所有标准属性，将android:换成tools:即可，同时在运行的时候就连tools:本身都是被忽略的，不会被带进apk中。
+    -->
+
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
@@ -18,7 +24,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="占位测试" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

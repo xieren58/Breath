@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.blankj.utilcode.util.ToastUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -47,6 +48,9 @@ import kotlinx.coroutines.withContext
  *  框架实现。
  *
  *
+ *  RecyclerView的Api讲解：
+ *  1.LinearLayoutManager#stackFromEnd：是否显示最后一页。
+ *
  */
 class RecycleViewActivity : BaseActivity() {
 
@@ -76,6 +80,37 @@ class RecycleViewActivity : BaseActivity() {
         val gridAdapter = GridAdapter(arrayList)
         rcv.adapter = gridAdapter
         rcv.addItemDecoration(GridItemDecoration())
+
+        // 滚动监听
+        rcv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                Log.i("onScrolled", "dx:${dx},dy:${dy}")
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                when (newState) {
+                    RecyclerView.SCROLL_STATE_IDLE -> {
+                        Log.i("onScrollStateChanged", "newState: idle")
+                    }
+                    RecyclerView.SCROLL_STATE_DRAGGING -> {
+                        Log.i("onScrollStateChanged", "newState: dragging")
+                    }
+                    RecyclerView.SCROLL_STATE_SETTLING -> {
+                        Log.i("onScrollStateChanged", "newState: settling")
+                    }
+                }
+            }
+        })
+
+        // 设置回收监听
+        rcv.setRecyclerListener(object : RecyclerView.RecyclerListener {
+            override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+                val adapterPosition = holder.adapterPosition
+            }
+        })
     }
 
 

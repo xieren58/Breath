@@ -177,6 +177,8 @@
 
         <activity android:name=".component.activity.FragmentDemoActivity" />
 
+        <activity android:name=".component.activity.debugs.DebugActivity" />
+
         <activity android:name=".component.activity.jetpack.ViewModelActivity" />
         <activity android:name=".component.activity.jetpack.LifecycleActivity" />
         <activity android:name=".component.activity.jetpack.LiveDataActivity" />
