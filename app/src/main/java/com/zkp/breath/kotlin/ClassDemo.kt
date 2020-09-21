@@ -1,14 +1,17 @@
 package com.zkp.breath.kotlin
 
 // 编译期常量,相当于java的静态常量
-// 没有自定义 getter (即默认隐式get访问器),因为get访问器能自定义返回的value（即动态），所以不符合常量的定义。
+// 没有get访问器,因为get访问器能自定义返回的value（即动态），所以不符合常量的定义。
+// 没有自定义set访问器，因为val修饰。
 const val CONST = 22
 
 class Demo(name: String) {
 
-    // var/val变量在init代码块初始化，则可以不用马上初始化
+    // var/val变量被构造方法的参数赋值，则可以不用马上初始化
     val name1 = name
     var name2 = name
+
+    // var/val变量在init代码块初始化，则可以不用马上初始化
     var name3: String
 
     init {
