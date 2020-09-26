@@ -65,7 +65,7 @@ class ImageViewScaleTypeActivity : BaseActivity() {
 
         val musicResolver: ContentResolver = contentResolver
         val musicUri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        val musicCursor: Cursor? = musicResolver.query(musicUri, null,
+        val musicCursor: Cursor? = musicResolver.query(Uri.parse("content://media/external_primary/file/73"), null,
                 null, null, null)
 
         if (musicCursor != null && musicCursor.moveToFirst()) {
