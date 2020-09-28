@@ -52,26 +52,13 @@ class ImageViewScaleTypeActivity : BaseActivity() {
     }
 
     private fun xx() {
-//        val externalMusicPath = PathUtils.getExternalMusicPath()
-//        ToastUtils.showShort(externalMusicPath)
-//        val file = File(externalMusicPath)
-//        val listFiles = file.listFiles()
-//        val fileExists = FileUtils.isFileExists(file)
-//        val listFilesInDir = FileUtils.listFilesInDir(file)
-//        ToastUtils.showShort("${listFilesInDir?.size},是否存在：${fileExists}}")
-//
-//        val s = PathUtils.getExternalStoragePath() + "/xiami/audios/"
-//        val fileExists1 = FileUtils.isFileExists(file)
-
-
         val musicResolver: ContentResolver = contentResolver
         val musicUri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         //Android Q 公有目录只能通过Content Uri + id的方式访问，以前的File路径全部无效，如果是Video，
         // 记得换成MediaStore.Videos
 //        var path = ""
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//            path = MediaStore.Audio.Media
-//                    .EXTERNAL_CONTENT_URI
+//            path = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 //                    .buildUpon()
 //                    .appendPath(thisalbumId.toString())
 //                    .build()
@@ -84,14 +71,19 @@ class ImageViewScaleTypeActivity : BaseActivity() {
                 null, null, null)
 
         if (musicCursor != null && musicCursor.moveToFirst()) {
-
+            // 标题
             val titleColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)
+            // id
             val idColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media._ID)
+            // 创建音频文件的艺术家（如果有），即作者
             val artistColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)
+            // 音频文件来自的专辑的ID（如果有）
             val albumId = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
+            // 磁盘上媒体项的绝对文件系统路径
             val data = musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA)
-            val albumkey = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_KEY)
+            // 音频文件的录制年份（如果有）
             val columnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.YEAR)
+            // 时长
             val columnIndex1 = musicCursor.getColumnIndex(MediaStore.Audio.Media.DURATION)
 
             do {
@@ -112,27 +104,21 @@ class ImageViewScaleTypeActivity : BaseActivity() {
                 } catch (e: Exception) {
                     ""
                 }
-                val AlbumKey = try {
-                    musicCursor.getString(albumkey)
-                } catch (e: Exception) {
-                }
-                val AlbumKey1 = try {
+                val year = try {
                     musicCursor.getString(columnIndex)
                 } catch (e: Exception) {
                     ""
                 }
-                val AlbumKey2 = try {
+                val duration = try {
                     musicCursor.getString(columnIndex1)
                 } catch (e: Exception) {
                     ""
                 }
-
-
                 Log.i("xxxx", "thisId:$thisId,thisTitle:$thisTitle,thisArtist:$thisArtist," +
-                        "thisalbumId:$thisalbumId,thisdata:$thisdata,AlbumKey:$AlbumKey")
+                        "thisalbumId:$thisalbumId,thisdata:$thisdata,year:$year,duration:$duration")
             } while (musicCursor.moveToNext())
-
         }
+        musicCursor?.close()
     }
 
     private val MIMETable = arrayOf<kotlin.Array<kotlin.String>>(

@@ -2,6 +2,7 @@ package com.zkp.breath.component.activity.androidr
 
 import android.content.ContentResolver
 import android.content.ContentValues
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Build.VERSION_CODES.Q
@@ -32,6 +33,67 @@ class ScopedStorageActivity : BaseActivity() {
 //        innerOrOuterPath()
 //        innerDemo()
         util()
+    }
+
+
+    private fun scanMusic() {
+        val musicResolver: ContentResolver = contentResolver
+        val musicUri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        val musicCursor: Cursor? = musicResolver.query(musicUri, null, null,
+                null, null)
+
+        if (musicCursor != null && musicCursor.moveToFirst()) {
+            // 标题
+            val titleColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)
+            // id
+            val idColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media._ID)
+            // 创建音频文件的艺术家（如果有），即作者
+            val artistColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)
+            // 音频文件来自的专辑的ID（如果有）
+            val albumId = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
+            // 磁盘上媒体项的绝对文件系统路径
+            val data = musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA)
+            // 音频文件的录制年份（如果有）
+            val columnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.YEAR)
+            // 时长
+            val columnIndex1 = musicCursor.getColumnIndex(MediaStore.Audio.Media.DURATION)
+
+            do {
+
+
+
+                val thisId = musicCursor.getLong(idColumn)
+                val thisTitle = musicCursor.getString(titleColumnIndex)
+                val thisArtist = try {
+                    musicCursor.getString(artistColumn)
+                } catch (e: Exception) {
+                    ""
+                }
+                val thisalbumId = try {
+                    musicCursor.getLong(albumId)
+                } catch (e: Exception) {
+                    0L
+                }
+                val thisdata = try {
+                    musicCursor.getString(data)
+                } catch (e: Exception) {
+                    ""
+                }
+                val year = try {
+                    musicCursor.getString(columnIndex)
+                } catch (e: Exception) {
+                    ""
+                }
+                val duration = try {
+                    musicCursor.getString(columnIndex1)
+                } catch (e: Exception) {
+                    ""
+                }
+                Log.i("xxxx", "thisId:$thisId,thisTitle:$thisTitle,thisArtist:$thisArtist," +
+                        "thisalbumId:$thisalbumId,thisdata:$thisdata,year:$year,duration:$duration")
+            } while (musicCursor.moveToNext())
+        }
+        musicCursor?.close()
     }
 
 
