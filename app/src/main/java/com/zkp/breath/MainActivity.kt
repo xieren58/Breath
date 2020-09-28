@@ -13,6 +13,7 @@ import com.zkp.breath.component.activity.*
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.activity.debugs.DebugActivity
 import com.zkp.breath.component.activity.jetpack.*
+import com.zkp.breath.component.activity.weight.ImageViewScaleTypeActivity
 import com.zkp.breath.component.activity.weight.MotionLayoutActivity
 import com.zkp.breath.databinding.ActivityMainBinding
 import kotlin.system.exitProcess
@@ -22,7 +23,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val listOf = mutableListOf(
-            "MotionLayout", "Debug",
+            "ImageViewScaleType", "MotionLayout", "Debug",
             "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service",
             "JetPackStartUp", "JetPackViewModel", "JetPackViewBinding",
             "JetPackLifecycle", "JetPackLiveData", "JetPackDataBinding", "JetPackPaging", "JetPackRoom"
@@ -52,6 +53,9 @@ class MainActivity : BaseActivity() {
 
     private val onItemChildClickListener = OnItemClickListener { _, _, position ->
         when (val type = listOf[position]) {
+            "ImageViewScaleType" -> {
+                ActivityUtils.startActivity(ImageViewScaleTypeActivity::class.java)
+            }
             "MotionLayout" -> {
                 ActivityUtils.startActivity(MotionLayoutActivity::class.java)
             }

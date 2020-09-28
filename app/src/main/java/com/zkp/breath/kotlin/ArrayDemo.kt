@@ -26,10 +26,8 @@ fun main() {
 //    String[] strs = {"a", "b", "c"};
 //    Object[] objs = strs; // success
 
-
     // 可空类型
     val arrayOfNulls = arrayOfNulls<String>(3)
-    val arrayOfNulls2: Array<String?> = arrayOfNulls(3) // 另外一种写法
 
     // 设置对应角标的值的不同写法
     arrayOfNulls.set(0, "a")

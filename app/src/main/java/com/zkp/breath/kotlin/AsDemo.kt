@@ -2,10 +2,11 @@ package com.zkp.breath.kotlin
 
 /**
  * 强转Demo
- * as 强转关键字，as？（强转失败会返回null，接收类型应该也要声明为可空）关键字
+ * as：强转关键字
+ * as？：空安全的强转，强转失败会返回null，接收类型需要声明为可空类型
  *
- * is：如果是类的话则是类型判断（判断成功自动转为该类型，即可调用该类型的方法或者属性）；如果是int，float，
- * long，boolean则是数值判断。
+ * is：如果是类的话则是类型判断（判断成功自动转为该类型，即可调用该类型的方法或者属性）；
+ *     如果是int，float，long，boolean则是数值判断。相当于java的 "instance + 强转"操作
  */
 
 open class Person {

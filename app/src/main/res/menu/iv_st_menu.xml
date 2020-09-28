@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/scale_type"
+        android:title="scaleType属性">
+        <menu>
+            <item
+                android:id="@+id/fit_xy"
+                android:title="fitXy" />
+            <item
+                android:id="@+id/fit_start"
+                android:title="fitStart" />
+            <item
+                android:id="@+id/fit_center"
+                android:title="fitCenter" />
+            <item
+                android:id="@+id/fit_end"
+                android:title="fitEnd" />
+            <item
+                android:id="@+id/center"
+                android:title="center" />
+            <item
+                android:id="@+id/center_crop"
+                android:title="centerCrop" />
+            <item
+                android:id="@+id/center_inside"
+                android:title="centerInside" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/iv_scale"
+        android:title="控件宽高比">
+        <menu>
+            <item
+                android:id="@+id/scale_1_1"
+                android:title="1:1" />
+            <item
+                android:id="@+id/scale_9_16"
+                android:title="9:16" />
+            <item
+                android:id="@+id/scale_16_9"
+                android:title="16:9" />
+        </menu>
+    </item>
+
+</menu>
