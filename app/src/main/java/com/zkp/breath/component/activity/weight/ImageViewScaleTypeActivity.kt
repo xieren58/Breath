@@ -3,7 +3,9 @@ package com.zkp.breath.component.activity.weight
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import com.blankj.utilcode.util.ClickUtils
+import com.blankj.utilcode.util.ScreenUtils
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityIvScaleTypeBinding
@@ -12,9 +14,17 @@ import com.zkp.breath.databinding.ActivityIvScaleTypeBinding
 class ImageViewScaleTypeActivity : BaseActivity() {
 
     companion object {
-        const val IV_WH_SCALE_1_1 = "1:1"
-        const val IV_WH_SCALE_9_16 = "9:16"
-        const val IV_WH_SCALE_16_9 = "16:9"
+        const val WH_SCALE_1_1 = "1:1"
+        const val WH_SCALE_9_16 = "9:16"
+        const val WH_SCALE_16_9 = "16:9"
+
+        const val SCALE_TYPE_FIT_XY = "fit_xy"
+        const val SCALE_TYPE_FIT_START = "fit_start"
+        const val SCALE_TYPE_FIT_CENTER = "fit_center"
+        const val SCALE_TYPE_FIT_END = "fit_end"
+        const val SCALE_TYPE_CENTER = "center"
+        const val SCALE_TYPE_CENTER_CROP = "center_crop"
+        const val SCALE_TYPE_CENTER_INSIDE = "center_inside"
     }
 
     private lateinit var binding: ActivityIvScaleTypeBinding
@@ -24,37 +34,59 @@ class ImageViewScaleTypeActivity : BaseActivity() {
         binding = ActivityIvScaleTypeBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-        binding.tvScale.setOnClickListener(onClick)
+        binding.tvWhScale.setOnClickListener(onClick)
+        binding.tvScaleType.setOnClickListener(onClick)
     }
 
     private val onClick: ClickUtils.OnDebouncingClickListener = object : ClickUtils.OnDebouncingClickListener() {
         override fun onDebouncingClick(v: View?) {
             when (v) {
-                binding.tvScale -> {
-//                    scanMusic()
-                    ivScale()
+                binding.tvWhScale -> {
+                    ivWhScale()
+                    return
+                }
+
+                binding.tvScaleType -> {
+                    ivAttrScaleType()
                     return
                 }
             }
         }
     }
 
-    private fun ivScale() {
+    private fun ivAttrScaleType() {
+
         QMUIBottomSheet.BottomListSheetBuilder(this)
                 .setGravityCenter(true)
-                .addItem(IV_WH_SCALE_1_1)
-                .addItem(IV_WH_SCALE_9_16)
-                .addItem(IV_WH_SCALE_16_9)
+                .addItem(SCALE_TYPE_FIT_XY)
+                .addItem(SCALE_TYPE_FIT_START)
+                .addItem(SCALE_TYPE_FIT_CENTER)
+                .addItem(SCALE_TYPE_FIT_END)
+                .addItem(SCALE_TYPE_CENTER)
+                .addItem(SCALE_TYPE_CENTER_CROP)
+                .addItem(SCALE_TYPE_CENTER_INSIDE)
                 .setOnSheetItemClickListener { dialog, itemView, position, tag ->
                     when (tag) {
-                        IV_WH_SCALE_1_1 -> {
-
+                        SCALE_TYPE_FIT_XY -> {
+                            binding.iv.scaleType = ImageView.ScaleType.FIT_XY
                         }
-                        IV_WH_SCALE_9_16 -> {
-
+                        SCALE_TYPE_FIT_START -> {
+                            binding.iv.scaleType = ImageView.ScaleType.FIT_START
                         }
-                        IV_WH_SCALE_16_9 -> {
-
+                        SCALE_TYPE_FIT_CENTER -> {
+                            binding.iv.scaleType = ImageView.ScaleType.FIT_CENTER
+                        }
+                        SCALE_TYPE_FIT_END -> {
+                            binding.iv.scaleType = ImageView.ScaleType.FIT_END
+                        }
+                        SCALE_TYPE_CENTER -> {
+                            binding.iv.scaleType = ImageView.ScaleType.CENTER
+                        }
+                        SCALE_TYPE_CENTER_CROP -> {
+                            binding.iv.scaleType = ImageView.ScaleType.CENTER_CROP
+                        }
+                        SCALE_TYPE_CENTER_INSIDE -> {
+                            binding.iv.scaleType = ImageView.ScaleType.CENTER_INSIDE
                         }
                     }
                 }
@@ -62,8 +94,35 @@ class ImageViewScaleTypeActivity : BaseActivity() {
                 .show()
     }
 
-
-
+    private fun ivWhScale() {
+        QMUIBottomSheet.BottomListSheetBuilder(this)
+                .setGravityCenter(true)
+                .addItem(WH_SCALE_1_1)
+                .addItem(WH_SCALE_9_16)
+                .addItem(WH_SCALE_16_9)
+                .setOnSheetItemClickListener { dialog, itemView, position, tag ->
+                    val layoutParams = binding.iv.layoutParams
+                    when (tag) {
+                        WH_SCALE_1_1 -> {
+                            layoutParams.width = ScreenUtils.getScreenWidth()
+                            layoutParams.height = ScreenUtils.getScreenWidth()
+                            binding.iv.requestLayout()
+                        }
+                        WH_SCALE_9_16 -> {
+                            layoutParams.width = (ScreenUtils.getScreenWidth() * (9 / 16f)).toInt()
+                            layoutParams.height = ScreenUtils.getScreenWidth()
+                            binding.iv.requestLayout()
+                        }
+                        WH_SCALE_16_9 -> {
+                            layoutParams.width = ScreenUtils.getScreenWidth()
+                            layoutParams.height = (ScreenUtils.getScreenWidth() * (9 / 16f)).toInt()
+                            binding.iv.requestLayout()
+                        }
+                    }
+                }
+                .build()
+                .show()
+    }
 
 
 }
