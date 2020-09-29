@@ -11,7 +11,9 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityScopedStorageBinding
 import java.io.File
@@ -37,6 +39,17 @@ class ScopedStorageActivity : BaseActivity() {
 
 
     private fun scanMusic() {
+
+        val s = PathUtils.getExternalStoragePath() + "/xiami/"
+        if (FileUtils.isFileExists(s)) {
+            val listFilesInDir = FileUtils.listFilesInDir(s)
+            Log.i("ssd", "scanMusic: ")
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ToastUtils.showShort("sdk 29")
+        }
+
         val musicResolver: ContentResolver = contentResolver
         val musicUri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val musicCursor: Cursor? = musicResolver.query(musicUri,
@@ -57,6 +70,8 @@ class ScopedStorageActivity : BaseActivity() {
             val yearColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.YEAR)
             // 时长
             val durationColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.DURATION)
+            // 是否音乐
+            val isMusicColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC)
 
             do {
                 val id = if (idColumnIndex != -1) musicCursor.getLong(idColumnIndex) else -1L
@@ -66,9 +81,10 @@ class ScopedStorageActivity : BaseActivity() {
                 val data = if (dataColumnIndex != -1) musicCursor.getString(dataColumnIndex) else ""
                 val year = if (yearColumnIndex != -1) musicCursor.getString(yearColumnIndex) else ""
                 val duration = if (durationColumnIndex != -1) musicCursor.getString(durationColumnIndex) else ""
+                val isMusic = if (isMusicColumnIndex != -1) musicCursor.getString(isMusicColumnIndex) else ""
 
                 Log.i("音乐信息", "id:$id, title:$title, artist:$artist," +
-                        " albumId:$albumId, data:$data, year:$year, duration:$duration")
+                        " albumId:$albumId, data:$data, year:$year, duration:$duration, isMusic:$isMusic")
 
             } while (musicCursor.moveToNext())
         }
