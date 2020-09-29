@@ -15,10 +15,11 @@
 
         <ImageView
             android:id="@+id/iv"
-            android:layout_width="match_parent"
+            android:layout_width="360dp"
             android:layout_height="360dp"
             android:layout_gravity="center"
-            android:background="@color/colorFFFFFF" />
+            android:background="@color/colorFFFFFF"
+            android:scaleType="fitCenter" />
 
     </FrameLayout>
 
@@ -58,6 +59,19 @@
         android:background="@color/colorFFFFFF"
         android:gravity="center"
         android:text="scaleType属性"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/tv_wh_scale"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_pic"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@color/colorFFFFFF"
+        android:gravity="center"
+        android:text="图片比例选择"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/tv_wh_scale"

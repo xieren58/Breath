@@ -1,5 +1,6 @@
 package com.zkp.breath.component.activity.weight
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,8 @@ class ImageViewScaleTypeActivity : BaseActivity() {
     }
 
     private lateinit var binding: ActivityIvScaleTypeBinding
+    private var currentIvWhScale = WH_SCALE_1_1
+    private var currentIvAttrScaleType = SCALE_TYPE_FIT_CENTER
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +39,7 @@ class ImageViewScaleTypeActivity : BaseActivity() {
 
         binding.tvWhScale.setOnClickListener(onClick)
         binding.tvScaleType.setOnClickListener(onClick)
+        info()
     }
 
     private val onClick: ClickUtils.OnDebouncingClickListener = object : ClickUtils.OnDebouncingClickListener() {
@@ -69,24 +73,31 @@ class ImageViewScaleTypeActivity : BaseActivity() {
                     when (tag) {
                         SCALE_TYPE_FIT_XY -> {
                             binding.iv.scaleType = ImageView.ScaleType.FIT_XY
+                            currentIvAttrScaleType = SCALE_TYPE_FIT_XY
                         }
                         SCALE_TYPE_FIT_START -> {
                             binding.iv.scaleType = ImageView.ScaleType.FIT_START
+                            currentIvAttrScaleType = SCALE_TYPE_FIT_START
                         }
                         SCALE_TYPE_FIT_CENTER -> {
                             binding.iv.scaleType = ImageView.ScaleType.FIT_CENTER
+                            currentIvAttrScaleType = SCALE_TYPE_FIT_CENTER
                         }
                         SCALE_TYPE_FIT_END -> {
                             binding.iv.scaleType = ImageView.ScaleType.FIT_END
+                            currentIvAttrScaleType = SCALE_TYPE_FIT_END
                         }
                         SCALE_TYPE_CENTER -> {
                             binding.iv.scaleType = ImageView.ScaleType.CENTER
+                            currentIvAttrScaleType = SCALE_TYPE_CENTER
                         }
                         SCALE_TYPE_CENTER_CROP -> {
                             binding.iv.scaleType = ImageView.ScaleType.CENTER_CROP
+                            currentIvAttrScaleType = SCALE_TYPE_CENTER_CROP
                         }
                         SCALE_TYPE_CENTER_INSIDE -> {
                             binding.iv.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                            currentIvAttrScaleType = SCALE_TYPE_CENTER_INSIDE
                         }
                     }
                 }
@@ -107,21 +118,34 @@ class ImageViewScaleTypeActivity : BaseActivity() {
                             layoutParams.width = ScreenUtils.getScreenWidth()
                             layoutParams.height = ScreenUtils.getScreenWidth()
                             binding.iv.requestLayout()
+                            currentIvWhScale = WH_SCALE_1_1
                         }
                         WH_SCALE_9_16 -> {
                             layoutParams.width = (ScreenUtils.getScreenWidth() * (9 / 16f)).toInt()
                             layoutParams.height = ScreenUtils.getScreenWidth()
                             binding.iv.requestLayout()
+                            currentIvWhScale = WH_SCALE_9_16
                         }
                         WH_SCALE_16_9 -> {
                             layoutParams.width = ScreenUtils.getScreenWidth()
                             layoutParams.height = (ScreenUtils.getScreenWidth() * (9 / 16f)).toInt()
                             binding.iv.requestLayout()
+                            currentIvWhScale = WH_SCALE_16_9
                         }
                     }
                 }
                 .build()
                 .show()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun info() {
+        val layoutParams = binding.iv.layoutParams
+        val width = layoutParams.width
+        val height = layoutParams.height
+
+        binding.tvInfo.text = "Iv控件wh：($width,$height), 比例：$currentIvWhScale\n" +
+                "Iv的scaleType属性：$currentIvAttrScaleType\n"
     }
 
 
