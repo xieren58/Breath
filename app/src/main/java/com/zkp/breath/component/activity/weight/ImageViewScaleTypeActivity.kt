@@ -14,12 +14,20 @@ import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityIvScaleTypeBinding
 
 
+/**
+ * ImageView的ScaleType:
+ * FIT_XY：不按图片原比例伸缩，强制让图片充满ImageVie，图片可以完整显示但可能会变形。
+ * FIT_CENTER：按照图片原比例伸缩，直到图片最长边和ImageView重叠，
+ *
+ *
+ */
 class ImageViewScaleTypeActivity : BaseActivity() {
 
     companion object {
         const val WH_SCALE_1_1 = "1:1"
         const val WH_SCALE_9_16 = "9:16"
         const val WH_SCALE_16_9 = "16:9"
+        const val WH_SCALE_4_3 = "4:3"
 
         const val SCALE_TYPE_FIT_XY = "fit_xy"
         const val SCALE_TYPE_FIT_START = "fit_start"
@@ -121,6 +129,7 @@ class ImageViewScaleTypeActivity : BaseActivity() {
                 .addItem(WH_SCALE_1_1)
                 .addItem(WH_SCALE_9_16)
                 .addItem(WH_SCALE_16_9)
+                .addItem(WH_SCALE_4_3)
                 .setOnSheetItemClickListener { dialog, itemView, position, tag ->
                     val layoutParams = binding.iv.layoutParams
                     when (tag) {
@@ -142,6 +151,12 @@ class ImageViewScaleTypeActivity : BaseActivity() {
                             binding.iv.requestLayout()
                             currentIvWhScale = WH_SCALE_16_9
                         }
+                        WH_SCALE_4_3 -> {
+                            layoutParams.width = ScreenUtils.getScreenWidth()
+                            layoutParams.height = (ScreenUtils.getScreenWidth() * (3 / 4f)).toInt()
+                            binding.iv.requestLayout()
+                            currentIvWhScale = WH_SCALE_4_3
+                        }
                     }
                     info()
                 }
@@ -155,6 +170,7 @@ class ImageViewScaleTypeActivity : BaseActivity() {
                 .addItem(WH_SCALE_1_1)
                 .addItem(WH_SCALE_9_16)
                 .addItem(WH_SCALE_16_9)
+                .addItem(WH_SCALE_4_3)
                 .setOnSheetItemClickListener { dialog, itemView, position, tag ->
                     val layoutParams = binding.iv.layoutParams
                     when (tag) {
@@ -166,6 +182,9 @@ class ImageViewScaleTypeActivity : BaseActivity() {
                         }
                         WH_SCALE_16_9 -> {
                             binding.iv.setImageResource(R.drawable.ic_wh_16_9)
+                        }
+                        WH_SCALE_4_3 -> {
+                            binding.iv.setImageResource(R.drawable.ic_wh_4_3)
                         }
                     }
                     info()
