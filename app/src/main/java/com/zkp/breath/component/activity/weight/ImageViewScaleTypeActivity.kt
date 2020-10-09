@@ -1,6 +1,7 @@
 package com.zkp.breath.component.activity.weight
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import com.blankj.utilcode.util.ClickUtils
 import com.blankj.utilcode.util.ScreenUtils
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet
+import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityIvScaleTypeBinding
 
@@ -39,6 +41,7 @@ class ImageViewScaleTypeActivity : BaseActivity() {
 
         binding.tvWhScale.setOnClickListener(onClick)
         binding.tvScaleType.setOnClickListener(onClick)
+        binding.tvPic.setOnClickListener(onClick)
         info()
     }
 
@@ -54,6 +57,12 @@ class ImageViewScaleTypeActivity : BaseActivity() {
                     ivAttrScaleType()
                     return
                 }
+
+                binding.tvPic -> {
+                    picWhScale()
+                    return
+                }
+
             }
         }
     }
@@ -100,6 +109,7 @@ class ImageViewScaleTypeActivity : BaseActivity() {
                             currentIvAttrScaleType = SCALE_TYPE_CENTER_INSIDE
                         }
                     }
+                    info()
                 }
                 .build()
                 .show()
@@ -133,6 +143,32 @@ class ImageViewScaleTypeActivity : BaseActivity() {
                             currentIvWhScale = WH_SCALE_16_9
                         }
                     }
+                    info()
+                }
+                .build()
+                .show()
+    }
+
+    private fun picWhScale() {
+        QMUIBottomSheet.BottomListSheetBuilder(this)
+                .setGravityCenter(true)
+                .addItem(WH_SCALE_1_1)
+                .addItem(WH_SCALE_9_16)
+                .addItem(WH_SCALE_16_9)
+                .setOnSheetItemClickListener { dialog, itemView, position, tag ->
+                    val layoutParams = binding.iv.layoutParams
+                    when (tag) {
+                        WH_SCALE_1_1 -> {
+                            binding.iv.setImageResource(R.drawable.ic_wh_1_1)
+                        }
+                        WH_SCALE_9_16 -> {
+                            binding.iv.setImageResource(R.drawable.ic_wh_9_16)
+                        }
+                        WH_SCALE_16_9 -> {
+                            binding.iv.setImageResource(R.drawable.ic_wh_16_9)
+                        }
+                    }
+                    info()
                 }
                 .build()
                 .show()
@@ -144,8 +180,12 @@ class ImageViewScaleTypeActivity : BaseActivity() {
         val width = layoutParams.width
         val height = layoutParams.height
 
+        val drawable = binding.iv.drawable as? BitmapDrawable
+        val bitmap = drawable?.bitmap
+
         binding.tvInfo.text = "Iv控件wh：($width,$height), 比例：$currentIvWhScale\n" +
-                "Iv的scaleType属性：$currentIvAttrScaleType\n"
+                "Iv的scaleType属性：$currentIvAttrScaleType\n" +
+                "Pic的wh：(${bitmap?.width},${bitmap?.height})"
     }
 
 
