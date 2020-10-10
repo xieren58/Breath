@@ -23,7 +23,7 @@ import com.zkp.breath.databinding.ActivityIvScaleTypeBinding
  *                      能够保证图片完整显示。因为要"保证图片能够完整显示"，所以只要操作最长边就能实现。
  * CENTER：不进行任何伸缩，图片中点和ImageView重叠，按照ImageView的宽高裁剪图片，保证图片居中显示，不保证图片能够完整显示或者填满控件。
  * CENTER_CROP：按图片比例以可能裁切掉部分图片为代价，让图片充满ImageView。和FIT_XY类似，但和FIT_XY会发生变形但不能保证
- * 完整显示，而CENTER_CROP保证不变形但不保证完整显示。
+ *              完整显示，而CENTER_CROP保证不变形但不保证完整显示。
  * CENTER_INSIDE：当原图任意一边长度大于ImageView的对应边时，相当于FIT_CENTER。当原图两边长度都小于等于ImageView的时候，相当于CENTER。
  *
  */
