@@ -212,7 +212,7 @@ class ImageViewScaleTypeActivity : BaseActivity() {
         val drawable = binding.iv.drawable as? BitmapDrawable
         val bitmap = drawable?.bitmap
 
-        var str: String = ""
+        var str = ""
 
         when (currentIvAttrScaleType) {
             SCALE_TYPE_FIT_XY -> {
@@ -238,7 +238,7 @@ class ImageViewScaleTypeActivity : BaseActivity() {
             }
         }
 
-        binding.tvInfo.text = "$currentIvAttrScaleType:$str\n\n" +
+        binding.tvInfo.text = "$currentIvAttrScaleType：$str\n\n" +
                 "Iv的scaleType属性：$currentIvAttrScaleType\n" +
                 "Iv控件wh：($width,$height), 比例：$currentIvWhScale\n" +
                 "Pic的wh：(${bitmap?.width},${bitmap?.height}), 比例：$currentPicWhScale\n"
