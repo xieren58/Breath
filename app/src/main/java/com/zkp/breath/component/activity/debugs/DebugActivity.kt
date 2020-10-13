@@ -16,6 +16,7 @@ import kotlin.concurrent.thread
 
 /**
  * https://mp.weixin.qq.com/s/ppJ-pRDifyPpQoPIyYbxww
+ * https://mp.weixin.qq.com/s/RArUF06w0utNGaDTnUxGhw
  *
  * 1. 禁用断点 (并非删除断点)，可以右键点击断点并从弹框中取消选中 Enabled 选框。您也可以通过按住 Alt (在 Mac 上
  * 是 Option) 并点击（鼠标左右键都可以）断点，从而更快速地禁用断点。
