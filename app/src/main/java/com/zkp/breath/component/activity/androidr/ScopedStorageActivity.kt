@@ -11,7 +11,9 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityScopedStorageBinding
 import java.io.File
@@ -37,60 +39,53 @@ class ScopedStorageActivity : BaseActivity() {
 
 
     private fun scanMusic() {
+
+        val s = PathUtils.getExternalStoragePath() + "/xiami/"
+        if (FileUtils.isFileExists(s)) {
+            val listFilesInDir = FileUtils.listFilesInDir(s)
+            Log.i("ssd", "scanMusic: ")
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ToastUtils.showShort("sdk 29")
+        }
+
         val musicResolver: ContentResolver = contentResolver
         val musicUri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        val musicCursor: Cursor? = musicResolver.query(musicUri, null, null,
-                null, null)
+        val musicCursor: Cursor? = musicResolver.query(musicUri,
+                null, null, null, null)
 
         if (musicCursor != null && musicCursor.moveToFirst()) {
             // 标题
             val titleColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)
             // id
-            val idColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media._ID)
+            val idColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media._ID)
             // 创建音频文件的艺术家（如果有），即作者
-            val artistColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)
+            val artistColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)
             // 音频文件来自的专辑的ID（如果有）
-            val albumId = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
+            val albumIdColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
             // 磁盘上媒体项的绝对文件系统路径
-            val data = musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA)
+            val dataColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA)
             // 音频文件的录制年份（如果有）
-            val columnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.YEAR)
+            val yearColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.YEAR)
             // 时长
-            val columnIndex1 = musicCursor.getColumnIndex(MediaStore.Audio.Media.DURATION)
+            val durationColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.DURATION)
+            // 是否音乐
+            val isMusicColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC)
 
             do {
+                val id = if (idColumnIndex != -1) musicCursor.getLong(idColumnIndex) else -1L
+                val title = if (titleColumnIndex != -1) musicCursor.getString(titleColumnIndex) else ""
+                val artist = if (artistColumnIndex != -1) musicCursor.getString(artistColumnIndex) else ""
+                val albumId = if (albumIdColumnIndex != -1) musicCursor.getLong(albumIdColumnIndex) else -1L
+                val data = if (dataColumnIndex != -1) musicCursor.getString(dataColumnIndex) else ""
+                val year = if (yearColumnIndex != -1) musicCursor.getString(yearColumnIndex) else ""
+                val duration = if (durationColumnIndex != -1) musicCursor.getString(durationColumnIndex) else ""
+                val isMusic = if (isMusicColumnIndex != -1) musicCursor.getString(isMusicColumnIndex) else ""
 
+                Log.i("音乐信息", "id:$id, title:$title, artist:$artist," +
+                        " albumId:$albumId, data:$data, year:$year, duration:$duration, isMusic:$isMusic")
 
-
-                val thisId = musicCursor.getLong(idColumn)
-                val thisTitle = musicCursor.getString(titleColumnIndex)
-                val thisArtist = try {
-                    musicCursor.getString(artistColumn)
-                } catch (e: Exception) {
-                    ""
-                }
-                val thisalbumId = try {
-                    musicCursor.getLong(albumId)
-                } catch (e: Exception) {
-                    0L
-                }
-                val thisdata = try {
-                    musicCursor.getString(data)
-                } catch (e: Exception) {
-                    ""
-                }
-                val year = try {
-                    musicCursor.getString(columnIndex)
-                } catch (e: Exception) {
-                    ""
-                }
-                val duration = try {
-                    musicCursor.getString(columnIndex1)
-                } catch (e: Exception) {
-                    ""
-                }
-                Log.i("xxxx", "thisId:$thisId,thisTitle:$thisTitle,thisArtist:$thisArtist," +
-                        "thisalbumId:$thisalbumId,thisdata:$thisdata,year:$year,duration:$duration")
             } while (musicCursor.moveToNext())
         }
         musicCursor?.close()
