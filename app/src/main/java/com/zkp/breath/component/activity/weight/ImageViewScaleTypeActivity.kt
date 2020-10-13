@@ -22,8 +22,7 @@ import com.zkp.breath.databinding.ActivityIvScaleTypeBinding
  * FIT_CENTER，FIT_END，FIT_START：按照图片原比例伸缩，直到图片最长边和ImageView对应的宽或高重叠，
  *                      能够保证图片完整显示。因为要"保证图片能够完整显示"，所以只要操作最长边就能实现。
  * CENTER：不进行任何伸缩，图片中点和ImageView重叠，按照ImageView的宽高裁剪图片，保证图片居中显示，不保证图片能够完整显示或者填满控件。
- * CENTER_CROP：按图片比例以可能裁切掉部分图片为代价，让图片充满ImageView。和FIT_XY类似，但和FIT_XY会发生变形但不能保证
- *              完整显示，而CENTER_CROP保证不变形但不保证完整显示。
+ * CENTER_CROP：按图片比例以可能裁切掉部分图片为代价，让图片充满ImageView。因为要"保证图片充满控件"，所以只要操作最短边就能实现。
  * CENTER_INSIDE：当原图任意一边长度大于ImageView的对应边时，相当于FIT_CENTER。当原图两边长度都小于等于ImageView的时候，相当于CENTER。
  *
  */
@@ -213,7 +212,34 @@ class ImageViewScaleTypeActivity : BaseActivity() {
         val drawable = binding.iv.drawable as? BitmapDrawable
         val bitmap = drawable?.bitmap
 
-        binding.tvInfo.text = "Iv的scaleType属性：$currentIvAttrScaleType\n" +
+        var str: String = ""
+
+        when (currentIvAttrScaleType) {
+            SCALE_TYPE_FIT_XY -> {
+                str = "不按图片原比例伸缩，强制让图片充满ImageVie，图片可以完整显示但可能会变形。"
+            }
+            SCALE_TYPE_FIT_START -> {
+                str = "按照图片原比例伸缩，直到图片最长边和ImageView对应的宽或高重叠，能够保证图片完整显示。因为要\"保证图片能够完整显示\"，所以只要操作最长边就能实现。"
+            }
+            SCALE_TYPE_FIT_CENTER -> {
+                str = "按照图片原比例伸缩，直到图片最长边和ImageView对应的宽或高重叠，能够保证图片完整显示。因为要\"保证图片能够完整显示\"，所以只要操作最长边就能实现。"
+            }
+            SCALE_TYPE_FIT_END -> {
+                str = "按照图片原比例伸缩，直到图片最长边和ImageView对应的宽或高重叠，能够保证图片完整显示。因为要\"保证图片能够完整显示\"，所以只要操作最长边就能实现。"
+            }
+            SCALE_TYPE_CENTER -> {
+                str = "不进行任何伸缩，图片中点和ImageView重叠，按照ImageView的宽高裁剪图片，保证图片居中显示，不保证图片能够完整显示或者填满控件。"
+            }
+            SCALE_TYPE_CENTER_CROP -> {
+                str = "按图片比例以可能裁切掉部分图片为代价，让图片充满ImageView。因为要\"保证图片充满控件\"，所以只要操作最短边就能实现。"
+            }
+            SCALE_TYPE_CENTER_INSIDE -> {
+                str = "CENTER_INSIDE：当原图任意一边长度大于ImageView的对应边时，相当于FIT_CENTER。当原图两边长度都小于等于ImageView的时候，相当于CENTER。"
+            }
+        }
+
+        binding.tvInfo.text = "$currentIvAttrScaleType:$str\n\n" +
+                "Iv的scaleType属性：$currentIvAttrScaleType\n" +
                 "Iv控件wh：($width,$height), 比例：$currentIvWhScale\n" +
                 "Pic的wh：(${bitmap?.width},${bitmap?.height}), 比例：$currentPicWhScale\n"
 
