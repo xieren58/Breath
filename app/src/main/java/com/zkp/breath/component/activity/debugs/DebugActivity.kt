@@ -18,8 +18,9 @@ import kotlin.concurrent.thread
  * https://mp.weixin.qq.com/s/ppJ-pRDifyPpQoPIyYbxww
  *
  * 1. 禁用断点 (并非删除断点)，可以右键点击断点并从弹框中取消选中 Enabled 选框。您也可以通过按住 Alt (在 Mac 上
- * 是 Option) 并点击断点，从而更快速地禁用断点。
- * 2. 断点列表对断点分组
+ * 是 Option) 并点击（鼠标左右键都可以）断点，从而更快速地禁用断点。
+ * 2. ctrl + F8  快捷键设置/取消断点
+ * 3. 断点列表对断点分组
  */
 class DebugActivity : BaseActivity() {
 
