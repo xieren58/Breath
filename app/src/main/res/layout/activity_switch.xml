@@ -7,21 +7,30 @@
     android:background="@color/colorFFFFFF">
 
     <!--
-        switchMinWidth：整个的宽度
+        switchPadding：text的内容和switch的间距
+        switchMinWidth：switch控件的宽度
         thumbTint：按钮（圆）颜色
         trackTint：轨道（椭圆）颜色
+        switchTextAppearance：设置textOff和textOn的文字样式
     -->
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_compat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="SwitchCompat"
+        android:textOff="关"
+        android:textOn="开"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:showText="true"
         app:switchMinWidth="100dp"
-        app:thumbTint="#8844FF"
-        app:trackTint="#808844FF" />
+        app:switchPadding="50dp"
+        app:switchTextAppearance="@style/SwitchText"
+        app:thumbTint="#ffFAFAFA"
+        app:trackTint="#ffE8E8E8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
