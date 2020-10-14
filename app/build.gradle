@@ -252,4 +252,7 @@ dependencies {
 
     // 腾讯ui
     implementation 'com.qmuiteam:qmui:2.0.0-alpha10'
+
+    // switchbutton
+    implementation 'com.kyleduo.switchbutton:library:2.0.2'
 }
