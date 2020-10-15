@@ -15,7 +15,7 @@ import com.zkp.breath.databinding.ActivitySwitchBinding
  * 1.layout_width和layout_height只能wrap_content，如果设置match_parent或者具体数据其实相当于设置
  *   父控件的大小（这时候可以看成还有一层父控件）
  * 2.只能通过switchMinWidth设置宽度
- * 3.
+ * 3.不能单独调整圆点和椭圆的大小，样式等等
  */
 class SwitchActivity : BaseActivity() {
 
@@ -35,5 +35,6 @@ class SwitchActivity : BaseActivity() {
                     if (b) 0x808844FF.toInt() else 0xffE8E8E8.toInt())
         }
     }
+
 
 }

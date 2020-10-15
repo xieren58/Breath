@@ -13,7 +13,6 @@
         trackTint：轨道（椭圆）颜色
         switchTextAppearance：设置textOff和textOn的文字样式
     -->
-
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_compat"
         android:layout_width="wrap_content"
@@ -32,5 +31,21 @@
         app:switchTextAppearance="@style/SwitchText"
         app:thumbTint="#ffFAFAFA"
         app:trackTint="#ffE8E8E8" />
+
+    <!--
+        kswFadeBack：从开到关或者关到开，back会有一个透明度渐变。默认关闭
+    -->
+    <com.kyleduo.switchbutton.SwitchButton
+        android:id="@+id/switch_btn"
+        style="@style/SwitchButtonStyleMD"
+        android:layout_width="50dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="100dp"
+        app:kswBackColor="@color/color008577"
+        app:kswFadeBack="false"
+        app:kswThumbColor="@color/colorFF5722"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/switch_compat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
