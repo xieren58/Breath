@@ -47,4 +47,21 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/switch_compat" />
 
+    <com.liys.lswitch.LSwitch
+        android:id="@+id/lswitch"
+        android:layout_width="38dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="100dp"
+        app:checked="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/switch_btn"
+        app:thumb_color_off="@color/colorFF5722"
+        app:thumb_color_on="@color/colorFF5722"
+        app:thumb_height="20dp"
+        app:thumb_width="20dp"
+        app:track_color_off="@color/color008577"
+        app:track_color_on="@color/color008577"
+        app:track_height="14dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
