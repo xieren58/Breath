@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorFFFFFFFF">
+    android:layout_height="match_parent">
 
     <!--
         switchPadding：text的内容和switch的间距
@@ -33,11 +32,15 @@
         app:switchTextAppearance="@style/SwitchText"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
+
     <!--
         kswFadeBack：从开到关或者关到开，back会有一个透明度渐变。默认开启
         kswThumbRangeRatio: track和thumb的宽度比例，通过这个属性修改track的宽度
         kswThumbMarginBottom，kswThumbMarginTop：数值为负数，可以改变track的高度
         kswBackColor:track的颜色
+        kswThumbColor:thumb的颜色
+        kswBackDrawable:可以设置back的selector
+        kswThumbDrawable:可以设置thumb的selector
         kswBackRadius:track的圆角度数
         kswThumbWidth，kswThumbHeight：thumb的宽高
     -->
@@ -46,10 +49,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        app:kswBackColor="@color/colorFF008577"
+        app:kswBackDrawable="@drawable/selector_switch_track"
         app:kswBackRadius="22dp"
         app:kswFadeBack="false"
-        app:kswThumbColor="@color/colorFFFF5722"
+        app:kswThumbDrawable="@drawable/selector_switch_thumb"
         app:kswThumbHeight="100dp"
         app:kswThumbMarginBottom="-20dp"
         app:kswThumbMarginTop="-20dp"
