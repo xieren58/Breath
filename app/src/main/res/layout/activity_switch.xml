@@ -63,7 +63,8 @@
         app:layout_constraintTop_toBottomOf="@id/switch_compat" />
 
     <!--
-
+        缺点：只能设置颜色，不能设置资源。
+        优点：设置thumb和track的宽高都比较简单直接。
     -->
     <com.liys.lswitch.LSwitch
         android:id="@+id/lswitch"

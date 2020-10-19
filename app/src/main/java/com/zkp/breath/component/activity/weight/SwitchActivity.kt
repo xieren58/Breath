@@ -6,9 +6,7 @@ import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivitySwitchBinding
 
 /**
- * https://blog.csdn.net/jiangtea/article/details/71189438
- * https://www.jianshu.com/p/796e2f7f0ed2
- *
+ * 推荐：https://github.com/kyleduo/SwitchButton
  *
  * 原生的switch的缺点：
  * 1.layout_width和layout_height只能wrap_content，如果设置match_parent或者具体数据其实相当于设置
