@@ -1,18 +1,12 @@
 package com.zkp.breath.utils;
 
 import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.widget.RemoteViews;
 
-import androidx.core.app.NotificationCompat;
-
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.NotificationUtils;
 import com.blankj.utilcode.util.ProcessUtils;
 import com.blankj.utilcode.util.ThreadUtils;
-import com.blankj.utilcode.util.Utils;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.commonsdk.statistics.common.DeviceConfig;
@@ -99,8 +93,8 @@ public class UmUtils {
                                 R.layout.view_notification);
                         remoteViews.setTextViewText(R.id.notification_title, msg.title);
                         remoteViews.setTextViewText(R.id.notification_text, msg.text);
-                        remoteViews.setImageViewResource(R.id.notification_large_icon, R.drawable.bg_rcv_item);
-                        remoteViews.setImageViewResource(R.id.notification_small_icon, R.drawable.bg_rcv_item);
+                        remoteViews.setImageViewResource(R.id.notification_large_icon, R.drawable.shape_bg_rcv_item);
+                        remoteViews.setImageViewResource(R.id.notification_small_icon, R.drawable.shape_bg_rcv_item);
 
                         builder.setSmallIcon(getSmallIconId(context, msg))
                                 .setTicker(msg.ticker)

@@ -9,7 +9,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="依赖断点的前置断点"
-        android:textColor="@color/colorFFFFFF"
+        android:textColor="@color/colorFFFFFFFF"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -20,7 +20,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="异常断点"
-        android:textColor="@color/colorFFFFFF"
+        android:textColor="@color/colorFFFFFFFF"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -20,5 +20,5 @@ import com.zkp.breath.R
 
 @BindingAdapter("url", requireAll = false)
 fun bindImgUrl(imageView: ImageView, url: String?) {
-    Glide.with(imageView.context).load(url).error(R.drawable.bg_rcv_item).into(imageView)
+    Glide.with(imageView.context).load(url).error(R.drawable.shape_bg_rcv_item).into(imageView)
 }

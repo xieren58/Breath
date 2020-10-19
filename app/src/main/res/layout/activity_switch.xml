@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorFFFFFF">
+    android:background="@color/colorFFFFFFFF">
 
     <!--
         switchPadding：text的内容和switch的间距
@@ -13,7 +13,7 @@
         trackTint：轨道（椭圆）颜色
         switchTextAppearance：设置textOff和textOn的文字样式
     -->
-    <androidx.appcompat.widget.SwitchCompat
+    <Switch
         android:id="@+id/switch_compat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,16 +21,16 @@
         android:textOff="关"
         android:textOn="开"
         android:textSize="20sp"
+        android:thumb="@drawable/selector_switch_thumb"
+        android:track="@drawable/selector_switch_track"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:showText="true"
-        app:switchMinWidth="100dp"
         app:switchPadding="50dp"
         app:switchTextAppearance="@style/SwitchText"
-        app:thumbTint="#ffFAFAFA"
-        app:trackTint="#ffE8E8E8" />
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <!--
         kswFadeBack：从开到关或者关到开，back会有一个透明度渐变。默认关闭
@@ -40,9 +40,9 @@
         android:layout_width="50dp"
         android:layout_height="23dp"
         android:layout_marginTop="100dp"
-        app:kswBackColor="@color/color008577"
+        app:kswBackColor="@color/colorFF008577"
         app:kswFadeBack="false"
-        app:kswThumbColor="@color/colorFF5722"
+        app:kswThumbColor="@color/colorFFFF5722"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/switch_compat" />
@@ -56,12 +56,12 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/switch_btn"
-        app:thumb_color_off="@color/colorFF5722"
-        app:thumb_color_on="@color/colorFF5722"
+        app:thumb_color_off="@color/colorFFFF5722"
+        app:thumb_color_on="@color/colorFFFF5722"
         app:thumb_height="20dp"
         app:thumb_width="20dp"
-        app:track_color_off="@color/color008577"
-        app:track_color_on="@color/color008577"
+        app:track_color_off="@color/colorFF008577"
+        app:track_color_on="@color/colorFF008577"
         app:track_height="14dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

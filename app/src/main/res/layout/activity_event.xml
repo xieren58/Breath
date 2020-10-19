@@ -9,12 +9,12 @@
         android:id="@+id/b_v"
         android:layout_width="500dp"
         android:layout_height="500dp"
-        android:background="@color/color00574B" />
+        android:background="@color/colorFF00574B" />
 
     <com.zkp.breath.views.events.CView
         android:id="@+id/c_v"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:background="@color/colorD81B60" />
+        android:background="@color/colorFFD81B60" />
 
 </com.zkp.breath.views.events.AViewGroup>

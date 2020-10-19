@@ -1,6 +1,5 @@
 package com.zkp.breath.component.activity.weight
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import com.zkp.breath.component.activity.base.BaseActivity
@@ -26,14 +25,22 @@ class SwitchActivity : BaseActivity() {
         binding = ActivitySwitchBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-        binding.switchCompat.setOnCheckedChangeListener { compoundButton, b ->
-
-            binding.switchCompat.thumbTintList = ColorStateList.valueOf(
-                    if (b) 0xff8844FF.toInt() else 0xffFAFAFA.toInt())
-
-            binding.switchCompat.trackTintList = ColorStateList.valueOf(
-                    if (b) 0x808844FF.toInt() else 0xffE8E8E8.toInt())
-        }
+//        binding.switchCompat.setThumbResource(R.drawable.selector_switch_thumb)
+//        binding.switchCompat.setTrackResource(R.drawable.selector_switch_track)
+//
+//        binding.switchCompat.setOnCheckedChangeListener { compoundButton, b ->
+//
+////            binding.switchCompat.thumbTintList = ColorStateList.valueOf(
+////                    if (b) 0xff8844FF.toInt() else 0xffFAFAFA.toInt())
+////
+////            binding.switchCompat.trackTintList = ColorStateList.valueOf(
+////                    if (b) 0x808844FF.toInt() else 0xffE8E8E8.toInt())
+//
+////            binding.switchCompat.setThumbResource(R.drawable.selector_switch_thumb)
+////            binding.switchCompat.setTrackResource(R.drawable.selector_switch_track)
+//
+//
+//        }
     }
 
 

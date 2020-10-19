@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorFFFFFF"
+    android:background="@color/colorFFFFFFFF"
     app:layoutDescription="@xml/activity_motion_scene"
     app:showPaths="true">
 
@@ -17,13 +17,13 @@
         android:id="@+id/view1"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@color/color000000" />
+        android:background="@color/colorFF000000" />
 
     <View
         android:id="@+id/view2"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@color/color3F51B5" />
+        android:background="@color/colorFF3F51B5" />
 
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

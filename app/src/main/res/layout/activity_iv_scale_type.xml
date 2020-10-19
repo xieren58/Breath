@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="360dp"
         android:layout_marginTop="50dp"
-        android:background="@color/color000000"
+        android:background="@color/colorFF000000"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -18,7 +18,7 @@
             android:layout_width="360dp"
             android:layout_height="360dp"
             android:layout_gravity="center"
-            android:background="@color/colorFFFFFF"
+            android:background="@color/colorFFFFFFFF"
             android:scaleType="fitCenter" />
 
     </FrameLayout>
@@ -50,7 +50,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:background="@color/colorFFFFFF"
+        android:background="@color/colorFFFFFFFF"
         android:gravity="center"
         android:text="ImageView控件宽高比"
         android:textSize="18sp"
@@ -64,7 +64,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:background="@color/colorFFFFFF"
+        android:background="@color/colorFFFFFFFF"
         android:gravity="center"
         android:text="scaleType属性"
         android:textSize="18sp"
@@ -77,7 +77,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:background="@color/colorFFFFFF"
+        android:background="@color/colorFFFFFFFF"
         android:gravity="center"
         android:text="图片比例选择"
         android:textSize="18sp"
