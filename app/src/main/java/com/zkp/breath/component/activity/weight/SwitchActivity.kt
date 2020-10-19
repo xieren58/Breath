@@ -25,22 +25,19 @@ class SwitchActivity : BaseActivity() {
         binding = ActivitySwitchBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-//        binding.switchCompat.setThumbResource(R.drawable.selector_switch_thumb)
-//        binding.switchCompat.setTrackResource(R.drawable.selector_switch_track)
-//
-//        binding.switchCompat.setOnCheckedChangeListener { compoundButton, b ->
-//
-////            binding.switchCompat.thumbTintList = ColorStateList.valueOf(
-////                    if (b) 0xff8844FF.toInt() else 0xffFAFAFA.toInt())
-////
-////            binding.switchCompat.trackTintList = ColorStateList.valueOf(
-////                    if (b) 0x808844FF.toInt() else 0xffE8E8E8.toInt())
-//
-////            binding.switchCompat.setThumbResource(R.drawable.selector_switch_thumb)
-////            binding.switchCompat.setTrackResource(R.drawable.selector_switch_track)
-//
-//
-//        }
+        // 设置切换监听
+        binding.switchCompat.setOnCheckedChangeListener { compoundButton, b ->
+
+            // 设置颜色
+//            binding.switchCompat.thumbTintList = ColorStateList.valueOf(
+//                    if (b) 0xff8844FF.toInt() else 0xffFAFAFA.toInt())
+//            binding.switchCompat.trackTintList = ColorStateList.valueOf(
+//                    if (b) 0x808844FF.toInt() else 0xffE8E8E8.toInt())
+
+            // 设置资源
+//            binding.switchCompat.setThumbResource(R.drawable.selector_switch_thumb)
+//            binding.switchCompat.setTrackResource(R.drawable.selector_switch_track)
+        }
     }
 
 

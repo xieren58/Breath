@@ -12,6 +12,7 @@
         thumbTint：按钮（圆）颜色
         trackTint：轨道（椭圆）颜色
         switchTextAppearance：设置textOff和textOn的文字样式
+        thumb,track: 内部的shape定义的宽高都没效果，官方的switch真是辣鸡。
     -->
     <Switch
         android:id="@+id/switch_compat"
