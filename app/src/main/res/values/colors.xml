@@ -5,9 +5,12 @@
     <color name="colorFFD81B60">#FFD81B60</color>
     <color name="colorFF3F51B5">#FF3F51B5</color>
     <color name="colorFFFFFFFF">#FFFFFFFF</color>
+    <color name="colorFFE8E8E8">#FFE8E8E8</color>
     <color name="colorFF000000">#FF000000</color>
+    <color name="color3D000000">#3D000000</color>
     <color name="colorFFFF5722">#FFFF5722</color>
     <color name="colorFF8844FF">#FF8844FF</color>
     <color name="color808844FF">#808844FF</color>
-    <color name="colorFFE8E8E8">#FFE8E8E8</color>
+    <color name="colorFF4488FF">#FF4488FF</color>
+    <color name="color804488FF">#804488FF</color>
 </resources>

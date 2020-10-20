@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--不可点击状态-->
+    <item android:drawable="@drawable/shape_r18_a0_808844ff_804488ff_rect" android:state_enabled="false" />
+    <!--普通状态, state_enabled="true"覆盖此状态，所以不要设置state_enabled="true"-->
+    <item android:drawable="@drawable/shape_r18_a0_ff8844ff_ff4488ff_rect" android:state_pressed="false" />
+    <!--点击时状态, state_enabled="true"设置后此状态无效，所以不要设置state_enabled="true"-->
+    <item android:drawable="@drawable/layer_r18_a0_ff8844ff_ff4488ff_rect" android:state_pressed="true" />
+</selector>

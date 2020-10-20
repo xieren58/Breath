@@ -84,6 +84,7 @@
         <activity android:name=".component.activity.weight.ViewPager2Activity" />
         <activity android:name=".component.activity.weight.ImageViewScaleTypeActivity" />
         <activity android:name=".component.activity.weight.SwitchActivity" />
+        <activity android:name=".component.activity.weight.ButtonActivity" />
 
         <activity android:name=".component.activity.mvx.MvcActivity">
             <intent-filter>

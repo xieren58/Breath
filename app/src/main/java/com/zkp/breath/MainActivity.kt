@@ -13,6 +13,7 @@ import com.zkp.breath.component.activity.*
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.activity.debugs.DebugActivity
 import com.zkp.breath.component.activity.jetpack.*
+import com.zkp.breath.component.activity.weight.ButtonActivity
 import com.zkp.breath.component.activity.weight.ImageViewScaleTypeActivity
 import com.zkp.breath.component.activity.weight.MotionLayoutActivity
 import com.zkp.breath.component.activity.weight.SwitchActivity
@@ -24,7 +25,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val listOf = mutableListOf(
-            "Switch",
+            "Button", "Switch",
             "ImageViewScaleType", "MotionLayout", "Debug",
             "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service",
             "JetPackStartUp", "JetPackViewModel", "JetPackViewBinding",
@@ -55,6 +56,9 @@ class MainActivity : BaseActivity() {
 
     private val onItemChildClickListener = OnItemClickListener { _, _, position ->
         when (val type = listOf[position]) {
+            "Button" -> {
+                ActivityUtils.startActivity(ButtonActivity::class.java)
+            }
             "Switch" -> {
                 ActivityUtils.startActivity(SwitchActivity::class.java)
             }
