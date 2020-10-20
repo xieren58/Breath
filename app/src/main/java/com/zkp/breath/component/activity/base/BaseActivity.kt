@@ -117,6 +117,11 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
         Log.i(ACTIVITY_TAG, "onResume()")
     }
 
+    override fun onPostResume() {
+        super.onPostResume()
+        Log.i(ACTIVITY_TAG, "onPostResume()")
+    }
+
     override fun onPause() {
         super.onPause()
         Log.i(ACTIVITY_TAG, "onPause()")
