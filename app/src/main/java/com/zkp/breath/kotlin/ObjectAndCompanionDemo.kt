@@ -1,7 +1,7 @@
 package com.zkp.breath.kotlin
 
 /**
- * 1.object修饰一个类，则该类就是（线程安全）的饿汉式的单例。
+ * 1.object修饰一个类，则该类就是（线程安全）的饿汉式的单例；也可以用来创建一个匿名内部类的实例。
  * 2.companion object：伴生对象，一个类中最多只有一个伴生对象。其实就是一个默认类名为Companion的final静态内部类，
  *   外部类持有Companion类实例的变量，所以外部类可以访问Companion的方法或者变量。companion object就等价java的
  *   静态变量和静态方法的写法，但实际其实不是，且kotlin没有静态变量和静态方法这两个概念。
@@ -56,36 +56,6 @@ class LazySingletonKt private constructor() {
     }
 }
 
-class ObjectClass {
-
-    // 感觉这几种定义方式都无意义！！！
-    // ==========================================
-    // ==========================================
-    // Private function, so the return type is the annoymouse object type
-    private fun foo() = object {
-        val x: String = "x"
-    }
-
-    // Public function, so the return type is Any
-    fun publicFoo() = object {
-        val x: String = "X"
-    }
-
-    // 返回值为any的，匿名对象的成员也是不可访问的
-    fun publicFoo2(): Any {
-        return object {
-            val x: String = "X"
-        }
-    }
-    // ==========================================
-    // ==========================================
-
-
-    fun bar() {
-        val x1 = foo().x        // works
-    }
-}
-
 // ===================================
 // ===================================
 
@@ -118,9 +88,10 @@ interface TempI
 
 /**
  * 伴生对象支持@JvmStatic,@JvmField:
- * 他们作用主要是为了在Kotlin伴生对象中定义的一个函数或属性，能够在Java中像调用静态函数和静态属性那样类名.函数名/属性名方式调用，
- * 让Java开发者完全无法感知这是一个来自Kotlin伴生对象中的函数或属性。如果不加注解那么在Java中调用方式就是类名.Companion.函数名/属性名。
- * 你让一个Java开发者知道Companion存在，只会让他一脸懵逼。
+ *
+ * 他们作用主要是为了在Kotlin伴生对象中定义的一个函数或属性，能够在Java中像调用静态函数和静态属性那样类名.函数名/属性名
+ * 方式调用，让Java开发者完全无法感知这是一个来自Kotlin伴生对象中的函数或属性。如果不加注解那么在Java中调用方式就是
+ * 类名.Companion.函数名/属性名。你让一个Java开发者知道Companion存在，只会让他一脸懵逼。
  */
 class Four {
     companion object {
@@ -195,7 +166,4 @@ fun main() {
     // 可以省略伴生对象名
     println(Five.X.function())
 
-    val objectClass = ObjectClass()
-    val publicFoo = objectClass.publicFoo()
-    val publicFoo2 = objectClass.publicFoo2()
 }
