@@ -2,9 +2,10 @@ package com.zkp.breath.kotlin
 
 /**
  * 1.object修饰一个类，则该类就是（线程安全）的饿汉式的单例；也可以用来创建一个匿名内部类的实例。
- * 2.companion object：伴生对象，一个类中最多只有一个伴生对象。其实就是一个默认类名为Companion的final静态内部类，
- *   外部类持有Companion类实例的变量，所以外部类可以访问Companion的方法或者变量。companion object就等价java的
- *   静态变量和静态方法的写法，但实际其实不是，且kotlin没有静态变量和静态方法这两个概念。
+ * 2.companion object：伴生对象，一个类中最多只有一个伴生对象。其实就是一个默认类名为Companion的final静态内部类
+ * （ private默认构造方法，只有一个特定的kotlin编译器调用的public构造方法，所以我们不能人为创建实例），外部类持有
+ * Companion类实例的变量，所以外部类可以访问Companion的方法或者变量。companion object就等价java的静态变量和静
+ * 态方法的写法，但实际其实不是，且kotlin没有静态变量和静态方法这两个概念。
  *
  * 常量（编译时常量）：
  * 1.Kotlin 的常量（const val）必须声明在object类，companion object，「top-level 顶层」这三者其一中。
@@ -84,8 +85,6 @@ object Three : One(20), Two {
 // ===================================
 // ===================================
 
-interface TempI
-
 /**
  * 伴生对象支持@JvmStatic,@JvmField:
  *
@@ -119,7 +118,7 @@ class Four {
  * 中自然也是放在 companion object 中的，像类的初始化代码一样，由 init 和一对大括号表示：
  */
 class Five {
-    companion object X : TempI {
+    companion object X {
         // 静态初始化，相当于java的static代码块，只会执行一次
         init {
             println("伴生对象静的态初始化init{}")
@@ -132,7 +131,6 @@ class Five {
 }
 
 fun main() {
-    // 知识点2
     // 对象表达式在这里的用法可以理解为继承，object代表一个匿名的类
     // 直接创建一个匿名类的对象然后赋值给变量one
     var one = object : One(20), Two {
@@ -148,7 +146,6 @@ fun main() {
     println("${one.age}")
     one.newAddFunction()
 
-    // 知识点3
     var tempObject = object {
         var s: String = "哈哈"
         fun muFuntion() {
