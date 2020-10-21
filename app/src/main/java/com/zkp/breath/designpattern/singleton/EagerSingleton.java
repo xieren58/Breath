@@ -21,7 +21,7 @@ public class EagerSingleton {
     }
 
     // 3. 通过调用静态方法获得创建的单例
-    public static EagerSingleton newInstance() {
+    public static EagerSingleton getInstance() {
         return ourInstance;
     }
 }
