@@ -8,9 +8,9 @@ package com.zkp.breath.kotlin
  * 去限制类的结构体系，表示目前只有这几种子类，别人用的时候就只能传入这几种子类类型；或者实在要创建多一个子类，那么when就会提示你多了一个
  * 子类类型，代码中应该去涵盖这个子类的判断，说到底就是一种 “提示（when）和限制类结构体系的作用”
  *
- * 密封类本身是一个抽象类，所以无法直接实例化()。
- * 密封类的子类声明必须在同一文件中。（这是规定，不要问为什么）
- * 密封类的子类可以不用嵌套在密封类中。
+ * 1. 密封类本身是一个抽象类，所以无法直接实例化()。
+ * 2. 密封类的子类必须声明在和密封类同一文件中。
+ * 3. 密封类的子类可以不用嵌套在密封类中。
  */
 sealed class Fruit
 
@@ -35,22 +35,57 @@ fun opreate(f: Fruit) = when (f) {
 
 sealed class Fruit1 {
 
+    abstract fun absMethod()
+
     class Apple1 : Fruit1() {
-        fun opreate() = println("苹果")
+        override fun absMethod() = println("苹果")
     }
 
     class Banana1 : Fruit1() {
-        fun opreate() = println("香蕉")
+        override fun absMethod() = println("香蕉")
     }
 
     class Watemelon1 : Fruit1() {
-        fun opreate() = println("苹果")
+        override fun absMethod() = println("西瓜")
+    }
+
+    data class Strawberry(val data: String) : Fruit1() {
+        override fun absMethod() = println("西瓜")
+    }
+
+    object Chestnut : Fruit1() {
+        override fun absMethod() = println("栗子")
+    }
+
+    sealed class ChinaFruit : Fruit1() {
+
+        class Pear : ChinaFruit() {
+            override fun absMethod() {
+                println("梨")
+            }
+        }
+
+        class Pineapple : ChinaFruit() {
+            override fun absMethod() {
+                println("凤梨")
+            }
+        }
     }
 }
 
-// 判断类型，前面要加嵌套类的类名
-fun opreate(f: Fruit1) = when (f) {
-    is Fruit1.Apple1 -> f.opreate()
-    is Fruit1.Banana1 -> f.opreate()
-    is Fruit1.Watemelon1 -> f.opreate()
+fun main() {
+    val o1 = Fruit1.Chestnut
+    val o2 = Fruit1.ChinaFruit.Pineapple()
+    val o3 = Fruit1.Strawberry("草莓")
+    methodDemo1(o1)
+}
+
+fun methodDemo1(f: Fruit1) = when (f) {
+    is Fruit1.Apple1 -> f.absMethod()
+    is Fruit1.Banana1 -> f.absMethod()
+    is Fruit1.Watemelon1 -> f.absMethod()
+    is Fruit1.Strawberry -> f.absMethod()
+    Fruit1.Chestnut -> f.absMethod()
+    is Fruit1.ChinaFruit.Pear -> f.absMethod()
+    is Fruit1.ChinaFruit.Pineapple -> f.absMethod()
 }
