@@ -11,6 +11,7 @@ import java.lang.Integer.parseInt
  */
 @Throws(IOException::class, NullPointerException::class, NumberFormatException::class)
 fun sayHi() {
+    throw NullPointerException("空指针异常")
 }
 
 fun main() {
