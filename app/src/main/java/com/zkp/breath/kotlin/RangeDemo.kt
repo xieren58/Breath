@@ -17,6 +17,12 @@ fun main() {
     // 使用reversed反转
     val reversed = intRange2.reversed()
 
+    // 首位
+    val first = intRange2.first
+    // 末尾
+    val last = intRange2.last
+    // 步长
+    val step = intRange2.step
 
     // 遍历区间
     for (i in intRange2) {
