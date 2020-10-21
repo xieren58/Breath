@@ -4,11 +4,18 @@ package com.zkp.breath.kotlin
  * kotlin的区间（在 Java 语言中并没有 Range 的概念）
  */
 fun main() {
-    val rangeTo1 = 1.rangeTo(10) // [0,10]
-    val intRange2 = 0..10    // [0,10]
-    val intRange3 = 0 until 10  //[0,10)
-    val intRange4 = 4 downTo 1  //[4,1]，递减不能使用..(遍历是无效的，即for{}内的逻辑不会被执行)，as会提示使用downTo
-    val reversed = intRange2.reversed() // 使用reversed反转
+
+    // [0,10]
+    val rangeTo1 = 1.rangeTo(10)
+    // [0,10]
+    val intRange2 = 0..10
+    //[0,10)
+    val intRange3 = 0 until 10
+    //[4,1]，递减不能使用..(遍历是无效的，即for{}内的逻辑不会被执行)，as会提示使用downTo
+//    val intRange4 = 4 .. 1
+    val intRange4 = 4 downTo 1
+    // 使用reversed反转
+    val reversed = intRange2.reversed()
 
 
     // 遍历区间
