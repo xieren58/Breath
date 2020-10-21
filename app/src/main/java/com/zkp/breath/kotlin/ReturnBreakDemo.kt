@@ -37,7 +37,7 @@ fun label() {
  */
 fun return1() {
     // 因为该函数的lambda存在返回值
-    // 可以return 是因为该函数是inline函数, 这里的return是结束整个return2函数，是允许的。
+    // 可以return 是因为该函数是inline函数, 这里的return是结束整个return1函数，是允许的。
     // 不能return@ordinaryFunction2是因为该lambda表达式有返回值，不能直接跳出。
     ordinaryFunction2 {
         ""
