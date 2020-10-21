@@ -84,6 +84,9 @@ fun foo1() {
     println("this point is unreachable")
 }
 
+/**
+ * 内联函数的lambda表达式直接return，如果不想退出到最外层函数，那么可以在内联函数外套一层本地函数。
+ */
 fun foo2() {
     val listOf = listOf(1, 2, 3, 4, 5)
 
@@ -99,6 +102,9 @@ fun foo2() {
     println("this point is unreachable")
 }
 
+/**
+ * 内联函数的无返回值lambda表达式，可以使用"@+标签"退出lambda表达式，以便方法继续往下执行。
+ */
 fun foo3() {
     listOf(1, 2, 3, 4, 5).forEach {
         // foreach内联函数的lambda表达式参数没有返回值，允许局部返回（相当于continue），返回到lambda表达式调用者，即 forEach（）
