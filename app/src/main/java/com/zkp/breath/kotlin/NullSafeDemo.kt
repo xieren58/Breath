@@ -91,10 +91,9 @@ fun tes4(): String? {
     // 注意：如果 tes4_C() 返回的值为null那么直接return结束该方法，而如果能够继续往下执行，那么表示该返回值一定是非空类型。
     val parent = tes4_C() ?: return null
 
-
+    // 👆等价👇
     val tes4C = tes4_C()
     if (tes4C == null) return null
-
 
     // throw 表达式的类型是特殊类型 Nothing
     // 在你自己的代码中，你可以使用 Nothing 来标记一个永远不会返回的函数，编译器会知道在该调用后就不再继续执行了
