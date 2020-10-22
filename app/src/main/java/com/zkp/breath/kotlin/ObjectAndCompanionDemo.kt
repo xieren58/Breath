@@ -114,8 +114,9 @@ class Four {
 }
 
 /**
- * Java 中的静态变量和方法，在 Kotlin 中都放在了 companion object 中。因此 Java 中的静态初始化在 Kotlin
- * 中自然也是放在 companion object 中的，像类的初始化代码一样，由 init 和一对大括号表示：
+ * Java 中的静态变量和方法，在 Kotlin 中都放在了 companion object 中。
+ * 因此 Java 中的静态初始化在 Kotlin中自然也是放在 companion object 中的，像类的初始化代码一样，由 init 和一对
+ * 大括号表示。（这里和class中的init不一样，普通class中的init块其实就是主构函数方法体）
  */
 class Five {
     companion object X {
@@ -133,7 +134,7 @@ class Five {
 fun main() {
     // 对象表达式在这里的用法可以理解为继承，object代表一个匿名的类
     // 直接创建一个匿名类的对象然后赋值给变量one
-    var one = object : One(20), Two {
+    val one = object : One(20), Two {
         override fun towFunction() {
             println("重写父接口的方法")
         }
@@ -146,7 +147,8 @@ fun main() {
     println("${one.age}")
     one.newAddFunction()
 
-    var tempObject = object {
+    // Object类型的局部匿名内部类
+    val tempObject = object {
         var s: String = "哈哈"
         fun muFuntion() {
             println("tempObject的方法")
