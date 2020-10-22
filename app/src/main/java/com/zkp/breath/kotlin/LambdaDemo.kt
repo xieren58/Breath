@@ -15,6 +15,7 @@ package com.zkp.breath.kotlin
  *   也就意味着在内部类内部或者lambda表达式的内部是无法去修改函数局部变量的值；而kotlin既可以访问final修饰的变量，
  *   也可以访问非final修饰的变量，也就意味着在Lambda的内部是可以直接修改函数局部变量的值，这叫lambdab表达式的变量捕获。
  *   （详情可看doc文件夹中" lambdab表达式的变量捕获.png"）
+ * 6. 函数类型其实就是FunctionX类，该类就有一个invoke()方法。
  *
  */
 class MethodClass {
@@ -33,16 +34,16 @@ class MethodClass {
 
     /**
      * 函数重载的定义和java一样，参数类型不一致或者数量不同都可视为重载。
-     * 但在kotlin注意，lambda表达式都是函数类型，即便你定义的函数类型中的参数个数相同，那么即便类型或者返回值不一致
-     * 也是重载不类的，但是如果函数类型中的参数个数不同，无论类型或者返回值是否相同都可以重载成功。即kotlin中函数类型的参数
-     * 的重载条件是个数。
+     *
+     * 其实lambda表达式指向的是FunctionX类，lambda表达式的参数个数如果相同则引用的是同一个FunctionX类，所以
+     * 参数类型相同则不允许重载，（使用kotlin bytecode功能转换成java代码就明白了）。
      */
     fun lambda2(body: (a: String, b: String) -> String, s: String) {
 
     }
 
     // 不可重载
-//    fun lambad2(body: (a: Int, b: Int) -> Int, s: String) {
+//    fun lambda2(body: (a: Int, b: Int) -> Int, s: String) {
 //
 //    }
 
