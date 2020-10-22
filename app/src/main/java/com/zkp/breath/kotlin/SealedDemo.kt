@@ -27,7 +27,7 @@ class Banana : Fruit() {
 }
 
 open class Watemelon : Fruit() {
-    fun opreate() = println("苹果")
+    fun opreate() = println("西瓜")
 }
 
 // 判断类型前面不需要加嵌套类类名，因为子类的声明不是放在密封类里面（即不是为嵌套类）
@@ -54,7 +54,7 @@ sealed class Fruit1 {
     }
 
     data class Strawberry(val data: String) : Fruit1() {
-        override fun absMethod() = println("西瓜")
+        override fun absMethod() = println("草莓")
     }
 
     object Chestnut : Fruit1() {
