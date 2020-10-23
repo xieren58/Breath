@@ -10,27 +10,14 @@ import kotlin.random.Random
  * 作用域函数:let、run、with、apply、also。
  * 作用域函数的区别：1.引用上下文对象的方式（上下文对象：this 还是 it） 2.返回值。
  *
- * 上下文对象：this 还是 it？（其实都可以，只是要不要进一步偷懒而已）
- * 在作用域函数的 lambda 表达式里，上下文对象可以不使用其实际名称而是使用一个更简短的引用来访问。每个作用域函数都
- * 使用以下两种方式之一来访问上下文对象：作为 lambda 表达式的接收者（this）或者作为 lambda 表达式的参数（it）。
- *
- * run、with、apply 通过关键字 this 引用上下文对象，主要对对象成员进行操作（调用其函数或赋值其属性）的 lambda
- * 表达式，则this更好；let 、also 将上下文对象作为 lambda 表达式参数，如果该上下文对象
- * 用于其他函数的调用时作为参数传入，则it更好。
- *
- * 返回值（根据后续操作是针对上下文对象还是lambda表达式结果选择即可）
- * apply 及 also 返回上下文对象。
- * let、run 及 with 返回 lambda 表达式结果.
- *
- *注意： 避免过度使用它们，这会降低代码的可读性并可能导致错误，避免嵌套作用域函数。
- *
+ * 注意： 避免过度使用它们，这会降低代码的可读性并可能导致错误，避免嵌套作用域函数。
  *
  * 使用选择：
  * 函数	    对象引用	    返回值	              是否是扩展函数
  * let	    it	        Lambda 表达式结果          	是
  * run	    this	    Lambda 表达式结果          	是
- * run	    -	        Lambda 表达式结果  	不是：调用无需上下文对象
- * with	    this	    Lambda 表达式结果  	不是：把上下文对象当做参数
+ * run	    -	        Lambda 表达式结果  	不是：调用无需上下文对象        非作用域函数
+ * with	    this	    Lambda 表达式结果  	不是：把上下文对象当做参数      在源码中，注意和作用域函数run的写法区别，但两者的作用是相同的
  * apply	this        上下文对象	                是
  * also	    it	        上下文对象	                是
  *
@@ -91,6 +78,9 @@ private fun takeDemo() {
     println("even: $evenOrNull, odd: $oddOrNull")
 }
 
+/**
+ * with扩展函数和run扩展函数其实是一样的，就是写法不同而已。
+ */
 private fun withDemo() {
     val mutableListOf1 = mutableListOf("one", "two", "three")
     with(mutableListOf1) {
@@ -150,6 +140,39 @@ private fun runDemo() {
         }
     }
     println("There are $number elements that end with e.")
+
+
+    /**
+     * run作用域函数类似于runTemp的定义
+     * 1.lambda表达式的参数前"类型." ，那么该函数要么是扩展函数且类型和lambda表达式的参数前的了警一致；要么
+     *   定义多一个参数，参数类型也要和lambda表达式的参数前的了警一致。其实这种写法是一种简写，相当于把lambda表达式
+     *   参数前的类型移入了()中，函数内调用该lambda表达式的时可以用一种简写的方式调用（其实就是为了偷懒）。
+     * 2.runTemp1等价runTemp2，只是写法不同而已。
+     * 3.runTemp3等价runTemp4，只是写法不同而已。
+     */
+    fun <T, R> T.runTemp1(block: T.() -> R) {
+        // 这三种调用方式等价，只是写法不同
+//        block(this)
+//        this.block()
+        block() // 简写（偷懒）方式
+    }
+
+    // 这种写法也是with扩展函数的写法
+    fun <T, R> runTemp2(t: T, block: T.() -> R) {
+        // 这两种调用方式等价，最后一种方式是一种kotlin的一种简写方式
+//        block(t)
+        t.block()
+    }
+
+    fun <T, R> runTemp3(t: T, block: T.(s: String) -> R) {
+        t.block("哈哈哈")
+    }
+
+    fun <T, R> runTemp4(t: T, block: (t: T, s: String) -> R) {
+        block(t, "哈哈哈")
+    }
+
+
 }
 
 // let功能域函数的demo
