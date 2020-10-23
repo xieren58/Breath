@@ -17,3 +17,6 @@ package com.zkp.breath.kotlin
  * 5.DelegationDemo的170行的例子，输出是哪个？
  * 6.请说说lateinit关键字修饰的属性的作用和使用需要注意的地方？（ClassDemo的32行）
  */
+
+
+// todo 内联类，泛形，
