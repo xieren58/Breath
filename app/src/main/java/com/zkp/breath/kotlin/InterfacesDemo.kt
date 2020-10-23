@@ -13,6 +13,11 @@ package com.zkp.breath.kotlin
 interface AS {
     fun ss() {}
 
+    /**
+     * 方法存在默认实现的原因：使用kotlin bytecode编译成java后其实接口内部会有一个默认名为DefaultImpls的final的
+     * 静态内部类，该类会存在一个相同名的方法，参数就是接口类型（其实就是接口的实现类），方法体的内容和接口方法的内容
+     * 一致，我们实现类在调用的时候其实就是调用这个同名方法。
+     */
     fun ss2() {
         println("kotlin的方法可以存在默认实现，实现类可以不用重写")
     }
@@ -42,6 +47,10 @@ class AsImp2 : AS {
 /**
  * 接口中的属性只能是抽象的，不允许初始化值,但是可以实现属性的get/set方法，相当于伪抽象。
  * 和java不同的是java的接口累的属性都是常量。
+ *
+ * 变量不允许存在初始化原因：使用kotlin bytecode编译成java后可以看出kotlin中定义的变量实际上会转换
+ * 成setX()/getX()等抽象方法，所以不允许有初始化值。而允许实现get访问器是因为和定义默认抽象方法一样，
+ * 内部有个默认名为DefaultImpls的final的静态内部类，存在同名且方法体就是get访问器内容的方法。
  */
 interface A1 {
     // 接口属性不允许存在初始化；接口属性不允许存在幕后字段（幕后字段的存在需要初始化器）
@@ -60,10 +69,10 @@ interface A1 {
 
 class B1 : A1 {
 
-    // 重写后需要初始化
+    // 父接口存在get访问期，可以不重写，但重写则需要初始化
     override var a: String = ""
 
-    // 没有初始化值，但是重写get方法后指向父类属性相当于初始化
+    // 没有初始化值，但是重写get方法后指向父类属性也相当于初始化
     override val bb: String
         get() = super.bb
 
