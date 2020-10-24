@@ -326,11 +326,16 @@ fun main(args: Array<String>) {
 
     val cusLastIndex = arrayListOf<String>("1", "2").cusLastIndex
 
+    /**
+     * method1属于顶层函数，所以扩展函数用函数引用的方式创建并使用。
+     *  (String::method1)("", 1) 理解：创建了一个属于String类的method1（）函数的引用，并且方法的首位参数也是
+     *  String类型。其实转换成java代码后还是一个FunctionX类，一想到函数引用就要想到FunctionX类。
+     */
     // 以下都调用方式都相互等价
     "".method1(1)   // 最常见的写法
     (String::method1)("", 1)  // 顶层扩展函数的函数引用，类名的调用方式，首位是扩展函数的接收者对象
     String::method1.invoke("", 1)
-    (""::method1)(1)  // 扩展函数的接收者对象实例调用方式
+    (""::method1)(1)  // 没用使用invoke调用，所以前面的函数引用要用（）包裹
     (""::method1).invoke(1)
     ""::method1.invoke(1)
 
