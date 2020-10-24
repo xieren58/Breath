@@ -23,6 +23,7 @@ package com.zkp.breath.kotlin
  * 总结：
  * 1.在 Kotlin 里「函数并不能传递，传递的是对象」和「匿名函数和 Lambda 表达式其实都是对象」。
  * 2. Java 8 的 Lambda 只是一种便捷写法，本质上并没有功能上的突破，而 Kotlin 的 Lambda 是实实在在的对象
+ * 3. 一旦涉及到函数引用的概念就要知道内部其实就是FunctionX类
  */
 
 
