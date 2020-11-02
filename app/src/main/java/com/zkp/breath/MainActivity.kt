@@ -13,10 +13,7 @@ import com.zkp.breath.component.activity.*
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.activity.debugs.DebugActivity
 import com.zkp.breath.component.activity.jetpack.*
-import com.zkp.breath.component.activity.weight.ButtonActivity
-import com.zkp.breath.component.activity.weight.ImageViewScaleTypeActivity
-import com.zkp.breath.component.activity.weight.MotionLayoutActivity
-import com.zkp.breath.component.activity.weight.SwitchActivity
+import com.zkp.breath.component.activity.weight.*
 import com.zkp.breath.databinding.ActivityMainBinding
 import kotlin.system.exitProcess
 
@@ -25,7 +22,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val listOf = mutableListOf(
-            "Button", "Switch",
+            "Button", "Switch", "ImageViewAdjustViewBounds",
             "ImageViewScaleType", "MotionLayout", "Debug",
             "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service",
             "JetPackStartUp", "JetPackViewModel", "JetPackViewBinding",
@@ -66,6 +63,10 @@ class MainActivity : BaseActivity() {
             }
             "Switch" -> {
                 ActivityUtils.startActivity(SwitchActivity::class.java)
+                return@OnItemClickListener
+            }
+            "ImageViewAdjustViewBounds" -> {
+                ActivityUtils.startActivity(ImageViewAdjustViewBoundsActivity::class.java)
                 return@OnItemClickListener
             }
             "ImageViewScaleType" -> {

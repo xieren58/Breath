@@ -54,7 +54,7 @@
             android:layout_height="28dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="13dp"
-            android:background="@drawable/room_ic_gift_broadcast_bg">
+            android:background="@drawable/ic_gift_broadcast_bg">
 
             <HorizontalScrollView
                 android:id="@+id/hsv_gift"
@@ -101,7 +101,7 @@
         android:layout_marginLeft="6dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="6dp"
-        android:background="@drawable/room_ic_lottery_broadcast_bg"
+        android:background="@drawable/ic_lottery_broadcast_bg"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/flt_gift_broadcast">

@@ -162,7 +162,7 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$work_version"
 
     // startup
-    implementation "androidx.startup:startup-runtime:1.0.0-alpha02"
+    implementation "androidx.startup:startup-runtime:1.0.0"
 
     // hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
@@ -175,11 +175,11 @@ dependencies {
 
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
 
-    implementation 'com.blankj:utilcodex:1.29.0'
+    implementation 'com.blankj:utilcodex:1.30.4'
 
     implementation 'io.reactivex.rxjava3:rxjava:3.0.5'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
