@@ -2,9 +2,13 @@ package com.zkp.breath.component.activity.weight
 
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import com.blankj.utilcode.util.ImageUtils
 import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.SizeUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityIvAdjustViewBoundsBinding
@@ -36,6 +40,24 @@ class ImageViewAdjustViewBoundsActivity : BaseActivity() {
 
         LogUtils.iTag("ImageViewAdjustViewBoundsActivity", "bitmap1宽：${width1}, bitmap1高：${height1};  "
                 + "bitmap2宽：${width2}, bitmap2高：${height2}")
+
+        SizeUtils.forceGetViewSize(iv) { view ->
+            val width = view.width
+            val height = view.height
+            Log.i("获取测试宽", "width: ${width}, height:$height")
+
+            // 控件宽高比
+            val viewWhRatio = width.div(height * 1f)
+            // 图片宽高比
+            val bmpWhRatio = width1 * 1f / height1
+
+            if (bmpWhRatio > viewWhRatio) {
+                val fl = height * 1f / height1
+                val resultBmpWidth = width1 * fl
+                val resultBmpHeight = height1 * fl
+                Log.i("", ": ");
+            }
+        }
     }
 
 }
