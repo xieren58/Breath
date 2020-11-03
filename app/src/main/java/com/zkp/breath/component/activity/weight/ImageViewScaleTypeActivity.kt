@@ -16,6 +16,7 @@ import com.zkp.breath.databinding.ActivityIvScaleTypeBinding
 
 /**
  * https://www.jianshu.com/p/c0bfa575d163
+ * https://www.jianshu.com/p/fe5d2e3feed3
  *
  * ImageView的ScaleType:
  * FIT_XY：不按图片原比例伸缩，强制让图片充满ImageVie，图片可以完整显示但可能会变形。
