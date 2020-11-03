@@ -220,7 +220,7 @@ class ImageViewScaleTypeActivity : BaseActivity() {
             }
             SCALE_TYPE_FIT_START, SCALE_TYPE_FIT_CENTER, SCALE_TYPE_FIT_END -> {
                 str = "按照图片原比例伸缩，直到图片的一边和ImageView对应的宽或高重叠，能够保证图片完整显示（基本上图片的一边会和控件对应的一边重叠）。" +
-                        "如果dHeight> dWidth，则使用vWidth/dWidth作为缩放比例，反之使用vHeight/dHeight作为缩放比例。"
+                        "如果dHeight> dWidth（图片宽/图片高），则使用vWidth/dWidth（控件宽/图片宽）作为缩放比例，反之使用vHeight/dHeight（控件高/图片高）作为缩放比例。"
             }
             SCALE_TYPE_CENTER -> {
                 str = "不进行任何伸缩，图片中点和ImageView重叠，按照ImageView的宽高裁剪图片，保证图片居中显示，不保证图片能够完整显示或者填满控件。"
