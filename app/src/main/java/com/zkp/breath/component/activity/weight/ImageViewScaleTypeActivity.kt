@@ -20,7 +20,7 @@ import com.zkp.breath.databinding.ActivityIvScaleTypeBinding
 /**
  * https://www.jianshu.com/p/c0bfa575d163
  *
- * ImageView的ScaleType（详情见Imageview的configureBounds()方法）:
+ * ImageView的ScaleType（详情见源码Imageview的configureBounds()方法）:
  * FIT_XY：不按图片原比例伸缩，强制让图片充满ImageVie，图片可以完整显示但可能会变形。
  * FIT_CENTER，FIT_END，FIT_START：按照图片原比例伸缩，能够保证图片完整显示（保证上图片的一边会和控件对应的一边重叠）。
  * CENTER：不进行任何伸缩，图片中点和ImageView重叠，按照ImageView的宽高裁剪图片，保证图片居中显示，不保证图片能够完整显示或者填满控件。
@@ -263,6 +263,7 @@ class ImageViewScaleTypeActivity : BaseActivity() {
             }
         }
 
+        // 源码核心逻辑
         val src = RectF(0f, 0f, bmpW, bmpH)
         val dst = RectF(0f, 0f, viewW, viewH)
         val rectMatrix = Matrix()
