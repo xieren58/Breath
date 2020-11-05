@@ -22,7 +22,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val listOf = mutableListOf(
-            "Button", "Switch", "ImageViewAdjustViewBounds",
+            "TextView", "Button", "Switch", "ImageViewAdjustViewBounds",
             "ImageViewScaleType", "MotionLayout", "Debug",
             "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service",
             "JetPackStartUp", "JetPackViewModel", "JetPackViewBinding",
@@ -57,6 +57,10 @@ class MainActivity : BaseActivity() {
      */
     private val onItemChildClickListener = OnItemClickListener { _, _, position ->
         when (val type = listOf[position]) {
+            "TextView" -> {
+                ActivityUtils.startActivity(TextViewActivity::class.java)
+                return@OnItemClickListener
+            }
             "Button" -> {
                 ActivityUtils.startActivity(ButtonActivity::class.java)
                 return@OnItemClickListener
