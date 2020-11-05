@@ -211,6 +211,7 @@ class ImageViewScaleTypeActivity : BaseActivity() {
         val viewW = layoutParams.width
         val viewH = layoutParams.height
 
+        // iv控件获取bitmap的方法
         val drawable = binding.iv.drawable as? BitmapDrawable
         val bitmap = drawable?.bitmap
         val bmpW = bitmap?.width ?: 0
