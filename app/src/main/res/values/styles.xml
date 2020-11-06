@@ -9,7 +9,7 @@
         <item name="android:windowBackground">@color/colorFF00574B</item>
     </style>
 
-    <!-- 自定义的SwitchCompat的-->
+    <!-- 自定义的Switch文字样式-->
     <style name="SwitchText" parent="Theme.AppCompat.Light">
         <item name="android:textColor">#0d09f1</item>
         <item name="android:textSize">8sp</item>
@@ -20,6 +20,11 @@
         <item name="android:paddingRight">10dp</item>
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <!--  自定义的TabLayout文字样式 -->
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>
