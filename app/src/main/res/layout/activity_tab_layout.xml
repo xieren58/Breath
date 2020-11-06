@@ -5,25 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--        <com.google.android.material.tabs.TabLayout-->
-    <!--            android:id="@+id/stlt"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="44dp"-->
-    <!--            android:fillViewport="false"-->
-    <!--            android:orientation="horizontal"-->
-    <!--            app:layout_scrollFlags="scroll"-->
-    <!--            app:tabGravity="center"-->
-    <!--            app:tabIndicator="@drawable/bg_room_list_indicator"-->
-    <!--            app:tabIndicatorColor="#8D70FF"-->
-    <!--            app:tabIndicatorFullWidth="false"-->
-    <!--            app:tabIndicatorHeight="3dp"-->
-    <!--            app:tabMode="fixed"-->
-    <!--            app:tabRippleColor="@android:color/transparent"-->
-    <!--            app:tabSelectedTextColor="@color/color_333333"-->
-    <!--            app:tabTextAppearance="@style/tabitem34"-->
-    <!--            app:tabTextColor="@color/color_666666" />-->
-
-
     <!--
         属性：
         tabMode：scrollable模式下所有tab的宽度总和即便超出TabLayout的宽度，这时候TabLayout相当于HorizontalScrollView
@@ -34,22 +15,29 @@
         tabTextColor：tab没选中时的字体颜色。
         tabTextAppearance：tab的文字大小不能直接设置，要定义在style.xml文件中。
         tabIndicatorFullWidth：false下和文字等宽，true则占满整个tab的宽度。
+        tabPadding：只有上下有效，左右无效。使用tabPaddingBottom，tabPaddingEnd，tabPaddingStart，tabPaddingTop替换
+        tabBackground：设置每个tab的背景，如果直接设置纯颜色的话直接设置TabLayout的background即可。
     -->
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorFFFFFFFF"
         android:fillViewport="false"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_scrollFlags="scroll"
+        app:tabBackground="@drawable/selector_button"
         app:tabGravity="center"
         app:tabIndicatorColor="#8D70FF"
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorHeight="3dp"
         app:tabMode="scrollable"
+        app:tabPaddingBottom="50dp"
+        app:tabPaddingEnd="50dp"
+        app:tabPaddingStart="50dp"
+        app:tabPaddingTop="50dp"
         app:tabRippleColor="@android:color/transparent"
         app:tabSelectedTextColor="@color/colorFF8844FF"
         app:tabTextAppearance="@style/TabLayoutTextStyle"
