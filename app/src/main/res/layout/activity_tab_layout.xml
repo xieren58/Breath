@@ -15,7 +15,10 @@
         tabTextColor：tab没选中时的字体颜色。
         tabTextAppearance：tab的文字大小不能直接设置，要定义在style.xml文件中。
         tabIndicatorFullWidth：false下和文字等宽，true则占满整个tab的宽度。
-        tabPadding：只有上下有效，左右无效。使用tabPaddingBottom，tabPaddingEnd，tabPaddingStart，tabPaddingTop替换
+        tabPadding：只有上下有效，左右无效，所有使用tabPaddingBottom，tabPaddingEnd，tabPaddingStart，tabPaddingTop替换。
+                    默认情况下TabView会有默认的paddingLeft和paddingRight，但是却没有paddingTop和paddingBottom，而内部
+                    的ImageView没有设置topMargin（存在默认的bottomMargin，因为要和TextView隔开）,TextView没有设置bottomMargin，
+                    两者通过一定的算法指定其y轴起点从而达到ImageView距离顶部和TextView距离底部的距离是一样的。
         tabBackground：设置每个tab的背景，如果直接设置纯颜色的话直接设置TabLayout的background即可。
     -->
 
