@@ -20,6 +20,13 @@
                     的ImageView没有设置topMargin（存在默认的bottomMargin，因为要和TextView隔开）,TextView没有设置bottomMargin，
                     两者通过一定的算法指定其y轴起点从而达到ImageView距离顶部和TextView距离底部的距离是一样的。
         tabBackground：设置每个tab的背景，如果直接设置纯颜色的话直接设置TabLayout的background即可。
+        tabIconTint和tabIconTintMode：Icon（ImageView）和指定颜色的xfermode效果
+        tabIndicatorGravity:设置指示器的方位（默认指示器在下方）
+        tabIndicatorAnimationDuration：设置指示器动画时间
+        tabInlineLabel：设置图标和文件的方向（默认为false），其实就是设置TabView（LinearLayout）的Orientation属性false表示垂直，true水平。
+        tabGravity：设置TabLayout的布局方式。center表示所有tabView没有占满TabLayout则居中显示TabView；
+                    fill表示如果所有TabView不能占满TabLayout，那么则拉伸所有TabView从而占满TabLayout,
+                     fill只有在tabMode属性为fixed才有效果。
     -->
 
     <com.google.android.material.tabs.TabLayout
@@ -35,6 +42,7 @@
         app:tabGravity="center"
         app:tabIndicatorColor="#8D70FF"
         app:tabIndicatorFullWidth="false"
+        app:tabIndicatorGravity="bottom"
         app:tabIndicatorHeight="3dp"
         app:tabMode="scrollable"
         app:tabPaddingBottom="50dp"
