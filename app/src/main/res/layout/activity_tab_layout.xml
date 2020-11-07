@@ -27,6 +27,8 @@
         tabGravity：设置TabLayout的布局方式。center表示所有tabView没有占满TabLayout则居中显示TabView；
                     fill表示如果所有TabView不能占满TabLayout，那么则拉伸所有TabView从而占满TabLayout,
                      fill只有在tabMode属性为fixed才有效果。
+        tabIndicator: 通过定义layer-list的drawable来实现指定Indicator的宽度的实现，但是layer-list内部的
+                      solid属性是不生效的，一定要通过TabLayout的tabIndicatorColor属性设定。
     -->
 
     <com.google.android.material.tabs.TabLayout
@@ -40,6 +42,7 @@
         app:layout_scrollFlags="scroll"
         app:tabBackground="@drawable/selector_button"
         app:tabGravity="center"
+        app:tabIndicator="@drawable/layer_tab_indicator"
         app:tabIndicatorColor="#8D70FF"
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorGravity="bottom"
