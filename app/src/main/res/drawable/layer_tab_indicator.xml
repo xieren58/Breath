@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:gravity="center_horizontal">
+        <shape>
+            <size
+                android:width="30dp"
+                android:height="30dp" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+
+</layer-list>
+
+    <!--
+    TabLayout实现指定Indicator的宽度所需：
+    1. 一定要定义为layer-list
+    2. android:gravity="center_horizontal"不能缺少
+    3. solid不生效，可以忽略
+    -->
