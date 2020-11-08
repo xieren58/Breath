@@ -40,6 +40,8 @@ class TabLayoutActivity : BaseActivity(R.layout.activity_tab_layout) {
         for (item in tabTexts) {
             // 创建tab
             val tab = tab_layout.newTab()
+            // 设置CustomView
+//            tab.setCustomView(R.layout.view_tab_custom)
             // 获取tabView
             val tabView = tab.view
             // 设置TabView背景，会导致指标不可见
