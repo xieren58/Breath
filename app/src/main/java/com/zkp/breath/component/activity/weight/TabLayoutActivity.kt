@@ -1,11 +1,9 @@
 package com.zkp.breath.component.activity.weight
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.blankj.utilcode.util.ColorUtils
 import com.google.android.material.tabs.TabLayout
 import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
@@ -23,6 +21,7 @@ import java.util.*
  * 3. TabView中的ImageView和TextView的间距是指定的，可以通过代码动态设置。
  * 4. TabView推荐使用自定义view，灵活性更强。
  * 5. TabLayout去掉指示线：给tabIndicatorHeight属性设置0dp，或者给tabIndicatorColor属性设置透明，就不显示指示线了。
+ *
  */
 class TabLayoutActivity : BaseActivity(R.layout.activity_tab_layout) {
 
