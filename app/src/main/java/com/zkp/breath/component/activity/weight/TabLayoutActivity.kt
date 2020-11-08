@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
+import com.blankj.utilcode.util.ColorUtils
 import com.google.android.material.tabs.TabLayout
 import com.zkp.breath.R
 import com.zkp.breath.adpter.VpPagerAdapter
@@ -60,6 +61,7 @@ class TabLayoutActivity : BaseActivity(R.layout.activity_tab_layout) {
         view_pager.adapter = vpPagerAdapter
 
         val commonNavigator = CommonNavigator(this)
+
         commonNavigator.adapter = object : CommonNavigatorAdapter() {
             override fun getCount(): Int {
                 return list.size
@@ -78,8 +80,16 @@ class TabLayoutActivity : BaseActivity(R.layout.activity_tab_layout) {
                 val indicator = LinePagerIndicator(context)
                 // 相当于TabLayout的tabIndicatorFullWidth属性
                 indicator.mode = LinePagerIndicator.MODE_WRAP_CONTENT
-                // 设置Indicator
+                // 设置Indicator的y轴偏移
                 indicator.yOffset = 60f
+                // 设置Indicator的宽高
+                indicator.lineWidth = 30f
+                indicator.lineHeight = 30f
+                // 设置圆角半径
+                indicator.roundRadius = 10f
+                // 设置颜色，设置多个的话按照角标位置改变。
+                indicator.setColors(ColorUtils.getColor(R.color.colorFFFF5722),
+                        ColorUtils.getColor(R.color.colorFF8844FF))
                 return indicator
             }
         }
