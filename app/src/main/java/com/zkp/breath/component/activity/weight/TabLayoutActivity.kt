@@ -1,14 +1,27 @@
 package com.zkp.breath.component.activity.weight
 
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.viewpager.widget.PagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.zkp.breath.R
+import com.zkp.breath.adpter.VpPagerAdapter
 import com.zkp.breath.component.activity.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_tab_layout.*
+import kotlinx.android.synthetic.main.activity_viewpager2.*
 import me.jessyan.autosize.utils.AutoSizeUtils
+import net.lucode.hackware.magicindicator.ViewPagerHelper
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView
 import java.util.*
 
 
@@ -25,27 +38,69 @@ import java.util.*
  */
 class TabLayoutActivity : BaseActivity(R.layout.activity_tab_layout) {
 
-    private val colors = intArrayOf(-0xff7a89, -0xfc560c, -0x27e4a0, -0x6800, -0xb350b0, -0x98c549)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
     }
 
     private fun initView() {
-//        ripple()
+        initTabLayout()
+        initIndicator()
+    }
 
+    /**
+     * 第三方tabLayout
+     */
+    private fun initIndicator() {
+
+        val list = mutableListOf("三个字", "两个", "四个字啊",
+                "一", "五个字哈哈", "六个字你看吧")
+
+        val vpPagerAdapter = VpPagerAdapter(list)
+        view_pager.adapter = vpPagerAdapter
+
+        val commonNavigator = CommonNavigator(this)
+        commonNavigator.adapter = object : CommonNavigatorAdapter() {
+            override fun getCount(): Int {
+                return list.size
+            }
+
+            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+                val colorTransitionPagerTitleView = ColorTransitionPagerTitleView(context)
+                colorTransitionPagerTitleView.normalColor = Color.GRAY
+                colorTransitionPagerTitleView.selectedColor = Color.BLACK
+                colorTransitionPagerTitleView.text = list[index]
+                colorTransitionPagerTitleView.setOnClickListener { view_pager.currentItem = index }
+                return colorTransitionPagerTitleView
+            }
+
+            override fun getIndicator(context: Context?): IPagerIndicator? {
+                val indicator = LinePagerIndicator(context)
+                // 相当于TabLayout的tabIndicatorFullWidth属性
+                indicator.mode = LinePagerIndicator.MODE_WRAP_CONTENT
+                // 设置Indicator
+                indicator.yOffset = 60f
+                return indicator
+            }
+        }
+        indicator.navigator = commonNavigator
+        ViewPagerHelper.bind(indicator, view_pager)
+    }
+
+    private fun initTabLayout() {
+        //        ripple()
+        val colors = intArrayOf(-0xff7a89, -0xfc560c, -0x27e4a0, -0x6800, -0xb350b0, -0x98c549)
         val tabTexts = arrayOf("三个字", "两个", "四个字啊", "一", "五个字哈哈", "六个字你看吧")
         val random = Random()
         for (item in tabTexts) {
             // 创建tab
             val tab = tab_layout.newTab()
             // 设置CustomView
-//            tab.setCustomView(R.layout.view_tab_custom)
+            //            tab.setCustomView(R.layout.view_tab_custom)
             // 获取tabView
             val tabView = tab.view
             // 设置TabView背景，会导致指标不可见
-//            tabView.setBackgroundColor(colors[random.nextInt(colors.size)])
+            //            tabView.setBackgroundColor(colors[random.nextInt(colors.size)])
             // 设置文本
             tab.text = item
             // 设置图片，但是不灵活，默认显示在文字上面。
@@ -54,8 +109,8 @@ class TabLayoutActivity : BaseActivity(R.layout.activity_tab_layout) {
             tab_layout.addTab(tab)
 
             // xml中没有那么多属性，可以使用动态实现理想效果。（也可以使用自定义View实现）
-//            customImageView(tabView)
-//            customTextView(tabView)
+            //            customImageView(tabView)
+            //            customTextView(tabView)
         }
 
         tab_layout.addOnTabSelectedListener(onTabSelectedListener)

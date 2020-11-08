@@ -49,13 +49,29 @@
         app:tabIndicatorGravity="bottom"
         app:tabIndicatorHeight="3dp"
         app:tabMode="scrollable"
-        app:tabPaddingBottom="50dp"
-        app:tabPaddingEnd="50dp"
-        app:tabPaddingStart="50dp"
-        app:tabPaddingTop="50dp"
+        app:tabPaddingBottom="20dp"
+        app:tabPaddingEnd="20dp"
+        app:tabPaddingStart="20dp"
+        app:tabPaddingTop="20dp"
         app:tabRippleColor="@android:color/transparent"
         app:tabSelectedTextColor="@color/colorFF8844FF"
         app:tabTextAppearance="@style/TabLayoutTextStyle"
         app:tabTextColor="@color/colorFFFF5722" />
+
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/colorFF4488FF"
+        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorFFFFFFFF"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/indicator" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
