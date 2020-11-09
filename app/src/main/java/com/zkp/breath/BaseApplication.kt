@@ -5,7 +5,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.Utils
-import com.didichuxing.doraemonkit.DoraemonKit.install
+import com.didichuxing.doraemonkit.DoraemonKit
 import com.github.moduth.blockcanary.BlockCanary
 import com.github.moduth.blockcanary.BlockCanaryContext
 import com.zkp.breath.mmkv.template.AppConfiguration
@@ -25,7 +25,7 @@ class BaseApplication : MultiDexApplication() {
             // 初始化阿里路由器框架
             initARouter()
             // 初始化滴滴研发助手
-            install(this)
+            DoraemonKit.install(this)
             AppConfiguration.getDefault(this)
             try {
                 UmUtils.initUmAnalytics(this)
