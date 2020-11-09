@@ -58,13 +58,21 @@
         app:tabTextAppearance="@style/TabLayoutTextStyle"
         app:tabTextColor="@color/colorFFFF5722" />
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorFFFFFFFF"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
+
     <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="40dp"
         android:background="@color/colorFF4488FF"
-        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
+        app:layout_constraintTop_toBottomOf="@id/view_pager2" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"

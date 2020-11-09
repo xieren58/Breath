@@ -3,18 +3,17 @@ package com.zkp.breath.component.activity.weight
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.viewpager.widget.PagerAdapter
 import com.blankj.utilcode.util.ColorUtils
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.zkp.breath.R
+import com.zkp.breath.adpter.ViewPagerAdapter
 import com.zkp.breath.adpter.VpPagerAdapter
 import com.zkp.breath.component.activity.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_tab_layout.*
-import kotlinx.android.synthetic.main.activity_viewpager2.*
 import me.jessyan.autosize.utils.AutoSizeUtils
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -33,7 +32,7 @@ import java.util.*
  * 同时也能设置自定义view。
  * 2. TabView中的ImageView的宽高是指定的，可以通过代码动态设置。
  * 3. TabView中的ImageView和TextView的间距是指定的，可以通过代码动态设置。
- * 4. TabView推荐使用自定义view，灵活性更强。
+ * 4. TabView推荐使用自定义view，灵活性更强。(padding存在默认值，如果设置的值小于也会使用默认值，所以严格来说这个系统控件还是不能满足真正的自定义)
  * 5. TabLayout去掉指示线：给tabIndicatorHeight属性设置0dp，或者给tabIndicatorColor属性设置透明，就不显示指示线了。
  *
  */
@@ -98,31 +97,34 @@ class TabLayoutActivity : BaseActivity(R.layout.activity_tab_layout) {
     }
 
     private fun initTabLayout() {
-        //        ripple()
-        val colors = intArrayOf(-0xff7a89, -0xfc560c, -0x27e4a0, -0x6800, -0xb350b0, -0x98c549)
         val tabTexts = arrayOf("三个字", "两个", "四个字啊", "一", "五个字哈哈", "六个字你看吧")
+        view_pager2.adapter = ViewPagerAdapter(tabTexts.toList())
+
+        //        ripple()
+
+        val colors = intArrayOf(-0xff7a89, -0xfc560c, -0x27e4a0, -0x6800, -0xb350b0, -0x98c549)
         val random = Random()
-        for (item in tabTexts) {
-            // 创建tab
-            val tab = tab_layout.newTab()
-            // 设置CustomView
-            //            tab.setCustomView(R.layout.view_tab_custom)
-            // 获取tabView
-            val tabView = tab.view
-            // 设置TabView背景，会导致指标不可见
-            //            tabView.setBackgroundColor(colors[random.nextInt(colors.size)])
-            // 设置文本
-            tab.text = item
-            // 设置图片，但是不灵活，默认显示在文字上面。
-            tab.setIcon(R.drawable.ic_wh_1_1)
-            // 将tabView添加到TabLayout中
-            tab_layout.addTab(tab)
 
-            // xml中没有那么多属性，可以使用动态实现理想效果。（也可以使用自定义View实现）
-            //            customImageView(tabView)
-            //            customTextView(tabView)
-        }
-
+        // 自动联动vp2
+        val mediator = TabLayoutMediator(tab_layout, view_pager2, object : TabLayoutMediator.TabConfigurationStrategy {
+            override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
+                // 设置CustomView
+                //            tab.setCustomView(R.layout.view_tab_custom)
+                // 获取tabView
+                val tabView = tab.view
+                // 设置TabView背景，会导致指标不可见
+                //            tabView.setBackgroundColor(colors[random.nextInt(colors.size)])
+                // 设置文本
+                tab.text = tabTexts[position]
+                // 设置图片，但是不灵活，默认显示在文字上面。
+                tab.setIcon(R.drawable.ic_wh_1_1)
+                // xml中没有那么多属性，可以使用动态实现理想效果。（也可以使用自定义View实现）
+                //            customImageView(tabView)
+                //            customTextView(tabView)
+            }
+        })
+        mediator.attach()
+        // 设置tab点击监听
         tab_layout.addOnTabSelectedListener(onTabSelectedListener)
     }
 
