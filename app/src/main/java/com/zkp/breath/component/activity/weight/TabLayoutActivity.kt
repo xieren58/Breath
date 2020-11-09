@@ -49,7 +49,7 @@ class TabLayoutActivity : BaseActivity(R.layout.activity_tab_layout) {
     }
 
     /**
-     * 第三方tabLayout
+     * 第三方tabLayout,基本没维护，扩展不是很方便，不能和viewpager2联用。有时间可以看看内部实现
      */
     private fun initIndicator() {
 
