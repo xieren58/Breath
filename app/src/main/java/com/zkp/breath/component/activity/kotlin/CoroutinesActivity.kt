@@ -43,6 +43,9 @@ import kotlin.concurrent.thread
  * Dispatchers.Default：默认的调度器，适合执行 CPU 密集性的任务。
  * Dispatchers.Unconfined：非限制的调度器，指定的线程可能会随着挂起的函数发生变化。
  *
+ * launch：启动一个新的协程，它返回的是一个 Job对象，我们可以调用 Job#cancel() 取消这个协程。除了 launch，
+ * 还有一个方法跟它很像，就是 async，它的作用是创建一个协程，之后返回一个 Deferred<T>对象，我们可以调用
+ * Deferred#await()去获取返回的值，有点类似于 Java 中的 Future，
  */
 class CoroutinesActivity : BaseActivity() {
     private lateinit var binding: ActivityCoroutinesBinding
@@ -60,9 +63,10 @@ class CoroutinesActivity : BaseActivity() {
     private fun customScopeDemo() {     // 自定义作用域demo
         // 2. 启动协程
         scope.launch(Dispatchers.Unconfined) {
-            val one = getResult(20)
-            val two = getResult(40)
-            Log.i(ACTIVITY_TAG, "customScopeDemo: " + (one + two).toString())
+            // async 能够并发执行任务，执行任务的时间也因此缩短了一半。async 还可以对它的 start 入参设置成懒加载
+            val one = async { getResult(20) }
+            val two = async { getResult(40) }
+            Log.i(ACTIVITY_TAG, "customScopeDemo: " + (one.await() + two.await()).toString())
         }
     }
 
