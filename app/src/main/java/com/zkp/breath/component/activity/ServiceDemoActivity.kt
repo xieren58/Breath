@@ -86,7 +86,6 @@ class ServiceDemoActivity : BaseActivity() {
     })
 
     private val listener: IOnNewBookArrivedListener = object : IOnNewBookArrivedListener.Stub() {
-        @Throws(RemoteException::class)
         override fun onNewBookArrived(book: Book?) {
             // 由于 onNewBookArrived 方法在子线程被调用，所以通过Handler切换到UI线程，方便UI操作
             mHandler.obtainMessage(1, book).sendToTarget()

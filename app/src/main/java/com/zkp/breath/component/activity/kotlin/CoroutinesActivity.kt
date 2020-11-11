@@ -30,6 +30,19 @@ import kotlin.concurrent.thread
  *
  * 非阻塞式挂起:
  * 阻塞是发生在单线程中，挂起已经是一种切到另外的线程执行了，所以挂起一定是非阻塞的。
+ *
+ *
+ * 协程作用域（理解为生命周期）：
+ * 1.runBlocking：顶层函数，它和 coroutineScope 不一样，它会阻塞当前线程来等待，所以这个方法在业务中并不适用 。
+ * 2.GlobalScope：全局协程作用域，可以在整个应用的声明周期中操作，且不能取消，所以仍不适用于业务开发。（会造成空指针或者内存泄漏）
+ * 3.自定义作用域：自定义协程的作用域，不会造成内存泄漏。
+ *
+ * 调度器（将协程限制在特定的线程执行）：
+ * Dispatchers.Main：指定执行的线程是主线程。
+ * Dispatchers.IO：指定执行的线程是 IO 线程。
+ * Dispatchers.Default：默认的调度器，适合执行 CPU 密集性的任务。
+ * Dispatchers.Unconfined：非限制的调度器，指定的线程可能会随着挂起的函数发生变化。
+ *
  */
 class CoroutinesActivity : BaseActivity() {
     private lateinit var binding: ActivityCoroutinesBinding
@@ -39,6 +52,23 @@ class CoroutinesActivity : BaseActivity() {
         binding = ActivityCoroutinesBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
         init()
+        customScopeDemo()
+    }
+
+    // 1. 创建一个 MainScope
+    val scope = MainScope()
+    private fun customScopeDemo() {     // 自定义作用域demo
+        // 2. 启动协程
+        scope.launch(Dispatchers.Unconfined) {
+            val one = getResult(20)
+            val two = getResult(40)
+            Log.i(ACTIVITY_TAG, "customScopeDemo: " + (one + two).toString())
+        }
+    }
+
+    private suspend fun getResult(num: Int): Int {
+        delay(5000)
+        return num * num
     }
 
     @SuppressLint("SetTextI18n")
@@ -50,7 +80,9 @@ class CoroutinesActivity : BaseActivity() {
 
         // 如果没有ui操作就没必要使用Dispatchers.Main，否则会报错。
         // 消除了嵌套关系，内部的withContext形成了上下级关系
-        // 挂起函数后并不会往下继续执行，只有等挂起函数执行完毕才能接着往下执行，但这个挂起不是暂停，而是脱离的意思，脱离到其他线程执行完毕再切换原有线程继续往下执行。
+
+        // 挂起函数后并不会往下继续执行，只有等挂起函数执行完毕才能接着往下执行，但这个挂起不是暂停，而是脱离的意思，
+        // 脱离到其他线程执行完毕再切换原有线程继续往下执行。
         GlobalScope.launch(Dispatchers.Main) {
             // 1
             withContext(Dispatchers.IO) {
@@ -79,7 +111,8 @@ class CoroutinesActivity : BaseActivity() {
 
     }
 
-    // 可以把withContext放进单独的一个函数内部，但函数需要添加suspend关键字（因为withContext 是一个 suspend 函数，它需要在协程或者是另一个 suspend 函数中调用）
+    // 可以把withContext放进单独的一个函数内部，但函数需要添加suspend关键字（因为withContext 是一个 suspend 函数，
+    // 它需要在协程或者是另一个 suspend 函数中调用）
     private suspend fun extractWithContext() = withContext(Dispatchers.IO) {
         Log.i(ACTIVITY_TAG, "extractWithContext_IO3: ${Thread.currentThread().name}")
     }
@@ -88,6 +121,12 @@ class CoroutinesActivity : BaseActivity() {
         // 等待一段时间后再继续往下执行代码,使用它就可以实现刚才提到的等待类型的耗时操作
         delay(1000)
         Log.i(ACTIVITY_TAG, "extractDelay: ${Thread.currentThread().name}")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 3. 销毁的时候释放
+        scope.cancel()
     }
 
 }
