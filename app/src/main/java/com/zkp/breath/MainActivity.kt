@@ -13,6 +13,7 @@ import com.zkp.breath.component.activity.*
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.activity.debugs.DebugActivity
 import com.zkp.breath.component.activity.jetpack.*
+import com.zkp.breath.component.activity.kotlin.CoroutinesActivity
 import com.zkp.breath.component.activity.weight.*
 import com.zkp.breath.databinding.ActivityMainBinding
 import kotlin.system.exitProcess
@@ -22,6 +23,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val listOf = mutableListOf(
+            "Coroutines",
             "TabLayout", "TextView", "Button", "Switch", "ImageViewAdjustViewBounds",
             "ImageViewScaleType", "MotionLayout", "Debug",
             "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service",
@@ -57,6 +59,10 @@ class MainActivity : BaseActivity() {
      */
     private val onItemChildClickListener = OnItemClickListener { _, _, position ->
         when (val type = listOf[position]) {
+            "Coroutines" -> {
+                ActivityUtils.startActivity(CoroutinesActivity::class.java)
+                return@OnItemClickListener
+            }
             "TabLayout" -> {
                 ActivityUtils.startActivity(TabLayoutActivity::class.java)
                 return@OnItemClickListener
