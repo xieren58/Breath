@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import com.blankj.utilcode.util.ThreadUtils
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityCoroutinesBinding
 import kotlinx.coroutines.*
@@ -45,7 +46,7 @@ import kotlin.concurrent.thread
  *
  * launch：启动一个新的协程，它返回的是一个 Job对象，我们可以调用 Job#cancel() 取消这个协程。除了 launch，
  * 还有一个方法跟它很像，就是 async，它的作用是创建一个协程，之后返回一个 Deferred<T>对象，我们可以调用
- * Deferred#await()去获取返回的值，有点类似于 Java 中的 Future，
+ * Deferred#await()去获取返回的值，有点类似于 Java 中的 Future（会阻塞当前线程，最外层的协程一定不能在主线程）。
  */
 class CoroutinesActivity : BaseActivity() {
     private lateinit var binding: ActivityCoroutinesBinding
@@ -62,11 +63,21 @@ class CoroutinesActivity : BaseActivity() {
     val scope = MainScope()
     private fun customScopeDemo() {     // 自定义作用域demo
         // 2. 启动协程
-        scope.launch(Dispatchers.Unconfined) {
+        scope.launch(Dispatchers.IO) {
+            Log.i(ACTIVITY_TAG, "customScopeDemo: 1")
             // async 能够并发执行任务，执行任务的时间也因此缩短了一半。async 还可以对它的 start 入参设置成懒加载
-            val one = async { getResult(20) }
-            val two = async { getResult(40) }
+            val one = async {
+                getResult(20)
+                Log.i(ACTIVITY_TAG, "customScopeDemo: 2_" + ThreadUtils.isMainThread())
+            }
+            Log.i(ACTIVITY_TAG, "customScopeDemo: 3")
+            val two = async {
+                getResult(40)
+                Log.i(ACTIVITY_TAG, "customScopeDemo: 4_" + ThreadUtils.isMainThread())
+            }
+            Log.i(ACTIVITY_TAG, "customScopeDemo: 5")
             Log.i(ACTIVITY_TAG, "customScopeDemo: " + (one.await() + two.await()).toString())
+            Log.i(ACTIVITY_TAG, "customScopeDemo: 6")
         }
     }
 
@@ -106,7 +117,7 @@ class CoroutinesActivity : BaseActivity() {
             extractDelay()
 
             // 5
-            binding.tvCoroutines.text = "tttt"
+            binding.tvCoroutines.text = "协程牛逼！"
             Log.i(ACTIVITY_TAG, "launch_Main: ${Thread.currentThread().name}")
         }
 
