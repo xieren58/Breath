@@ -30,7 +30,8 @@ import kotlin.concurrent.thread
  * 2.delay()   等待一段时间后再继续往下执行代码,使用它就可以实现刚才提到的等待类型的耗时操作，该操作发生在launch函数指定的线程。
  *
  * 非阻塞式挂起:
- * 阻塞是发生在单线程中，挂起已经是一种切到另外的线程执行了，所以挂起一定是非阻塞的。
+ * 阻塞是发生在单线程中，挂起已经是一种切到另外的线程执行了，所以挂起一定是非阻塞的。一个协程在进入阻塞后不会阻塞当前线程，
+ * 当前线程会去执行其他协程任务
  *
  *
  * 协程作用域（理解为生命周期）：
@@ -97,21 +98,18 @@ class CoroutinesActivity : BaseActivity() {
             Log.i(ACTIVITY_TAG, "thread: ${Thread.currentThread().name}")
         }
 
-        // 如果没有ui操作就没必要使用Dispatchers.Main，否则会报错。
-        // 消除了嵌套关系，内部的withContext形成了上下级关系
-
         // 挂起函数后并不会往下继续执行，只有等挂起函数执行完毕才能接着往下执行，但这个挂起不是暂停，而是脱离的意思，
         // 脱离到其他线程执行完毕再切换原有线程继续往下执行。
         GlobalScope.launch(Dispatchers.Main) {
             // 1
             withContext(Dispatchers.IO) {
                 Thread.sleep(2000)
-                Log.i(ACTIVITY_TAG, "launch_IO1: ${Thread.currentThread().name}")
+                Log.i("GlobalScope_Demo", "launch_IO1: ${Thread.currentThread().name}")
             }
             // 2
             withContext(Dispatchers.IO) {
                 Thread.sleep(2000)
-                Log.i(ACTIVITY_TAG, "launch_IO2: ${Thread.currentThread().name}")
+                Log.i("GlobalScope_Demo", "launch_IO2: ${Thread.currentThread().name}")
             }
 
             // 3
@@ -121,25 +119,24 @@ class CoroutinesActivity : BaseActivity() {
             extractDelay()
 
             // 5
-            binding.tvCoroutines.text = "协程牛逼！"
-            Log.i(ACTIVITY_TAG, "launch_Main: ${Thread.currentThread().name}")
+            Log.i("GlobalScope_Demo", "launch_Main: ${Thread.currentThread().name}")
         }
 
         // 0
-        Log.i(ACTIVITY_TAG, "main_out: ${Thread.currentThread().name}")
+        Log.i("GlobalScope_Demo", "main_out: ${Thread.currentThread().name}")
 
     }
 
     // 可以把withContext放进单独的一个函数内部，但函数需要添加suspend关键字（因为withContext 是一个 suspend 函数，
     // 它需要在协程或者是另一个 suspend 函数中调用）
     private suspend fun extractWithContext() = withContext(Dispatchers.IO) {
-        Log.i(ACTIVITY_TAG, "extractWithContext_IO3: ${Thread.currentThread().name}")
+        Log.i("GlobalScope_Demo", "extractWithContext_IO3: ${Thread.currentThread().name}")
     }
 
     private suspend fun extractDelay() {
         // 等待一段时间后再继续往下执行代码,使用它就可以实现刚才提到的等待类型的耗时操作
         delay(1000)
-        Log.i(ACTIVITY_TAG, "extractDelay: ${Thread.currentThread().name}")
+        Log.i("GlobalScope_Demo", "extractDelay: ${Thread.currentThread().name}")
     }
 
     override fun onDestroy() {
