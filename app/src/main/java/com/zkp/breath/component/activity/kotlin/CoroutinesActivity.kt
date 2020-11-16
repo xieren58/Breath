@@ -56,6 +56,7 @@ import kotlin.concurrent.thread
  * https://www.sohu.com/a/236536167_684445
  * https://www.jianshu.com/p/76d2f47b900d
  * https://mp.weixin.qq.com/s/lBS1PpWeIXLFjkGfOZilyw
+ * https://www.jianshu.com/p/2979732fb6fb
  */
 class CoroutinesActivity : BaseActivity() {
     private lateinit var binding: ActivityCoroutinesBinding
