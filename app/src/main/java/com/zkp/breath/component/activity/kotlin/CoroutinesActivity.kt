@@ -52,6 +52,11 @@ import kotlin.concurrent.thread
  * 还有一个方法跟它很像，就是 async，它的作用是创建一个协程，之后返回一个 Deferred<T>对象，我们可以调用
  * Deferred#await()去获取返回的值，有点类似于 Java 中的 Future（会阻塞当前线程，最外层的协程一定不能在主线程）。
  *
+ * CoroutineStart(启动模式)，只需要掌握下面两个即可:
+ * 1. DEFAULT	立即执行协程体
+ * 2. LAZY	只有在需要的情况下运行
+ *
+ *
  * https://www.sohu.com/a/236536167_684445
  * https://www.jianshu.com/p/76d2f47b900d
  * https://mp.weixin.qq.com/s/lBS1PpWeIXLFjkGfOZilyw
