@@ -1,6 +1,5 @@
 package com.zkp.breath.component.activity.kotlin
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -38,7 +37,7 @@ import kotlin.concurrent.thread
  *
  *
  * 协程作用域（理解为生命周期）：
- * 1.runBlocking：顶层函数，它和 coroutineScope 不一样，它会阻塞当前线程来等待，所以这个方法在业务中并不适用 。
+ * 1.runBlocking：顶层函数，它和 coroutineScope 不一样，它会阻塞当前线程来等待，所以这个方法在业务中并不适用。
  * 2.GlobalScope：全局协程作用域，可以在整个应用的声明周期中操作，且不能取消，所以仍不适用于业务开发。（会造成空指针或者内存泄漏）
  * 3.自定义作用域：自定义协程的作用域，不会造成内存泄漏。
  *
@@ -74,8 +73,9 @@ class CoroutinesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCoroutinesBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
-        init()
-        customScopeDemo()
+//        init()
+//        customScopeDemo()
+        runBlockingDemo()
     }
 
     // 1. 创建一个 MainScope
@@ -105,7 +105,29 @@ class CoroutinesActivity : BaseActivity() {
         return num * num
     }
 
-    @SuppressLint("SetTextI18n")
+    /**
+     * runBlocking会阻塞当前线程，
+     */
+    private fun runBlockingDemo() {
+        Log.i("runBlockingDemo", "threadName_0: ${Thread.currentThread().name}")
+        runBlocking {
+
+            launch(Dispatchers.Main) {
+                Log.i("runBlockingDemo", "threadName_1: ${Thread.currentThread().name}")
+            }
+
+
+            launch(Dispatchers.Unconfined) {
+//                delay(1000L)
+                Log.i("runBlockingDemo", "threadName_1_1: ${Thread.currentThread().name}")
+            }
+
+            Log.i("runBlockingDemo", "threadName_2: ${Thread.currentThread().name}")
+        }
+
+        Log.i("runBlockingDemo", "threadName_3: ${Thread.currentThread().name}")
+    }
+
     private fun init() {
         // kotlin提供的函数简化了对Thread的使用
         thread {
