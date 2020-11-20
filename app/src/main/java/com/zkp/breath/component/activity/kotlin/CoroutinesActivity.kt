@@ -57,6 +57,11 @@ import kotlin.concurrent.thread
  * 2. LAZY	只有在需要的情况下运行
  *
  *
+ * ？？？？？？？？？？？？？？？？？？？
+ * 1. 协程并不会马上执行（不一定，还是不会，感觉和线程有那么点像）
+ * 2. 单个协程内的代码是顺序执行的
+ *
+ *
  * https://www.sohu.com/a/236536167_684445
  * https://www.jianshu.com/p/76d2f47b900d
  * https://mp.weixin.qq.com/s/lBS1PpWeIXLFjkGfOZilyw
