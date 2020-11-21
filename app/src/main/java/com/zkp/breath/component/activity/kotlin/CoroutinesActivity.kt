@@ -67,22 +67,21 @@ import kotlin.concurrent.thread
  * https://www.jianshu.com/p/2979732fb6fb
  */
 class CoroutinesActivity : BaseActivity() {
+
     private lateinit var binding: ActivityCoroutinesBinding
+    val mainScope = MainScope()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCoroutinesBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 //        init()
-//        customScopeDemo()
+        asyncDemo()
         runBlockingDemo()
     }
 
-    // 1. 创建一个 MainScope
-    val scope = MainScope()
-    private fun customScopeDemo() {     // 自定义作用域demo
-        // 2. 启动协程
-        scope.launch(Dispatchers.IO) {
+    private fun asyncDemo() {     // 自定义作用域demo
+        mainScope.launch(Dispatchers.IO) {
             Log.i(ACTIVITY_TAG, "customScopeDemo: 1")
             // async 能够并发执行任务，执行任务的时间也因此缩短了一半。async 还可以对它的 start 入参设置成懒加载
             val one = async {
@@ -106,8 +105,7 @@ class CoroutinesActivity : BaseActivity() {
     }
 
     /**
-     * 1. runBlocking会阻塞当前线程，所以一定会等待协程内部执行完毕才会执行外部的代码
-     * 2.
+     * runBlocking会阻塞当前线程，所以一定会等待协程内部（内部可以有多个协程）执行完毕才会执行外部的代码
      */
     private fun runBlockingDemo() {
         Log.i("runBlockingDemo", "threadName_0: ${Thread.currentThread().name}")
@@ -163,7 +161,7 @@ class CoroutinesActivity : BaseActivity() {
     }
 
     // 可以把withContext放进单独的一个函数内部，但函数需要添加suspend关键字（因为withContext 是一个 suspend 函数，
-    // 它需要在协程或者是另一个 suspend 函数中调用）
+// 它需要在协程或者是另一个 suspend 函数中调用）
     private suspend fun extractWithContext() = withContext(Dispatchers.IO) {
         Log.i("GlobalScope_Demo", "extractWithContext_IO3: ${Thread.currentThread().name}")
     }
@@ -176,8 +174,7 @@ class CoroutinesActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // 3. 销毁的时候释放
-        scope.cancel()
+        mainScope.cancel()
     }
 
 }
