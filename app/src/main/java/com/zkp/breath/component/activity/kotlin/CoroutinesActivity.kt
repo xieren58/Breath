@@ -1,10 +1,8 @@
 package com.zkp.breath.component.activity.kotlin
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import com.blankj.utilcode.util.ThreadUtils
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityCoroutinesBinding
 import kotlinx.coroutines.*
@@ -20,12 +18,18 @@ import kotlin.concurrent.thread
  *   切换，也不用像线程一样竞争cpu执行权），一个线程可以创建任意个协程。
  *
  * 挂起本质：
- * 代码执行到 suspend 函数的时候会从当前线程挂起协程，就是这个协程从正在执行它的线程上脱离（launch函数指定的线程中脱离），
- * 挂起后的协程会在suspend函数指定的线程中继续执行，在 suspend 函数执行完成之后，协程会自动帮我们把线程再切回来（切回launch函数指定的线程）。
- * suspend的意义在于提醒使用者要在协程中调用，真正实现挂起的是withContext（）这个kotlin提供的方法。
+ * 1. 代码执行到 suspend 函数的时候会从当前线程挂起协程，就是这个协程从正在执行它的线程上脱离（launch函数指定的线程中脱离），
+ * 挂起后的协程会在suspend函数指定的线程中继续执行，在 suspend 函数执行完成之后，协程会自动帮我们把线程再切回来（
+ * 切回launch函数指定的线程），suspend函数要在协程中或者另一个suspend函数中调用。
  *
- *  suspend 函数它就像是回调的语法糖一样，实际上通过一个叫 Continuation 的接口的实例来返回结果，而这一步操作是由编译器自动帮我们完成。
+ * 2. suspend 函数它就像是回调的语法糖一样，实际上通过一个叫 Continuation 的接口的实例来返回结果，而这一步操作
+ *  是由编译器自动帮我们完成。如下：
+ *  suspend fun requestToken(): String { ... }  👇
+ *  Object requestToken(Continuation<String> cont) { ... }   // 实际上在JVM中
  *
+ * 3. 然而，协程内部实现不是使用普通回调的形式，而是使用状态机CPS(Continuation Passing Style)来处理不同的挂起点。
+ *  每一个挂起点对应的 Continuation 都会转化为一种状态，协程恢复只是跳转到下一种状态中。挂起函数将执行过程分为多个
+ *  Continuation 片段，并且利用状态机的方式保证各个片段是顺序执行的。
  *
  *
  * kotlin提供的suspend函数，注意都需要在协程中调用：
@@ -37,10 +41,15 @@ import kotlin.concurrent.thread
  * 当前线程会去执行其他协程任务
  *
  *
+ * 启动一个协程：
+ * 1.runBlocking：顶层函数，它和 coroutineScope 不一样，它会阻塞当前线程来等待，所以这个方法在实际业务中并不适用。
+ * 2.launch：启动一个新的协程，它返回的是一个 Job对象，我们可以调用 Job#cancel() 取消这个协程。
+ * 3.async：启动一个新的协程，之后返回一个 Deferred<T>对象（Job的子类），Deferred#await()可以获取到返回值，
+ *   await是一个挂起函数。
+ *
  * 协程作用域（理解为生命周期）：
- * 1.runBlocking：顶层函数，它和 coroutineScope 不一样，它会阻塞当前线程来等待，所以这个方法在业务中并不适用 。
- * 2.GlobalScope：全局协程作用域，可以在整个应用的声明周期中操作，且不能取消，所以仍不适用于业务开发。（会造成空指针或者内存泄漏）
- * 3.自定义作用域：自定义协程的作用域，不会造成内存泄漏。
+ * 1.GlobalScope：全局协程作用域，可以在整个应用的声明周期中操作，且不能取消，所以仍不适用于业务开发。（会造成空指针或者内存泄漏）
+ * 2.自定义作用域：自定义协程的作用域，不会造成内存泄漏。
  *
  * 调度器（将协程限制在特定的线程执行）：
  * Dispatchers.Main：指定执行的线程是主线程。
@@ -48,14 +57,9 @@ import kotlin.concurrent.thread
  * Dispatchers.Default：默认的调度器，适合执行 CPU 密集性的任务。
  * Dispatchers.Unconfined：非限制的调度器，指定的线程可能会随着挂起的函数发生变化。
  *
- * launch：启动一个新的协程，它返回的是一个 Job对象，我们可以调用 Job#cancel() 取消这个协程。除了 launch，
- * 还有一个方法跟它很像，就是 async，它的作用是创建一个协程，之后返回一个 Deferred<T>对象，我们可以调用
- * Deferred#await()去获取返回的值，有点类似于 Java 中的 Future（会阻塞当前线程，最外层的协程一定不能在主线程）。
- *
  * CoroutineStart(启动模式)，只需要掌握下面两个即可:
  * 1. DEFAULT	立即执行协程体
  * 2. LAZY	只有在需要的情况下运行
- *
  *
  * https://www.sohu.com/a/236536167_684445
  * https://www.jianshu.com/p/76d2f47b900d
@@ -63,36 +67,38 @@ import kotlin.concurrent.thread
  * https://www.jianshu.com/p/2979732fb6fb
  */
 class CoroutinesActivity : BaseActivity() {
+
     private lateinit var binding: ActivityCoroutinesBinding
+    val mainScope = MainScope()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCoroutinesBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
-        init()
-        customScopeDemo()
+//        init()
+        asyncDemo()
+//        runBlockingDemo()
     }
 
-    // 1. 创建一个 MainScope
-    val scope = MainScope()
-    private fun customScopeDemo() {     // 自定义作用域demo
-        // 2. 启动协程
-        scope.launch(Dispatchers.IO) {
-            Log.i(ACTIVITY_TAG, "customScopeDemo: 1")
+    private fun asyncDemo() {
+        mainScope.launch {
+            Log.i(ACTIVITY_TAG, "asyncDemo: 1: " + Thread.currentThread().name)
             // async 能够并发执行任务，执行任务的时间也因此缩短了一半。async 还可以对它的 start 入参设置成懒加载
             val one = async {
                 getResult(20)
-                Log.i(ACTIVITY_TAG, "customScopeDemo: 2_" + ThreadUtils.isMainThread())
+                Log.i(ACTIVITY_TAG, "asyncDemo: 2_" + Thread.currentThread().name)
             }
-            Log.i(ACTIVITY_TAG, "customScopeDemo: 3")
+            Log.i(ACTIVITY_TAG, "asyncDemo: 3")
             val two = async {
                 getResult(40)
-                Log.i(ACTIVITY_TAG, "customScopeDemo: 4_" + ThreadUtils.isMainThread())
+                Log.i(ACTIVITY_TAG, "asyncDemo: 4_" + Thread.currentThread().name)
             }
-            Log.i(ACTIVITY_TAG, "customScopeDemo: 5")
-            Log.i(ACTIVITY_TAG, "customScopeDemo: " + (one.await() + two.await()).toString())
-            Log.i(ACTIVITY_TAG, "customScopeDemo: 6")
+            Log.i(ACTIVITY_TAG, "asyncDemo: 5")
+            // await会挂起执行该方法所处的协程（这里指MainScope），等待await所属的协程完成(这里指one和two，即Deferred)。
+            Log.i(ACTIVITY_TAG, "asyncDemo: " + (one.await() + two.await()).toString())
+            Log.i(ACTIVITY_TAG, "asyncDemo: 6")
         }
+        Log.i(ACTIVITY_TAG, "asyncDemo: 7")
     }
 
     private suspend fun getResult(num: Int): Int {
@@ -100,7 +106,27 @@ class CoroutinesActivity : BaseActivity() {
         return num * num
     }
 
-    @SuppressLint("SetTextI18n")
+    /**
+     * runBlocking会阻塞当前线程，所以一定会等待协程内部（内部可以有多个协程）执行完毕才会执行外部的代码
+     */
+    private fun runBlockingDemo() {
+        Log.i("runBlockingDemo", "threadName_0: ${Thread.currentThread().name}")
+        runBlocking(Dispatchers.IO) {
+
+            launch(Dispatchers.Unconfined) {
+                Log.i("runBlockingDemo", "threadName_1: ${Thread.currentThread().name}")
+            }
+
+            launch(Dispatchers.Unconfined) {
+                Log.i("runBlockingDemo", "threadName_1_1: ${Thread.currentThread().name}")
+            }
+
+            Log.i("runBlockingDemo", "threadName_2: ${Thread.currentThread().name}")
+        }
+
+        Log.i("runBlockingDemo", "threadName_3: ${Thread.currentThread().name}")
+    }
+
     private fun init() {
         // kotlin提供的函数简化了对Thread的使用
         thread {
@@ -112,12 +138,10 @@ class CoroutinesActivity : BaseActivity() {
         GlobalScope.launch(Dispatchers.Main) {
             // 1
             withContext(Dispatchers.IO) {
-                Thread.sleep(2000)
                 Log.i("GlobalScope_Demo", "launch_IO1: ${Thread.currentThread().name}")
             }
             // 2
             withContext(Dispatchers.IO) {
-                Thread.sleep(2000)
                 Log.i("GlobalScope_Demo", "launch_IO2: ${Thread.currentThread().name}")
             }
 
@@ -137,7 +161,7 @@ class CoroutinesActivity : BaseActivity() {
     }
 
     // 可以把withContext放进单独的一个函数内部，但函数需要添加suspend关键字（因为withContext 是一个 suspend 函数，
-    // 它需要在协程或者是另一个 suspend 函数中调用）
+// 它需要在协程或者是另一个 suspend 函数中调用）
     private suspend fun extractWithContext() = withContext(Dispatchers.IO) {
         Log.i("GlobalScope_Demo", "extractWithContext_IO3: ${Thread.currentThread().name}")
     }
@@ -150,8 +174,7 @@ class CoroutinesActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // 3. 销毁的时候释放
-        scope.cancel()
+        mainScope.cancel()
     }
 
 }
