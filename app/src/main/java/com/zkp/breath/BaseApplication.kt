@@ -6,8 +6,6 @@ import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.Utils
 import com.didichuxing.doraemonkit.DoraemonKit
-import com.github.moduth.blockcanary.BlockCanary
-import com.github.moduth.blockcanary.BlockCanaryContext
 import com.zkp.breath.mmkv.template.AppConfiguration
 import com.zkp.breath.utils.UmUtils
 
@@ -20,8 +18,6 @@ class BaseApplication : MultiDexApplication() {
         if (ProcessUtils.isMainProcess()) {
             // 常用工具库初始化
             Utils.init(this)
-            // 初始化界面卡顿检查工具
-            BlockCanary.install(this, BlockCanaryContext()).start()
             // 初始化阿里路由器框架
             initARouter()
             // 初始化滴滴研发助手

@@ -225,10 +225,6 @@ dependencies {
     // 内存泄露检验工具
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
 
-    // 界面卡顿工具
-    debugImplementation 'com.github.markzhai:blockcanary-android:1.5.0'
-    releaseImplementation 'com.github.markzhai:blockcanary-no-op:1.5.0'
-
     // DoKit(3.1.6有坑，不要升到这个版本)
     debugImplementation "com.didichuxing.doraemonkit:doraemonkit:3.1.5"
     releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.5"
