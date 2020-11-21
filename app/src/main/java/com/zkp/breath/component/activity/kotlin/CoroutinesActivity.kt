@@ -106,19 +106,18 @@ class CoroutinesActivity : BaseActivity() {
     }
 
     /**
-     * runBlocking会阻塞当前线程，
+     * 1. runBlocking会阻塞当前线程，所以一定会等待协程内部执行完毕才会执行外部的代码
+     * 2.
      */
     private fun runBlockingDemo() {
         Log.i("runBlockingDemo", "threadName_0: ${Thread.currentThread().name}")
-        runBlocking {
+        runBlocking(Dispatchers.IO) {
 
-            launch(Dispatchers.Main) {
+            launch(Dispatchers.Unconfined) {
                 Log.i("runBlockingDemo", "threadName_1: ${Thread.currentThread().name}")
             }
 
-
             launch(Dispatchers.Unconfined) {
-//                delay(1000L)
                 Log.i("runBlockingDemo", "threadName_1_1: ${Thread.currentThread().name}")
             }
 
