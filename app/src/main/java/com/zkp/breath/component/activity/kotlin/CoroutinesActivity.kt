@@ -172,6 +172,46 @@ class CoroutinesActivity : BaseActivity() {
         Log.i("GlobalScope_Demo", "extractDelay: ${Thread.currentThread().name}")
     }
 
+    /**
+     *协程的启动模式demo
+     */
+    private fun coroutineStartStrategyDemo() {
+        defaultStrategyDemo()
+    }
+
+    /**
+     * DEFAULT 是饿汉式启动， launch 调用后会立即进入待调度状态，一旦调度器 OK 就可以开始执行。默认调度器是一个
+     * 线程池，而线程的调度顺序取决于竞争cpu的时间片。
+     *
+     * 可能出现的输出顺序：132，123
+     */
+    private fun defaultStrategyDemo() {
+        Log.i("defaultStrategyDemo", "1")
+        GlobalScope.launch {    // 默认调度器
+            Log.i("defaultStrategyDemo", "2")
+        }
+        Log.i("defaultStrategyDemo", "3")
+    }
+
+    /**
+     * LAZY 是懒汉式启动， launch 后并不会有任何调度行为，协程体也自然不会进入执行状态，直到我们需要它执行的时候。
+     * 调用 Job.start，主动触发协程的调度执行
+     * 调用 Job.join，隐式的触发协程的调度执行
+     */
+    private fun lazyStrategyDemo() {
+        GlobalScope.launch(Dispatchers.Main) {
+            Log.i("defaultStrategyDemo", "1")
+            val launch = GlobalScope.launch(start = CoroutineStart.LAZY) {    // 默认调度器
+                Log.i("defaultStrategyDemo", "2")
+            }
+            Log.i("defaultStrategyDemo", "3")
+//        launch.start()  // 只是进入可调度状态，但协程所处的线程不一定能马上抢到cpu执行权。 可能出现的输出顺序：1342，1324
+            launch.join()   // 因为要等待协程执行完毕，因此输出的结果一定是：1324
+            Log.i("defaultStrategyDemo", "4")
+        }
+    }
+
+
     override fun onDestroy() {
         super.onDestroy()
         mainScope.cancel()
