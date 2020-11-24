@@ -76,8 +76,10 @@ class CoroutinesActivity : BaseActivity() {
         binding = ActivityCoroutinesBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 //        init()
-        asyncDemo()
+//        asyncDemo()
 //        runBlockingDemo()
+
+
     }
 
     private fun asyncDemo() {
@@ -110,6 +112,19 @@ class CoroutinesActivity : BaseActivity() {
      * runBlocking会阻塞当前线程，所以一定会等待协程内部（内部可以有多个协程）执行完毕才会执行外部的代码
      */
     private fun runBlockingDemo() {
+        runBlocking {
+            launch { // 这里默认是Dispatchers.Default，在mian线程运行，当不是直接运行，相当于post任务到队列等待执行
+                Log.i("test", "1:${Thread.currentThread().name}")
+                delay(100)
+                Log.i("test", "2: ${Thread.currentThread().name}")
+            }
+            launch(Dispatchers.Unconfined) {// Dispatchers.Unconfined 是直接运行的
+                Log.i("test", "3: ${Thread.currentThread().name}")
+                delay(100)
+                Log.i("test", "4: ${Thread.currentThread().name}")
+            }
+        }
+
         Log.i("runBlockingDemo", "threadName_0: ${Thread.currentThread().name}")
         runBlocking(Dispatchers.IO) {
 
