@@ -79,7 +79,7 @@ class CoroutinesActivity : BaseActivity() {
 //        asyncDemo()
 //        runBlockingDemo()
 
-
+        coroutineStartStrategyDemo()
     }
 
     private fun asyncDemo() {
@@ -192,6 +192,7 @@ class CoroutinesActivity : BaseActivity() {
      */
     private fun coroutineStartStrategyDemo() {
         defaultStrategyDemo()
+//        lazyStrategyDemo()
     }
 
     /**
@@ -202,7 +203,8 @@ class CoroutinesActivity : BaseActivity() {
      */
     private fun defaultStrategyDemo() {
         Log.i("defaultStrategyDemo", "1")
-        GlobalScope.launch {    // 默认调度器
+        GlobalScope.launch() {    // 默认调度器
+            val job = coroutineContext[Job]
             Log.i("defaultStrategyDemo", "2")
         }
         Log.i("defaultStrategyDemo", "3")
