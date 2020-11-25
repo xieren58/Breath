@@ -62,9 +62,9 @@ import kotlin.concurrent.thread
  * 2. LAZY	只有在需要的情况下运行
  *
  * https://www.sohu.com/a/236536167_684445
- * https://www.jianshu.com/p/76d2f47b900d
- * https://mp.weixin.qq.com/s/lBS1PpWeIXLFjkGfOZilyw
  * https://www.jianshu.com/p/2979732fb6fb
+ *
+ * https://blog.csdn.net/NJP_NJP/article/details/103513537
  */
 class CoroutinesActivity : BaseActivity() {
 
@@ -79,7 +79,7 @@ class CoroutinesActivity : BaseActivity() {
 //        asyncDemo()
 //        runBlockingDemo()
 
-        coroutineStartStrategyDemo()
+//        coroutineStartStrategyDemo()
     }
 
     private fun asyncDemo() {
