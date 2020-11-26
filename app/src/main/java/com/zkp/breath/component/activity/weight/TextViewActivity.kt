@@ -1,6 +1,10 @@
 package com.zkp.breath.component.activity.weight
 
+import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.os.Bundle
+import android.widget.TextView
 import com.blankj.utilcode.util.ResourceUtils
 import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
@@ -13,6 +17,7 @@ class TextViewActivity : BaseActivity(R.layout.activity_tv) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         compoundDrawables()
+        textGradient(tv)
     }
 
     /**
@@ -27,6 +32,23 @@ class TextViewActivity : BaseActivity(R.layout.activity_tv) {
                 AutoSizeUtils.dp2px(this, 10f))
         // 设置图片的位置
         tv.setCompoundDrawables(null, null, null, rightDrawable)
+    }
+
+
+    /**
+     * 为文字设置渐变色
+     */
+    private fun textGradient(textView: TextView) {
+        val endX = textView.paint.textSize * textView.text.length
+        val linearGradient = LinearGradient(
+                0f, 0f, endX, 0f,   // 从左到右
+                Color.parseColor("#FFFFFFFF"),
+                Color.parseColor("#FFFF5722"),
+                Shader.TileMode.CLAMP
+        )
+        // 获取画笔后设置shader属性
+        textView.paint.shader = linearGradient
+        textView.invalidate()
     }
 
 }
