@@ -7,11 +7,11 @@ const val CONST = 22
 
 class Demo(name: String) {
 
-    // var/val变量被构造方法的参数赋值，则可以不用马上初始化
+    // var/val变量使用构造方法的参数赋值进行初始化
     val name1 = name
     var name2 = name
 
-    // var/val变量在init代码块初始化，则可以不用马上初始化
+    // var/val变量在init代码块初始化
     var name3: String
 
     init {
@@ -30,11 +30,12 @@ class Demo(name: String) {
         }
         get() = field + 1
 
-    // 因为没有用到field幕后字段，可以不需要初始化
+    // 因为没有用到field幕后字段，不用在变量后马上写初始化值，get访问器相当于初始化
     var i3
-        get() = i       // 获取值的时候就知道i3的类型和值
+        get() = 1       // 获取值的时候就知道i3的类型和值
         set(value) {}   // 无效的赋值操作，所以不用管i3到底是什么类型，当前值是什么，所以也就不用初始化。
 
+    // 马上赋值，则访问器必须使用field关键字，否则调用这个变量的时候不知道使用的是马上赋值的值还是get访问器的值
     val i1 = 22
         get() = field + 2
 
@@ -53,38 +54,23 @@ class Demo(name: String) {
      * 「我很确定我用的时候绝对不为空，但第一时间我没法给它赋值」
      * 关键字lateinit，延迟初始化属性,用于类体中的属性，顶层属性与局部变量。
      * 注意：
-     * 1.不允许自定义get/set访问器（get/set访问器中使用到field幕后字段是需要马上初始化的，而关键字本上就是要延迟初始化，所以作用互斥）
-     * 2.必须是非空类型且不能是原生类型(你声明为Int是不被允许的)。
+     * 1.不允许自定义get/set访问器（get/set访问器中使用到field幕后字段是需要马上初始化的，但lateinit就是要延迟初始化，所以作用互斥）
+     * 2.必须是非空类型且不能是原生类型(你声明为Int类型是不被允许的)。
      * 3.只能是var修饰（延迟赋值，不是不能赋值，而val定义后不能修改值所以不符合）
      * 4.必须指定类型
      */
     lateinit var lateinitStr: String
 
-    fun test1() {
+    fun isInitializedLateinitStr() {
         // TODO 重要,判断是否初始化
         if (::lateinitStr.isInitialized) {
         }
-    }
-}
-
-class ClassDemo {
-
-    val s: String = ""
-
-    // 1.要么声明的时候赋初始值
-    // 2.要么可以放在init()中赋值，但as提示还是直接赋值
-    var i: Int = 1
-
-    // 方法
-    // 方法声明：fun关键字 方法名（方法参数）{}
-    fun f() {
-
     }
 
     // kotlin的方法的参数默认是val，所以该参数不能重新赋值，也不能添加val/var修饰。
     // 而java的的参数可以添加final修饰，一般在局部匿名内部类使用外部局部变量的时候会添加。
     // Kotlin 里这样设计的原因是保证了参数不会被修改，而 Java 的参数可修改（默认没 final 修饰）会增加出错的概率。
-    fun f2(s: String) {
+    fun funDemo(s: String) {
 
     }
 }
@@ -93,21 +79,15 @@ class ClassDemo {
 open class ClassDemo2
 
 // ‘constructor(参数)’关键字加构造参数表示主构造函数
-class ClassDemo3 constructor(s: String) {
-}
+class ClassDemo3 constructor(s: String)
 
 // 没有任何注解或者可见性修饰符可以省略关键字‘constructor’
-class ClassDemo4(s: String) {
-
-}
+class ClassDemo4(s: String)
 
 // 主构函数前添加可见修饰符表示该构造函数对外的可见度
-class ClassDemo5 private constructor(s: String) {
+class ClassDemo5 private constructor(s: String)
 
-}
-
-// 多个次构造函数（类似于java的方法重构）
-// 没有主构函数，不需要在次构函数后面加this()去表示调用主构函数
+// 多个次构造函数（类似于java的方法重载；没有主构函数，不需要在次构函数后面加this()去表示调用主构函数
 open class ClassDemo6 {
     constructor(s: String)
     constructor(i: Int)
@@ -117,6 +97,8 @@ open class ClassDemo6 {
 // 类头的父类无（），所以要在类体中声明的次构造函数要指向super或者调用指向super的this
 class ClassDemo6X1 : ClassDemo6 {
 
+    constructor(int: Int) : super("")
+
     constructor(int: Int, s: String) : super("") {
         println("ClassDemo6X1_无参数构造函数")
     }
@@ -125,23 +107,14 @@ class ClassDemo6X1 : ClassDemo6 {
 
     }
 
-    constructor(int: Int) : super("")
-
-
+    // 主构函数的方法体
     init {
         println("ClassDemo6X1的init{}")
     }
 }
 
 // 直接在类头实现父类
-class ClassDemo6X2 : ClassDemo6("") {
-}
-
-class ClassDemo6X3(s: String) {
-    init {
-        println(s)
-    }
-}
+class ClassDemo6X2 : ClassDemo6("")
 
 
 class ClassDemo7 constructor(s: String) {

@@ -194,6 +194,7 @@
         <activity android:name=".component.activity.jetpack.StartupActivity" />
         <activity android:name=".component.activity.jetpack.ViewBindingActivity" />
         <activity android:name=".component.activity.jetpack.DataBindingActivity" />
+        <activity android:name=".component.activity.jetpack.DataStoreActivity" />
 
         <service
             android:name=".component.service.IntentServiceA"

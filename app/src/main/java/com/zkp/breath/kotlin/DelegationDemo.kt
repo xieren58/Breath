@@ -34,7 +34,8 @@ class MI(name: String) : S {
 }
 
 /**
- * 类代理：只有接口才能代理。其实就是java的静态代理模式，将具体实现都指向给主构函数中的参数去实现。
+ * 类代理：只有接口才能代理。其实就是java的静态代理模式，将具体实现都指向给主构函数中的参数去实现。其实就是
+ * 一种设计模式上的语法糖实现。
  *
  * 其实相当于java的代理模式，Proxy实现了S，但是因为使用了by关键字，所以默认需要重写方法都又编译器帮我们实现
  * 而这些方法内部调用的其实就是传入的对象的同名方法（因为传入的对象的类也是实现了同一个接口）。
@@ -55,11 +56,8 @@ class Proxy(one: S) : S by one {
 
 class Example {
     /**
-     * val/var <property name>: <Type> by <expression>。by 之后的表达式是代理，因为属性对应的 get()
-     * （以及 set()）会被代理到它们的 getValue() 和 setValue() 方法, 所以代理类必须要要提供 getValue()
-     *  函数（以及 var 变量的 setValue()）。
-     *
-     *  不允许自定义访问器（get/set）
+     *  属性代理其实就是代理属性的get/set方法，所以不允许自定义访问器（get/set方法），代理类必须提供 getValue()
+     *   函数（以及 var 变量的 setValue()）。
      */
     var p: String by Delegate()
 

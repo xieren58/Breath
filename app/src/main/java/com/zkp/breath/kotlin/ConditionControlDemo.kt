@@ -50,6 +50,8 @@ fun hasPrefix(x: Any) = when (x) {
 /**
  * 还可以省略 when 后面的参数，每一个分支条件都可以是一个布尔表达式,哪一个条件先为 true 就执行哪个分支的代码块，
  * 其余条件无论是否为true都不会被执行，因为Kotlin 自动为每个分支加上了 break。
+ *
+ * 没什么必要的写法！仅仅作为了解
  */
 fun condition(str1: String, str2: String) {
     when {
