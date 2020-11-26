@@ -60,13 +60,6 @@ fun main() {
     // 是否包含指定的元素
     val contains = arrayOfNulls.contains("a")
 
-    // 元素个数对应数组个数，最终所有数组归入到一个集合中。
-    arrayOfNulls.flatMap {
-        val listOf = arrayListOf<String>()
-        listOf.add(it?.plus("拼接转换") ?: "我是空value")
-        listOf
-    }
-
     // 定义一个初始值，然后传入数组的每个元素和初始值的操作逻辑的lambda表达式
     arrayOfNulls.fold("我是flod的初始值") { initial, element -> initial + element }
 
