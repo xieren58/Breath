@@ -8,6 +8,7 @@ public class AppInternalConfigurationImp implements AppInternalConfiguration {
     private static final String ENCRYPT_KEY = AppInternalConfigurationImp.class.getSimpleName();
 
     public AppInternalConfigurationImp() {
+        // 文件名，进程模式，加密
         mmkv = MMKV.mmkvWithID(ConfigurationField.ConfigurationFile.INTERNAL_CONFIGURATION,
                 MMKV.SINGLE_PROCESS_MODE, ENCRYPT_KEY);
         // 取消加密

@@ -1,13 +1,10 @@
 package com.zkp.breath.mmkv.template;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.tencent.mmkv.MMKV;
 import com.tencent.mmkv.MMKVLogLevel;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class AppConfiguration implements AppInternalConfiguration, FunctionEntryConfiguration {
 
@@ -28,7 +25,8 @@ public class AppConfiguration implements AppInternalConfiguration, FunctionEntry
 
     private AppConfiguration(Context context) {
         // /data/data/包名/files/mmkv/
-        MMKV.initialize(context);
+        String initialize = MMKV.initialize(context);
+        Log.i("mmkv路径", "path: " + initialize);
         // 接收转发mmkv的日志
         MMKV.registerHandler(new MMKVHandlerLogcat());
         // 设置日志的等级
