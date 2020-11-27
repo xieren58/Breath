@@ -16,7 +16,7 @@ class BaseApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         if (ProcessUtils.isMainProcess()) {
-            // 常用工具库初始化
+            // 初始化工具库
             Utils.init(this)
             initARouter()
             initDoraemonKit()
