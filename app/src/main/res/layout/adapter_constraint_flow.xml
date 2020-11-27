@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingConstraints">
+
+    <!--
+        app:flow_horizontalGap="30dp" //两个view之间水平间隔
+        app:flow_verticalGap="30dp" //两个view之间垂直间隔
+        app:constraint_referenced_ids="tvA,tvB,tvC,tvD"  // 引用的id
+        flow_wrapMode: 排版样式
+            none：所有引用的View形成一条链，水平居中，超出屏幕两侧的View不可见。
+            chian：所引用的View形成一条链，超出部分会自动换行，同行的View会平分宽度。
+            aligned：所引用的View形成一条链，但View会在同行同列。
+        链约束：当flow_wrapMode属性为aligned和chian属性时，通过链进行约束。
+                flow_firstHorizontalStyle 约束第一条水平链，当有多条链（多行）时，只约束第一条链（第一行），其他链（其他行）不约束；
+                flow_lastHorizontalStyle 约束最后一条水平链，当有多条链（多行）时，只约束最后一条链（最后一行），其他链（其他行）不约束；
+                flow_horizontalStyle 约束所有水平链；
+                flow_firstVerticalStyle 同水平约束；
+                flow_lastVerticalStyle 同水平约束；
+                flow_verticalStyle 约束所有垂直链；
+    -->
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/flow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="tvA,tvB,tvC,tvD,tvE,tvF,tvG,tvH"
+        app:flow_horizontalGap="30dp"
+        app:flow_verticalGap="30dp"
+        app:flow_wrapMode="aligned"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvA"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/color3D000000"
+        android:gravity="center"
+        android:text="A"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvB"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorFF4488FF"
+        android:gravity="center"
+        android:text="B"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvC"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorFFFF5722"
+        android:gravity="center"
+        android:text="C"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvD"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorFFD81B60"
+        android:gravity="center"
+        android:text="D"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvE"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorFF000000"
+        android:gravity="center"
+        android:text="E"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvF"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/color808844FF"
+        android:gravity="center"
+        android:text="F"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvG"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/color804488FF"
+        android:gravity="center"
+        android:text="G"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvH"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorFFFFEB3B"
+        android:gravity="center"
+        android:text="H"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

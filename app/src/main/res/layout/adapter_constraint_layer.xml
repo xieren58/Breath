@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <!--
+       Layer 可以理解为包含这些 view 的一个 ViewGroup，但是Layer并不是ViewGroup，Layer并不会增加 view 的层级，
+       另外Layer支持对里面的 view 一起做动画。
+
+       考虑这么一个场景，如果一个页面里面有部分 view 需要加个背景，使用Layer引用这几个 view，然后给Layer设置背景就可以了。
+       如果不用Layer，只能另外加个 ViewGroup 包住这几个 View 了，这样会增加 view 的层级，不利于性能。
+    -->
+
+    <androidx.constraintlayout.helper.widget.Layer
+        android:id="@+id/layer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/color804488FF"
+        app:constraint_referenced_ids="iv,tv"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/ic_launcher_round"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:text="新小梦"
+        android:textColor="#FFFFFF"
+        app:layout_constraintLeft_toLeftOf="@id/iv"
+        app:layout_constraintRight_toRightOf="@id/iv"
+        app:layout_constraintTop_toBottomOf="@id/iv" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
