@@ -257,9 +257,6 @@ dependencies {
     implementation 'com.kyleduo.switchbutton:library:2.0.2'
     implementation 'com.github.liys666666:LSwitch:V1.0.4'
 
-    // app抓包工具（CaptureInfoInterceptor）
-    debugImplementation 'com.github.DingProg.NetworkCaptureSelf:library:v1.0.2'
-
     // 第三方tabLayout
     implementation 'com.github.hackware1993:MagicIndicator:1.7.0'
 }
