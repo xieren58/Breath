@@ -18,27 +18,44 @@ class BaseApplication : MultiDexApplication() {
         if (ProcessUtils.isMainProcess()) {
             // 常用工具库初始化
             Utils.init(this)
-            // 初始化阿里路由器框架
             initARouter()
-            // 初始化滴滴研发助手
-            DoraemonKit.install(this)
+            initDoraemonKit()
+            // 初始化mmkv
             AppConfiguration.getDefault(this)
-            try {
-                UmUtils.initUmAnalytics(this)
-                // 接入推送就闪退，5。18号发现，之前不会
-//                UmUtils.initUmPush(this);
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            initUmAnalytics()
         }
-
-//        try {
-//            UmUtils.initUmPushOnUmPushProcess(this);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+//        initUmPushOnUmPushProcess()
     }
 
+    private fun initUmPushOnUmPushProcess() {
+        try {
+            UmUtils.initUmPushOnUmPushProcess(this)
+        } catch (e: Exception) {
+        }
+    }
+
+    private fun initUmAnalytics() {
+        try {
+            UmUtils.initUmAnalytics(this)
+            // 接入推送就闪退，5。18号发现，之前不会
+            //                UmUtils.initUmPush(this);
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
+     * 初始化滴滴研发助手
+     */
+    private fun initDoraemonKit() {
+        DoraemonKit.install(this)
+        DoraemonKit.disableUpload()
+        DoraemonKit.setAwaysShowMainIcon(false)
+    }
+
+    /**
+     * 初始化阿里路由器框架
+     */
     private fun initARouter() {
         if (AppUtils.isAppDebug()) {
             // 下面两句代码必须在init前，否则无效
