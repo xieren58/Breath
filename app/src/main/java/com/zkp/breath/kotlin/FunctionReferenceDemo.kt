@@ -56,12 +56,6 @@ fun main() {
         return param.toString()
     }
 
-    // 如果 Lambda 是函数的最后一个参数，你可以把 Lambda 写在括号的外面，还可以把括号去掉。
-    a { i -> i.toString() }
-    // 如果这个 Lambda 是单参数的，无论是否有使用都可以省略，默认用it代替
-    a { it.toString() }
-    a { "我们" }
-
     // 变量没有声明类型的话则lambda表达式的参数不能省略
     val b1 = { param: Int ->
         param.toString()
@@ -71,5 +65,10 @@ fun main() {
         it.toString()
     }
 
+    // 如果 Lambda 是函数的最后一个参数，你可以把 Lambda 写在括号的外面，还可以把括号去掉。
+    a { i -> i.toString() }
+    // 如果这个 Lambda 是单参数的，无论是否有使用都可以省略，默认用it代替
+    a { it.toString() }
+    a { "我们" }
 
 }
