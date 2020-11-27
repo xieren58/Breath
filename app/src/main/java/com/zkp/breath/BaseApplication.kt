@@ -50,7 +50,7 @@ class BaseApplication : MultiDexApplication() {
     private fun initDoraemonKit() {
         DoraemonKit.install(this)
         DoraemonKit.disableUpload()
-        DoraemonKit.setAwaysShowMainIcon(false)
+        DoraemonKit.setAwaysShowMainIcon(true)
     }
 
     /**
