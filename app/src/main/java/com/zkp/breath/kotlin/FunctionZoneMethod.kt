@@ -159,7 +159,7 @@ private fun runDemo() {
 
     // 这种写法也是with扩展函数的写法
     fun <T, R> runTemp2(t: T, block: T.() -> R) {
-        // 这两种调用方式等价，最后一种方式是一种kotlin的一种简写方式
+        // 这两种调用方式等价，最后一种方式是kotlin的一种简写方式
 //        block(t)
         t.block()
     }
@@ -171,7 +171,6 @@ private fun runDemo() {
     fun <T, R> runTemp4(t: T, block: (t: T, s: String) -> R) {
         block(t, "哈哈哈")
     }
-
 
 }
 
