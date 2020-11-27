@@ -11,12 +11,12 @@
     那么另外一方就会按照比率进行计算得出。如果宽高都设置为match_parent和wrap_content该属性则失效。
 
 
-    // 位置偏向：让view的位置偏向某一侧
-    //水平偏向,0到1之间(0表示最左边，1表示最右边),需要配合layout_constraintLeft_toLeftOf和layout_constraintRight_toRightOf才能生效
-    layout_constraintHorizontal_bias
-    layout_constraintVertical_bias
-    //竖直偏向,0到1之间（0表示最上边，1表示最下边）,需要配合layout_constraintTop_toTopOf和layout_constraintBottom_toBottomOf才能生效
+    位置偏向：让view的位置偏向某一侧（百分比），其实相当于margin（具体值）。
+    layout_constraintHorizontal_bias：水平偏向,0到1之间(0表示最左边，1表示最右边),需要配合
+        layout_constraintLeft_toLeftOf和layout_constraintRight_toRightOf才能生效
 
+    layout_constraintVertical_bias：竖直偏向,0到1之间（0表示最上边，1表示最下边）,需要配合
+        layout_constraintTop_toTopOf和layout_constraintBottom_toBottomOf才能生效
     -->
     <Button
         android:id="@+id/btn1"
