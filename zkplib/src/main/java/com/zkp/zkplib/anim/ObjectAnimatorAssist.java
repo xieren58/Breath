@@ -17,10 +17,10 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 
+import androidx.annotation.StringDef;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-
-import androidx.annotation.StringDef;
 
 import static com.zkp.zkplib.anim.ObjectAnimatorAssist.ObjectAnimatorType.ALPHA;
 import static com.zkp.zkplib.anim.ObjectAnimatorAssist.ObjectAnimatorType.ROTATION;
@@ -66,7 +66,7 @@ public class ObjectAnimatorAssist {
         mBuilder = builder;
     }
 
-    public void startAnimator() {
+    public ObjectAnimator startAnimator() {
         if (TextUtils.isEmpty(mBuilder.getAnimatorType())) {
             throw new NonAnimatorTypeException();
         }
@@ -79,15 +79,14 @@ public class ObjectAnimatorAssist {
             case ROTATION:
             case TRANSLATION_X:
             case TRANSLATION_Y:
-                animator();
-                break;
-
+                return animator();
             default:
                 break;
         }
+        return null;
     }
 
-    private void animator() {
+    private ObjectAnimator animator() {
         ObjectAnimator animator = ObjectAnimator.ofFloat(
                 mBuilder.getView(),
                 mBuilder.getAnimatorType(),
@@ -107,27 +106,47 @@ public class ObjectAnimatorAssist {
         }
         animator.setStartDelay(mBuilder.getStartDelay());
         animator.start();
+        return animator;
     }
 
     public static class Builder {
 
-        /** 动画更新监听器 */
+        /**
+         * 动画更新监听器
+         */
         private AnimatorUpdateListener mAnimatorUpdateListener;
-        /** 动画监听器 */
+        /**
+         * 动画监听器
+         */
         private AnimatorListener animatorListener;
-        /** 动画类型 {@link ObjectAnimatorType} */
-        private @ObjectAnimatorType String animatorType;
-        /** 动画起始值 */
+        /**
+         * 动画类型 {@link ObjectAnimatorType}
+         */
+        private @ObjectAnimatorType
+        String animatorType;
+        /**
+         * 动画起始值
+         */
         private float startValue;
-        /** 执行次数 */
+        /**
+         * 执行次数
+         */
         private int repeatCount;
-        /** 延迟多久后才开始执行动画 */
+        /**
+         * 延迟多久后才开始执行动画
+         */
         private long startDelay;
-        /** 动画结束值 */
+        /**
+         * 动画结束值
+         */
         private float endValue;
-        /** 动画时长 */
+        /**
+         * 动画时长
+         */
         private int duration;
-        /** 执行动画的view */
+        /**
+         * 执行动画的view
+         */
         private View view;
         /**
          * 速度插值器 {@linkplain AccelerateDecelerateInterpolator 先加速再减速,默认} {@linkplain
@@ -197,7 +216,8 @@ public class ObjectAnimatorAssist {
             return this;
         }
 
-        @ObjectAnimatorType String getAnimatorType() {
+        @ObjectAnimatorType
+        String getAnimatorType() {
             return animatorType;
         }
 
