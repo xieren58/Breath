@@ -210,7 +210,7 @@ dependencies {
     implementation 'com.tencent:mmkv-static:1.2.5'
 
     // BaseRecyclerViewAdapterHelper
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.2'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
 
     // 基于今日头条适配方案的屏幕适配库
     implementation 'me.jessyan:autosize:1.2.1'

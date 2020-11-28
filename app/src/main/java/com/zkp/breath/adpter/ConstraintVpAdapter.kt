@@ -5,7 +5,8 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.zkp.breath.R
 import com.zkp.breath.bean.ConstraintFunctionBean
 
-class ConstraintVpAdapter(data: MutableList<ConstraintFunctionBean>) : BaseMultiItemQuickAdapter<ConstraintFunctionBean, BaseViewHolder>(data) {
+class ConstraintVpAdapter(data: MutableList<ConstraintFunctionBean>) :
+        BaseMultiItemQuickAdapter<ConstraintFunctionBean, BaseViewHolder>(data) {
 
     init {
         addItemType(ConstraintFunctionBean.base_function, R.layout.adapter_constraint_layout)
@@ -14,7 +15,6 @@ class ConstraintVpAdapter(data: MutableList<ConstraintFunctionBean>) : BaseMulti
     }
 
     override fun convert(holder: BaseViewHolder, item: ConstraintFunctionBean) {
-
     }
 
 }

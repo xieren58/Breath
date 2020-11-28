@@ -7,11 +7,12 @@
 
 
     <!--
-       Layer 可以理解为包含这些 view 的一个 ViewGroup，但是Layer并不是ViewGroup，Layer并不会增加 view 的层级，
-       另外Layer支持对里面的 view 一起做动画。
+       Layer功能上可以理解为包含它所引用的view的一个父布局viewGroup，但并不会增加layout的层级。这点是非常好用的，
+       在Layer之前，想往自己view统一加个背景限制，一般都是另外加个view来做纯背景展示。
 
-       考虑这么一个场景，如果一个页面里面有部分 view 需要加个背景，使用Layer引用这几个 view，然后给Layer设置背景就可以了。
-       如果不用Layer，只能另外加个 ViewGroup 包住这几个 View 了，这样会增加 view 的层级，不利于性能。
+       解析：Layer最大给功能在于可以不设置布局属性（tools:ignore="MissingConstraints"）就把目标控件给整合在一起，
+            这样防止目标控件必须处于同一个父级控件才能进行整合造成的耦合，所以目标控件的布局是完解耦和自由的；而目标控
+            件的布局也可以相对于layer控件进行。
     -->
 
     <androidx.constraintlayout.helper.widget.Layer
@@ -19,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/color804488FF"
-        app:constraint_referenced_ids="iv,tv"
+        app:constraint_referenced_ids="iv,tv,tv2"
         tools:ignore="MissingConstraints" />
 
     <ImageView
@@ -37,11 +38,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
-        android:text="新小梦"
+        android:text="哈哈哈"
         android:textColor="#FFFFFF"
         app:layout_constraintLeft_toLeftOf="@id/iv"
         app:layout_constraintRight_toRightOf="@id/iv"
         app:layout_constraintTop_toBottomOf="@id/iv" />
 
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:text="呵呵呵"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
