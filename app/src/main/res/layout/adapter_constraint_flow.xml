@@ -7,7 +7,8 @@
     tools:ignore="MissingConstraints">
 
     <!--
-        flow_horizontalGap：两个引用资源（控件）之间水平间隔，
+        flow_horizontalGap：两个引用资源（控件）之间水平间隔，根据控件的宽度和flow_horizontalGap设置的值计算最多
+            能够
         flow_verticalGap：两个引用资源（控件）之间垂直间隔
 
         app:constraint_referenced_ids="tvA,tvB,tvC,tvD"  // 引用的id
