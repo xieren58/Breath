@@ -14,8 +14,12 @@ import kotlinx.android.synthetic.main.activity_constraint_layout.*
 
 /**
  * 约束布局的demo
+ *
+ * https://juejin.cn/post/6844904199004618765
  */
 class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layout) {
+
+    private lateinit var constraintVpAdapter: ConstraintVpAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +38,7 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
         // 设置方向
         viewpager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         viewpager2.offscreenPageLimit = 2
-        val constraintVpAdapter = ConstraintVpAdapter(mutableListOf)
+        constraintVpAdapter = ConstraintVpAdapter(mutableListOf)
         constraintVpAdapter.addChildClickViewIds(R.id.layer)
         constraintVpAdapter.setOnItemChildClickListener(onItemChildClickListener)
         viewpager2.adapter = constraintVpAdapter
