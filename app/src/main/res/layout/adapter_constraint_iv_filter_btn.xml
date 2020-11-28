@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--
+        ImageFilterView与ImageFilterButton的属性一模一样，只是它两继承的父类不一样，一些操作也就不一样。
+        ImageFilterButton继承自AppCompatImageButton,也就是ImageButtion。而ImageFilterView继承自ImageView。
+
+        roundPercent：圆角百分比，取值在0-1。
+    -->
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/iv_filter_btn_1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="50dp"
+        android:src="@color/colorFFFF5722"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:roundPercent="1" />
+
+    <!--
+       round：圆角具体值
+   -->
+    <androidx.constraintlayout.utils.widget.ImageFilterButton
+        android:id="@+id/iv_filter_btn_2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="50dp"
+        android:src="@color/colorFFD81B60"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_filter_btn_1"
+        app:round="50dp" />
+
+
+    <!--
+        这个例子感觉只有crossfade平时会用到，其他都太专业，仅作了解。
+
+        altSrc和src属性是一样的概念，altSrc提供的资源将会和src提供的资源通过crossfade属性形成交叉淡化效果。
+        默认情况下,crossfade=0，altSrc所引用的资源不可见,取值在0-1。
+
+        warmth色温：1=neutral自然, 2=warm暖色, 0.5=cold冷色
+        brightness亮度：0 = black暗色, 1 = original原始, 2 = twice as bright两倍亮度
+        saturation饱和度：0 = grayscale灰色, 1 = original原始, 2 = hyper saturated超饱和
+        contrast对比：1 = unchanged原始, 0 = gray暗淡, 2 = high contrast高对比
+    -->
+    <androidx.constraintlayout.utils.widget.ImageFilterButton
+        android:id="@+id/ivImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="50dp"
+        android:src="@color/color808844FF"
+        app:altSrc="@color/background_error"
+        app:crossfade="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_filter_btn_2"
+        app:round="50dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

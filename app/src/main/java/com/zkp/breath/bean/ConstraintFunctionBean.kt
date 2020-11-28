@@ -7,6 +7,10 @@ class ConstraintFunctionBean(override val itemType: Int) : MultiItemEntity {
         const val base_function = 0
         const val flow_function = 1
         const val layer_function = 2
+        const val iv_filter_btn_function = 3
+        const val mock_function = 4
+        const val space_function = 5
+        const val flow_api_function = 6
     }
 }
 
