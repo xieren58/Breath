@@ -54,7 +54,13 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
         viewpager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         viewpager2.offscreenPageLimit = 2
         constraintVpAdapter = ConstraintVpAdapter(mutableListOf)
-        constraintVpAdapter.addChildClickViewIds(R.id.layer, R.id.tv_flow_api, R.id.btn_wrap_mode)
+        constraintVpAdapter.addChildClickViewIds(
+                R.id.layer,
+                R.id.tv_flow_api,
+                R.id.btn_wrap_mode,
+                R.id.btn_horizontal_style,
+                R.id.btn_vertical_style
+        )
         constraintVpAdapter.setOnItemChildClickListener(onItemChildClickListener)
         viewpager2.adapter = constraintVpAdapter
     }
@@ -75,6 +81,64 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
             flowWrapMode(flow)
             return@OnItemChildClickListener
         }
+
+        if (R.id.btn_horizontal_style == view.id) {
+            val flow = constraintVpAdapter.getViewByPosition(position, R.id.flow) as Flow
+            flowHorizontalStyle(flow)
+            return@OnItemChildClickListener
+        }
+
+        if (R.id.btn_vertical_style == view.id) {
+            val flow = constraintVpAdapter.getViewByPosition(position, R.id.flow) as Flow
+            flowVerticalStyle(flow)
+            return@OnItemChildClickListener
+        }
+    }
+
+    private fun flowVerticalStyle(flow: Flow) {
+        QMUIBottomSheet.BottomListSheetBuilder(this)
+                .setGravityCenter(true)
+                .addItem("packed")
+                .addItem("spread")
+                .addItem("spread_inside")
+                .setOnSheetItemClickListener { dialog, itemView, position, tag ->
+                    when (tag) {
+                        "packed" -> {
+                            flow.setVerticalStyle(Flow.CHAIN_PACKED)
+                        }
+                        "spread" -> {
+                            flow.setVerticalStyle(Flow.CHAIN_SPREAD)
+                        }
+                        "spread_inside" -> {
+                            flow.setVerticalStyle(Flow.CHAIN_SPREAD_INSIDE)
+                        }
+                    }
+                }
+                .build()
+                .show()
+    }
+
+    private fun flowHorizontalStyle(flow: Flow) {
+        QMUIBottomSheet.BottomListSheetBuilder(this)
+                .setGravityCenter(true)
+                .addItem("packed")
+                .addItem("spread")
+                .addItem("spread_inside")
+                .setOnSheetItemClickListener { dialog, itemView, position, tag ->
+                    when (tag) {
+                        "packed" -> {
+                            flow.setHorizontalStyle(Flow.CHAIN_PACKED)
+                        }
+                        "spread" -> {
+                            flow.setWrapMode(Flow.CHAIN_SPREAD)
+                        }
+                        "spread_inside" -> {
+                            flow.setWrapMode(Flow.CHAIN_SPREAD_INSIDE)
+                        }
+                    }
+                }
+                .build()
+                .show()
     }
 
     private fun flowWrapMode(flow: Flow) {

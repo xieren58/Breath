@@ -11,17 +11,21 @@
         flow_verticalGap：两个引用资源（控件）之间垂直间隔。
 
         app:constraint_referenced_ids="tvA,tvB,tvC,tvD"  // 引用的id
+
         flow_wrapMode: 排版样式
             none：所有引用的View形成一条链，水平居中，超出屏幕两侧的View不可见。
-            chian：所引用的View形成一条链，超出部分会自动换行，同行的View会平分宽度。
+            chain：所引用的View形成一条链，超出部分会自动换行，同行的View会平分宽度。
             aligned：所引用的View形成一条链，但View会在同行同列。
-        链约束：当flow_wrapMode属性为aligned和chian属性时，通过链进行约束。
-                flow_firstHorizontalStyle 约束第一条水平链，当有多条链（多行）时，只约束第一条链（第一行），其他链（其他行）不约束；
-                flow_lastHorizontalStyle 约束最后一条水平链，当有多条链（多行）时，只约束最后一条链（最后一行），其他链（其他行）不约束；
-                flow_horizontalStyle 约束所有水平链；
-                flow_firstVerticalStyle 同水平约束；
-                flow_lastVerticalStyle 同水平约束；
-                flow_verticalStyle 约束所有垂直链；
+
+        链约束：当flow_wrapMode属性为aligned和chain属性时，通过链进行约束。
+                flow_firstHorizontalStyle 约束第一条水平链，当有多条链（多行）时，只约束第一条链
+                （第一行），其他链（其他行）不约束。
+                flow_lastHorizontalStyle 约束最后一条水平链，当有多条链（多行）时，只约束最后一条链
+                （最后一行），其他链（其他行）不约束。
+                flow_horizontalStyle 约束所有水平链。
+                flow_firstVerticalStyle 同水平约束。
+                flow_lastVerticalStyle 同水平约束。
+                flow_verticalStyle 约束所有垂直链。
 
     -->
     <androidx.constraintlayout.helper.widget.Flow
@@ -30,8 +34,9 @@
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="tvA,tvB,tvC,tvD,tvE,tvF,tvG"
         app:flow_horizontalGap="30dp"
+        app:flow_horizontalStyle="spread"
         app:flow_verticalGap="30dp"
-        app:flow_wrapMode="aligned"
+        app:flow_wrapMode="chain"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -111,6 +116,29 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:text="flow_wrapMode"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn_horizontal_style" />
+
+    <Button
+        android:id="@+id/btn_horizontal_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="horizontal_Style"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/btn_wrap_mode"
+        app:layout_constraintRight_toLeftOf="@id/btn_vertical_style" />
+
+    <Button
+        android:id="@+id/btn_vertical_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="btn_vertical_style"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/btn_horizontal_style"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
