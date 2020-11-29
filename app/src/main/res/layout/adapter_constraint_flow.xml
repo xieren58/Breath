@@ -32,7 +32,7 @@
         android:id="@+id/flow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="tvA,tvB,tvC,tvD,tvE,tvF,tvG"
+        app:constraint_referenced_ids="tvA,tvB,tvC,tvD,tvE,tvF,tvG,tvH"
         app:flow_horizontalGap="30dp"
         app:flow_horizontalStyle="spread"
         app:flow_verticalGap="30dp"
@@ -107,6 +107,16 @@
         android:background="@color/color804488FF"
         android:gravity="center"
         android:text="G"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvH"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorFFFFEB3B"
+        android:gravity="center"
+        android:text="H"
         android:textColor="#ffffff"
         android:textSize="16sp" />
 
