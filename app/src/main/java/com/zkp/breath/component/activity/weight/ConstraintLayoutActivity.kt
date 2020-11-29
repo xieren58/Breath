@@ -52,7 +52,6 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
 
         // 设置方向
         viewpager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        viewpager2.offscreenPageLimit = 2
         constraintVpAdapter = ConstraintVpAdapter(mutableListOf)
         constraintVpAdapter.addChildClickViewIds(
                 R.id.layer,
@@ -130,10 +129,10 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
                             flow.setHorizontalStyle(Flow.CHAIN_PACKED)
                         }
                         "spread" -> {
-                            flow.setWrapMode(Flow.CHAIN_SPREAD)
+                            flow.setHorizontalStyle(Flow.CHAIN_SPREAD)
                         }
                         "spread_inside" -> {
-                            flow.setWrapMode(Flow.CHAIN_SPREAD_INSIDE)
+                            flow.setHorizontalStyle(Flow.CHAIN_SPREAD_INSIDE)
                         }
                     }
                 }

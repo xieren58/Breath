@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".component.activity.weight.ConstraintLayoutActivity">
+    android:layout_height="match_parent">
 
     <!--
     layout_constraintDimensionRatio: 宽高比，设置其中一方具体值(match_parent，wrap_content，xxdp),
