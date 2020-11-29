@@ -58,7 +58,9 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
                 R.id.tv_flow_api,
                 R.id.btn_wrap_mode,
                 R.id.btn_horizontal_style,
-                R.id.btn_vertical_style
+                R.id.btn_vertical_style,
+                R.id.btn_horizontal_align,
+                R.id.btn_vertical_align
         )
         constraintVpAdapter.setOnItemChildClickListener(onItemChildClickListener)
         viewpager2.adapter = constraintVpAdapter
@@ -92,6 +94,64 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
             flowVerticalStyle(flow)
             return@OnItemChildClickListener
         }
+
+        if (R.id.btn_horizontal_align == view.id) {
+            val flow = constraintVpAdapter.getViewByPosition(position, R.id.flow) as Flow
+            flowHorizontalAlign(flow)
+            return@OnItemChildClickListener
+        }
+
+        if (R.id.btn_vertical_align == view.id) {
+            val flow = constraintVpAdapter.getViewByPosition(position, R.id.flow) as Flow
+            flowVerticalAlign(flow)
+            return@OnItemChildClickListener
+        }
+    }
+
+    private fun flowVerticalAlign(flow: Flow) {
+        QMUIBottomSheet.BottomListSheetBuilder(this)
+                .setGravityCenter(true)
+                .addItem("top")
+                .addItem("bottom")
+                .addItem("center")
+                .setOnSheetItemClickListener { dialog, itemView, position, tag ->
+                    when (tag) {
+                        "top" -> {
+                            flow.setVerticalAlign(Flow.HORIZONTAL_ALIGN_START)
+                        }
+                        "bottom" -> {
+                            flow.setVerticalAlign(Flow.HORIZONTAL_ALIGN_END)
+                        }
+                        "center" -> {
+                            flow.setVerticalAlign(Flow.HORIZONTAL_ALIGN_CENTER)
+                        }
+                    }
+                }
+                .build()
+                .show()
+    }
+
+    private fun flowHorizontalAlign(flow: Flow) {
+        QMUIBottomSheet.BottomListSheetBuilder(this)
+                .setGravityCenter(true)
+                .addItem("start")
+                .addItem("end")
+                .addItem("center")
+                .setOnSheetItemClickListener { dialog, itemView, position, tag ->
+                    when (tag) {
+                        "start" -> {
+                            flow.setHorizontalAlign(Flow.HORIZONTAL_ALIGN_START)
+                        }
+                        "end" -> {
+                            flow.setHorizontalAlign(Flow.HORIZONTAL_ALIGN_END)
+                        }
+                        "center" -> {
+                            flow.setHorizontalAlign(Flow.HORIZONTAL_ALIGN_CENTER)
+                        }
+                    }
+                }
+                .build()
+                .show()
     }
 
     private fun flowVerticalStyle(flow: Flow) {
