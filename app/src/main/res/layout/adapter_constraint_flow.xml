@@ -7,9 +7,8 @@
     tools:ignore="MissingConstraints">
 
     <!--
-        flow_horizontalGap：两个引用资源（控件）之间水平间隔，根据控件的宽度和flow_horizontalGap设置的值计算最多
-            能够
-        flow_verticalGap：两个引用资源（控件）之间垂直间隔
+        flow_horizontalGap：两个引用资源（控件）之间水平间隔。
+        flow_verticalGap：两个引用资源（控件）之间垂直间隔。
 
         app:constraint_referenced_ids="tvA,tvB,tvC,tvD"  // 引用的id
         flow_wrapMode: 排版样式
@@ -24,16 +23,15 @@
                 flow_lastVerticalStyle 同水平约束；
                 flow_verticalStyle 约束所有垂直链；
 
-                ,tvC,tvD,tvE,tvF,tvG,tvH
     -->
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/flow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="tvA,tvB"
-        app:flow_horizontalGap="0dp"
+        app:constraint_referenced_ids="tvA,tvB,tvC,tvD,tvE,tvF,tvG"
+        app:flow_horizontalGap="30dp"
         app:flow_verticalGap="30dp"
-        app:flow_wrapMode="none"
+        app:flow_wrapMode="aligned"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,64 +55,62 @@
         android:textColor="#ffffff"
         android:textSize="16sp" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/tvC"-->
-    <!--        android:layout_width="50dp"-->
-    <!--        android:layout_height="50dp"-->
-    <!--        android:background="@color/colorFFFF5722"-->
-    <!--        android:gravity="center"-->
-    <!--        android:text="C"-->
-    <!--        android:textColor="#ffffff"-->
-    <!--        android:textSize="16sp" />-->
+    <TextView
+        android:id="@+id/tvC"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorFFFF5722"
+        android:gravity="center"
+        android:text="C"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/tvD"-->
-    <!--        android:layout_width="50dp"-->
-    <!--        android:layout_height="50dp"-->
-    <!--        android:background="@color/colorFFD81B60"-->
-    <!--        android:gravity="center"-->
-    <!--        android:text="D"-->
-    <!--        android:textColor="#ffffff"-->
-    <!--        android:textSize="16sp" />-->
+    <TextView
+        android:id="@+id/tvD"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorFFD81B60"
+        android:gravity="center"
+        android:text="D"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/tvE"-->
-    <!--        android:layout_width="50dp"-->
-    <!--        android:layout_height="50dp"-->
-    <!--        android:background="@color/colorFF000000"-->
-    <!--        android:gravity="center"-->
-    <!--        android:text="E"-->
-    <!--        android:textColor="#ffffff"-->
-    <!--        android:textSize="16sp" />-->
+    <TextView
+        android:id="@+id/tvE"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorFF000000"
+        android:gravity="center"
+        android:text="E"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/tvF"-->
-    <!--        android:layout_width="50dp"-->
-    <!--        android:layout_height="50dp"-->
-    <!--        android:background="@color/color808844FF"-->
-    <!--        android:gravity="center"-->
-    <!--        android:text="F"-->
-    <!--        android:textColor="#ffffff"-->
-    <!--        android:textSize="16sp" />-->
+    <TextView
+        android:id="@+id/tvF"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/color808844FF"
+        android:gravity="center"
+        android:text="F"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/tvG"-->
-    <!--        android:layout_width="50dp"-->
-    <!--        android:layout_height="50dp"-->
-    <!--        android:background="@color/color804488FF"-->
-    <!--        android:gravity="center"-->
-    <!--        android:text="G"-->
-    <!--        android:textColor="#ffffff"-->
-    <!--        android:textSize="16sp" />-->
+    <TextView
+        android:id="@+id/tvG"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/color804488FF"
+        android:gravity="center"
+        android:text="G"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/tvH"-->
-    <!--        android:layout_width="50dp"-->
-    <!--        android:layout_height="50dp"-->
-    <!--        android:background="@color/colorFFFFEB3B"-->
-    <!--        android:gravity="center"-->
-    <!--        android:text="H"-->
-    <!--        android:textColor="#ffffff"-->
-    <!--        android:textSize="16sp" />-->
+    <Button
+        android:id="@+id/btn_wrap_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="flow_wrapMode"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

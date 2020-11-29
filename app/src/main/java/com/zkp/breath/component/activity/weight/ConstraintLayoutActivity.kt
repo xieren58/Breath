@@ -3,10 +3,12 @@ package com.zkp.breath.component.activity.weight
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintProperties
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.viewpager2.widget.ViewPager2
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
+import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet
 import com.zkp.breath.R
 import com.zkp.breath.adpter.ConstraintVpAdapter
 import com.zkp.breath.bean.ConstraintFunctionBean
@@ -52,7 +54,7 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
         viewpager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         viewpager2.offscreenPageLimit = 2
         constraintVpAdapter = ConstraintVpAdapter(mutableListOf)
-        constraintVpAdapter.addChildClickViewIds(R.id.layer, R.id.tv_flow_api)
+        constraintVpAdapter.addChildClickViewIds(R.id.layer, R.id.tv_flow_api, R.id.btn_wrap_mode)
         constraintVpAdapter.setOnItemChildClickListener(onItemChildClickListener)
         viewpager2.adapter = constraintVpAdapter
     }
@@ -67,6 +69,35 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
             constraintProperties(view)
             return@OnItemChildClickListener
         }
+
+        if (R.id.btn_wrap_mode == view.id) {
+            val flow = constraintVpAdapter.getViewByPosition(position, R.id.flow) as Flow
+            flowWrapMode(flow)
+            return@OnItemChildClickListener
+        }
+    }
+
+    private fun flowWrapMode(flow: Flow) {
+        QMUIBottomSheet.BottomListSheetBuilder(this)
+                .setGravityCenter(true)
+                .addItem("none")
+                .addItem("chain")
+                .addItem("aligned")
+                .setOnSheetItemClickListener { dialog, itemView, position, tag ->
+                    when (tag) {
+                        "none" -> {
+                            flow.setWrapMode(Flow.WRAP_NONE)
+                        }
+                        "chain" -> {
+                            flow.setWrapMode(Flow.WRAP_CHAIN)
+                        }
+                        "aligned" -> {
+                            flow.setWrapMode(Flow.WRAP_ALIGNED)
+                        }
+                    }
+                }
+                .build()
+                .show()
     }
 
     /**
