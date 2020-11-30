@@ -23,7 +23,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val listOf = mutableListOf(
-            "Mmkv",
+            "MMKV",
             "Coroutines", "ConstraintLayout",
             "TabLayout", "TextView", "Button", "Switch", "ImageViewAdjustViewBounds",
             "ImageViewScaleType", "MotionLayout", "Debug",
@@ -60,7 +60,7 @@ class MainActivity : BaseActivity() {
      */
     private val onItemChildClickListener = OnItemClickListener { _, _, position ->
         when (val type = listOf[position]) {
-            "Mmkv" -> {
+            "MMKV" -> {
                 ActivityUtils.startActivity(MMKVActivity::class.java)
                 return@OnItemClickListener
             }

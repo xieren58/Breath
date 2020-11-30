@@ -28,6 +28,7 @@ import me.jessyan.autosize.utils.AutoSizeUtils
  * https://juejin.cn/post/6844904199004618765
  * https://juejin.cn/post/6854573221312725000
  * https://juejin.cn/post/6844903872255754248
+ * https://juejin.cn/post/6844904199004618765#heading-10
  * https://blog.csdn.net/weixin_34677811/article/details/90719945
  */
 class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layout) {
@@ -51,6 +52,7 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
             mutableListOf.add(ConstraintFunctionBean(ConstraintFunctionBean.space_function))
             mutableListOf.add(ConstraintFunctionBean(ConstraintFunctionBean.flow_api_function))
             mutableListOf.add(ConstraintFunctionBean(ConstraintFunctionBean.group_function))
+            mutableListOf.add(ConstraintFunctionBean(ConstraintFunctionBean.custom_helper_function))
         }
 
         // 设置方向
@@ -129,7 +131,9 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
         if (R.id.btn_placeholder == view.id) {
             val placeholder = constraintVpAdapter.getViewByPosition(position, R.id.place_holder) as Placeholder
             placeholder.setContentId(R.id.btn_placeholder)
+            return@OnItemChildClickListener
         }
+
     }
 
     private fun flowVerticalAlign(flow: Flow) {

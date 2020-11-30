@@ -12,6 +12,7 @@ class ConstraintFunctionBean(override val itemType: Int) : MultiItemEntity {
         const val space_function = 5
         const val flow_api_function = 6
         const val group_function = 7
+        const val custom_helper_function = 8
     }
 }
 

@@ -17,6 +17,7 @@ class ConstraintVpAdapter(data: MutableList<ConstraintFunctionBean>) :
         addItemType(ConstraintFunctionBean.space_function, R.layout.adapter_constraint_space)
         addItemType(ConstraintFunctionBean.flow_api_function, R.layout.adapter_constraint_flow_api)
         addItemType(ConstraintFunctionBean.group_function, R.layout.adapter_constraint_group)
+        addItemType(ConstraintFunctionBean.custom_helper_function, R.layout.adapter_constraint_custom_helper)
     }
 
     override fun convert(holder: BaseViewHolder, item: ConstraintFunctionBean) {
