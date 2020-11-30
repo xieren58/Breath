@@ -47,7 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:constraint_referenced_ids="tvA,tvB,tvC,tvD,tvE,tvF,tvG,tvH,tvI,tvJ,tvK"
+        app:constraint_referenced_ids="tvA,tvB,tvC,tvD,tvE,tvF,
+        tvG,tvH,tvI,tvJ,tvK"
         app:flow_horizontalGap="30dp"
         app:flow_horizontalStyle="spread"
         app:flow_verticalGap="30dp"
