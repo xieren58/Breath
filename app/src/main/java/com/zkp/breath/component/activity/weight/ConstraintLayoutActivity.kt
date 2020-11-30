@@ -7,6 +7,7 @@ import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintProperties
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.constraintlayout.widget.Group
+import androidx.constraintlayout.widget.Placeholder
 import androidx.viewpager2.widget.ViewPager2
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet
@@ -64,7 +65,8 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
                 R.id.btn_horizontal_align,
                 R.id.btn_vertical_align,
                 R.id.btn_group1,
-                R.id.btn_group2
+                R.id.btn_group2,
+                R.id.btn_placeholder
         )
         constraintVpAdapter.setOnItemChildClickListener(onItemChildClickListener)
         viewpager2.adapter = constraintVpAdapter
@@ -122,6 +124,11 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
             val group2 = constraintVpAdapter.getViewByPosition(position, R.id.group2) as Group
             group2.visibility = if (group1.visibility == View.VISIBLE) View.GONE else View.VISIBLE
             return@OnItemChildClickListener
+        }
+
+        if (R.id.btn_placeholder == view.id) {
+            val placeholder = constraintVpAdapter.getViewByPosition(position, R.id.place_holder) as Placeholder
+            placeholder.setContentId(R.id.btn_placeholder)
         }
     }
 

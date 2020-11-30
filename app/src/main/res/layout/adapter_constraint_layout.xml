@@ -58,6 +58,25 @@
         app:layout_constraintVertical_bias="0.498" />
 
     <Button
+        android:id="@+id/btn_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="btn_placeholder1"
+        app:layout_constraintBottom_toTopOf="@id/btn2"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <!--
+        Placeholder是一个占位View，根据设置的内容id就可以可以原本的view变到Placeholder设置的位置。
+        使用场景：view的位置变化。
+    -->
+    <androidx.constraintlayout.widget.Placeholder
+        android:id="@+id/place_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/btn2"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
         android:id="@+id/btn_barrier1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
