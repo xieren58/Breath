@@ -22,6 +22,11 @@
             chain：所引用的View形成一条链，超出部分会自动换行，同行的View会平分剩余宽度。
             aligned：所引用的View形成一条链，但View会在同行同列。
 
+         flow_horizontalBias：flow的bias偏移，只在style为packed时生效，因为当style为spread或者
+            spread_inside时，views是均匀分布的，bias无法起到作用。float值，范围为 0-1。
+         flow_verticalBias：flow的bias偏移，只在style为packed时生效，因为当style为spread或者
+            spread_inside时，views是均匀分布的，bias无法起到作用。float值，范围为 0-1。
+
         链约束：当flow_wrapMode属性为aligned和chain属性时，通过链进行约束。
                 flow_firstHorizontalStyle 约束第一条水平链，当有多条链（多行）时，只约束第一条链
                 （第一行），其他链（其他行）不约束。
@@ -34,6 +39,8 @@
 
         对齐：flow_verticalAlign： 垂直方向对齐,取值有：top、bottom、center、baseline;
              flow_horizontalAlign 水平方向对齐,取值有：start、end、center
+
+
     -->
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/flow"
