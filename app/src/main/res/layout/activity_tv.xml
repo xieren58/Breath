@@ -18,4 +18,20 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--
+        跑马灯
+    -->
+    <com.zkp.breath.weight.MarqueTextView
+        android:id="@+id/tv_marquee"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorFFFFFFFF"
+        android:text="我是一段很长很长的文案"
+        android:textColor="@color/colorFF000000"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
