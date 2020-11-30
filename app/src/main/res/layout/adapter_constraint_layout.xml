@@ -75,8 +75,14 @@
         app:layout_constraintTop_toBottomOf="@id/btn_barrier1" />
 
     <!--
+        Barrier是一个看不见的视图，就像一个屏障一样阻止一个或者多个控件越过自己，当某个控件要越过自己的时候，Barrier
+        会自动移动，避免自己被覆盖。
+
+        假设有三个控件，A、B在左边且宽度不固定，C控件需要在A、B控件的右边,因为A和B的宽度都是不固定的所以要借助于Barrier，
+        否则只能动态计算A、B的宽或者高然后根据最大的宽或者高去重新指定约束关系。
+
         constraint_referenced_ids：资源id。
-        barrierDirection：相对于constraint_referenced_ids的方向，
+        barrierDirection：相对于constraint_referenced_ids的方向。
     -->
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
