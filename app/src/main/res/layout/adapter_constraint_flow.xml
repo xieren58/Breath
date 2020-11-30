@@ -19,7 +19,7 @@
 
         flow_wrapMode: 排版样式
             none：所有引用的View形成一条链，水平居中，超出屏幕两侧的View不可见。
-            chain：所引用的View形成一条链，超出部分会自动换行，同行的View会平分宽度。
+            chain：所引用的View形成一条链，超出部分会自动换行，同行的View会平分剩余宽度。
             aligned：所引用的View形成一条链，但View会在同行同列。
 
         链约束：当flow_wrapMode属性为aligned和chain属性时，通过链进行约束。

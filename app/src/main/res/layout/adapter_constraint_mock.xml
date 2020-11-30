@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <!--
-       MockView：模拟控件，可以用于ui原型图。
+       MockView：模拟控件，可以用于ui原型图。仅作了解
     -->
 
     <androidx.constraintlayout.utils.widget.MockView

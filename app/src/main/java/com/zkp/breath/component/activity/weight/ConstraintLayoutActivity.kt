@@ -6,6 +6,7 @@ import android.view.View
 import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintProperties
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.constraintlayout.widget.Group
 import androidx.viewpager2.widget.ViewPager2
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet
@@ -48,6 +49,7 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
             mutableListOf.add(ConstraintFunctionBean(ConstraintFunctionBean.mock_function))
             mutableListOf.add(ConstraintFunctionBean(ConstraintFunctionBean.space_function))
             mutableListOf.add(ConstraintFunctionBean(ConstraintFunctionBean.flow_api_function))
+            mutableListOf.add(ConstraintFunctionBean(ConstraintFunctionBean.group_function))
         }
 
         // 设置方向
@@ -60,7 +62,9 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
                 R.id.btn_horizontal_style,
                 R.id.btn_vertical_style,
                 R.id.btn_horizontal_align,
-                R.id.btn_vertical_align
+                R.id.btn_vertical_align,
+                R.id.btn_group1,
+                R.id.btn_group2
         )
         constraintVpAdapter.setOnItemChildClickListener(onItemChildClickListener)
         viewpager2.adapter = constraintVpAdapter
@@ -104,6 +108,19 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
         if (R.id.btn_vertical_align == view.id) {
             val flow = constraintVpAdapter.getViewByPosition(position, R.id.flow) as Flow
             flowVerticalAlign(flow)
+            return@OnItemChildClickListener
+        }
+
+        if (R.id.btn_group1 == view.id) {
+            val group = constraintVpAdapter.getViewByPosition(position, R.id.group1) as Group
+            group.visibility = if (group.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+            return@OnItemChildClickListener
+        }
+
+        if (R.id.btn_group2 == view.id) {
+            val group1 = constraintVpAdapter.getViewByPosition(position, R.id.group1) as Group
+            val group2 = constraintVpAdapter.getViewByPosition(position, R.id.group2) as Group
+            group2.visibility = if (group1.visibility == View.VISIBLE) View.GONE else View.VISIBLE
             return@OnItemChildClickListener
         }
     }

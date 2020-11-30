@@ -11,6 +11,7 @@ class ConstraintFunctionBean(override val itemType: Int) : MultiItemEntity {
         const val mock_function = 4
         const val space_function = 5
         const val flow_api_function = 6
+        const val group_function = 7
     }
 }
 
