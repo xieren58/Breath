@@ -136,6 +136,9 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
 
     }
 
+    /**
+     * todo 没效果，不知为什么
+     */
     private fun flowVerticalAlign(flow: Flow) {
         QMUIBottomSheet.BottomListSheetBuilder(this)
                 .setGravityCenter(true)
@@ -159,6 +162,9 @@ class ConstraintLayoutActivity : BaseActivity(R.layout.activity_constraint_layou
                 .show()
     }
 
+    /**
+     * todo 没效果，不知为什么
+     */
     private fun flowHorizontalAlign(flow: Flow) {
         QMUIBottomSheet.BottomListSheetBuilder(this)
                 .setGravityCenter(true)

@@ -47,7 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:constraint_referenced_ids="tvA,tvB,tvC,tvD,tvE,tvF,tvG,tvH"
+        app:constraint_referenced_ids="tvA,tvB,tvC,tvD,tvE,tvF,
+        tvG,tvH,tvI,tvJ,tvK"
         app:flow_horizontalGap="30dp"
         app:flow_horizontalStyle="spread"
         app:flow_verticalGap="30dp"
@@ -132,6 +133,36 @@
         android:background="@color/colorFFFFEB3B"
         android:gravity="center"
         android:text="H"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvI"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorFFFFEB3B"
+        android:gravity="center"
+        android:text="I"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvJ"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorFFFFEB3B"
+        android:gravity="center"
+        android:text="J"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvK"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorFFFFEB3B"
+        android:gravity="center"
+        android:text="K"
         android:textColor="#ffffff"
         android:textSize="16sp" />
 
