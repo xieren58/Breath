@@ -212,7 +212,7 @@ fun main() {
     // 传递是lambda表达式，表达式内容需要用{}包裹
     arrayOf(3, 4, 5).filter { s -> s > 0 }
     // 使用函数作为参数传递，那么函数需要是函数引用（函数对象），在函数前加"::"即可，注意使用圆括号
-    arrayOf(3, 4, 5).filter(::isEven)
+    arrayOf(3, 4, 5).filter(::isEven)           // 重点关注！
     // 引用方式2，花阔号包裹
     arrayOf(3, 4, 5).filter {
         //        i -> isEven(i)
@@ -222,12 +222,12 @@ fun main() {
     println()
 
     arrayOf("你", "我", "ta").filter { it == "你" }
-    arrayOf("你", "我", "ta").filter("你"::equals)
+    arrayOf("你", "我", "ta").filter("你"::equals)     // 重点关注！
     println()
 
     // 创建函数对象（函数引用）后作为参数传递，因为min是属于Math方法，所以在：：前加上类名标记说明这个方法的出处
-    comboTwoValue(3, 4, Math::min)
-    comboTwoValue(3, 4) { a, b -> Math.min(a, b) }
+    comboTwoValue(3, 4, Math::min)      // 重点关注！
+    comboTwoValue(3, 4) { a, b -> Math.min(a, b) }   // 重点关注！
     println()
 
 }
