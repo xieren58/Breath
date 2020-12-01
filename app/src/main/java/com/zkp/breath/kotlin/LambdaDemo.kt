@@ -99,11 +99,10 @@ class MethodClass {
      * lambda表达式的参数是泛型，调用时传入的参数也应该是泛型类型的参数。
      */
     fun <T> lock(t11: Int, t: T, body: (T) -> T) {
-        val body1 = body(t)     // 因为传入
+        val body1 = body(t)
 //        val body11 = body(t11)   // 类型不匹配
     }
 
-    // lambda 表达式，即函数类型的字面量（看例子的调用方式就知道）
     // 函数类型为可null类型，返回值为可null类型
     fun <T> lock2(t: Int, body: (() -> T)?): T? {
 
