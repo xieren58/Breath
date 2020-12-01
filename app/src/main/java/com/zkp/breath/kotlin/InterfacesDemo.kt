@@ -5,7 +5,7 @@ package com.zkp.breath.kotlin
  * 方法可以写也可以不写（一般都省略不写）。
  * 2.接口的属性默认都是抽象的，所以不允许初始化值,但是可以实现属性的get/set访问器（var要实现get/set,而val要实现get，相当于伪抽象）
  * ，访问器中不允许有幕后字段，实现类可以使用override关键字重写父属性，重写后需要进行初始化，如果父接口属性存在get方
- * 法则可以不初始化但是需要实现get方法且指向父属性。（和java不同的是java的接口累的属性都是常量。）
+ * 法则可以不初始化但是需要实现get方法且指向父属性。（和java不同的是java的接口属性都是常量。）
  * 3.接口的方法可以有默认实现，默认实现的方法可视为非抽象所以实现类可以不重写，而java的方法都是抽象的。
  *
  */
@@ -17,6 +17,15 @@ interface AS {
      * 方法存在默认实现的原因：使用kotlin bytecode编译成java后其实接口内部会有一个默认名为DefaultImpls的final的
      * 静态内部类，该类会存在一个相同名的方法，参数就是接口类型（其实就是接口的实现类），方法体的内容和接口方法的内容
      * 一致，我们实现类在调用的时候其实就是调用这个同名方法。
+     *
+     *   public static final class DefaultImpls {
+     *        public static void ss2(AS $this) {
+     *           String var1 = "kotlin的方法可以存在默认实现，实现类可以不用重写";
+     *           boolean var2 = false;
+     *           System.out.println(var1);
+     *       }
+     *   }
+     *
      */
     fun ss2() {
         println("kotlin的方法可以存在默认实现，实现类可以不用重写")
