@@ -35,8 +35,8 @@ class MethodClass {
     /**
      * 函数重载的定义和java一样，参数类型不一致或者数量不同都可视为重载。
      *
-     * 其实lambda表达式指向的是FunctionX类，lambda表达式的参数个数如果相同则引用的是同一个FunctionX类，所以
-     * 参数类型相同则不允许重载，（使用kotlin bytecode功能转换成java代码就明白了）。
+     * 其实lambda表达式指向的是FunctionX类，lambda表达式的参数个数如果相同则引用的是同一个FunctionX类，这就导致
+     * 参数类型相同所以不允许重载（使用kotlin bytecode功能转换成java代码就明白了）。
      */
     fun lambda2(body: (a: String, b: String) -> String, s: String) {
 
