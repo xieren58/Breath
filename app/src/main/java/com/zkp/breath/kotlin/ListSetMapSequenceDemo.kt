@@ -26,15 +26,44 @@ fun main() {
  *
  * https://mp.weixin.qq.com/s/LR538GcADyY205Vhsk_Egw
  *
- * Kotlin新的容器类型 Sequence（序列），它和 Iterable 一样用来遍历一组数据并可以对每个元素进行特定的处理。
- * 序列 Sequence 又被称为「惰性集合操作」，这种类似懒加载的实现有下面这些优点：
- * 1.一旦满足遍历退出的条件，就可以省略后续不必要的遍历过程。
- * 2.像 List 这种实现 Iterable 接口的集合类，每调用一次函数就会生成一个新的 Iterable，下一个函数再基于新的 Iterable 执行，
- *   每次函数调用产生的临时 Iterable 会导致额外的内存消耗，而 Sequence 在整个流程中只有一个。
+ * Sequence（序列）：序列操作又被称之为惰性集合操作，对元素进行中间操作（(映射、过滤、变换等)）不会像普通集合那样
+ *      会产生新的中间集合，在没有执行末端操作前所有中间操作都会被延迟（核心所在）。实际是因为减少了中间操作产生新
+ *      的集合而导致的循环次数，还有重新添加元素等内部操作。
  *
- * 因此，Sequence 这种数据类型可以在数据量比较大或者数据量未知的时候，作为流式处理的解决方案。
+ * 1.是用于优化集合在一些特殊场景下的工具，不是用来替代集合。
+ * 2.在数据量大的时候使用，数据小的情况效率反而比普通集合差。
+ * 3.序列的操作返回值只要还是Sequence序列，那么就属于中间操作。
  */
 private fun sequence() {
+
+    fun computeRunTime(action: (() -> Unit)?) {
+        val startTime = System.currentTimeMillis()
+        action?.invoke()
+        println("the code run time is ${System.currentTimeMillis() - startTime}")
+    }
+
+    // 使用普通的集合操作
+    computeRunTime {
+        (0..10000000)
+                .map { it + 1 }
+                .filter { it % 2 == 0 }
+                .count { it < 10 }
+                .run {
+                    println("by using list way, result is : $this")
+                }
+    }
+
+    // 使用Sequences序列
+    computeRunTime {
+        (0..10000000)
+                .asSequence()
+                .map { it + 1 }
+                .filter { it % 2 == 0 }
+                .count { it < 10 }
+                .run {
+                    println("by using sequences way, result is : $this")
+                }
+    }
 
     val sequenceOf = sequenceOf("a", "b", "c")
     val toMutableList = sequenceOf.toMutableList()
@@ -46,7 +75,7 @@ private fun sequence() {
 
     /**
      * 给定一个初识的元素，并提供函数计算下一个元素。该函数会一直生成序列的元素，直到函数实参返回null为止。如果函数
-     * 实参不返回null,则该序列将是一个无限序列：
+     * 实参不返回null,则该序列将是一个无限序列。
      */
     val numbers = generateSequence(6) {
         if (it < 10)
