@@ -16,14 +16,13 @@ import java.io.Serializable
  *
  * Kotlin 泛型与 Java 泛型不一致的地方 :
  *
- * 1.Java 里的数组是支持协变的，而 Kotlin 中的数组 Array 不支持协变。
- *   这是因为在 Kotlin 中数组是用 Array 类来表示的，这个 Array 类使用泛型就和集合类一样，所以不支持协变。
+ * 1.Java里的数组是支持协变的，而Kotlin中的数组Array不支持协变，因为Kotlin的Array类声音存在泛型定义。
  *
- *2. Java 中的 List 接口不支持协变，而 Kotlin 中的 List 接口支持协变（这里是指可以实现多态，且List实体类只能获取指但不能修改值）。
- * Java 中的 List 不支持协变，原因在上文已经讲过了，需要使用泛型通配符来解决。
+ * 2.Java中的List接口默认实现不支持协变，需要使用泛型通配符来解决；而Kotlin中的List接口默认实现支持协变，因为在
+ *   接口声明中的泛型就定义了上界通配符，即协变。所以Kotlin的List不支持添加元素，巧妙的是该接口也没有添加元素的方法。
  *
- * 在 Kotlin 中，实际上 MutableList 接口才相当于 Java 的 List。Kotlin 中的 List 接口实现了只读操作，没有写操作，
- * 所以不会有类型安全上的问题，自然可以支持协变。
+ * 3.在 Kotlin 中，实际上 MutableList 接口才相当于 Java 的 List。Kotlin 中的 List 接口实现了只读操作，没有写操作，
+ *  所以不会有类型安全上的问题，自然可以支持协变。
  *
  */
 class Box<T>(t: T) {
