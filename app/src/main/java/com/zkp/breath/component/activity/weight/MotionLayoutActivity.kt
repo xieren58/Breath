@@ -9,6 +9,8 @@ import com.zkp.breath.databinding.ActivityMotionBinding
  * 运动布局的demo
  * https://juejin.im/post/6854573206653812743
  *
+ * https://juejin.cn/post/6844903918598635534
+ *
  * 1.根标签MotionScene有一个defaultDuration属性，表示所有未指定时间的动画的默认时间，默认为300毫秒。
  * 2.MotionScene根标签 必须包含Transition标签，可以有多个Transition标签。Transition标签是用来指定动画的开始和
  * 结束状态、任何中间状态以及触发动画的动作，可以理解为一个Transition标签对应一个动画。
