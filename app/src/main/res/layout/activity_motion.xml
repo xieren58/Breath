@@ -9,6 +9,7 @@
     app:showPaths="true">
 
     <!--
+     app:motionDebug="SHOW_PATH"：可以看到运动轨迹，同showPaths功能相同。
      showPaths：可以看到运动轨迹
      layoutDescription：指向一个xml动画文件，必写的属性，不然会报错
     -->
