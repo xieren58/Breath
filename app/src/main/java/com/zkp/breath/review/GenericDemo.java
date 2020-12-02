@@ -92,6 +92,7 @@ public class GenericDemo {
 
         // 下面的写法都满足类定义的泛型的要求
         Bean2<Integer> bean2 = new Bean2<>();
+        bean2.setT(2);
         Integer t2 = bean2.get3();
         Number number2 = bean2.getT();
         Serializable serializable2 = bean2.getT2();
@@ -103,13 +104,17 @@ public class GenericDemo {
 
         // 上界通配符的泛型限制和类定义的泛型限定是一致的，所以下面的声明是允许的。
         Bean2<? extends Number> bean4 = new Bean2<Integer>();
+//        bean4.setT();     // 上面的声明类型是斜边，不能添加元素。  实例化声明类型 和 定义类的泛型类型 是不一样的，要谨记
         Number number4 = bean4.get3();
         Serializable serializable4 = bean4.getT2();
 
         // 为什么get3（）方法获取到到不是Object而是Number？
-        // 因为list的泛型定义没有指定范围，所以只能用顶层父类Object指向，而自定义类Bean2泛型声明指定了泛型父类（<T extends Number & Serializable>），优先拿该类型指向。
+        // 因为List类并没有限制泛型范围，所以只能用顶层父类Object指向，而自定义类Bean2中的泛型限制了泛型范围（<T extends Number & Serializable>），所以优先拿该类型指向。
         Bean2<? super Integer> bean5 = new Bean2<Number>();
-        Number bean53 = bean5.get3();
+        bean5.setT(5);
+        Number number5 = bean5.get3();
+        Number t5 = bean5.getT();
+        Serializable serializable5 = bean5.getT2();
 
 
         // ===================================================
@@ -125,6 +130,8 @@ public class GenericDemo {
 
 
         /**
+         * 泛型擦除
+         *
          * 由于在程序中定义的 ArrayList 泛型类型实例化为 Integer 的对象，
          * 如果直接调用 add 方法则只能存储整形数据，不过当我们利用反射调用 add 方法时就可以存储字符串，
          * 因为 Integer 泛型实例在编译之后被擦除了，只保留了原始类型 Object，所以自然可以插入。
@@ -212,10 +219,15 @@ public class GenericDemo {
     }
 
     /**
+     * 限制泛型范围。
      * 指定泛型类型为必须为Number和Serializable的子类型，或者为Number，为Serializable类型。
      */
     private static class Bean2<T extends Number & Serializable> {
         private T t;
+
+        public void setT(T t) {
+            this.t = t;
+        }
 
         public Number getT() {
             return t;
