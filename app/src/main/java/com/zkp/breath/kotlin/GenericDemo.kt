@@ -3,25 +3,21 @@ package com.zkp.breath.kotlin
 import java.io.Serializable
 
 /**
- * 使用关键字 out 来支持协变，等同于 Java 中的上界通配符 ? extends。
- * 使用关键字 in 来支持逆变，等同于 Java 中的下界通配符 ? super。
+ * 协变：out，等同于 Java 中的上界通配符 ? extends。
+ * 逆变：in，等同于 Java 中的下界通配符 ? super。
+ * 和Java不同的是Kotlin可以把协变和逆变提前定义在类上。
  *
- * Java 中单个 ? 号也能作为泛型通配符使用，相当于 ? extends Object, Kotlin 中有等效的写法：* 号，相当于 out Any。
- * 和 Java 不同的地方是，如果你的类型定义里已经有了 out 或者 in，那这个限制在变量声明时也依然在，不会被 * 号去掉。
- * 比如你的类型定义里是 out T : Number 的，那它加上 <*> 之后的效果就不是 out Any，而是 out Number
+ * 通配符"*"：Java 中单个 ? 号也能作为泛型通配符使用，相当于 ? extends Object, Kotlin 中有等效的写法：* 号，相当于 out Any。
+ *      和 Java 不同的地方是，如果你的类型定义里已经有了 out 或者 in，那这个限制在变量声明时也依然在，不会被 * 号去掉。
+ *      比如你的类型定义里是 out T : Number 的，那它加上 <*> 之后的效果就不是 out Any，而是 out Number
  *
- * 没有指定上限，默认使用Any？作为上限。如：out T 相当于 out T : Any?
- *
- * Java 中声明类或接口的时候，可以使用 extends 来设置边界，将泛型类型参数限制为某个类型的子集，而kotlin是用“：”冒号，
- * java多个限制使用 & 符号，而kotlin使用where关键字。
- *
- *
- * *
+ * 泛型约束：Java中声明类或接口的泛型时可以使用 extends 约束泛型类型为某个类型的子集，而kotlin是用“：”冒号，
+ *      java多个限制使用 & 符号，而kotlin使用where关键字。
  *
  * Kotlin 泛型与 Java 泛型不一致的地方 :
  *
  * 1.Java 里的数组是支持协变的，而 Kotlin 中的数组 Array 不支持协变。
- * 这是因为在 Kotlin 中数组是用 Array 类来表示的，这个 Array 类使用泛型就和集合类一样，所以不支持协变。
+ *   这是因为在 Kotlin 中数组是用 Array 类来表示的，这个 Array 类使用泛型就和集合类一样，所以不支持协变。
  *
  *2. Java 中的 List 接口不支持协变，而 Kotlin 中的 List 接口支持协变（这里是指可以实现多态，且List实体类只能获取指但不能修改值）。
  * Java 中的 List 不支持协变，原因在上文已经讲过了，需要使用泛型通配符来解决。
@@ -61,7 +57,7 @@ class Box<T>(t: T) {
 // ===============================================================================
 // ===============================================================================
 
-// 提前定义上界的写法：协变，该泛型只能用于返回值，不能用于形参
+// 提前定义上界的写法：协变，该泛型只能用于返回值，不能用于形参。
 class Producer<out T> {
     fun produce(): T? {
         return null
@@ -73,19 +69,19 @@ class Producer<out T> {
 //    }
 }
 
-// 提前定义下界的写法 ：逆变，该泛型只能用于形参，不能用于返回值
+// 提前定义下界的写法 ：逆变，该泛型只能用于形参，不能用于返回值。
 class Consumer<in T> {
     fun consume(t: T) {
 
     }
 
     // 不允许用于返回值
-//    fun consume1() : T{
-//
+//    fun consume1() : T?{
+//        return null
 //    }
 }
 
-// 相当于java的 T extends Number的写法，表示泛型类型只能是Number或者Number的直接，间接类型。
+// 泛型约束：相当于java的 T extends Number的写法，表示泛型类型只能是Number或者Number的直接，间接类型。
 class Consumer1<T : Number>
 
 // 泛型约束
@@ -152,14 +148,12 @@ inline fun <reified T> printIfTypeMatch2(item: Any) {
 }
 
 fun main(args: Array<String>) {
-
     // kotlin的List接口本身就支持协变，看接口定义，只是把协变的写法提前定义了。
     val strs1: List<String> = listOf("a", "b", "c")
     val anys1: List<CharSequence> = strs1   // 1
     val anys2: List<out CharSequence> = strs1   // 2，相当于1, 其实1就是省略了out关键字，因为类定义的时候已经提前定义了out
     // 和 List 类似，Set 同样具有 covariant（协变）特性。
     val strSet = setOf("a", "b", "c")
-
 
     val list1: ArrayList<out Number> = ArrayList<Int>()
     val list2: ArrayList<out Number> = ArrayList<Number>()
@@ -171,6 +165,23 @@ fun main(args: Array<String>) {
     val list5: List<*> = ArrayList<Any>()
     val list6: List<*> = ArrayList<String>()
     val list7: List<*> = ArrayList<Int>()
+
+    val consumer11 = Consumer1<Int>()
+    val consumer12 = Consumer1<Number>()
+    // 因为类定义中已经实现了泛型约束，所以下面的*表示的意义等同于类中的泛型约束。
+    val consumer13: Consumer1<*> = Consumer1<Int>()
+    val consumer14: Consumer1<out Number> = Consumer1<Int>()
+    val consumer15: Consumer1<in Int> = Consumer1<Number>()
+//    val consumer16: Consumer1<out Any> = Consumer1<Int>() // 错误声明
+//    val consumer17: Consumer1<in Any> = Consumer1<Number>()   // 错误声明
+
+
+    val consumer21 = Consumer2<Int>()
+    val consumer22: Consumer2<*> = Consumer2<Int>()
+    val consumer23: Consumer2<out Number> = Consumer2<Int>()
+    val consumer24: Consumer2<in Int> = Consumer2<Number>()
+//    val consumer25: Consumer2<out Any> = Consumer2<Number>()  // 错误声明
+//    val consumer26: Consumer2<in Any> = Consumer2<Int>()  // 错误声明
 
 
     val box: Box<String> = Box("")
