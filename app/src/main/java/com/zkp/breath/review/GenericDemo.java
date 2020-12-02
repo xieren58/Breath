@@ -92,14 +92,19 @@ public class GenericDemo {
 
         // 下面的写法都满足类定义的泛型的要求
         Bean2<Integer> bean2 = new Bean2<>();
-        Integer bean23 = bean2.get3();
+        Integer t2 = bean2.get3();
+        Number number2 = bean2.getT();
+        Serializable serializable2 = bean2.getT2();
 
         Bean2<Number> bean3 = new Bean2<>();
-        Number bean33 = bean3.get3();
+        Number t3 = bean3.get3();
+        Number number3 = bean3.getT();
+        Serializable serializable3 = bean3.getT2();
 
         // 上界通配符的泛型限制和类定义的泛型限定是一致的，所以下面的声明是允许的。
         Bean2<? extends Number> bean4 = new Bean2<Integer>();
-        Number bean43 = bean4.get3();
+        Number number4 = bean4.get3();
+        Serializable serializable4 = bean4.getT2();
 
         // 为什么get3（）方法获取到到不是Object而是Number？
         // 因为list的泛型定义没有指定范围，所以只能用顶层父类Object指向，而自定义类Bean2泛型声明指定了泛型父类（<T extends Number & Serializable>），优先拿该类型指向。
@@ -116,7 +121,7 @@ public class GenericDemo {
         Number t1 = objectBean4.getT();
 
         Bean3<? super Integer> objectBean5 = new Bean3<>();
-        Object t2 = objectBean5.getT();
+        Object object5 = objectBean5.getT();
 
 
         /**
