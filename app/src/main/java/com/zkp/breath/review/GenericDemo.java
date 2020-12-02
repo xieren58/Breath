@@ -219,7 +219,9 @@ public class GenericDemo {
     }
 
     /**
-     * 限制泛型范围。
+     * 限制泛型范围使用extends，如果需要满足多个限制则使用&连接多个类型，注意这里的定义不要和协变混为一谈。
+     * <p>
+     * <p>
      * 指定泛型类型为必须为Number和Serializable的子类型，或者为Number，为Serializable类型。
      */
     private static class Bean2<T extends Number & Serializable> {
