@@ -87,7 +87,7 @@
         <!-- 关键帧：KeyFrameSet标签：用来指定"某个中间状态"的位置和属性。其实和过渡动画的关键帧是一样的概念。
         KeyFrameSet标签含有KeyPosition和KeyAttribute两个子标签，这些共同构成过渡动画过程中某特殊状态的位置和属性。
 
-        KeyPosition位置关键帧标签的属性：
+        KeyPosition位置关键帧，侧重的是改变动画的轨迹：
         framePosition：关键帧位置，把整个运动动画分成100个位置，取值0到99，那么初始状态的位置就是0，结束状态就是99。
         keyPositionType：参考坐标系的选择，决定了percentX和percentY属性取值的结果。
                         1.parentRelative：以整个 MotionLayout 的布局为坐标系，左上角为坐标原点（参考 View 的坐标系即可）
@@ -102,7 +102,7 @@
         将正方形在起始状态和结束状态的大小改为不一致，就可以看到效果，percentWidth和percentHeight属性会导致
         sizePercent属性失效。
 
-        KeyAttribute属性关键帧
+        KeyAttribute属性关键帧，侧重的是更改 View 自身的属性，即所谓的”高矮胖瘦“:
          -->
         <KeyFrameSet>
             <KeyPosition

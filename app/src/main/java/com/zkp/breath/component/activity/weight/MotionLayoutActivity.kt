@@ -17,6 +17,11 @@ import com.zkp.breath.databinding.ActivityMotionBinding
  * 3.MotionScene标签可以包含ConstraintSet标签，这是可选的。ConstraintSet标签主要为Transition标签提供起始和
  * 结束状态的位置和属性。而ConstraintSet标签必须包含一个或多个Constraint子标签。Constraint标签用来定义布局中
  * 某个View在动画中某个状态下位置。（通过ConstraintLayout的相关属性来约束）
+ *
+ * doc：
+ * MotionLayout的构成.png
+ * KeyPosition属性.png
+ * KeyAttribute属性.png
  */
 class MotionLayoutActivity : AppCompatActivity() {
 
