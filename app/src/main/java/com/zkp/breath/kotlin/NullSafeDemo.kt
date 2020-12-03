@@ -8,6 +8,9 @@ package com.zkp.breath.kotlin
  * ?:( Elvis 操作符)：配合空安全操作符使用，当变量为null的时候会执行?:后面的逻辑。
  *
  * 非空断言运算符(!!),若该值为空则抛出异常（NPE 异常）,否则将值转换为非空类型。
+ *
+ * 实际开发遇到的问题：当kotlin调用java类中的可空变量时，如果kotlin没有将该变量转换为可空类型或者java没有用
+ *      Nullable注解，那么kotlin直接调用会报错。
  */
 
 
