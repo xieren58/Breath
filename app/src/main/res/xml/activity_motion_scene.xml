@@ -9,7 +9,9 @@
 
     <!-- 开始动画 -->
     <ConstraintSet android:id="@+id/start">
-        <!--执行动画的控件，id一定要写，要和布局中的id一致；宽高也要写，不然没效果-->
+        <!--执行动画的控件id一定要写，要和布局中的id一致；宽高也要写，不然没效果；
+            会覆盖布局中设置的属性；
+        -->
         <Constraint
             android:id="@id/view1"
             android:layout_width="50dp"
