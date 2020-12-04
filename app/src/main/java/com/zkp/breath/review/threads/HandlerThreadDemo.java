@@ -7,6 +7,7 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 
 /**
+ * HandlerThread是一个Thread，内部创建一个Looper，这个Looper用于自身线程。
  * 特点：Thread+Looper，实现接收消息在工作线程进行处理。（其实就像自己封装的Thread+Handler）
  */
 public class HandlerThreadDemo {
