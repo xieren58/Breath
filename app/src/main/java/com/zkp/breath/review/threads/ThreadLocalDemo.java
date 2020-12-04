@@ -2,7 +2,7 @@ package com.zkp.breath.review.threads;
 
 /**
  * 每个线程都有一个ThreadLocalMap，ThreadLocal其实是用当前线程去获取了自身的ThreadLocalMap变量，然后进行存取,
- * 存放的key是用弱引用修饰的ThreadLocalMap，value则为我们传入的value。
+ * 存放的key是ThreadLocal，value则为我们传入的value。
  */
 public class ThreadLocalDemo {
 
