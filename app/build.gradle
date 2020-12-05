@@ -159,7 +159,7 @@ dependencies {
     implementation "androidx.paging:paging-runtime:$paging_version"
 
     // Work
-    implementation "androidx.work:work-runtime:$work_version"
+//    implementation "androidx.work:work-runtime:$work_version"
     implementation "androidx.work:work-runtime-ktx:$work_version"
 
     // startup
@@ -265,4 +265,10 @@ dependencies {
 
     // svga
     implementation 'com.github.yyued:SVGAPlayer-Android:2.5.14'
+
+
+    def fragment_version = "1.2.5"
+    implementation "androidx.fragment:fragment:$fragment_version"
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+
 }
