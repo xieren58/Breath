@@ -1,9 +1,12 @@
 package com.zkp.breath.component.activity.weight
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
-import com.zkp.breath.databinding.ActivityMotionBinding
+import androidx.viewpager2.widget.ViewPager2
+import com.zkp.breath.R
+import com.zkp.breath.adpter.MotionVpAdapter
+import com.zkp.breath.bean.MotionFunctionBean
+import com.zkp.breath.component.activity.base.BaseActivity
+import kotlinx.android.synthetic.main.activity_motion.*
 
 /**
  * 运动布局的demo
@@ -23,12 +26,27 @@ import com.zkp.breath.databinding.ActivityMotionBinding
  * KeyPosition属性.png
  * KeyAttribute属性.png
  */
-class MotionLayoutActivity : AppCompatActivity() {
+class MotionLayoutActivity : BaseActivity(R.layout.activity_motion) {
+
+    private lateinit var constraintVpAdapter: MotionVpAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val inflate = ActivityMotionBinding.inflate(LayoutInflater.from(this))
-        setContentView(inflate.root)
+        initView()
+    }
+
+    private fun initView() {
+
+        val mutableListOf: MutableList<MotionFunctionBean> = mutableListOf()
+        mutableListOf.run {
+            mutableListOf.add(MotionFunctionBean(MotionFunctionBean.base_function))
+            mutableListOf.add(MotionFunctionBean(MotionFunctionBean.coordinator_function))
+        }
+
+        // 设置方向
+        viewpager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        constraintVpAdapter = MotionVpAdapter(mutableListOf)
+        viewpager2.adapter = constraintVpAdapter
     }
 
 }
