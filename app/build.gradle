@@ -262,4 +262,7 @@ dependencies {
 
     // lottie动画
     implementation 'com.airbnb.android:lottie:3.5.0'
+
+    // svga
+    implementation 'com.github.yyued:SVGAPlayer-Android:2.5.14'
 }

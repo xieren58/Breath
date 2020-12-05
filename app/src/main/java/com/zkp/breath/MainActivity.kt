@@ -24,7 +24,7 @@ class MainActivity : BaseActivity() {
 
     private val listOf = mutableListOf(
             "MMKV",
-            "Coroutines", "Lottie", "ScrollView", "ConstraintLayout",
+            "Coroutines", "Svga", "Lottie", "ScrollView", "ConstraintLayout",
             "TabLayout", "TextView", "Button", "Switch", "ImageViewAdjustViewBounds",
             "ImageViewScaleType", "MotionLayout", "Debug",
             "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service",
@@ -66,6 +66,10 @@ class MainActivity : BaseActivity() {
             }
             "Coroutines" -> {
                 ActivityUtils.startActivity(CoroutinesActivity::class.java)
+                return@OnItemClickListener
+            }
+            "Svga" -> {
+                ActivityUtils.startActivity(SvgaActivity::class.java)
                 return@OnItemClickListener
             }
             "Lottie" -> {
