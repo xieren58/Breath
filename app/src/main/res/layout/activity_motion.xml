@@ -17,14 +17,12 @@
     <View
         android:id="@+id/view1"
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@color/colorFF000000" />
+        android:layout_height="50dp" />
 
     <View
         android:id="@+id/view2"
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@color/colorFF3F51B5" />
+        android:layout_height="50dp" />
 
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
