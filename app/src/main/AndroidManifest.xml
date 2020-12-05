@@ -88,6 +88,7 @@
         <activity android:name=".component.activity.weight.ButtonActivity" />
         <activity android:name=".component.activity.weight.TextViewActivity" />
         <activity android:name=".component.activity.weight.TabLayoutActivity" />
+        <activity android:name=".component.activity.weight.ScrollViewActivity" />
 
         <activity android:name=".component.activity.mvx.MvcActivity">
             <intent-filter>
