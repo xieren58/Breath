@@ -259,4 +259,7 @@ dependencies {
 
     // 第三方tabLayout
     implementation 'com.github.hackware1993:MagicIndicator:1.7.0'
+
+    // lottie动画
+    implementation 'com.airbnb.android:lottie:3.5.0'
 }

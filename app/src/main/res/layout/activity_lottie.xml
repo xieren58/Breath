@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--
+       lottie_fileName：放在assets文件夹的json文件。
+       lottie_autoPlay：是否自动播放
+       lottie_repeatCount：播放次数，-1表示无限重复。
+       lottie_progress：当前进度（即固定在某一帧，和lottie_autoPlay为true互斥）
+    -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lav_music"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="lottie_music.json"
+        app:lottie_repeatCount="-1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
