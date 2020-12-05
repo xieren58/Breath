@@ -15,13 +15,12 @@ import com.zkp.breath.component.activity.base.BaseActivity
  * https://www.jianshu.com/p/bbc703a0015e
  * https://www.jianshu.com/p/eec5a397ce79
  */
-class CoordinatorActivity : BaseActivity() {
+class CoordinatorActivity : BaseActivity(R.layout.activity_coordinator) {
 
     var recyclerView: RecyclerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_coordinator)
         initRecycleView()
     }
 
