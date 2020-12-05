@@ -73,7 +73,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.weight.ActivityCoordinator">
+        <activity android:name=".component.activity.weight.CoordinatorActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>

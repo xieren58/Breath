@@ -4,18 +4,18 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zkp.breath.R
 import com.zkp.breath.adpter.CoordinatorAdapter
+import com.zkp.breath.component.activity.base.BaseActivity
 
 
 /**
  * https://www.jianshu.com/p/bbc703a0015e
  * https://www.jianshu.com/p/eec5a397ce79
  */
-class ActivityCoordinator : AppCompatActivity() {
+class CoordinatorActivity : BaseActivity() {
 
     var recyclerView: RecyclerView? = null
 
