@@ -5,10 +5,15 @@
     android:layout_height="match_parent">
 
     <!--
+       LottieAnimationView：是一个ImageView，通过属性动画 进行 canvas 绘制。
+
+       lottie_url：可以接受url的资源
        lottie_fileName：放在assets文件夹的json文件。
        lottie_autoPlay：是否自动播放
        lottie_repeatCount：播放次数，-1表示无限重复。
+       lottie_loop：是否重复播放。
        lottie_progress：当前进度（即固定在某一帧，和lottie_autoPlay为true互斥）
+       lottie_colorFilter：颜色过滤（上色）
     -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lav_music"
@@ -19,8 +24,9 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
+        app:lottie_colorFilter="@color/colorFFFF5722"
         app:lottie_fileName="lottie_music.json"
-        app:lottie_repeatCount="-1" />
+        app:lottie_loop="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
