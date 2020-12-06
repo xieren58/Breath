@@ -2,21 +2,11 @@ package com.zkp.breath.component.activity
 
 import android.os.Bundle
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.blankj.utilcode.util.FragmentUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.fragment.test.TestFragmentA
-import com.zkp.breath.component.fragment.test.TestFragmentB
-import com.zkp.breath.component.fragment.test.TestFragmentC
-import com.zkp.breath.component.fragment.test.TestFragmentD
 import com.zkp.breath.databinding.ActivityFragmentBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * https://juejin.cn/post/6900739309826441224
