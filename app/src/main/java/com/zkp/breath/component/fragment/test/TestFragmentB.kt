@@ -3,6 +3,7 @@ package com.zkp.breath.component.fragment.test
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Layout
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,5 +23,10 @@ class TestFragmentB : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.tv.text = "我是TestFragmentB"
+
+        val int = requireArguments().getInt("some_int")
+        Log.i("TestFragmentB获取参数", "int: $int")
     }
+
+
 }
