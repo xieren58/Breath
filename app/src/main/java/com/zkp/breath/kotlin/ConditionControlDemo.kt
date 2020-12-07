@@ -1,12 +1,15 @@
 package com.zkp.breath.kotlin
 
-// 条件控制Demo
-
+/**
+ * 条件控制Demo
+ */
 fun f1(x: Int) {
-    // when 类似其他语言的 switch 操作符。
-    // 这里与 Java 相比的不同点有：
-    // 省略了 case 和 break，Kotlin 自动为每个分支加上了 break 的功能。
-    // Java 中的默认分支使用的是 default 关键字，Kotlin 中使用的是 else。
+    /**
+     *  when 类似其他语言的 switch 操作符。
+     *  这里与 Java 相比的不同点有：
+     *  省略了 case 和 break，Kotlin 自动为每个分支加上了 break 的功能。
+     *  Java 中的默认分支使用的是 default 关键字，Kotlin 中使用的是 else。
+     */
     when (x) {
         1 -> print("x == 1")
         2 -> {
@@ -29,6 +32,7 @@ fun f2(x: Int) {
 fun f3(x: Int) {
 // 配合in使用
     when (x) {
+        0 -> print("我是0")
         // in表示在什么区间/范围
         in 1..10 -> print("x is in the range")
         in 30..40 -> print("x is valid")
