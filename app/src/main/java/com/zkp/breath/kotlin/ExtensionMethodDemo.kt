@@ -240,41 +240,21 @@ val Float.dp
             Resources.getSystem().displayMetrics
     )
 
-val a: (Int) -> Unit = { println("$it") }
-val axx: (Int) -> Unit = fun(_: Int) {}   // 使用匿名函数替换lambda表达式的实例
-
-// 把扩展函数的引用赋值给变量
-// lambda表达式，匿名函数，函数引用才能作为参数或者赋值给变量
-// 因为该函数是扩展函数，所以在：：前面加上类名
+// 把扩展函数的引用赋值给函数类型变量。
 val a1: String.(Int) -> Unit = String::method1      // 1
-val a11: (String, Int) -> Unit = String::method1    // 2,等同于1
+val a11: (String, Int) -> Unit = String::method1    // 2,等同于1。扩展函数的扩展接受者可以作为一个参数定义
 val a1x1: String.(Int) -> Unit = ::method2
 val a1x11: (String, Int) -> Unit = ::method2
 
-// 扩展函数的扩展接受者可以作为一个参数定义。
-val a1x: (String, Int) -> Unit = String::method1
-val a1x2: (String, Int) -> Unit = ::method2
-
-// 左边忽略参数定义ide会提示this，而不是it。
 val a2: String.(Int) -> Unit = {
-    println("调用者:$this")
-    println("参数:$it")
+    println("调用者:$this")    // this表示扩展接收者
+    println("参数:$it")   // 只有一个参数的时候可以忽略不写，使用it代替。
 }
 
 val a3: String.(Int) -> Unit = { i: Int ->
     plus("调用者:$this")
     println("参数:$i")
 }
-
-
-// 存在Receiver的函数引用可以赋值给没有或者有Receiver的变量。
-val ax: String.(Int) -> Unit = String::method1
-val bx: (String, Int) -> Unit = String::method1
-val cx: String.(Int) -> Unit = bx
-val dx: (String, Int) -> Unit = ax
-
-val e: (String, Int) -> Unit = ::method2
-val f: String.(Int) -> Unit = ::method2
 
 // ======================================================
 // ======================================================
@@ -367,14 +347,9 @@ fun main(args: Array<String>) {
     (""::method1).invoke(1)
     ""::method1.invoke(1)
 
-
     "rengwuxian".a1(1)
     a1("rengwuxian", 1)
-    a1.invoke("rengwuxian", 1)
-
-//    "rengwuxian".a1x(1)
-    a1x("", 1)
-    a1x.invoke("", 1)
+    a1.invoke("rengwuxian", 1)  // 声明的时候已经可以知道是一个函数引用了，所以可以这样调用
 
     /**
      * 使用函数的引用去调用的时候，不管是一个普通的成员函数还是扩展函数，你都需要把调用者作为第一个参数填进去。
