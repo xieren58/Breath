@@ -122,6 +122,7 @@ class Delegate3 : ReadOnlyProperty<Int, String> {
  * 注意：
  * 1.在未初始化的前提下调用lazy()的返回值Lzay的属性value也会触发初始化流程。
  * 2.lazy函数代理的属性只能是val。（lazy是延迟，懒惰的意思，如果是var那么可以赋值，作用互斥）
+ * 3.可以指定线程安全模式。
  */
 val lazyValue: String by lazy {
     println("computed!")
