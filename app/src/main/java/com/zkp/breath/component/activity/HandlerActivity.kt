@@ -10,19 +10,23 @@ import kotlinx.android.synthetic.main.activity_handler.*
 
 /**
  * 1. Handler的基本原理
- *   Handler持有Looper引用，Looper持有MessageQueue单向链表，MessageQueue存放Message。Handler通过Looper将
- *   Message存放到MessageQueue中，Looper通过MessageQueue取出Message交给Handler处理。
+ *   Handler持有Looper引用，Looper持有MessageQueue单向链表构成的优先级队列（取的都是头部，所以说是队列），
+ *   MessageQueue存放Message。Handler通过Looper将Message存放到MessageQueue中，Looper通过MessageQueue
+ *   取出Message交给Handler处理，整个过程其实就是生产-消费模式。
  *
  * 2. 子线程中怎么创建Handler
  *   子线程中使用 Handler 需要先执行两个操作：Looper.prepare （创建自线程的Looper，存放在ThreadLocal中）和
  *   Looper.loop （开启Looper）。如果直接创建Handler对象会报错，因为其构造函数会检查是否存在Looper，每个 Thread
- *   只能有一个 Looper，否则也会抛出异常。
+ *   只能有一个 Looper，否则也会抛出异常。注意的是当处理完所有事情或者生命周期Destroy的时候要即时调用Looper.myLooper().quit()
+ *   来终止消息循环，因为当执行Looper.loop后会处于死循环状态，所以子线程并不会结束。
  *
  * 3. 为什么主线程不需要手动调用 Looper.prepare 和 Looper.loop
- *    ActivityThread.main 中已经进行了调用，即app运行的时候就已经创建完毕。
+ *    ActivityThread 的 main 方法中已经进行了调用，即app运行的时候就已经创建完毕。（里面有个名字叫H的Handler，
+ *    专门用于处理四大组件和application的消息，比如创建Service，绑定Service的一些消息。）
  *
  * 4. 线程和 Handler Looper MessageQueue 的关系
- *   一个线程对应一个 Looper 对应一个 MessageQueue 对应多个 Handler
+ *   一个线程对应一个 Looper 对应一个 MessageQueue 对应多个 Handler，因为Message中的target记录的对应的Handler
+ *   所以消息能找到对应的Handler进行下发。
  *
  * 5. Handler消息延迟是怎么处理的？
  *   延迟的时间等于"开机时长 + 指定延迟时长"，MessageQueue存放Message进入链表会根据指定的延时时长（没指定则位0）
