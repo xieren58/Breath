@@ -6,6 +6,7 @@ import android.os.Message
 import android.util.Log
 import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
+import kotlinx.android.synthetic.main.activity_handler.*
 
 /**
  * 1. Handler的基本原理
@@ -28,6 +29,18 @@ import com.zkp.breath.component.activity.base.BaseActivity
  *   进行顺序排序。一旦有新的Message进入链表，就会唤醒MessageQueue进行取消息。
  *
  * 6. View.post 和 Handler.post 的区别
+ *  > 如果在 performTraversals 前调用 View.post，则会将消息进行保存，之后在 dispatchAttachedToWindow 的时候
+ *    通过 ViewRootImpl 中的 Handler 进行调用。
+ *  > 如果在 performTraversals 以后调用 View.post，则直接通过 ViewRootImpl 中的 Handler 进行调用。
+ *
+ *    衍生问题：为什么 View.post 里可以拿到 View 的宽高信息呢？
+ *        因为 View.post 的 Runnable 执行的时候，已经执行过 performTraversals 了，也就是 View 的 measure
+ *        layout draw 方法都执行过了，自然可以获取到 View 的宽高信息了。
+ *
+ * 7. 非 UI 线程真的不能操作 View 吗
+ *   在执行 UI 操作的时候，都会调用到 ViewRootImpl 里，以 requestLayout 为例，在 requestLayout 里会通过
+ *   checkThread 进行线程的检查。
+ *
  *
  */
 class HandlerActivity : BaseActivity(R.layout.activity_handler) {
@@ -44,6 +57,7 @@ class HandlerActivity : BaseActivity(R.layout.activity_handler) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        clt.requestLayout()
     }
 
 
