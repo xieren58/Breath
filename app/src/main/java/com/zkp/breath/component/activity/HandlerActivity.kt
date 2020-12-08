@@ -12,6 +12,10 @@ import com.zkp.breath.component.activity.base.BaseActivity
 import kotlin.concurrent.thread
 
 /**
+ * https://juejin.cn/post/6893791473121280013
+ * https://mp.weixin.qq.com/s/V1xI2M8AibgB2whHSOTQGQ
+ *
+ *
  * 1. Handler的基本原理
  *   Handler持有Looper引用，Looper持有MessageQueue单向链表构成的优先级队列（取的都是头部，所以说是队列），
  *   MessageQueue存放Message。Handler通过Looper将Message存放到MessageQueue中，Looper通过MessageQueue
