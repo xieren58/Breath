@@ -2,11 +2,14 @@ package com.zkp.breath.component.activity
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.util.Log
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_handler.*
+import kotlin.concurrent.thread
 
 /**
  * 1. Handler的基本原理
@@ -43,7 +46,12 @@ import kotlinx.android.synthetic.main.activity_handler.*
  *
  * 7. 非 UI 线程真的不能操作 View 吗
  *   在执行 UI 操作的时候，都会调用到 ViewRootImpl 里，以 requestLayout 为例，在 requestLayout 里会通过
- *   checkThread 进行线程的检查。
+ *   checkThread 进行线程的检查，也就是创建ViewRootImpl的线程必须和调用checkThread所在的线程一致，UI的更新
+ *   并非只能在主线程才能进行，而创建ViewRootImpl一般都是在主线程。
+ *
+ *   衍生问题：系统为什么不建议在子线程中访问UI？
+ *      因为 Android 的UI控件不是线程安全的，如果在多线程中并发访问可能会导致UI控件处于不可预期的状态。如果上锁的话
+ *      会降低UI访问的效率，因为锁机制会阻塞某些线程的执行。所以最简单且高效的方法就是采用单线程模型来处理UI操作。
  *
  *
  */
@@ -51,7 +59,7 @@ class HandlerActivity : BaseActivity(R.layout.activity_handler) {
 
     // 有个主线程的handler，然后多个线程使用。
     //
-    private val handler = Handler(mainLooper, object : Handler.Callback {
+    private val handler = Handler(object : Handler.Callback {
         override fun handleMessage(msg: Message): Boolean {
             val obj = msg.obj
             Log.i("handleMessage", "obj: $obj")
@@ -61,8 +69,34 @@ class HandlerActivity : BaseActivity(R.layout.activity_handler) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        clt.requestLayout()
+
+        threadShowDialog()
+
+        val textView = TextView(this)
+        textView.requestLayout()
     }
 
+    var threadLooper: Looper? = null
+
+    private fun threadShowDialog() {
+        thread {
+            //创建线程的Looper，MessageQueue
+            Looper.prepare()
+            threadLooper = Looper.myLooper()
+            Handler().post {
+                val builder = AlertDialog.Builder(this)
+                val alertDialog = builder.create()
+                alertDialog.show()
+                alertDialog.hide()
+            }
+            //开始处理消息
+            Looper.loop()
+        }
+    }
+
+    override fun onDestroy() {
+        threadLooper?.quit()
+        super.onDestroy()
+    }
 
 }
