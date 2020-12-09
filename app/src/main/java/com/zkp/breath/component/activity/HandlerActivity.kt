@@ -22,7 +22,7 @@ import kotlin.concurrent.thread
  *   取出Message交给Handler处理，整个过程其实就是生产-消费模式。
  *
  * 2. 子线程中怎么创建Handler
- *   子线程中使用 Handler 需要先执行两个操作：Looper.prepare （创建自线程的Looper，存放在ThreadLocal中）和
+ *   子线程中使用 Handler 需要先执行两个操作：Looper.prepare （创建子线程的Looper，存放在ThreadLocal中）和
  *   Looper.loop （开启Looper）。如果直接创建Handler对象会报错，因为其构造函数会检查是否存在Looper，每个 Thread
  *   只能有一个 Looper，否则也会抛出异常。注意的是当处理完所有事情或者生命周期Destroy的时候要即时调用Looper.myLooper().quit()
  *   来终止消息循环，因为当执行Looper.loop后会处于死循环状态，所以子线程并不会结束。
@@ -57,6 +57,8 @@ import kotlin.concurrent.thread
  *      因为 Android 的UI控件不是线程安全的，如果在多线程中并发访问可能会导致UI控件处于不可预期的状态。如果上锁的话
  *      会降低UI访问的效率，因为锁机制会阻塞某些线程的执行。所以最简单且高效的方法就是采用单线程模型来处理UI操作。
  *
+ * 8. 多个线程给 MessageQueue 发消息，如何保证线程安全
+ *    enqueueMessage（）方法内部使用了同步机制synchronized
  *
  */
 class HandlerActivity : BaseActivity(R.layout.activity_handler) {
