@@ -12,8 +12,21 @@ import com.didichuxing.doraemonkit.kit.core.BaseActivity
  *              也有它的taskAffinity，它的值取自栈底的 Activity的 taskAffinity，我们可以通过Android Manifest.xml
  *              来定制 taskAffinity，但是默认情况下一个App所有的Task的taskAffinity都是一样的（包名）。
  *
- *      注意：1. standard情况下，Activity会直接进入当前的Task(当前Task的Activity打开新的Activity，那么新的
- *              Activity会在进行打开操作的Activity所在的Task中)。
+ * standard：在不同Task中打开同一个 Activity，Activity会被创建多个实例，分别放进每一个Task，互不干扰。
+ * singleTask：1.被别的App启动的时候，不会进入启动它的Task里，而是会在属于它自己的Task里创建，然后把整个Task拿过来
+ *             压在启动它的Task的上面，这种方式打开的Activity的入场动画是应用间切换的动画。如果这时候点击返回键，
+ *             会等上面的Task消失（即App所有Activity全部关闭）下面的Task才会显示（会有一个应用间切换的动画）。
+ *
+ *             2.即保证只有一个Task里有这个 Activity，又保证这个Task里最多只有一个这个 Activity。如果Task已经存在
+ *             这个Activity，那么不再创建新的对象，而是复用这个已有的对象同时因为Activity没有被重建，系统就不会调用
+ *             它的onCreate()方法而是调用OnNewIntent()方法从Intent里解析数据刷新界面；如果调用OnNewIntent()
+ *             之前这个Activity上面压着其他Activity，系统也会把这些Activity全部清掉来确保目标Activity出现在占栈顶。
+ *
+ *             3.不止应用内部可以叠成栈，Task之间也可以，但Task之间的叠加只适用于前台Task，在进入后台的第一时间
+ *             会被拆开。
+ *                >Task由前台进入后台：
+ *                    1.Home键返回桌面。
+ *                    2.最近任务键（方块键）查看最近任务。
  *
  *
  *
