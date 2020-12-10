@@ -5,10 +5,11 @@ import com.didichuxing.doraemonkit.kit.core.BaseActivity
 /**
  * https://www.bilibili.com/video/BV1CA41177Se
  *
- * Task：任务栈，回退栈。
+ * Task：每一个Task都有一个回退栈，纪录Activity压入顺序。
  *
  * 最近任务列表：可以看到不同app，其实准确来说是不同的Task，这些Task有可能已经销毁只是一个残影（方便用户重新打开，
- *              其实就是重新启动app）
+ *              其实就是重新启动app）；有些Task虽然看不见，但其实是存活的，只是因为taskAffinity冲突（
+ *              launchMode为singleInstance情况下）。
  *
  * taskAffinity：一个App可以存在多个Task，但在Android里一个App默认最多只有一个Task可以显示在最近任务列表，而用来
  *              甄别这个唯一性就是taskAffinity。清单文件中Activity都可以设置taskAffinity，相当于分组，默认取值
