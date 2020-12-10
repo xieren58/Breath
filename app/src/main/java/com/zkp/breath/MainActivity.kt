@@ -27,9 +27,7 @@ class MainActivity : BaseActivity() {
             "Coroutines", "Coordinator", "Svga", "Lottie", "ScrollView", "ConstraintLayout",
             "TabLayout", "TextView", "Button", "Switch", "ImageViewAdjustViewBounds",
             "ImageViewScaleType", "MotionLayout", "Debug",
-            "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service",
-            "JetPackStartUp", "JetPackViewModel", "JetPackViewBinding",
-            "JetPackLifecycle", "JetPackLiveData", "JetPackDataBinding", "JetPackPaging", "JetPackRoom"
+            "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service", "JetPack"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -144,36 +142,8 @@ class MainActivity : BaseActivity() {
                 ActivityUtils.startActivity(ServiceDemoActivity::class.java)
                 return@OnItemClickListener
             }
-            "JetPackStartUp" -> {
-                ActivityUtils.startActivity(StartupActivity::class.java)
-                return@OnItemClickListener
-            }
-            "JetPackViewModel" -> {
-                ActivityUtils.startActivity(ViewModelActivity::class.java)
-                return@OnItemClickListener
-            }
-            "JetPackViewBinding" -> {
-                ActivityUtils.startActivity(ViewBindingActivity::class.java)
-                return@OnItemClickListener
-            }
-            "JetPackLifecycle" -> {
-                ActivityUtils.startActivity(LifecycleActivity::class.java)
-                return@OnItemClickListener
-            }
-            "JetPackLiveData" -> {
-                ActivityUtils.startActivity(LiveDataActivity::class.java)
-                return@OnItemClickListener
-            }
-            "JetPackDataBinding" -> {
-                ActivityUtils.startActivity(DataBindingActivity::class.java)
-                return@OnItemClickListener
-            }
-            "JetPackPaging" -> {
-                ActivityUtils.startActivity(PagingActivity::class.java)
-                return@OnItemClickListener
-            }
-            "JetPackRoom" -> {
-                ActivityUtils.startActivity(RoomActivity::class.java)
+            "JetPack" -> {
+                ActivityUtils.startActivity(JetPackActivity::class.java)
                 return@OnItemClickListener
             }
             else -> {

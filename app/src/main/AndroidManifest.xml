@@ -190,6 +190,7 @@
 
         <activity android:name=".component.activity.HandlerActivity" />
 
+        <activity android:name=".component.activity.jetpack.JetPackActivity" />
         <activity android:name=".component.activity.jetpack.ViewModelActivity" />
         <activity android:name=".component.activity.jetpack.LifecycleActivity" />
         <activity android:name=".component.activity.jetpack.LiveDataActivity" />
