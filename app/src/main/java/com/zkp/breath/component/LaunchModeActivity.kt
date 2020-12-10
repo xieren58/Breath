@@ -20,7 +20,7 @@ import com.didichuxing.doraemonkit.kit.core.BaseActivity
  * standard：在不同Task中打开同一个 Activity，Activity会被创建多个实例，分别放进每一个Task，互不干扰。
  * singleTop：standard升级版，只是当Task栈顶存在目标Activity的话就复用（通过OnNewIntent()）。
  *
- * singleTask：1.被别的App启动的时候，不会进入启动它的Task里，而是会在属于它自己的Task里创建，然后把整个Task拿过来
+ * singleTask(唯一性)：1.被别的App启动的时候，不会进入启动它的Task里，而是会在属于它自己的Task里创建，然后把整个Task拿过来
  *             压在启动它的Task的上面，这种方式打开的Activity的入场动画是应用间切换的动画。如果这时候点击返回键，
  *             会等上面的Task消失（即App所有Activity全部关闭）下面的Task才会显示（会有一个应用间切换的动画）。
  *
@@ -35,7 +35,17 @@ import com.didichuxing.doraemonkit.kit.core.BaseActivity
  *                    1.Home键返回桌面。
  *                    2.最近任务键（方块键）查看最近任务。
  *
- * singleInstance：singleTask严格版，创建一个新的Task单独存放，不允许存在其他的Activity。
+ *             4.设置launchMode = "singleTask"的Activity，系统会先对比Activity和当前Task的TaskAffinity是否
+ *              相同。如果相同就正常入栈；如果不同Activity会去寻找和它相同TaskAffinity的Task后入栈，如果找不到系统
+ *              会为它创建一个新的Task。
+ *
+ * singleInstance（唯一性和独占性）：singleTask严格版，创建一个新的Task单独存放，不允许存在其他的Activity。
+ *
+ *
+ *
+ * 实战的通常选择：
+ *  1. standard，singleTop，singleTask 多用于App的内部。
+ *  2. singleInstance 多用于开放给外部app来共享使用。
  *
  */
 class LaunchModeActivity : BaseActivity() {
