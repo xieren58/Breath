@@ -14,6 +14,7 @@ import com.zkp.breath.databinding.ActivityFragmentBinding
 
 /**
  * https://juejin.cn/post/6900739309826441224
+ * https://juejin.cn/post/6844904079697657863
  */
 class FragmentDemoActivity : BaseActivity() {
 
