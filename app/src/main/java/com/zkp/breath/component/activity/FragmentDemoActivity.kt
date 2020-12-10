@@ -1,7 +1,11 @@
 package com.zkp.breath.component.activity
 
 import android.os.Bundle
+import android.util.Log
+import androidx.annotation.NonNull
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
@@ -10,13 +14,6 @@ import com.zkp.breath.databinding.ActivityFragmentBinding
 
 /**
  * https://juejin.cn/post/6900739309826441224
- *
- * FragmentManager：执行添加/移除/替换 fragment 并将这些操作加入到返回栈中的操作，这些操作被称为「事务」
- *
- * 1. 每个 FragmentActivity 及其子类（如 AppCompatActivity）都可以通过getSupportFragmentManager() 来访问 FragmentManager。
- * 2. Fragment 也能管理一个或多个子 fragment（译者注：嵌套 fragment，即一个 fragment 的直接宿主可能是 activity
- *      或另一个 fragment）。在 fragment 中，您可以通过 getChildFragmentManager() 来获取管理子 fragment 的
- *      FragmentManager 实例。如果需要访问该 fragment 宿主的 FragmentManager，可以使用  getParentFragmentManager()。
  */
 class FragmentDemoActivity : BaseActivity() {
 
@@ -27,6 +24,30 @@ class FragmentDemoActivity : BaseActivity() {
         binding = ActivityFragmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initView(savedInstanceState)
+        initView()
+    }
+
+    private fun initView() {
+        /**
+         *  Fragment 生命周期监听。
+         *  参数recursive为true自动为子Fragment设置此回调。
+         */
+        supportFragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentResumed(@NonNull fm: FragmentManager, @NonNull f: Fragment) {
+                super.onFragmentResumed(fm, f)
+                Log.i("onFragmentResumed", "name : ${f.javaClass.simpleName}")
+            }
+        }, true)
+
+        /**
+         * 后退栈变动监听器。
+         * 执行addToBackStack和（需要执行addToBackStack为前提）点击返回键都会触发
+         */
+        supportFragmentManager.addOnBackStackChangedListener(object : FragmentManager.OnBackStackChangedListener {
+            override fun onBackStackChanged() {
+                Log.i("onBackStackChanged", "哈哈哈哈")
+            }
+        })
     }
 
     private fun initView(savedInstanceState: Bundle?) {
@@ -40,7 +61,9 @@ class FragmentDemoActivity : BaseActivity() {
             val bundle = bundleOf("some_int" to 21)
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                add(R.id.fcv, TestFragmentA::class.java, bundle, TestFragmentA::class.java.simpleName)
+                val simpleName = TestFragmentA::class.java.simpleName
+                addToBackStack(simpleName)  // 调用前一定要 setReorderingAllowed(true)
+                add(R.id.fcv, TestFragmentA::class.java, bundle, simpleName)
             }
         }
     }

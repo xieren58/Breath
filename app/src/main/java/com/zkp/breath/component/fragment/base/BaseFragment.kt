@@ -11,11 +11,29 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 
 /**
- * Fragment支持构造函数传入布局，内部自动调用onCreateView（）函数。
+ * Fragment支持构造函数传入布局，在onCreateView（）方法会判断布局id是否有效，有效则使用该布局。
+ *
+ * Fragment：依赖于Activity（也可以依赖于Fragment，但是最顶的父Fragment必须依赖Activity），不能独立存在。（其实
+ *          可以看成是View，只是拥有更加丰富的生命周期）
+ * FragmentManager：执行添加/移除/替换 fragment 并将这些操作加入到返回栈中的操作，这些操作被称为「事务」。
+ * FragmentManagerImpl：FragmentManager的具体实现。
+ * FragmentTransaction：事务，就是添加/移除/替换等操作。
+ *
+ *
+ * 返回栈：记录「事务」，当用户点击返回按钮，会回退该事务（回退指的是如果事务是add(frag1)，那么回退操作就是remove(frag1)）；
+ * 如果没添加该语句，用户点击返回按钮会直接销毁Activity。FragmentManager管理着返回栈
+ *
+ * 获取FragmentManager的方式：
+ * 1. 每个 FragmentActivity 及其子类（如 AppCompatActivity）都可以通过getSupportFragmentManager() 来访问 FragmentManager。
+ * 2. Fragment 也能管理一个或多个子 fragment（译者注：嵌套 fragment，即一个 fragment 的直接宿主可能是 activity
+ *      或另一个 fragment）。在 fragment 中，您可以通过 getChildFragmentManager() 来获取管理子 fragment 的
+ *      FragmentManager 实例。如果需要访问该 fragment 宿主的 FragmentManager，可以使用  getParentFragmentManager()。
  */
 abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(contentLayoutId) {
 
-    val TAG = this::class.simpleName
+    val TAG: String? by lazy {
+        this::class.simpleName
+    }
 
     /**
      * 该上下文是Fragment的宿主Activity，需要使用到Activity的时候自己强转为Activity即可
@@ -28,17 +46,13 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
      * getArguments()获得，但是，当Fragment附加到Activity之后，就无法再调用setArguments()。
      * 所以除了在最开始时，其它时间都无法向初始化参数添加内容。
      *
-     *
-     * <p>
      * 解决getActivity()可能返回null，requireActivity()内部也是调用getActivity()只是会对结果进行判断，
      * 判断为null会抛出异常，所以这个方法调用的时候需要try-catch。
      *
-     * <p>
      * 如果在创建Fragment时要传入参数，必须要通过setArguments(Bundle bundle)方式添加，而不建议通过为Fragment
      * 添加带参数的构造函数，因为通过setArguments()方式添加，在由于内存紧张导致Fragment被系统杀掉并恢复
      * （re-instantiate）时能保留这些数据，这是官方建议的做法。
      *
-     *  <p>
      * 如果要获取setArguments(Bundle bundle)设置的参数，我们可以在下面的onAttach()中通过getArguments()
      * 获取。
      */
@@ -68,7 +82,7 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
      * Caused by: java.lang.IllegalStateException: The specified child already has a parent.
      * You must call removeView() on the child's parent first.
      *
-     * 使用getView()可以获取跟布局的root_view。
+     * 使用getView()可以获取布局View。
      *
      * 1.重写后使用ViewBinding的方式传入布局。
      * 2.如果使用主构造函数传入布局则不需要重写该方法。
@@ -76,13 +90,13 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.i(tag, "onCreateView()")
         val onCreateView = super.onCreateView(inflater, container, savedInstanceState)
-        val viewBinding = viewBinding(inflater, container, false)
+        val viewBinding = viewBinding(inflater, container)
         if (onCreateView == null && viewBinding == null) {
             throw IllegalStateException("请调用构造函数传入LayoutRes或者有效调用viewBinding()返回所属Fragment的布局")
         }
         if (onCreateView != null && viewBinding != null) {
             // viewbinding创建方式优先
-            return viewBinding
+            throw IllegalStateException("同时实现了viewBinding和构造方法传入布局，推荐使用构造方法传入")
         }
         if (onCreateView != null && viewBinding == null) {
             return onCreateView
@@ -98,11 +112,13 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
      * frgment使用viewbinding创建布局和Fragment的onCreateView一样，都需要传入三个参数，且最后一个参数默认为false。
      * 如果不这样创建不能占满布局，详情可以看LayoutInflater.inflate()方法。
      */
-    abstract fun viewBinding(inflater: LayoutInflater, container: ViewGroup?, b: Boolean = false): View?
-
+    open fun viewBinding(inflater: LayoutInflater, container: ViewGroup?, b: Boolean = false): View? {
+        return null
+    }
 
     /**
      * onViewCreated：fragment的视图构建完成。
+     * 在这个方法可以对view进行一些初始化操作。
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -189,7 +205,7 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
     }
 
     /**
-     * onDetach：Fragment就不再与Activity相绑定，它也不再拥有视图层次结构，它的所有资源都将被释放。
+     * onDetach：Fragment与Activity解除绑定，它的所有资源都将被释放。
      */
     override fun onDetach() {
         super.onDetach()
