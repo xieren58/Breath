@@ -65,6 +65,7 @@ class FragmentDemoActivity : BaseActivity() {
                 addToBackStack(simpleName)  // 调用前一定要 setReorderingAllowed(true)
                 add(R.id.fcv, TestFragmentA::class.java, bundle, simpleName)
             }
+            Log.i("获取fragmentManager", "FragmentDemoActivity_supportFragmentManager:$supportFragmentManager ")
         }
     }
 

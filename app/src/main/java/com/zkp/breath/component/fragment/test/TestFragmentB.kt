@@ -1,13 +1,10 @@
 package com.zkp.breath.component.fragment.test
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.zkp.breath.R
 import com.zkp.breath.component.fragment.base.BaseFragment
 import com.zkp.breath.databinding.FragmentTestBinding
 
@@ -26,6 +23,9 @@ class TestFragmentB : BaseFragment() {
 
         val int = requireArguments().getInt("some_int")
         Log.i("TestFragmentB获取参数", "int: $int")
+
+        Log.i("获取fragmentManager", "TestFragmentB_parentFragmentManager:$parentFragmentManager ")
+        Log.i("获取fragmentManager", "TestFragmentB_childFragmentManager:$childFragmentManager ")
     }
 
 

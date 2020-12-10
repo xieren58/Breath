@@ -37,6 +37,9 @@ class TestFragmentA : BaseFragment() {
         binding.tv.setOnClickListener(onClickListener)
 
         goToFragmentB()
+
+        Log.i("获取fragmentManager", "TestFragmentA_parentFragmentManager:$parentFragmentManager ")
+        Log.i("获取fragmentManager", "TestFragmentA_childFragmentManager:$childFragmentManager ")
     }
 
     private fun goToFragmentB() {
