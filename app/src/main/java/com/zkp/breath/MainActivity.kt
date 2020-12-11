@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.blankj.utilcode.util.ActivityUtils
+import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.umeng.analytics.MobclickAgent
@@ -15,12 +16,12 @@ import com.zkp.breath.component.activity.debugs.DebugActivity
 import com.zkp.breath.component.activity.jetpack.*
 import com.zkp.breath.component.activity.kotlin.CoroutinesActivity
 import com.zkp.breath.component.activity.weight.*
-import com.zkp.breath.databinding.ActivityMainBinding
+import com.zkp.breath.databinding.ActivityEntranceBinding
 import kotlin.system.exitProcess
 
 class MainActivity : BaseActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityEntranceBinding
 
     private val listOf = mutableListOf(
             "MMKV", "Handler",
@@ -33,7 +34,8 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityEntranceBinding.inflate(layoutInflater)
+        binding.root.setBackgroundColor(ColorUtils.getColor(R.color.colorFF3F51B5))
         setContentView(binding.root)
 
         umEvent()

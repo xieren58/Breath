@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.blankj.utilcode.util.ActivityUtils
+import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.zkp.breath.R
@@ -12,9 +13,12 @@ import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.activity.jetpack.*
 import com.zkp.breath.component.activity.weight.*
+import kotlinx.android.synthetic.main.activity_entrance.*
+import kotlinx.android.synthetic.main.activity_fragment.*
 import kotlinx.android.synthetic.main.activity_jetpack.*
+import kotlinx.android.synthetic.main.activity_jetpack.rcv
 
-class JetPackActivity : BaseActivity(R.layout.activity_jetpack) {
+class JetPackActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val listOf = mutableListOf(
             "JetPackStartUp", "JetPackViewModel", "JetPackViewBinding", "JetPackLifecycle",
@@ -23,6 +27,7 @@ class JetPackActivity : BaseActivity(R.layout.activity_jetpack) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        clt.setBackgroundColor(ColorUtils.getColor(R.color.colorFF8BC34A))
         initRcv()
     }
 
