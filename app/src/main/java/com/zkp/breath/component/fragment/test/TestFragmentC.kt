@@ -1,28 +1,69 @@
 package com.zkp.breath.component.fragment.test
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Layout
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
+import com.blankj.utilcode.util.ClickUtils
 import com.zkp.breath.R
+import com.zkp.breath.adpter.VpFragmentAdapter
 import com.zkp.breath.component.fragment.base.BaseFragment
-import com.zkp.breath.databinding.FragmentTestBinding
+import kotlinx.android.synthetic.main.fragment_vp.*
 
-class TestFragmentC : BaseFragment() {
+class TestFragmentC : BaseFragment(R.layout.fragment_vp) {
 
-    private lateinit var binding: FragmentTestBinding
-
-    override fun viewBinding(inflater: LayoutInflater, container: ViewGroup?, b: Boolean): View? {
-        binding = FragmentTestBinding.inflate(inflater, container, b)
-        return binding.root
-    }
+    lateinit var mutableListOf: MutableList<Fragment>
+    lateinit var adapter: VpFragmentAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity
-        binding.tv.text = "我是TestFragmentC"
+        initView()
+    }
+
+    private fun initView() {
+        mutableListOf = mutableListOf(TestFragmentD(), TestFragmentE(), TestFragmentF())
+        vp.addOnPageChangeListener(onPageChangeListener)
+        vp.offscreenPageLimit = 1;
+        adapter = VpFragmentAdapter(mutableListOf, childFragmentManager)
+        vp.adapter = adapter
+
+        tv_refresh.setOnClickListener(onClickListener)
+
+
+        val testFragmentD = TestFragmentD()
+        val hashCode = testFragmentD.hashCode()
+        val testFragmentD1 = TestFragmentD()
+        val hashCode1 = testFragmentD1.hashCode()
+        Log.i("hashCode测试", "hashCode: $hashCode,  hashCode1: $hashCode1 ")
+    }
+
+    private val onClickListener = object : ClickUtils.OnDebouncingClickListener() {
+        override fun onDebouncingClick(v: View?) {
+            if (v == null) {
+                return
+            }
+
+            if (v == tv_refresh) {
+//                adapter.data = mutableListOf(TestFragmentG())
+//                adapter.notifyDataSetChanged()
+
+                val mutableListOf = mutableListOf(TestFragmentG())
+                adapter = VpFragmentAdapter(mutableListOf, childFragmentManager)
+                vp.adapter = adapter
+            }
+        }
+    }
+
+    private val onPageChangeListener = object : ViewPager.OnPageChangeListener {
+        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+        }
+
+        override fun onPageSelected(position: Int) {
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {
+        }
     }
 
 }
