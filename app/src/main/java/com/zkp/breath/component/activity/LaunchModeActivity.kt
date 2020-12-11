@@ -1,4 +1,4 @@
-package com.zkp.breath.component
+package com.zkp.breath.component.activity
 
 import com.didichuxing.doraemonkit.kit.core.BaseActivity
 
