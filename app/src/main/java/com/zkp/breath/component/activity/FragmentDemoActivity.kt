@@ -36,6 +36,10 @@ import com.zkp.breath.jetpack.viewmodel.JetPackViewModel
  *    > 创建自定义的FragmentFactory子类。
  *    > 容器的onCreate方法中 super.onCreate(savedInstanceState) 之前设置。
  *    > 如果没有参数的构造函数则无需使用FragmentFactory，但是有则必须使用否则会抛出异常。
+ *
+ * 5. observe LiveData时传入 this 还是 viewLifecycleOwner：androidx fragment 1.2.0 起，添加了新的 Lint
+ *    检查，以确保您在从 onCreateView()、onViewCreated() 或 onActivityCreated() 观察 LiveData 时使用
+ *    getViewLifecycleOwner()。
  */
 class FragmentDemoActivity : BaseActivity() {
 
