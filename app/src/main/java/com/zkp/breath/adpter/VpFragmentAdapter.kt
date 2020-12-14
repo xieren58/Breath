@@ -2,7 +2,7 @@ package com.zkp.breath.adpter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import com.blankj.utilcode.util.CollectionUtils
 
 /**
@@ -19,6 +19,8 @@ import com.blankj.utilcode.util.CollectionUtils
  *   > 通过设置新的Adapter刷新是无效的，因为instantiateItem()内部getItemId()返回的是数据的下标。我们可以选择
  *        重写getItemId（）然后返回hashCode就能实现。
  *
+ *   > 通过重制数据后调用notifyDataSetChanged()是无效的
+ *
  * 2. FragmentStatePagerAdapter: 适合需要处理有很多页，并且数据动态性较大、占用内存较多的情况。
  *
  *   > 内存可回收：将会对limit外的Fragment进行回收，所以Fragment占用的内存也会被回收。instantiateItem()创建
@@ -28,6 +30,8 @@ import com.blankj.utilcode.util.CollectionUtils
  *
  *   > 通过设置新的Adapter刷新是有效的，因为存放在集合中的Fragment会被清空，所以一定会重建Fragment。
  *
+ *   > 通过重制数据后调用notifyDataSetChanged()是无效的
+ *
  *
  * behavior参数详解：（可以通过打印生命周期方法判断）
  * BEHAVIOR_SET_USER_VISIBLE_HINT：存活但看不见的Fragment生命周期也能走到onResume()。 已废弃！
@@ -36,7 +40,7 @@ import com.blankj.utilcode.util.CollectionUtils
  */
 class VpFragmentAdapter(var data: List<Fragment>, fm: FragmentManager,
                         behavior: Int = BEHAVIOR_SET_USER_VISIBLE_HINT) :
-        FragmentPagerAdapter(fm, behavior) {
+        FragmentStatePagerAdapter(fm, behavior) {
 
 
     override fun getCount(): Int {

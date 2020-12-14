@@ -184,7 +184,9 @@
 
         <activity android:name=".component.activity.MMKVActivity" />
 
+        <activity android:name=".component.activity.ComponentActivity" />
         <activity android:name=".component.activity.FragmentDemoActivity" />
+        <activity android:name=".component.activity.VpFragmentActivity" />
 
         <activity android:name=".component.activity.debugs.DebugActivity" />
 

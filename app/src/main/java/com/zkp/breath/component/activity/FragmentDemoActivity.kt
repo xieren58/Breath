@@ -15,6 +15,9 @@ import com.zkp.breath.databinding.ActivityFragmentBinding
 /**
  * https://juejin.cn/post/6900739309826441224
  * https://juejin.cn/post/6844904079697657863
+ *
+ * 1. 强烈建议始终使用 FragmentContainerView 作为 fragment 的容器。
+ * 2. 
  */
 class FragmentDemoActivity : BaseActivity() {
 

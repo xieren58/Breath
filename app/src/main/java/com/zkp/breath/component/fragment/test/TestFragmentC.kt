@@ -45,9 +45,6 @@ class TestFragmentC : BaseFragment(R.layout.fragment_vp) {
             }
 
             if (v == tv_refresh) {
-//                adapter.data = mutableListOf(TestFragmentG())
-//                adapter.notifyDataSetChanged()
-
                 val mutableListOf = mutableListOf(TestFragmentG())
                 adapter = VpFragmentAdapter(mutableListOf, childFragmentManager)
                 vp.adapter = adapter

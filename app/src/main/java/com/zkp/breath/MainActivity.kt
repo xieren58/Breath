@@ -28,7 +28,7 @@ class MainActivity : BaseActivity() {
             "Coroutines", "Coordinator", "Svga", "Lottie", "ScrollView", "ConstraintLayout",
             "TabLayout", "TextView", "Button", "Switch", "ImageViewAdjustViewBounds",
             "ImageViewScaleType", "MotionLayout", "Debug",
-            "Rxjava3", "Glide4", "Fragment", "ViewEvent", "Service", "JetPack"
+            "Rxjava3", "Glide4", "Component", "ViewEvent", "Service", "JetPack"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -132,8 +132,8 @@ class MainActivity : BaseActivity() {
                 ActivityUtils.startActivity(GlideActivity::class.java)
                 return@OnItemClickListener
             }
-            "Fragment" -> {
-                ActivityUtils.startActivity(FragmentDemoActivity::class.java)
+            "Component" -> {
+                ActivityUtils.startActivity(ComponentActivity::class.java)
                 return@OnItemClickListener
             }
             "ViewEvent" -> {
