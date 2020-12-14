@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_jetpack.rcv
 class ComponentActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val listOf = mutableListOf(
-            "FragmentDemo", "VpFragment"
+            "FragmentDemo", "VpFragment", "Vp2Fragment"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +49,10 @@ class ComponentActivity : BaseActivity(R.layout.activity_entrance) {
             }
             "VpFragment" -> {
                 ActivityUtils.startActivity(VpFragmentActivity::class.java)
+                return@OnItemClickListener
+            }
+            "Vp2Fragment" -> {
+                ActivityUtils.startActivity(Vp2FragmentActivity::class.java)
                 return@OnItemClickListener
             }
             else -> {
