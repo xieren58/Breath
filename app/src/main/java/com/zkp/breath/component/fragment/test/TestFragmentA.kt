@@ -30,8 +30,10 @@ class TestFragmentA(val arg: Int) : BaseFragment() {
         MainScope()
     }
 
-    //共享范围activity
+    // 获取activity的vm
     private val mViewModel by activityViewModels<JetPackViewModel>()
+
+    // 创建自己的vm
     private lateinit var viewModel: JetPackViewModel
 
     override fun viewBinding(inflater: LayoutInflater, container: ViewGroup?, b: Boolean): View? {
@@ -58,7 +60,7 @@ class TestFragmentA(val arg: Int) : BaseFragment() {
 
         viewModel = ViewModelProvider(this).get(JetPackViewModel::class.java)
         viewModel.initData()?.observe(viewLifecycleOwner, Observer<String> {
-            goToFragmentB()
+//            goToFragmentB()
         })
     }
 
@@ -90,6 +92,9 @@ class TestFragmentA(val arg: Int) : BaseFragment() {
         }
     }
 
+    /**
+     * TestFragmentA的构造函数带参数，所以需要使用FragmentFactory。
+     */
     class AFragmentFactory(private val arg: Int) : FragmentFactory() {
         override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
             if (className == TestFragmentA::class.java.name) {

@@ -14,7 +14,7 @@ class TestFragmentB : BaseFragment() {
 
     private lateinit var binding: FragmentTestBinding
 
-    //共享范围fragment 内部
+    // 获取父fragment的vm
     private val mViewModel by viewModels<JetPackViewModel>({ requireParentFragment() })
 
     override fun viewBinding(inflater: LayoutInflater, container: ViewGroup?, b: Boolean): View? {

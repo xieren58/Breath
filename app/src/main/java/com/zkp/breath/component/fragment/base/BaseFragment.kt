@@ -125,20 +125,15 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
         Log.i(tag, "onViewCreated()")
     }
 
-    open fun handleActivityOnBackPressed() {
-        // TODO 拦截Activity回退按钮进行自定义操作
-    }
-
     /**
      * 使用前需要使用下面的方法打开拦截容器Activity的回退方法，然后子Fg重写handleActivityOnBackPressed()
      * 进行自己的拦截操作。
      *
      * @see OnBackPressedCallback.setEnabled(boolean)  true拦截，false不拦截
+     * @see onActivityCreated 推荐在此方法进行调用
      */
-    protected val onBackPressedCallback = object : OnBackPressedCallback(false) {
-        override fun handleOnBackPressed() {
-            handleActivityOnBackPressed()
-        }
+    protected fun handleActivityOnBackPressed(callback: OnBackPressedCallback) {
+        activity?.onBackPressedDispatcher?.addCallback(requireActivity(), callback)
     }
 
     /**
@@ -148,7 +143,6 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.i(tag, "onActivityCreated()")
-        activity?.onBackPressedDispatcher?.addCallback(this, onBackPressedCallback)
     }
 
     /**

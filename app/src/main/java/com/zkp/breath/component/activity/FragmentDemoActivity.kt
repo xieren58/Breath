@@ -45,12 +45,13 @@ class FragmentDemoActivity : BaseActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // 设置构造函数带参数的TestFragmentA的fragmentFactory
+        // 设置构造函数带参数的TestFragmentA的fragmentFactory，注意设置的位置需要在 super.onCreate(savedInstanceState) 之前。
         supportFragmentManager.fragmentFactory = customFragmentFactory
         super.onCreate(savedInstanceState)
         binding = ActivityFragmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // activity的vm
         viewModel = ViewModelProvider(this).get(JetPackViewModel::class.java)
         viewModel.initData()?.observe(this, Observer<String> {
             ToastUtils.showShort("数据发生改变:$it")
