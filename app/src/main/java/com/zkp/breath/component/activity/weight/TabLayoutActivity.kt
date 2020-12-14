@@ -35,6 +35,8 @@ import java.util.*
  * 4. TabView推荐使用自定义view，灵活性更强。(padding存在默认值，如果设置的值小于也会使用默认值，所以严格来说这个系统控件还是不能满足真正的自定义)
  * 5. TabLayout去掉指示线：给tabIndicatorHeight属性设置0dp，或者给tabIndicatorColor属性设置透明，就不显示指示线了。
  * 6. TabLayout的indicator不能设置图片
+ * 7. TabLayout和ViewPager2布局在同级，而ViewPager需要包裹TabLayout。
+ *
  */
 class TabLayoutActivity : BaseActivity(R.layout.activity_tab_layout) {
 
