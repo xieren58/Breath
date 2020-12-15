@@ -24,6 +24,7 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         tv_action.setOnClickListener(onClickListener)
+        tv_reordering_allowed.setOnClickListener(onClickListener)
     }
 
     private val onClickListener = object : ClickUtils.OnDebouncingClickListener() {
@@ -33,7 +34,25 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
                     action()
                     return
                 }
+                if (this == tv_reordering_allowed) {
+                    reorderingAllowed()
+                }
             }
+        }
+    }
+
+    private fun reorderingAllowed() {
+        actionPostion = 0
+        FragmentUtils.removeAll(supportFragmentManager)
+
+        supportFragmentManager.commit {
+            setCustomAnimations(R.anim.fragment_enter_anim,
+                    R.anim.fragment_exit_anim)
+            setReorderingAllowed(true)
+            val java = TestFragmentD::class.java
+            add(R.id.fcv, java.newInstance(), java.name)
+            val javaE = TestFragmentE::class.java
+            replace(R.id.fcv, javaE.newInstance(), javaE.name)
         }
     }
 
@@ -55,11 +74,6 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
                             val value = data[actionPostion]
                             value?.run {
                                 supportFragmentManager.commit {
-                                    setCustomAnimations(R.anim.fragment_open_enter,
-                                            R.anim.fragment_close_exit,
-                                            R.anim.fragment_fade_enter,
-                                            R.anim.fragment_fade_exit)
-                                    setReorderingAllowed(true)
                                     val name = value.javaClass.name
                                     addToBackStack(name)
                                     add(R.id.fcv, value, name)
