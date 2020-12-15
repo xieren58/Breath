@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.blankj.utilcode.util.ClickUtils
+import com.blankj.utilcode.util.FragmentUtils
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet
 import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_fg_back_stack.*
 
 /**
  * https://juejin.cn/post/6844904090921779214#heading-2
+ * https://juejin.cn/post/6844904086437904398
  */
 class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
 
@@ -44,6 +46,7 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
         QMUIBottomSheet.BottomListSheetBuilder(this)
                 .setGravityCenter(true)
                 .addItem("add")
+                .addItem("hide")
                 .addItem("popBackStack_flag0")
                 .addItem("popBackStack_flag1")
                 .setOnSheetItemClickListener { dialog, itemView, position, tag ->
@@ -58,6 +61,16 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
                                     add(R.id.fcv, value, name)
                                 }
                                 actionPostion++
+                            }
+                        }
+                        "hide" -> {
+                            val topShow = FragmentUtils.getTopShow(supportFragmentManager)
+                            topShow?.run {
+                                supportFragmentManager.commit {
+                                    setReorderingAllowed(true)
+                                    addToBackStack(topShow.javaClass.name)
+                                    hide(topShow)
+                                }
                             }
                         }
                         "popBackStack_flag0" -> {
