@@ -1,8 +1,6 @@
 package com.zkp.breath.component.fragment.test
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +20,7 @@ class TestFragmentD : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.tv.text = "我是TestFragmentD"
+        binding.root.setBackgroundResource(R.color.colorFF3F51B5)
     }
 
 }

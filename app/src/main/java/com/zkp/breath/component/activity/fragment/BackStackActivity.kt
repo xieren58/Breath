@@ -55,6 +55,10 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
                             val value = data[actionPostion]
                             value?.run {
                                 supportFragmentManager.commit {
+                                    setCustomAnimations(R.anim.fragment_open_enter,
+                                            R.anim.fragment_close_exit,
+                                            R.anim.fragment_fade_enter,
+                                            R.anim.fragment_fade_exit)
                                     setReorderingAllowed(true)
                                     val name = value.javaClass.name
                                     addToBackStack(name)

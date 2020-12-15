@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.zkp.breath.R
 import com.zkp.breath.component.fragment.base.BaseFragment
 import com.zkp.breath.databinding.FragmentTestBinding
 
@@ -19,6 +20,7 @@ class TestFragmentE : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.tv.text = "我是TestFragmentE"
+        binding.root.setBackgroundResource(R.color.colorFFFF5722)
     }
 
 }
