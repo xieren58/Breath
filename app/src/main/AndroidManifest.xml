@@ -188,6 +188,7 @@
         <activity android:name=".component.activity.fragment.FragmentDemoActivity" />
         <activity android:name=".component.activity.fragment.VpFragmentActivity" />
         <activity android:name=".component.activity.fragment.Vp2FragmentActivity" />
+        <activity android:name=".component.activity.fragment.BackStackActivity" />
 
         <activity android:name=".component.activity.debugs.DebugActivity" />
 

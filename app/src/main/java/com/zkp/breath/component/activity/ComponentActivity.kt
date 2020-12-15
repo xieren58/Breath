@@ -11,6 +11,7 @@ import com.zkp.breath.R
 import com.zkp.breath.adpter.EntranceAdapter
 import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.base.BaseActivity
+import com.zkp.breath.component.activity.fragment.BackStackActivity
 import com.zkp.breath.component.activity.fragment.FragmentDemoActivity
 import com.zkp.breath.component.activity.fragment.Vp2FragmentActivity
 import com.zkp.breath.component.activity.fragment.VpFragmentActivity
@@ -24,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_jetpack.rcv
 class ComponentActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val listOf = mutableListOf(
-            "FragmentDemo", "VpFragment", "Vp2Fragment"
+            "FragmentDemo", "VpFragment", "Vp2Fragment", "BackStack"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +57,10 @@ class ComponentActivity : BaseActivity(R.layout.activity_entrance) {
             }
             "Vp2Fragment" -> {
                 ActivityUtils.startActivity(Vp2FragmentActivity::class.java)
+                return@OnItemClickListener
+            }
+            "BackStack" -> {
+                ActivityUtils.startActivity(BackStackActivity::class.java)
                 return@OnItemClickListener
             }
             else -> {
