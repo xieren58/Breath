@@ -23,7 +23,6 @@ import com.zkp.breath.jetpack.viewmodel.JetPackViewModel
  * 1. 强烈建议始终使用 FragmentContainerView 作为 fragment 的容器。FragmentContainerView 是专门为 fragment
  *    设计的自定义View，它继承自 FrameLayout，它修复了一些动画 z轴索引顺序问题和窗口插入调度，这意味着两个fragment
  *    之间的退出和进入过渡不会互相重叠。使用FragmentContainerView将先开启退出动画然后才是进入动画。
- *    android:name 属性允许您添加fragment，android:tag 属性可以为fragment设置tag。
  *
  * 2. 设置tag时尽量用全名或者常量，不要用simpleName，避免因为混淆导致获取不正确。
  *
