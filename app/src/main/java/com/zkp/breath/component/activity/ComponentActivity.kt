@@ -11,6 +11,9 @@ import com.zkp.breath.R
 import com.zkp.breath.adpter.EntranceAdapter
 import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.base.BaseActivity
+import com.zkp.breath.component.activity.fragment.FragmentDemoActivity
+import com.zkp.breath.component.activity.fragment.Vp2FragmentActivity
+import com.zkp.breath.component.activity.fragment.VpFragmentActivity
 import com.zkp.breath.component.activity.jetpack.*
 import com.zkp.breath.component.activity.weight.*
 import kotlinx.android.synthetic.main.activity_entrance.*

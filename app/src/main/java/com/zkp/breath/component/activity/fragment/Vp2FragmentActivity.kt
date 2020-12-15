@@ -1,4 +1,4 @@
-package com.zkp.breath.component.activity
+package com.zkp.breath.component.activity.fragment
 
 import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
