@@ -109,13 +109,24 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
         }
     }
 
-    private fun reorderingAllowed() {
+    /**
+     * 请注意，重排序影响了事务的开启和事务的撤销（具体打印生命周期）。
+     *
+     * 在没有执行addToBackStack()情况下，启用重排序可确保一起执行多个事务时，任何中间 fragment（如添加并立即替换
+     * 的中间 fragment）都不会经历生命周期或过渡动画。
+     *
+     * 但是在执行addToBackStack()情况下，。。。。。
+     */
+    private fun reorderingAllowed(boolean: Boolean = false) {
         actionPostion = 0
         FragmentUtils.removeAll(supportFragmentManager)
 
         supportFragmentManager.commit {
             setCustomAnimations(R.anim.fragment_enter_anim,
                     R.anim.fragment_exit_anim)
+            if (boolean) {
+                addToBackStack(null)
+            }
             setReorderingAllowed(true)
             val java = TestFragmentD::class.java
             add(R.id.fcv, java.newInstance(), java.name)
