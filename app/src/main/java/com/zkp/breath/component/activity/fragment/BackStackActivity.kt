@@ -1,6 +1,7 @@
 package com.zkp.breath.component.activity.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
@@ -135,6 +136,7 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
                 .addItem("hide")
                 .addItem("popBackStack_flag0")
                 .addItem("popBackStack_flag1")
+                .addItem("findFragmentById")
                 .setOnSheetItemClickListener { dialog, itemView, position, tag ->
                     when (tag) {
                         "add" -> {
@@ -172,6 +174,21 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
                                         FragmentManager.POP_BACK_STACK_INCLUSIVE)
                                 actionPostion = 0
                             }
+                        }
+                        "findFragmentById" -> {
+                            val findFragmentById = supportFragmentManager.findFragmentById(R.id.fcv)
+                            findFragmentById?.run {
+                                Log.i("findFragmentById获取", "fragment: $findFragmentById")
+                            }
+
+                            if (actionPostion >= 1) {
+                                val baseFragment = data[actionPostion - 1]
+                                baseFragment?.run {
+                                    supportFragmentManager.findFragmentByTag(baseFragment.javaClass.name)
+                                    Log.i("findFragmentByTag获取", "fragment: $baseFragment")
+                                }
+                            }
+
                         }
                     }
                 }
