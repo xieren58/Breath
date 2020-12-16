@@ -17,11 +17,12 @@ import androidx.fragment.app.Fragment
  *          可以看成是View，只是拥有更加丰富的生命周期）
  * FragmentManager：执行添加/移除/替换 fragment 并将这些操作加入到返回栈中的操作，这些操作被称为「事务」。
  * FragmentManagerImpl：FragmentManager的具体实现。
- * FragmentTransaction：事务，就是添加/移除/替换等操作。
+ * FragmentTransaction：事务，就是添加/移除/替换等操作，事务可以包含任意数量的操作。
  *
- *
- * 返回栈：记录「事务」，当用户点击返回按钮，会回退该事务（回退指的是如果事务是add(frag1)，那么回退操作就是remove(frag1)）；
- * 如果没添加该语句，用户点击返回按钮会直接销毁Activity。FragmentManager管理着返回栈
+ * 返回栈：
+ * 1. 调用addToBackStack()将事务存入返回栈，如果没添加该语句那么返回事件将传递给activity。
+ * 2. 当调用 FragmentManager.popBackStack()或者用户点击返回键，会回退该事务（回退指的是如果事务是add(frag1)，
+ *    那么回退操作就是remove(frag1)）。相当于事务的"逆操作"(可以看成Fragment主动拦截返回事件，然后进行逆向操作)
  *
  * 获取FragmentManager的方式：
  * 1. 每个 FragmentActivity 及其子类（如 AppCompatActivity）都可以通过getSupportFragmentManager() 来访问 FragmentManager。
