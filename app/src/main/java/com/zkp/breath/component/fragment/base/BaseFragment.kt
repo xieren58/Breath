@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import androidx.transition.TransitionInflater
 
 /**
  * Fragment支持构造函数传入布局，在onCreateView（）方法会判断布局id是否有效，有效则使用该布局。
@@ -48,6 +49,15 @@ import androidx.fragment.app.Fragment
  * 2. attach将重新连接UI并显示。（onCreateView() -> onResume()）
  * 3. 如果在同一事务中进行detach和attach操作，那么彼此抵消，从而避免了 fragment UI 的销毁和立即重建。
  * 4. attach() 和 detach() 方法与 Fragment 的 onAttach() 和 onDetach() 方法无关。
+ *
+ * setCustomAnimations():
+ * 参数1：add()或者attach()操作会触发
+ * 参数2：remove()和detach()操作会触发
+ * 参数3：addToBackStack()前提下执行remove()，点击返回键触发
+ * 参数4：addToBackStack()前提下执行add()，点击返回键触发
+ *
+ * setExitTransition()和setEnterTransition()：
+ * 在Fragment的onCreate()调用setExitTransition()或setEnterTransition()
  *
  */
 abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(contentLayoutId) {
@@ -93,7 +103,22 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i(tag, "onCreate()")
+
+        val inflater = TransitionInflater.from(requireContext())
+        if (enterTransition() > 0) {
+            enterTransition = inflater.inflateTransition(enterTransition())
+        }
+        if (exitTransition() > 0) {
+            exitTransition = inflater.inflateTransition(exitTransition())
+        }
     }
+
+    /**
+     * R.transition.fragment_enter_transition
+     * R.transition.fragment_exit_transition
+     */
+    open fun enterTransition() = 0
+    open fun exitTransition() = 0
 
     /**
      * onCreateView：在这个fragment构造它的用户接口视图(即布局)时调用。

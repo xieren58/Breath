@@ -10,10 +10,7 @@ import com.blankj.utilcode.util.FragmentUtils
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet
 import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
-import com.zkp.breath.component.fragment.test.TestFragmentD
-import com.zkp.breath.component.fragment.test.TestFragmentE
-import com.zkp.breath.component.fragment.test.TestFragmentF
-import com.zkp.breath.component.fragment.test.TestFragmentG
+import com.zkp.breath.component.fragment.test.*
 import kotlinx.android.synthetic.main.activity_fg_back_stack.*
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -31,6 +28,7 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
         tv_reordering_allowed.setOnClickListener(onClickListener)
         tv_remove.setOnClickListener(onClickListener)
         tv_detach_and_attach.setOnClickListener(onClickListener)
+        tv_animation.setOnClickListener(onClickListener)
     }
 
     private val onClickListener = object : ClickUtils.OnDebouncingClickListener() {
@@ -49,8 +47,116 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
                 if (this == tv_detach_and_attach) {
                     detachAndAttach()
                 }
+                if (this == tv_animation) {
+                    animation()
+                }
             }
         }
+    }
+
+    private fun animation() {
+        QMUIBottomSheet.BottomListSheetBuilder(this)
+                .setGravityCenter(true)
+                .addItem("enter")
+                .addItem("exit")
+                .addItem("popEnter")
+                .addItem("popExit")
+                .addItem("enterTransition")
+                .setOnSheetItemClickListener { dialog, itemView,
+                                               position, tag ->
+                    when (tag) {
+                        "enter" -> {
+                            actionPostion = 0
+                            FragmentUtils.removeAll(supportFragmentManager)
+
+                            val baseFragment = data[0]
+                            baseFragment?.run {
+                                supportFragmentManager.commit {
+                                    // 参数1：add()或者attach()操作会触发
+                                    setCustomAnimations(R.anim.fragment_enter_anim, 0)
+                                    add(R.id.fcv, baseFragment, baseFragment.javaClass.name)
+                                }
+                            }
+                            dialog.dismiss()
+                        }
+
+                        "exit" -> {
+                            val baseFragment = data[0]
+                            baseFragment?.run {
+                                supportFragmentManager.commit {
+                                    // 参数2：remove()和detach()操作会触发
+                                    setCustomAnimations(0, R.anim.fragment_exit_anim)
+                                    remove(baseFragment)
+                                }
+                            }
+                            dialog.dismiss()
+                        }
+
+                        "popEnter" -> {
+                            actionPostion = 0
+                            FragmentUtils.removeAll(supportFragmentManager)
+
+                            val baseFragment = data[0]
+                            baseFragment?.run {
+                                supportFragmentManager.commit {
+                                    // 参数4：addToBackStack()前提下点击返回键触发
+                                    setCustomAnimations(0, 0, 0, R.anim.fragment_exit_anim)
+                                    addToBackStack(baseFragment.javaClass.name)
+                                    add(R.id.fcv, baseFragment, baseFragment.javaClass.name)
+                                }
+                            }
+                            dialog.dismiss()
+                        }
+
+                        "popExit" -> {
+                            actionPostion = 0
+                            FragmentUtils.removeAll(supportFragmentManager)
+
+                            val baseFragment = data[0]
+                            baseFragment?.run {
+
+                                mainScope.launch {
+                                    val java = TestFragmentD::class.java
+                                    val newInstance = java.newInstance()
+                                    supportFragmentManager.commit {
+                                        add(R.id.fcv, baseFragment, baseFragment.javaClass.name)
+                                    }
+                                    delay(2000)
+                                    supportFragmentManager.commit {
+                                        // 参数3：addToBackStack()前提下点击返回键触发
+                                        addToBackStack(baseFragment.javaClass.name)
+                                        setCustomAnimations(0, 0, R.anim.fragment_enter_anim, 0)
+                                        remove(baseFragment)
+                                    }
+                                }
+                            }
+                            dialog.dismiss()
+                        }
+
+                        "enterTransition" -> {
+                            actionPostion = 0
+                            FragmentUtils.removeAll(supportFragmentManager)
+
+                            val java = TestTransitionFragmentH::class.java
+                            val newInstance = java.newInstance()
+
+                            mainScope.launch {
+                                supportFragmentManager.commit {
+                                    add(R.id.fcv, newInstance, java.name)
+                                }
+                                delay(3000)
+                                supportFragmentManager.commit {
+                                    remove(newInstance)
+                                }
+                            }
+
+                            dialog.dismiss()
+                        }
+
+                    }
+                }
+                .build()
+                .show()
     }
 
     private fun detachAndAttach() {
