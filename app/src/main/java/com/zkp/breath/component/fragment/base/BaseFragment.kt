@@ -26,13 +26,29 @@ import androidx.fragment.app.Fragment
  *
  * popBackStack()的flag：
  * 0：执行盖在指定Fragment上所有Fragment存放在返回栈事务的逆操作。
- * 1：执行指定Fragment和盖在其上面的所有Fragment存放在返回栈事务的逆操作。
+ * 1(FragmentManager.POP_BACK_STACK_INCLUSIVE)：执行指定Fragment和盖在其上面的所有Fragment存放在返回栈事务的逆操作。
  *
  * 获取FragmentManager的方式：
  * 1. 每个 FragmentActivity 及其子类（如 AppCompatActivity）都可以通过getSupportFragmentManager() 来访问 FragmentManager。
  * 2. Fragment 也能管理一个或多个子 fragment（译者注：嵌套 fragment，即一个 fragment 的直接宿主可能是 activity
- *      或另一个 fragment）。在 fragment 中，您可以通过 getChildFragmentManager() 来获取管理子 fragment 的
- *      FragmentManager 实例。如果需要访问该 fragment 宿主的 FragmentManager，可以使用  getParentFragmentManager()。
+ *    或另一个 fragment）。在 fragment 中，您可以通过 getChildFragmentManager() 来获取管理子 fragment 的
+ *    FragmentManager 实例。如果需要访问该 fragment 宿主的 FragmentManager，可以使用  getParentFragmentManager()。
+ *
+ * 提交方式：
+ * 1. commit()不会立即执行事务，该事务会被安排为能够在主线程上尽快运行。可以通过调用 executePendingTransactions()
+ *    执行已经调用 commit() 方法但没运行的事务，该方法与addToBackStack 兼容。对于绝大多数场景，使用 commit() 即可。
+ * 2. commitNow() 立即在主线程上运行 fragment 事务，但是不能执行addToBackStack，否则会抛出异。
+ *
+ * show()和hide()：
+ * show() 和 hide() 方法来显示和隐藏已添加到容器的 fragment 的 view，这些方法设置 fragment view 的可见性而
+ * 不影响 fragment 的生命周期。
+ *
+ * detach()和attach()：
+ * 1. detach将fragment和onCreateView()创建的UI分离。 (onDestroyView())
+ * 2. attach将重新连接UI并显示。（onCreateView() -> onResume()）
+ * 3. 如果在同一事务中进行detach和attach操作，那么彼此抵消，从而避免了 fragment UI 的销毁和立即重建。
+ * 4. attach() 和 detach() 方法与 Fragment 的 onAttach() 和 onDetach() 方法无关。
+ *
  */
 abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(contentLayoutId) {
 

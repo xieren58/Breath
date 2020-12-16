@@ -30,6 +30,7 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
         tv_action.setOnClickListener(onClickListener)
         tv_reordering_allowed.setOnClickListener(onClickListener)
         tv_remove.setOnClickListener(onClickListener)
+        tv_detach_and_attach.setOnClickListener(onClickListener)
     }
 
     private val onClickListener = object : ClickUtils.OnDebouncingClickListener() {
@@ -45,9 +46,55 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
                 if (this == tv_remove) {
                     removeDialog()
                 }
+                if (this == tv_detach_and_attach) {
+                    detachAndAttach()
+                }
             }
         }
     }
+
+    private fun detachAndAttach() {
+        QMUIBottomSheet.BottomListSheetBuilder(this)
+                .setGravityCenter(true)
+                .addItem("add")
+                .addItem("detach")
+                .addItem("attach")
+                .setOnSheetItemClickListener { dialog, itemView,
+                                               position, tag ->
+                    when (tag) {
+                        "add" -> {
+                            actionPostion = 0
+                            FragmentUtils.removeAll(supportFragmentManager)
+
+                            val baseFragment = data[0]
+                            baseFragment?.run {
+                                supportFragmentManager.commit {
+                                    add(R.id.fcv, baseFragment, baseFragment.javaClass.name)
+                                }
+                            }
+                        }
+                        "detach" -> {
+                            val baseFragment = data[0]
+                            baseFragment?.run {
+                                supportFragmentManager.commit {
+                                    detach(baseFragment)
+                                }
+                            }
+                        }
+                        "attach" -> {
+                            val baseFragment = data[0]
+                            baseFragment?.run {
+                                supportFragmentManager.commit {
+                                    attach(baseFragment)
+                                }
+                            }
+                        }
+                    }
+                }
+                .build()
+                .show()
+    }
+
 
     private val mainScope by lazy {
         MainScope()
