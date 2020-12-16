@@ -24,6 +24,10 @@ import androidx.fragment.app.Fragment
  * 2. 当调用 FragmentManager.popBackStack()或者用户点击返回键，会回退该事务（回退指的是如果事务是add(frag1)，
  *    那么回退操作就是remove(frag1)）。相当于事务的"逆操作"(可以看成Fragment主动拦截返回事件，然后进行逆向操作)
  *
+ * popBackStack()的flag：
+ * 0：执行盖在指定Fragment上所有Fragment存放在返回栈事务的逆操作。
+ * 1：执行指定Fragment和盖在其上面的所有Fragment存放在返回栈事务的逆操作。
+ *
  * 获取FragmentManager的方式：
  * 1. 每个 FragmentActivity 及其子类（如 AppCompatActivity）都可以通过getSupportFragmentManager() 来访问 FragmentManager。
  * 2. Fragment 也能管理一个或多个子 fragment（译者注：嵌套 fragment，即一个 fragment 的直接宿主可能是 activity
