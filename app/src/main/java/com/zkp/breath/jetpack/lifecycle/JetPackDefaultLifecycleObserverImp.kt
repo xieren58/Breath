@@ -5,6 +5,10 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 
 
+/**
+ * DefaultLifecycleObserver默认实现，可以只选择需要的方法进行重写。
+ * java8推荐写法
+ */
 class JetPackDefaultLifecycleObserverImp : DefaultLifecycleObserver {
 
     val TAG = JetPackDefaultLifecycleObserverImp::class.simpleName

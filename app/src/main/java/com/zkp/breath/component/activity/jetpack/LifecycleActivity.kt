@@ -15,10 +15,11 @@ import com.zkp.breath.jetpack.lifecycle.JetPackLifecycleEventObserverImp
  * ComponentActivity实现了LifecycleOwner接口，然后通过返回Lifecycle对象进行添观察者LifecycleObserver。
  * 在FragmentActivity可以看到调用LifecycleRegistry的handleLifecycleEvent（）方法进行事件分发。
  * 我们在其他activity只要获取Lifecycle然后添加自己的LifecycleObserver就好。
+ * 其实实现原理就是一种观察者模式，也就是回调。
  *
  * 优势总结：响应生命周期，避免内存泄露，规范回收逻辑防止activity回收操作太多。
  * 使用场景：通常在Activity或者Fragment的ondestory我们会进行释放资源的操作，如果存在大量释放操作会导致页面的代码量上升
- * 而降低可读性，比如在我们常见mvp模式的p层，p层的操作已经要感知v层的生命周期从而避免内存泄露。
+ * 而降低可读性
  *
  * Event：@OnLifecycleEvent(Lifecycle.Event.ON_CREATE)。
  * State：INITIALIZED、DESTROYED、CREATED、STARTED、RESUMED。
