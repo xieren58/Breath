@@ -32,6 +32,12 @@ import com.zkp.breath.jetpack.viewmodel.JetPackViewModel
  * 4.作为activity和fragment，fragment和子fragment，同级fragment之间的通信方式。只关注ViewModel，而不需要关注
  *   通信对方。
  *
+ *
+ * 核心实现简述：就是Activity/Fragment内部有一个存放ViewModel的Map，管理我们存入的ViewModel。
+ * 问题1：为什么activity 重建后 ViewModel 仍然存在？
+ *       其实只要保证activity 重建后管理ViewModel的Map不便即可。
+ *
+ *
  * 注意：
  * 1.Activity销毁的时候，框架会调用 ViewModel 对象的 onCleared() 方法，我们可以在这个方法进行释放资源的操作。
  * 2.ViewModel 绝不能引用视图、Lifecycle 或可能存储对 Activity 上下文的引用的任何类。因为vm是数据持久，而视图，Lifecycle
