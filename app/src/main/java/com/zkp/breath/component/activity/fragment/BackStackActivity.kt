@@ -54,6 +54,9 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
         }
     }
 
+    /**
+     * setCustomAnimations()的demo
+     */
     private fun animation() {
         QMUIBottomSheet.BottomListSheetBuilder(this)
                 .setGravityCenter(true)
@@ -159,6 +162,9 @@ class BackStackActivity : BaseActivity(R.layout.activity_fg_back_stack) {
                 .show()
     }
 
+    /**
+     * detach()和attach()的demo，打印生命周期
+     */
     private fun detachAndAttach() {
         QMUIBottomSheet.BottomListSheetBuilder(this)
                 .setGravityCenter(true)
