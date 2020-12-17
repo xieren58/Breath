@@ -266,6 +266,8 @@ dependencies {
     // svga
     implementation 'com.github.yyued:SVGAPlayer-Android:2.5.14'
 
+    // dataBinding和viewBinding消除模版代码的库
+    implementation 'com.hi-dhl:binding:1.0.1'
 
     def fragment_version = "1.2.5"
 //    implementation "androidx.fragment:fragment:$fragment_version"

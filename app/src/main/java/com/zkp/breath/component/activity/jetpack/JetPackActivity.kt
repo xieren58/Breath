@@ -14,9 +14,6 @@ import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.activity.jetpack.*
 import com.zkp.breath.component.activity.weight.*
 import kotlinx.android.synthetic.main.activity_entrance.*
-import kotlinx.android.synthetic.main.activity_fragment.*
-import kotlinx.android.synthetic.main.activity_jetpack.*
-import kotlinx.android.synthetic.main.activity_jetpack.rcv
 
 class JetPackActivity : BaseActivity(R.layout.activity_entrance) {
 
