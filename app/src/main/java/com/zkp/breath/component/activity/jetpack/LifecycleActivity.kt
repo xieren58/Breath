@@ -10,6 +10,7 @@ import com.zkp.breath.jetpack.lifecycle.JetPackLifecycleEventObserverImp
 
 /**
  * https://www.jianshu.com/p/2c9bcbf092bc
+ * https://juejin.cn/post/6844904111108800519#heading-4
  *
  * 生命周期感知组件，一般用来响应Activity、Fragment等组件的生命周期变化，并将变化通知到已注册的观察者。
  * ComponentActivity实现了LifecycleOwner接口，然后通过返回Lifecycle对象进行添观察者LifecycleObserver。
