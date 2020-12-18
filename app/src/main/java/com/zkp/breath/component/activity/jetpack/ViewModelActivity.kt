@@ -23,32 +23,26 @@ import com.zkp.breath.jetpack.viewmodel.JetPackViewModel
  *
  * ViewModel解决的问题：
  * 1.数据持久化：当Activity/Fragment被销毁重建时(如屏幕旋转)，onSaveInstanceState()只适合保存少量的可以被序列
- *   化、反序列化的数据。
+ *   化、反序列化的数据。存储方式上看ViewModel是在内存中，所以读写速度更快，而onSaveInstanceState是写到本地文件。
  *
- * 2.异步回调问题：拥有声明周期感知，防止异步获取数据操作情况下页面销毁没有取消操作出现内存泄漏。
+ * 2.避免内存泄漏：由于 ViewModel 的设计，使得 activity/fragment 依赖它，而 ViewModel 不依赖 activity/fragment。
+ *   因此只要不让 ViewModel 持有 context 或 view 的引用，就不会造成内存泄漏。如果真的需要context那么请使用AndroidViewModel。
  *
  * 3.职能单一原则，数据请求或者管理不应该放在ui层，会导致ui层过臃肿。
  *
- * 4.作为activity和fragment，fragment和子fragment，同级fragment之间的通信方式。只关注ViewModel，而不需要关注
- *   通信对方。
+ * 4.作为activity和fragment，fragment和子fragment，同级fragment之间的通信方式进行数据共享。通信对方只关注
+ *   ViewModel，而不需要关注对方。
  *
  *
  * 核心实现简述：就是Activity/Fragment内部有一个存放ViewModel的Map，管理我们存入的ViewModel。
  * 问题1：为什么activity 重建后 ViewModel 仍然存在？
- *       其实只要保证activity 重建后管理ViewModel的Map不便即可。
- *
- *
- * 注意：
- * 1.Activity销毁的时候，框架会调用 ViewModel 对象的 onCleared() 方法，我们可以在这个方法进行释放资源的操作。
- * 2.ViewModel 绝不能引用视图、Lifecycle 或可能存储对 Activity 上下文的引用的任何类。因为vm是数据持久，而视图，Lifecycle
- *  （其实就是activity，fragment），引用activity上下文的类都会引起内存泄露。但是可以包含LifecycleObservers，如 LiveData 对象
- * 3.如果 ViewModel 需要 Application 上下文（例如，为了查找系统服务），它可以扩展 AndroidViewModel 类并设置用
- *   于接收 Application 的构造函数。
- * 4.Fragment 之间共享数据。由于 两个 fragment 使用的都是 activity 范围的 ViewModel （ViewModelProvider 构造
- *   器传入的activity ），因此它们获得了相同的 ViewModel 实例，自然其持有的数据也是相同的，这也 保证了数据的一致性。
- *   > Activity 不需要执行任何操作，也不需要对此通信有任何了解。
- *   > Fragment 不需要相互了解，并且不受另一个 fragment 的生命周期影响，如果其中一个 fragment 消失了，则另一个继续照常工作。
- *
+ *       其实只要保证activity重建后管理ViewModel的Map不变即可，而Map会缓存在NonConfigurationInstances变量。
+ *       在ActivityThread的performLaunchActivity()中启动Activity会传入ActivityClientRecord的
+ *       NonConfigurationInstances变量，而ActivityClientRecord不受activity重建的影响。
+ * 问题2：为什么Fragment重建后 ViewModel 仍然存在？
+ *       Fragment管理ViewModel的FragmentManagerViewModel本身也是一个ViewModel，其内部存放自身的ViewModel和
+ *       子Fragment的ViewModel。FragmentManagerViewModel存放在Activity管理ViewModel的Map中，所以activity
+ *       重建不变那么Fragment重建也当然不变。
  *
  * 保存界面状态的方法：
  * https://developer.android.google.cn/topic/libraries/architecture/saving-states
