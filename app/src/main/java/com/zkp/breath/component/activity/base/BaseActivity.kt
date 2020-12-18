@@ -130,7 +130,9 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
     }
 
     /**
-     * 在onStop()之前执行，但不保证一定在onPause之前或者之后，保存的数据会传到onRestoreInstanceState与onCreate方法。
+     * 在onStop()之前执行，但不保证一定在onPause之前或者之后（SDK不同实现），保存的数据会传到onRestoreInstanceState与onCreate方法。
+     * 因为使用的是Bundle保存，所以只允许只适合保存少量的可以被序列化数据，最终数据写到本地文件存存储。
+     * 推荐使用ViewModel替换，ViewModel可存大量数据，而且由于存放在内存所以读写速度快。
      *
      * 触发条件：
      * 1.点击home键回到主页或切换到其他程序
