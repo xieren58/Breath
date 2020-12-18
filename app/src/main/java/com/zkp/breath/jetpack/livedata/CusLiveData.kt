@@ -12,8 +12,9 @@ import com.blankj.utilcode.util.ToastUtils
  */
 class CusLiveData : LiveData<String>() {
 
-    // 当 LiveData 对象具有活跃（STARTED或者RESUMED）观察者时，会调用 onActive() 方法。（会多次触发）
-    // 应用场景：Jane首页的广告刷新：只要回到首页（活跃状态）就要触发重刷广告数据的逻辑。
+    /**
+     * observe()注入的回调在活跃状态下会触发多次，而通过observeForever()只会触发一次。
+     */
     override fun onActive() {
         super.onActive()
         Log.i("CusLiveData", "onActive()")
@@ -22,7 +23,9 @@ class CusLiveData : LiveData<String>() {
         }
     }
 
-    // 当 LiveData 对象没有任何活跃观察者时，会调用 onInactive() 方法。（会多次触发）
+    /**
+     * observe()注入的回调在活跃状态下会触发多次，而通过observeForever()注入的回调在移除回调时只会触发一次。
+     */
     override fun onInactive() {
         super.onInactive()
         Log.i("CusLiveData", "onInactive()")

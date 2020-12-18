@@ -17,27 +17,20 @@ import com.zkp.breath.jetpack.livedata.JetPackLiveDataViewModel
  *
  * LiveData 具有生命周期感知能力的可观察的数据存储器类。（响应生命周期，数据存储器，可观察）
  * 1.响应生命周期：能够感知组件（Fragment、Activity、Service）的生命周期，这里的“组件”皆指实现了LifecycleOwner接口
- * Fragment、Activity,防止内存泄露。内部获取了组件的生理周期管理对象，然后创建自己的生命周期观察者对象注入，这样就能响应了。
+ *   其实就是获取组件存放LifecycleObserver的map，然后创建LiveData的LifecycleObserver存入。
  * 2.数据存储器：就是存放数据的容器，仅持有 单个且最新 的数据。
  * 3.可观察：可以被观察者订阅，只有在组件出于激活状态（STARTED、RESUMED）才会通知观察者有数据更新。
- * 4.并不是所有数据都需要使用LiveData作为容器，使用LiveData的前提是因为数据需要感知组件的生命周期进行ui显示。
+ * 4.并不是所有数据都需要使用LiveData作为容器，使用LiveData的前提是因为数据需要感知组件的生命周期进行ui显示，请确保
+ *   将用于更新界面的 LiveData 对象存储在 ViewModel 对象中（数据的持久化和感知组件的生命周期）。
+ * 5.组件的 onCreate() 是开始观察 LiveData 对象的正确着手点。避免onResume()重复注入同一个观察者（同一个观察者
+ *   也会抛出异常）。
+ * 6.LiveData更新值，在主线程必须调用 setValue(T)，工作线程可以使用postValue(T)。
+ * 7.推荐使用observe()注入回调，因为在数据变动情况下可以根据组件的生命周期选择是否触发回调，在组件的onDestroy()方
+ *   法还会自动移除注入的回调。observeForever()不会感知生命周期，只要数据发生变动则触发回调，而且需要手动在onDestroy()
+ *   方法移除注入的回调。
+ * 8.
  *
- * 注意：
- * 请确保将用于更新界面的 LiveData 对象存储在 ViewModel 对象中，而不是将其存储在 Activity 或 Fragment 中，原因如下：
- * 1. 避免 Activity 和 Fragment 过于庞大，职能单一原则
- * 2. 数据持久化（viewmodel的功能），防止Activity被杀死导致数据失效。
- *
- * 应用组件的 onCreate() 方法是开始观察 LiveData 对象的正确着手点：
- * 1.确保系统不会从 Activity 或 Fragment 的 onResume() 方法进行冗余调用，因为会 onResume()会存在重复调用的情况。
- * 2.确保 Activity 或 Fragment 变为活跃状态后具有可以立即显示的数据，假如放在onResume()，当数据不存在需要耗时
- *   请求接口数据，那么这个时间可能会造成视觉效果的卡顿。而放在oncreate中，等到执行到了onresume（）可能数据早已
- *   请求完毕。
- *
- * LiveData更新值：
- * 在主线程必须调用 setValue(T)； 工作线程可以使用postValue(T)。
- *
- *
- * */
+ */
 class LiveDataActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLivedataBinding
