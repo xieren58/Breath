@@ -13,11 +13,12 @@ import com.zkp.breath.jetpack.livedata.JetPackLiveDataViewModel
 
 /**
  * https://developer.android.google.cn/topic/libraries/architecture/livedata#kotlin
+ * https://juejin.cn/post/6844904111112978439
  *
  * LiveData 具有生命周期感知能力的可观察的数据存储器类。（响应生命周期，数据存储器，可观察）
  * 1.响应生命周期：能够感知组件（Fragment、Activity、Service）的生命周期，这里的“组件”皆指实现了LifecycleOwner接口
  * Fragment、Activity,防止内存泄露。内部获取了组件的生理周期管理对象，然后创建自己的生命周期观察者对象注入，这样就能响应了。
- * 2.数据存储器：就是存放数据的容器。
+ * 2.数据存储器：就是存放数据的容器，仅持有 单个且最新 的数据。
  * 3.可观察：可以被观察者订阅，只有在组件出于激活状态（STARTED、RESUMED）才会通知观察者有数据更新。
  * 4.并不是所有数据都需要使用LiveData作为容器，使用LiveData的前提是因为数据需要感知组件的生命周期进行ui显示。
  *
