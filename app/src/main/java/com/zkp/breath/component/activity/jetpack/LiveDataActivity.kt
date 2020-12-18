@@ -62,6 +62,11 @@ class LiveDataActivity : BaseActivity() {
         viewModel.mediatorLiveData.observe(this, Observer<String> {
             Log.i(ACTIVITY_TAG, "MediatorLiveData: $it")
         })
+
+        viewModel.repositoryLiveData.observe(this) {
+            Log.i("测试Transformations.map", "value: $it")
+        }
+        viewModel.repository.generateData()
     }
 
     /**
