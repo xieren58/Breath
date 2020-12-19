@@ -29,7 +29,6 @@ import com.zkp.breath.jetpack.livedata.JetPackLiveDataViewModel
  * 7.推荐使用observe()注入回调，因为在数据变动情况下可以根据组件的生命周期选择是否触发回调，在组件的onDestroy()方
  *   法还会自动移除注入的回调。observeForever()不会感知生命周期，只要数据发生变动则触发回调，而且需要手动在onDestroy()
  *   方法移除注入的回调。
- *
  */
 class LiveDataActivity : BaseActivity() {
 
