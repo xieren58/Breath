@@ -16,7 +16,7 @@ class JetPackLiveDataViewModel : ViewModel() {
     var data: MutableLiveData<String>? = null
     val cusLiveData = CusLiveData()
     val repository by lazy { Repository() }
-    val repositoryLiveData by lazy { repository.getRepositoryTransformationData() }
+    val repositoryLiveData by lazy { repository.getMapData() }
 
     /**
      * MediatorLiveData 允许您将一个或多个数据源添加到单个可观察的 LiveData 中，当任何一个数据源变化时，

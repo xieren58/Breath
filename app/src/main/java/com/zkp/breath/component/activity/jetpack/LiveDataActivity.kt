@@ -1,10 +1,11 @@
 package com.zkp.breath.component.activity.jetpack
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.component.activity.base.BaseActivity
@@ -28,7 +29,6 @@ import com.zkp.breath.jetpack.livedata.JetPackLiveDataViewModel
  * 7.推荐使用observe()注入回调，因为在数据变动情况下可以根据组件的生命周期选择是否触发回调，在组件的onDestroy()方
  *   法还会自动移除注入的回调。observeForever()不会感知生命周期，只要数据发生变动则触发回调，而且需要手动在onDestroy()
  *   方法移除注入的回调。
- * 8.
  *
  */
 class LiveDataActivity : BaseActivity() {
@@ -63,35 +63,29 @@ class LiveDataActivity : BaseActivity() {
             Log.i(ACTIVITY_TAG, "MediatorLiveData: $it")
         })
 
-        viewModel.repositoryLiveData.observe(this) {
+        val repositoryLiveData = viewModel.repositoryLiveData as MediatorLiveData
+        repositoryLiveData.observe(this) {
             Log.i("测试Transformations.map", "value: $it")
         }
         viewModel.repository.generateData()
+
+        viewModel.repository.getSwitchMapData(true).observe(this) {
+            Log.i("测试SwitchMap", "value: $it")
+        }
+        viewModel.repository.liveData1.value = 2331
     }
 
     /**
      * LiveData使用observe（）会在生命周期的OnDestory自动移除观察者（即回调监听）。
      */
+    @SuppressLint("SetTextI18n")
     private fun observe() {
         isObserveForever = false
 
         // Transformations.map会生成一个新的MediatorLiveData
         viewModel.initData()?.let {
-            Transformations.map(it) {
-                it.plus("_拼接")
-            }
-
-            // Transformations.map会生成一个新的MediatorLiveData
-//            Transformations.switchMap(it) {
-//                val mutableLiveData = MutableLiveData<String>()
-//                mutableLiveData.value = it.plus("_我是新的LiveData")
-//                mutableLiveData
-//            }
-
-        }?.observe(this, Observer<String> {
-            binding.tv.text = it
-        })
-
+            binding.tv.text = it.value + "_拼接"
+        }
     }
 
     /**
