@@ -18,8 +18,8 @@ import com.zkp.breath.jetpack.livedata.JetPackLiveDataViewModel
  *
  * LiveData 具有生命周期感知能力的可观察的数据存储器类。（响应生命周期，数据存储器，可观察）
  *
- * 1.并不是所有数据都需要使用LiveData作为容器，使用LiveData的前提是因为数据需要感知组件的生命周期进行ui显示，请确保
- *   将用于更新界面的 LiveData 对象存储在 ViewModel 对象中（数据的持久化和感知组件的生命周期）。
+ * 1.并不是所有数据都需要使用LiveData作为容器，使用LiveData的前提是因为数据需要感知组件的生命周期（一般来说ui数据都
+ *   需要感知组件的生命周期），请确保将用于更新界面的 LiveData 对象存储在 ViewModel 对象中（数据的持久化和感知组件的生命周期）。
  *
  * 2.响应生命周期：能够感知组件（Fragment、Activity、Service）的生命周期，这里的“组件”皆指实现了LifecycleOwner接口
  *   其实就是获取组件存放LifecycleObserver的map，然后创建LiveData的LifecycleObserver存入。在LiveData数据发生
