@@ -31,6 +31,11 @@ import kotlin.concurrent.thread
  *
  * 3. 挂起的操作实际上是靠挂起函数方法内「协程自带的且实现协程挂起」的方法（如withContext()）。
  *
+ * 4. 怎么自定义一个挂起函数？
+ *    > 什么时候自定义？
+ *      原则：耗时。（包括等待这种行为）
+ *    > 怎么写？
+ *      suspend关键字修饰函数，然后用withContext()把函数内容包住。
  *
  * kotlin提供的suspend函数，注意都需要在协程中调用：
  * 1.withContext（）
