@@ -150,7 +150,7 @@ dependencies {
 
     // LiveData
 //    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    
+
     // ProcessLife
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
 
@@ -173,7 +173,7 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     // datastore  （和协程依赖有冲突，可能是alpha版本的问题）
-//    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha04"
+    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha01"
 
     implementation 'androidx.multidex:multidex:2.0.1'
 

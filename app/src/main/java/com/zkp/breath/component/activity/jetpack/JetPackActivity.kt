@@ -18,8 +18,8 @@ import kotlinx.android.synthetic.main.activity_entrance.*
 class JetPackActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val listOf = mutableListOf(
-            "JetPackStartUp", "JetPackViewModel", "JetPackViewBinding", "JetPackLifecycle",
-            "JetPackLiveData", "JetPackDataBinding", "JetPackPaging", "JetPackRoom"
+            "StartUp", "ViewModel", "ViewBinding", "Lifecycle",
+            "LiveData", "DataBinding", "Paging", "Room", "DataStore"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,36 +41,40 @@ class JetPackActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val onItemChildClickListener = OnItemClickListener { _, _, position ->
         when (val type = listOf[position]) {
-            "JetPackStartUp" -> {
+            "StartUp" -> {
                 ActivityUtils.startActivity(StartupActivity::class.java)
                 return@OnItemClickListener
             }
-            "JetPackViewModel" -> {
+            "ViewModel" -> {
                 ActivityUtils.startActivity(ViewModelActivity::class.java)
                 return@OnItemClickListener
             }
-            "JetPackViewBinding" -> {
+            "ViewBinding" -> {
                 ActivityUtils.startActivity(ViewBindingActivity::class.java)
                 return@OnItemClickListener
             }
-            "JetPackLifecycle" -> {
+            "Lifecycle" -> {
                 ActivityUtils.startActivity(LifecycleActivity::class.java)
                 return@OnItemClickListener
             }
-            "JetPackLiveData" -> {
+            "LiveData" -> {
                 ActivityUtils.startActivity(LiveDataActivity::class.java)
                 return@OnItemClickListener
             }
-            "JetPackDataBinding" -> {
+            "DataBinding" -> {
                 ActivityUtils.startActivity(DataBindingActivity::class.java)
                 return@OnItemClickListener
             }
-            "JetPackPaging" -> {
+            "Paging" -> {
                 ActivityUtils.startActivity(PagingActivity::class.java)
                 return@OnItemClickListener
             }
-            "JetPackRoom" -> {
+            "Room" -> {
                 ActivityUtils.startActivity(RoomActivity::class.java)
+                return@OnItemClickListener
+            }
+            "DataStore" -> {
+                ActivityUtils.startActivity(DataStoreActivity::class.java)
                 return@OnItemClickListener
             }
             else -> {
