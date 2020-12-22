@@ -12,8 +12,8 @@ import kotlin.concurrent.thread
  * https://www.bilibili.com/video/BV1KJ41137E9
  * https://www.bilibili.com/video/BV1JE411R7hp/?spm_id_from=333.788.videocard.0
  *
- * https://www.sohu.com/a/236536167_684445
  * https://www.jianshu.com/p/2979732fb6fb
+ * https://www.zhihu.com/people/bennyhuo/posts
  * https://blog.csdn.net/NJP_NJP/article/details/103513537
  *
  * 什么是协程（一个线程框架）：
@@ -54,14 +54,14 @@ import kotlin.concurrent.thread
  *          是一个挂起函数。
  *
  * 协程作用域（理解为生命周期）：
- * 1.GlobalScope：全局协程作用域，可以在整个应用的声明周期中操作，且不能取消，会造成空指针或者内存泄漏,所以仍不适用
- *               于业务开发。
+ * 1.GlobalScope：全局协程作用域（GlobalScope是一个饿汉式单例），可以在整个应用的声明周期中操作，且不能取消，
+ *               会造成空指针或者内存泄漏,所以仍不适用于业务开发。
  * 2.自定义作用域：自定义协程的作用域，不会造成内存泄漏。
  *
  * 调度器（将协程限制在特定的线程执行）：
  * Dispatchers.Main：指定执行的线程是主线程。
  * Dispatchers.IO：指定执行的线程是 IO 线程。
- * Dispatchers.Default：默认的调度器，适合执行 CPU 密集性的任务。
+ * Dispatchers.Default：默认的调度器，适合执行 CPU 密集性的任务。（在没指定调度器或者ContinuationInterceptor）
  * Dispatchers.Unconfined：非限制的调度器，指定的线程可能会随着挂起的函数发生变化。
  *
  * CoroutineStart(启动模式)，只需要掌握下面两个即可:
@@ -81,8 +81,18 @@ class CoroutinesActivity : BaseActivity() {
 //        init()
 //        asyncDemo()
 //        runBlockingDemo()
-
 //        coroutineStartStrategyDemo()
+
+        delayDemo()
+    }
+
+    private fun delayDemo() {
+        Log.i("delayDemo", "1:" + Thread.currentThread().name)
+        GlobalScope.launch {
+            delay(2000L)
+            Log.i("delayDemo", "2:" + Thread.currentThread().name)
+        }
+        Log.i("delayDemo", "3:" + Thread.currentThread().name)
     }
 
     private fun asyncDemo() {
