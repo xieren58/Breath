@@ -12,6 +12,10 @@ import kotlin.concurrent.thread
  * https://www.bilibili.com/video/BV1KJ41137E9
  * https://www.bilibili.com/video/BV1JE411R7hp/?spm_id_from=333.788.videocard.0
  *
+ * https://www.sohu.com/a/236536167_684445
+ * https://www.jianshu.com/p/2979732fb6fb
+ * https://blog.csdn.net/NJP_NJP/article/details/103513537
+ *
  * 什么是协程（一个线程框架）：
  * 1.用同步（顺序）的方式写异步的代码：能够在同一个代码块进行多次线程切换而不会导致多级嵌套（死亡回调），只形成上下级
  *   关系。再者，多线程常用于并发开发，而java的并发写法比较难写以及不直观，而协程可以用少量且直观的代码实现并发需求，
@@ -41,21 +45,17 @@ import kotlin.concurrent.thread
  *
  * kotlin提供的suspend函数，注意都需要在协程中调用：
  * 1.withContext（）
- * 2.delay()等待一段时间后再继续往下执行代码,使用它就可以实现刚才提到的等待类型的耗时操作，该操作发生在launch函数指定的线程。
- *
- * 非阻塞式挂起:
- * 阻塞是发生在单线程中，挂起已经是一种切到另外的线程执行了，所以挂起一定是非阻塞的。一个协程在进入阻塞后不会阻塞当前线程，
- * 当前线程会去执行其他协程任务
- *
+ * 2.delay() 将协程延迟给定时间而不阻塞线程,并在指定时间后恢复它。
  *
  * 启动一个协程：
  * 1.runBlocking：顶层函数，它和 coroutineScope 不一样，它会阻塞当前线程来等待，所以这个方法在实际业务中并不适用。
  * 2.launch：启动一个新的协程，它返回的是一个 Job对象，我们可以调用 Job#cancel() 取消这个协程。
- * 3.async：启动一个新的协程，之后返回一个 Deferred<T>对象（Job的子类），Deferred#await()可以获取到返回值，
- *   await是一个挂起函数。
+ * 3.async：启动一个新的协程，之后返回一个 Deferred<T>对象（Job的子类），Deferred#await()可以获取到返回值，await
+ *          是一个挂起函数。
  *
  * 协程作用域（理解为生命周期）：
- * 1.GlobalScope：全局协程作用域，可以在整个应用的声明周期中操作，且不能取消，所以仍不适用于业务开发。（会造成空指针或者内存泄漏）
+ * 1.GlobalScope：全局协程作用域，可以在整个应用的声明周期中操作，且不能取消，会造成空指针或者内存泄漏,所以仍不适用
+ *               于业务开发。
  * 2.自定义作用域：自定义协程的作用域，不会造成内存泄漏。
  *
  * 调度器（将协程限制在特定的线程执行）：
@@ -68,10 +68,6 @@ import kotlin.concurrent.thread
  * 1. DEFAULT	立即执行协程体
  * 2. LAZY	只有在需要的情况下运行
  *
- * https://www.sohu.com/a/236536167_684445
- * https://www.jianshu.com/p/2979732fb6fb
- *
- * https://blog.csdn.net/NJP_NJP/article/details/103513537
  */
 class CoroutinesActivity : BaseActivity() {
 
