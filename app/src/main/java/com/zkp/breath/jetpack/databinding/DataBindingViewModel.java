@@ -13,20 +13,24 @@ public class DataBindingViewModel extends BaseObservable {
     private String num = "0";
     private String url = "";
 
+    // m层
     private final DataBindingModel mNumDataBindingModel;
 
     public DataBindingViewModel() {
         mNumDataBindingModel = new DataBindingModel();
     }
 
+    /**
+     * @Bindable注解可以提供给xml文件访问
+     */
     @Bindable
     public String getNum() {
         return num;
     }
 
     public void setNum(String num) {
-        this.num = num;
-        notifyPropertyChanged(BR.num);//更新UI
+        this.num = num;     // 刷新ui数据
+        notifyPropertyChanged(BR.num); // 通知观察者，回调
     }
 
     @Bindable
@@ -35,8 +39,8 @@ public class DataBindingViewModel extends BaseObservable {
     }
 
     public void setUrl(String url) {
-        this.url = url;
-        notifyPropertyChanged(BR.url);//更新UI
+        this.url = url;     // 刷新ui数据
+        notifyPropertyChanged(BR.url); // 通知观察者，回调
     }
 
     public void onClickAdd(View v) {//点击事件处理
@@ -53,4 +57,5 @@ public class DataBindingViewModel extends BaseObservable {
             }
         });
     }
+
 }
