@@ -28,7 +28,6 @@ class DataStoreActivity : BaseActivity() {
     private lateinit var dataStore: DataStore<Preferences>
     private val KEY_BYTE_CODE = preferencesKey<Boolean>("ByteCode")
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDataStoreBinding.inflate(LayoutInflater.from(this))
@@ -39,7 +38,6 @@ class DataStoreActivity : BaseActivity() {
     private fun initView() {
         dataStore = this.createDataStore(name = PREFERENCE_NAME)
     }
-
 
     fun readData(key: Preferences.Key<Boolean>): Flow<Boolean> =
             dataStore.data
