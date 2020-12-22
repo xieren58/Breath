@@ -36,6 +36,7 @@ import com.zkp.breath.jetpack.databinding.DataBindingViewModel
  *
  *
  * https://juejin.im/post/6844903609079971854
+ * https://juejin.cn/post/6844904119388340238
  */
 class DataBindingActivity : AppCompatActivity() {
 
