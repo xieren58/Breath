@@ -7,6 +7,8 @@ import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityCoroutinesBinding
 import kotlinx.coroutines.*
 import kotlin.concurrent.thread
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.ContinuationInterceptor
 
 /**
  * https://www.bilibili.com/video/BV1KJ41137E9
@@ -85,6 +87,23 @@ class CoroutinesActivity : BaseActivity() {
 //        coroutineStartStrategyDemo()
 
         delayDemo()
+    }
+
+
+    /**
+     * 自定义拦截器
+     */
+    class MyContinuationInterceptor : ContinuationInterceptor {
+        override val key = ContinuationInterceptor
+        override fun <T> interceptContinuation(continuation: Continuation<T>) = MyContinuation(continuation)
+    }
+
+    class MyContinuation<T>(val continuation: Continuation<T>) : Continuation<T> {
+        override val context = continuation.context
+        override fun resumeWith(result: Result<T>) {
+            Log.i("自定义拦截起", "<MyContinuation> $result")
+            continuation.resumeWith(result)
+        }
     }
 
     private fun delayDemo() {
