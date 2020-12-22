@@ -27,7 +27,7 @@ import kotlin.concurrent.thread
  *                    阻塞式的。
  *   > 协程的挂起函数和java原始的线程切换都是非阻塞式的。
  *
- * 挂起（其实就是一个稍后会被自动「切回来：resume恢复」的线程切换）：
+ * 挂起（其实就是一个稍后会被自动「切回来：resume恢复，从执行机制上看（Continuation），协程跟回调没有什么本质的区别。」的线程切换）：
  * 1. 代码执行到 suspend 函数的时候会从当前线程挂起协程，就是这个协程从正在执行它的线程上脱离（launch函数指定的线程
  * 中脱离），挂起后的协程会在suspend函数指定的线程中继续执行，在 suspend 函数执行完成之后，协程会自动帮我们把线程再
  * 切回来（切回launch函数指定的线程）。
@@ -65,9 +65,10 @@ import kotlin.concurrent.thread
  * Dispatchers.Unconfined：非限制的调度器，指定的线程可能会随着挂起的函数发生变化。
  *
  * CoroutineStart(启动模式)，只需要掌握下面两个即可:
- * 1. DEFAULT	立即执行协程体
- * 2. LAZY	只有在需要的情况下运行
- *
+ * 1. DEFAULT  饿汉式启动，launch 调用后，会立即进入待调度状态，一旦调度器(线程池) OK 就可以开始执行。
+ * 2. LAZY	懒汉式启动， launch 后并不会有任何调度行为，协程体也自然不会进入执行状态，直到我们需要它执行的时候。
+ *      > 调用 Job.start，主动触发协程的调度执行。（参考Thread的start()方法，开启任务但不保证马上执行）
+ *      > 调用 Job.join，隐式的触发协程的调度执行。（参考Thread的join()方法，一定优先于某个协程执行完）
  */
 class CoroutinesActivity : BaseActivity() {
 
