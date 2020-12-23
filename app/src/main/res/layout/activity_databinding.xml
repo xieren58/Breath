@@ -24,7 +24,11 @@
             name="plain_user"
             type="com.zkp.breath.component.activity.jetpack.DataBindingActivity.PlainUser" />
 
-        <!-- 引入工具类，但是不推荐在xml使用工具方法的做法，数据的所有操作应该在外层进行，避免造成xml冗余 -->
+        <!--
+            1.引入工具类，但是不推荐在xml使用工具方法的做法，数据的所有操作应该在外层进行，避免造成xml冗余。
+            2.一个类被多处引用，也可以直接将之 import 进来，这样就不用每次都指明整个包名路径了，而
+              java.lang.* 包中的类会被自动导入，所以可以直接使用
+        -->
         <import type="com.blankj.utilcode.util.StringUtils" />
 
     </data>
@@ -39,14 +43,15 @@
             android:id="@+id/tv_plain_user"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:background="@color/colorFFFFFFFF"
             android:gravity="center"
-            android:text="@{plain_user.lastName}"
-            tools:text="哈哈哈哈哈哈" />
+            android:text="@{plain_user.lastName}" />
 
         <TextView
             android:id="@+id/tv_str"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:background="@color/colorFF8BC34A"
             android:gravity="center"
             android:text="@{vm_str ?? StringUtils.reverse(vm_str)}" />
         <!-- ??: Null Coalescing 运算符，等价 xx!=null  ? xx : yy -->
@@ -55,16 +60,24 @@
             android:id="@+id/tv"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:background="@color/color804488FF"
             android:gravity="center"
-            android:text="@{vm.num,default=my_default}" />
+            android:text="@{vm.num}" />
+
+        <TextView
+            android:id="@+id/tv_notifyChange"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/colorFFFFEB3B"
+            android:gravity="center"
+            android:text="@{vm.name}" />
 
         <ImageButton
             android:id="@+id/btn"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:onClick="@{vm.onClickAdd}"
-            android:text="点击+1"
-            app:url="@{vm.url}" />
+            android:background="@color/colorFFFF5722"
+            android:onClick="@{vm.onClickAdd}" />
 
     </LinearLayout>
 
