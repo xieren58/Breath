@@ -29,8 +29,6 @@ import com.zkp.breath.jetpack.databinding.DataBindingViewModel
  *      3.处理ImageView的加载图片，需要自定义属性后自定义BindingAdapter进行处理。（无法使用import glide进入xml中，
  *        因为需要上下文，而xml没有上下文可以获取）
  *      4.一定程度上是将操作移入了xml中，导致xml的可读性会下降，职责不单一，代码量上涨(导包)。（这就有点拆东墙补西墙的感觉）
- *      5.当获取到数据的时候，只能选择是否刷新ui，但如果需要根据ui的某些状态（比如是否显示，或者是否已经有内容）进行
- *        判断是否刷新，那么这个操作要么只能在xml中进行（违反4），可能在xml也无法操作。
  *
  * https://juejin.im/post/6844903609079971854
  * https://juejin.cn/post/6844904119388340238
