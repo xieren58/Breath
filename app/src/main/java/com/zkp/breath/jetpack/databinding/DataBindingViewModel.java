@@ -41,12 +41,16 @@ public class DataBindingViewModel extends BaseObservable {
      * 下面的操作缺一不可，刷新数据后通知改变，ui同步刷新
      */
     public void setNum(String num) {
-        this.num = num;
-        this.name = "我是notifyChange";
-        if (Long.parseLong(num) % 2 == 0) {
-            notifyPropertyChanged(BR.num);
-        } else {
-            notifyChange();  //更新所有字段
+        try {
+            this.num = num;
+            this.name = "我是notifyChange";
+            if (Long.parseLong(num) % 2 == 0) {
+                notifyPropertyChanged(BR.num);
+            } else {
+                notifyChange();  //更新所有字段
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
     }
 
