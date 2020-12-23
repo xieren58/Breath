@@ -11,7 +11,7 @@ import com.zkp.breath.BR;
 /**
  * notifyPropertyChanged()： 只更新对应 BR 的 flag（ui中引用这些变量的会发生刷新），该 BR 的生成通过注解
  * Bindable 生成，并且回调监视器告知是哪个BR的flag发生了改变。
- * notifyChange() 刷新所有的值域（ui中引用这些变量的会发生刷新），并且回调监听器。
+ * notifyChange()：刷新所有的值域（ui中引用这些变量的会发生刷新），并且回调监听器。
  */
 public class DataBindingViewModel extends BaseObservable {
 
@@ -47,7 +47,7 @@ public class DataBindingViewModel extends BaseObservable {
             if (Long.parseLong(num) % 2 == 0) {
                 notifyPropertyChanged(BR.num);
             } else {
-                notifyChange();  //更新所有字段
+                notifyChange();
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
