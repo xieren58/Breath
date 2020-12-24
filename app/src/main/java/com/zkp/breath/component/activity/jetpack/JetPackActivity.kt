@@ -19,7 +19,7 @@ class JetPackActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val listOf = mutableListOf(
             "StartUp", "ViewModel", "ViewBinding", "Lifecycle",
-            "LiveData", "DataBinding", "Paging", "Room", "DataStore"
+            "LiveData", "DataBinding", "Paging", "Room", "DataStore", "ResultsApi"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,6 +75,10 @@ class JetPackActivity : BaseActivity(R.layout.activity_entrance) {
             }
             "DataStore" -> {
                 ActivityUtils.startActivity(DataStoreActivity::class.java)
+                return@OnItemClickListener
+            }
+            "ResultsApi" -> {
+                ActivityUtils.startActivity(ResultsApiActivity::class.java)
                 return@OnItemClickListener
             }
             else -> {

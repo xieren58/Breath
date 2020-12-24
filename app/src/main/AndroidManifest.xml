@@ -207,6 +207,7 @@
         <activity android:name=".component.activity.jetpack.DataBindingActivity" />
         <activity android:name=".component.activity.jetpack.DataStoreActivity" />
         <activity android:name=".component.activity.jetpack.ResultsApiActivity" />
+        <activity android:name=".component.activity.jetpack.ResultsApiActivity$ResultsApiSecondActivity" />
 
         <service
             android:name=".component.service.IntentServiceA"
