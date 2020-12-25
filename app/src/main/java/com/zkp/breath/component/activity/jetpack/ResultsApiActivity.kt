@@ -25,6 +25,7 @@ import java.io.File
  *
  * onActivityResult的缺点：
  * 1. 各种处理结果都耦合在该回调里，并且还得定义一堆额外的常量REQUEST_CODE,用与判断是哪个请求的回调结果。
+ * 2. 所有的result结果都需要在fragment或者activity监听，其他的类需要通过回调等方式才能间接后去result结果。
  *
  * registerForActivityResult:
  * 1.其实就是把一个startActivityForResult和onActivityResult放在了一个协议中，可读性增强，不再需要定义
