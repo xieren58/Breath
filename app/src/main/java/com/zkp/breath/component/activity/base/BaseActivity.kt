@@ -1,5 +1,6 @@
 package com.zkp.breath.component.activity.base
 
+import android.R
 import android.content.Context
 import android.content.Intent
 import android.graphics.ColorMatrix
@@ -9,6 +10,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.launcher.ARouter
@@ -49,6 +51,13 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
 
         // 该方法是【友盟+】Push后台进行日活统计及多维度推送的必调用方法，请务必调用！
         PushAgent.getInstance(this).onAppStart()
+    }
+
+    /**
+     * 获取布局的根view
+     */
+    protected open fun getContentView(): View? {
+        return (findViewById<ViewGroup>(R.id.content)).getChildAt(0)
     }
 
     // 依赖硬件加速，可能特殊控件不行（高德地图），放在oncreate方法即可

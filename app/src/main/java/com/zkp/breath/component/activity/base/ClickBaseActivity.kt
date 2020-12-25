@@ -11,7 +11,17 @@ import com.blankj.utilcode.util.ClickUtils
 abstract class ClickBaseActivity(@LayoutRes contentLayoutId: Int = 0) : BaseActivity(contentLayoutId),
         View.OnClickListener {
 
+    /**
+     * 批量setOnClickListener
+     */
+    protected open fun varargSetClickListener(vararg v: View?) {
+        for (view in v) {
+            view?.setOnClickListener(this)
+        }
+    }
+
     override fun onClick(v: View?) {
+        // 转接实现
         onClickListener?.onClick(v)
     }
 
