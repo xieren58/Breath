@@ -16,6 +16,7 @@ import com.zkp.breath.component.activity.base.ClickBaseActivity
 import com.zkp.breath.databinding.ActivityResultsApiBinding
 import com.zkp.breath.databinding.ActivityResultsApiSecondBinding
 import com.zkp.breath.jetpack.results.CustomActivityResultContract
+import com.zkp.breath.jetpack.results.ResultApiLifecycleObserver
 import java.io.File
 
 /**
@@ -24,21 +25,23 @@ import java.io.File
  *
  * onActivityResult的缺点：
  * 1. 各种处理结果都耦合在该回调里，并且还得定义一堆额外的常量REQUEST_CODE,用与判断是哪个请求的回调结果。
- * 2. 如果是请求权限，只能依靠activity或者fragment中进行，或者使用
  *
  * registerForActivityResult:
  * 1.其实就是把一个startActivityForResult和onActivityResult放在了一个协议中，可读性增强，不再需要定义
  *   requestCode。
  * 2.ActivityResultContracts定义了常用的result协议。
- *
  */
 class ResultsApiActivity : ClickBaseActivity() {
 
     private val binding by viewbind<ActivityResultsApiBinding>()
+    private lateinit var observer: ResultApiLifecycleObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.tvAction.setOnClickListener(this)
+
+        observer = ResultApiLifecycleObserver(activityResultRegistry)
+        lifecycle.addObserver(observer)
     }
 
     override fun onDebouncingClick(v: View) {
@@ -58,6 +61,7 @@ class ResultsApiActivity : ClickBaseActivity() {
                 .addItem("takePictureContract")
                 .addItem("takeVideoContract")
                 .addItem("pickContract")
+                .addItem("LifecycleObserver")
                 .setOnSheetItemClickListener { dialog, itemView, position, tag ->
                     when (tag) {
                         "Custom_ActivityResultContract" -> {
@@ -83,6 +87,9 @@ class ResultsApiActivity : ClickBaseActivity() {
                         }
                         "pickContract" -> {
                             pickContract()
+                        }
+                        "LifecycleObserver" -> {
+                            observer.selectImage()
                         }
                     }
                 }
