@@ -9,7 +9,9 @@ import androidx.lifecycle.LifecycleOwner
 
 
 /**
- * 在非Activity的环境下配合LifecycleObserver实现监听
+ * 在非Activity的环境下配合LifecycleObserver实现监听，因为LifecycleOwner 会在 Lifecycle 被销毁时自动移除已
+ * 注册的启动器，可以使用ActivityResultLauncher.unregister() 手动移除。
+ *
  * 核心：获取从Activity获得的ActivityResultRegistry，然后register自己的监听。
  */
 class ResultApiLifecycleObserver(private val registry: ActivityResultRegistry) : DefaultLifecycleObserver {

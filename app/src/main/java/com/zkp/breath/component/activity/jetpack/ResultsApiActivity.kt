@@ -24,13 +24,13 @@ import java.io.File
  * https://juejin.cn/post/6887743061309587463
  *
  * onActivityResult的缺点：
- * 1. 各种处理结果都耦合在该回调里，并且还得定义一堆额外的常量REQUEST_CODE,用与判断是哪个请求的回调结果。
- * 2. 所有的result结果都需要在fragment或者activity监听，其他的类需要通过回调等方式才能间接后去result结果。
+ * 1. 各种处理结果都耦合在该回调里，并且还得定义一堆额外的常量REQUEST_CODE，用与判断是哪个请求的回调结果。
+ * 2. 所有的result结果都需要在fragment或者activity监听，其他的类需要通过回调等方式才能间接获取result结果。
  *
  * registerForActivityResult:
  * 1.其实就是把一个startActivityForResult和onActivityResult放在了一个协议中，可读性增强，不再需要定义
  *   requestCode。
- * 2.ActivityResultContracts定义了常用的result协议。
+ * 2.ActivityResultContracts定义了常用的result协议，基本满足日常需求。
  */
 class ResultsApiActivity : ClickBaseActivity() {
 
@@ -62,6 +62,9 @@ class ResultsApiActivity : ClickBaseActivity() {
                 .addItem("takePictureContract")
                 .addItem("takeVideoContract")
                 .addItem("pickContract")
+                .addItem("contentContract")
+                .addItem("multipleContentContract")
+                .addItem("createDocumentContract")
                 .addItem("LifecycleObserver")
                 .setOnSheetItemClickListener { dialog, itemView, position, tag ->
                     when (tag) {
@@ -89,6 +92,14 @@ class ResultsApiActivity : ClickBaseActivity() {
                         "pickContract" -> {
                             pickContract()
                         }
+                        "contentContract" -> {
+                            contentContract()
+                        }
+                        "multipleContentContract" -> {
+                            multipleContentContract()
+                        }
+//                        "createDocumentContract" -> {
+//                        }
                         "LifecycleObserver" -> {
                             observer.selectImage()
                         }
@@ -98,6 +109,27 @@ class ResultsApiActivity : ClickBaseActivity() {
                 .show()
     }
 
+    /**
+     * 选择一组内容，返回一个通过ContentResolver#openInputStream(Uri)访问原生数据的Uri地址（content://形式）。
+     */
+    private fun multipleContentContract() {
+        registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { result ->
+            Log.i("multipleContentContract", "UriList: $result")
+        }.launch("image/*")
+    }
+
+    /**
+     * 选择一条内容，返回一个通过ContentResolver#openInputStream(Uri)访问原生数据的Uri地址（content://形式）。
+     */
+    private fun contentContract() {
+        //调用图库，获取所有本地图片：image/*
+        //调用音乐，获取所有本地音乐文件：audio/*
+        //调用图库，获取所有本地视频文件：video/*
+
+        registerForActivityResult(ActivityResultContracts.GetContent()) { result ->
+            Log.i("contentContract", "Uri: $result")
+        }.launch("image/*")
+    }
 
     /**
      * 通讯录选择联系人，返回Uri
