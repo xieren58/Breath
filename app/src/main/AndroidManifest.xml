@@ -92,6 +92,7 @@
         <activity android:name=".component.activity.weight.ScrollViewActivity" />
         <activity android:name=".component.activity.weight.LottieActivity" />
         <activity android:name=".component.activity.weight.SvgaActivity" />
+        <activity android:name=".jetpack.navigation.NavigationActivity" />
 
         <activity android:name=".component.activity.mvx.MvcActivity">
             <intent-filter>
