@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_entrance.*
 class JetPackActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val listOf = mutableListOf(
-            "StartUp", "ViewModel", "ViewBinding", "Lifecycle",
+            "StartUp", "ViewModel", "ViewBinding", "Lifecycle", "ProcessLifecycle",
             "LiveData", "DataBinding", "Paging", "Room", "DataStore", "ResultsApi", "Navigation"
     )
 
@@ -56,6 +56,10 @@ class JetPackActivity : BaseActivity(R.layout.activity_entrance) {
             }
             "Lifecycle" -> {
                 ActivityUtils.startActivity(LifecycleActivity::class.java)
+                return@OnItemClickListener
+            }
+            "ProcessLifecycle" -> {
+                ActivityUtils.startActivity(ProcessLifecycleActivity::class.java)
                 return@OnItemClickListener
             }
             "LiveData" -> {
