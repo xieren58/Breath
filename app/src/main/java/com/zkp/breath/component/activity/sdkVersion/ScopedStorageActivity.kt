@@ -34,7 +34,7 @@ class ScopedStorageActivity : BaseActivity() {
         binding = ActivityScopedStorageBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-        innerOrOuterPath()
+        innerOrOuterAppPath()
 //        innerDemo()
     }
 
@@ -140,10 +140,20 @@ class ScopedStorageActivity : BaseActivity() {
     }
 
     /**
-     * 1. 应用内部和外部存储的常用路径（files/cache），因为都是应用自身的目录，所以不需要权限可以直接访问(读写)。
-     * 2. 外部公共目录，不需要读写权限，android10及以上需要通过MediaStore访问。
+     * 外部公共目录，不需要读写权限，android10及以上需要通过MediaStore访问。
      */
-    private fun innerOrOuterPath() {
+    private fun externalStoragePublicDir() {
+        // 外部公共目录，android10及以上需要通过MediaStore访问。
+        val externalMusicPath = PathUtils.getExternalMusicPath()
+        val externalDownloadsPath = PathUtils.getExternalDownloadsPath()
+        Log.i("工具类外部公共目录", "externalMusicPath: $externalMusicPath")
+        Log.i("工具类外部公共目录", "externalDownloadsPath: $externalDownloadsPath")
+    }
+
+    /**
+     * 应用内部和外部存储的常用路径（files/cache），因为都是应用自身的目录，所以不需要权限可以直接访问(读写)。
+     */
+    private fun innerOrOuterAppPath() {
         // 内部。无需权限，且卸载应用时会自动删除
         val filesDir = this.filesDir    // 常用
         val cacheDir = this.cacheDir    // 常用
@@ -183,12 +193,6 @@ class ScopedStorageActivity : BaseActivity() {
             // 外部files文件夹下的分包示例
             val externalAppMusicPath = PathUtils.getExternalAppMusicPath()
             val externalAppDownloadPath = PathUtils.getExternalAppDownloadPath()
-
-            // 外部公共目录，android10及以上需要通过MediaStore访问。
-            val externalMusicPath = PathUtils.getExternalMusicPath()
-            val externalDownloadsPath = PathUtils.getExternalDownloadsPath()
-            Log.i("工具类外部公共目录", "externalMusicPath: $externalMusicPath")
-            Log.i("工具类外部公共目录", "externalDownloadsPath: $externalDownloadsPath")
         }
         util()
     }
