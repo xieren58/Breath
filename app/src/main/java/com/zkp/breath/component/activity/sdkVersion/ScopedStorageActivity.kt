@@ -190,7 +190,7 @@ class ScopedStorageActivity : BaseActivity() {
             Log.i("工具类应用内部", "internalAppFilesPath: $internalAppFilesPath")
             Log.i("工具类应用内部", "internalAppCachePath: $internalAppCachePath")
 
-            // 外部files文件夹下的分包示例
+            // 外部files文件夹下的分包示例，需要自己创建
             val externalAppMusicPath = PathUtils.getExternalAppMusicPath()
             val externalAppDownloadPath = PathUtils.getExternalAppDownloadPath()
         }
