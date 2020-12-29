@@ -156,9 +156,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.androidr.R30Activity" />
-        <activity android:name=".component.activity.androidr.ScopedStorageActivity" />
-        <activity android:name=".component.activity.androidr.ToastActivity" />
+        <activity android:name=".component.activity.sdkVersion.SdkVersionActivity" />
+        <activity android:name=".component.activity.sdkVersion.ScopedStorageActivity" />
+        <activity android:name=".component.activity.sdkVersion.ToastR11Activity" />
+        <activity android:name=".component.activity.sdkVersion.HttpClearTextActivity" />
 
         <activity android:name=".component.activity.arouter.ARouterActivity" />
         <activity android:name=".component.activity.arouter.Test1ArouterActivity" />

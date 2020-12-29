@@ -11,12 +11,12 @@ import com.umeng.analytics.MobclickAgent
 import com.zkp.breath.adpter.EntranceAdapter
 import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.*
-import com.zkp.breath.component.activity.androidr.R30Activity
 import com.zkp.breath.component.activity.arouter.ARouterActivity
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.activity.debugs.DebugActivity
 import com.zkp.breath.component.activity.jetpack.*
 import com.zkp.breath.component.activity.kotlin.CoroutinesActivity
+import com.zkp.breath.component.activity.sdkVersion.SdkVersionActivity
 import com.zkp.breath.component.activity.weight.*
 import com.zkp.breath.databinding.ActivityEntranceBinding
 import kotlin.system.exitProcess
@@ -26,7 +26,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityEntranceBinding
 
     private val listOf = mutableListOf(
-            "MMKV", "Handler", "Weight", "Android_R_30", "ARoute",
+            "MMKV", "Handler", "Weight", "SdkVersion", "ARoute",
             "Coroutines", "Debug",
             "Rxjava3", "Glide4", "Component", "JetPack"
     )
@@ -80,8 +80,8 @@ class MainActivity : BaseActivity() {
                 ActivityUtils.startActivity(WeightActivity::class.java)
                 return@OnItemClickListener
             }
-            "Android_R_30" -> {
-                ActivityUtils.startActivity(R30Activity::class.java)
+            "SdkVersion" -> {
+                ActivityUtils.startActivity(SdkVersionActivity::class.java)
                 return@OnItemClickListener
             }
             "ARoute" -> {

@@ -1,4 +1,4 @@
-package com.zkp.breath.component.activity.androidr
+package com.zkp.breath.component.activity.sdkVersion
 
 import android.content.ContentResolver
 import android.content.ContentValues

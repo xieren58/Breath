@@ -1,4 +1,4 @@
-package com.zkp.breath.component.activity.androidr
+package com.zkp.breath.component.activity.sdkVersion
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.os.Looper
 import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
-import com.zkp.breath.databinding.ActivityToastR30Binding
+import com.zkp.breath.databinding.ActivityToastR11Binding
 
 /**
  * https://juejin.cn/post/6844904144424140808#heading-5
@@ -22,15 +22,15 @@ import com.zkp.breath.databinding.ActivityToastR30Binding
  *    使用 Snackbar。
  * 4. 新增 Toast.Callback 回调，以通知 Toast 显示和隐藏。
  */
-class ToastActivity : BaseActivity(R.layout.activity_toast_r30) {
+class ToastR11Activity : BaseActivity(R.layout.activity_toast_r11) {
 
-    private lateinit var binding: ActivityToastR30Binding
+    private lateinit var binding: ActivityToastR11Binding
     private lateinit var handler: Handler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         handler = Handler(Looper.getMainLooper())
-        getContentView()?.let { binding = ActivityToastR30Binding.bind(it) }
+        getContentView()?.let { binding = ActivityToastR11Binding.bind(it) }
 
         ToastUtils.showShort("哈哈哈哈哈哈哈")
 
@@ -46,7 +46,7 @@ class ToastActivity : BaseActivity(R.layout.activity_toast_r30) {
     private fun disableBackstageCusToast() {
         handler.postDelayed({
             val toastUtils = ToastUtils()
-            toastUtils.show(layoutInflater.inflate(R.layout.activity_toast_custom_r30, null))
+            toastUtils.show(layoutInflater.inflate(R.layout.activity_toast_custom_r11, null))
         }, 1500L)
     }
 

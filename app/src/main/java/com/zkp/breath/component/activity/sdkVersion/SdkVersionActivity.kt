@@ -1,4 +1,4 @@
-package com.zkp.breath.component.activity.androidr
+package com.zkp.breath.component.activity.sdkVersion
 
 import android.os.Bundle
 import android.view.View
@@ -15,10 +15,10 @@ import com.zkp.breath.component.activity.jetpack.*
 import com.zkp.breath.component.activity.weight.*
 import kotlinx.android.synthetic.main.activity_entrance.*
 
-class R30Activity : BaseActivity(R.layout.activity_entrance) {
+class SdkVersionActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val listOf = mutableListOf(
-            "ScopedStorage", "Toast"
+            "ScopedStorage", "Toast", "HttpClearText"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +45,11 @@ class R30Activity : BaseActivity(R.layout.activity_entrance) {
                 return@OnItemClickListener
             }
             "Toast" -> {
-                ActivityUtils.startActivity(ToastActivity::class.java)
+                ActivityUtils.startActivity(ToastR11Activity::class.java)
+                return@OnItemClickListener
+            }
+            "HttpClearText" -> {
+                ActivityUtils.startActivity(HttpClearTextActivity::class.java)
                 return@OnItemClickListener
             }
             else -> {
