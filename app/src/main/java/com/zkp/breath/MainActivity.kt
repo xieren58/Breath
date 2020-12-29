@@ -11,6 +11,8 @@ import com.umeng.analytics.MobclickAgent
 import com.zkp.breath.adpter.EntranceAdapter
 import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.*
+import com.zkp.breath.component.activity.androidr.R30Activity
+import com.zkp.breath.component.activity.arouter.ARouterActivity
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.activity.debugs.DebugActivity
 import com.zkp.breath.component.activity.jetpack.*
@@ -24,11 +26,9 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityEntranceBinding
 
     private val listOf = mutableListOf(
-            "MMKV", "Handler",
-            "Coroutines", "Coordinator", "Svga", "Lottie", "ScrollView", "ConstraintLayout",
-            "TabLayout", "TextView", "Button", "Switch", "ImageViewAdjustViewBounds",
-            "ImageViewScaleType", "MotionLayout", "Debug",
-            "Rxjava3", "Glide4", "Component", "ViewEvent", "Service", "JetPack"
+            "MMKV", "Handler", "Weight", "Android_R_30", "ARoute",
+            "Coroutines", "Debug",
+            "Rxjava3", "Glide4", "Component", "JetPack"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,56 +72,20 @@ class MainActivity : BaseActivity() {
                 ActivityUtils.startActivity(CoroutinesActivity::class.java)
                 return@OnItemClickListener
             }
-            "Coordinator" -> {
-                ActivityUtils.startActivity(CoordinatorActivity::class.java)
-                return@OnItemClickListener
-            }
-            "Svga" -> {
-                ActivityUtils.startActivity(SvgaActivity::class.java)
-                return@OnItemClickListener
-            }
-            "Lottie" -> {
-                ActivityUtils.startActivity(LottieActivity::class.java)
-                return@OnItemClickListener
-            }
-            "ScrollView" -> {
-                ActivityUtils.startActivity(ScrollViewActivity::class.java)
-                return@OnItemClickListener
-            }
-            "ConstraintLayout" -> {
-                ActivityUtils.startActivity(ConstraintLayoutActivity::class.java)
-                return@OnItemClickListener
-            }
-            "TabLayout" -> {
-                ActivityUtils.startActivity(TabLayoutActivity::class.java)
-                return@OnItemClickListener
-            }
-            "TextView" -> {
-                ActivityUtils.startActivity(TextViewActivity::class.java)
-                return@OnItemClickListener
-            }
-            "Button" -> {
-                ActivityUtils.startActivity(ButtonActivity::class.java)
-                return@OnItemClickListener
-            }
-            "Switch" -> {
-                ActivityUtils.startActivity(SwitchActivity::class.java)
-                return@OnItemClickListener
-            }
-            "ImageViewAdjustViewBounds" -> {
-                ActivityUtils.startActivity(ImageViewAdjustViewBoundsActivity::class.java)
-                return@OnItemClickListener
-            }
-            "ImageViewScaleType" -> {
-                ActivityUtils.startActivity(ImageViewScaleTypeActivity::class.java)
-                return@OnItemClickListener
-            }
-            "MotionLayout" -> {
-                ActivityUtils.startActivity(MotionLayoutActivity::class.java)
-                return@OnItemClickListener
-            }
             "Debug" -> {
                 ActivityUtils.startActivity(DebugActivity::class.java)
+                return@OnItemClickListener
+            }
+            "Weight" -> {
+                ActivityUtils.startActivity(WeightActivity::class.java)
+                return@OnItemClickListener
+            }
+            "Android_R_30" -> {
+                ActivityUtils.startActivity(R30Activity::class.java)
+                return@OnItemClickListener
+            }
+            "ARoute" -> {
+                ActivityUtils.startActivity(ARouterActivity::class.java)
                 return@OnItemClickListener
             }
             "Rxjava3" -> {
@@ -134,14 +98,6 @@ class MainActivity : BaseActivity() {
             }
             "Component" -> {
                 ActivityUtils.startActivity(ComponentActivity::class.java)
-                return@OnItemClickListener
-            }
-            "ViewEvent" -> {
-                ActivityUtils.startActivity(EventActivity::class.java)
-                return@OnItemClickListener
-            }
-            "Service" -> {
-                ActivityUtils.startActivity(ServiceDemoActivity::class.java)
                 return@OnItemClickListener
             }
             "JetPack" -> {

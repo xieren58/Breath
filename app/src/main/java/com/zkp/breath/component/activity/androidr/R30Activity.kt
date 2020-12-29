@@ -1,4 +1,4 @@
-package com.zkp.breath.component.activity
+package com.zkp.breath.component.activity.androidr
 
 import android.os.Bundle
 import android.view.View
@@ -11,24 +11,19 @@ import com.zkp.breath.R
 import com.zkp.breath.adpter.EntranceAdapter
 import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.base.BaseActivity
-import com.zkp.breath.component.activity.fragment.BackStackActivity
-import com.zkp.breath.component.activity.fragment.FragmentDemoActivity
-import com.zkp.breath.component.activity.fragment.Vp2FragmentActivity
-import com.zkp.breath.component.activity.fragment.VpFragmentActivity
 import com.zkp.breath.component.activity.jetpack.*
 import com.zkp.breath.component.activity.weight.*
 import kotlinx.android.synthetic.main.activity_entrance.*
 
-class ComponentActivity : BaseActivity(R.layout.activity_entrance) {
+class R30Activity : BaseActivity(R.layout.activity_entrance) {
 
     private val listOf = mutableListOf(
-            "Service",
-            "FragmentDemo", "VpFragment", "Vp2Fragment", "BackStack"
+            "ScopedStorage", "Toast"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        clt.setBackgroundColor(ColorUtils.getColor(R.color.colorFF4488FF))
+        clt.setBackgroundColor(ColorUtils.getColor(R.color.colorFF009688))
         initRcv()
     }
 
@@ -45,24 +40,12 @@ class ComponentActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val onItemChildClickListener = OnItemClickListener { _, _, position ->
         when (val type = listOf[position]) {
-            "Service" -> {
-                ActivityUtils.startActivity(ServiceDemoActivity::class.java)
+            "ScopedStorage" -> {
+                ActivityUtils.startActivity(ScopedStorageActivity::class.java)
                 return@OnItemClickListener
             }
-            "FragmentDemo" -> {
-                ActivityUtils.startActivity(FragmentDemoActivity::class.java)
-                return@OnItemClickListener
-            }
-            "VpFragment" -> {
-                ActivityUtils.startActivity(VpFragmentActivity::class.java)
-                return@OnItemClickListener
-            }
-            "Vp2Fragment" -> {
-                ActivityUtils.startActivity(Vp2FragmentActivity::class.java)
-                return@OnItemClickListener
-            }
-            "BackStack" -> {
-                ActivityUtils.startActivity(BackStackActivity::class.java)
+            "Toast" -> {
+                ActivityUtils.startActivity(ToastActivity::class.java)
                 return@OnItemClickListener
             }
             else -> {
