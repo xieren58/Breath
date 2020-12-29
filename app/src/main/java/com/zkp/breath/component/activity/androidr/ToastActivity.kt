@@ -11,6 +11,7 @@ import com.zkp.breath.databinding.ActivityToastR30Binding
 
 /**
  * https://juejin.cn/post/6844904144424140808#heading-5
+ * https://juejin.cn/post/6844903585700921352
  *
  * 测试须知：模拟器或者真机必须是R以上，build的sdk版本也必须修改为R以上。
  *
@@ -30,6 +31,9 @@ class ToastActivity : BaseActivity(R.layout.activity_toast_r30) {
         super.onCreate(savedInstanceState)
         handler = Handler(Looper.getMainLooper())
         getContentView()?.let { binding = ActivityToastR30Binding.bind(it) }
+
+        ToastUtils.showShort("哈哈哈哈哈哈哈")
+
 //        disableBackstageCusToast()
 //        toastCallBack()
     }
