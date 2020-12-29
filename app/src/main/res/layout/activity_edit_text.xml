@@ -4,6 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <EditText
+        android:id="@+id/et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:background="@color/colorFFFFFFFF"
+        android:gravity="start"
+        android:hint="30个字内"
+        android:inputType="text"
+        android:maxLength="30"
+        android:padding="15dp"
+        android:textColor="#ff333333"
+        android:textColorHint="#ffcccccc"
+        android:textCursorDrawable="@drawable/shape_edit_cursor"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

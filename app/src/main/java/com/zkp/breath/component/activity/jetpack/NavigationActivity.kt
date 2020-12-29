@@ -1,8 +1,7 @@
-package com.zkp.breath.jetpack.navigation
+package com.zkp.breath.component.activity.jetpack
 
 import android.os.Bundle
 import android.view.View
-import com.hi.dhl.binding.viewbind
 import com.zkp.breath.component.activity.base.ClickBaseActivity
 import com.zkp.breath.databinding.ActivityNavigationBinding
 
@@ -12,7 +11,7 @@ import com.zkp.breath.databinding.ActivityNavigationBinding
  */
 class NavigationActivity : ClickBaseActivity() {
 
-    private val binding by viewbind<ActivityNavigationBinding>()
+    private lateinit var binding: ActivityNavigationBinding
 
     override fun onDebouncingClick(v: View) {
 
@@ -20,6 +19,8 @@ class NavigationActivity : ClickBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityNavigationBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
 }

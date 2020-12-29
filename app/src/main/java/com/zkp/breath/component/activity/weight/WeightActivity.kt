@@ -22,7 +22,7 @@ class WeightActivity : BaseActivity(R.layout.activity_entrance) {
             "ViewEvent",
             "Coordinator", "Svga", "Lottie", "ScrollView", "ConstraintLayout",
             "TabLayout", "TextView", "Button", "Switch", "ImageViewAdjustViewBounds",
-            "ImageViewScaleType", "MotionLayout"
+            "ImageViewScaleType", "MotionLayout", "EditText"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,6 +94,10 @@ class WeightActivity : BaseActivity(R.layout.activity_entrance) {
             }
             "MotionLayout" -> {
                 ActivityUtils.startActivity(MotionLayoutActivity::class.java)
+                return@OnItemClickListener
+            }
+            "EditText" -> {
+                ActivityUtils.startActivity(EditTextActivity::class.java)
                 return@OnItemClickListener
             }
             else -> {

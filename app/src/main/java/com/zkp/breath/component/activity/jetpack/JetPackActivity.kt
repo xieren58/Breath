@@ -13,7 +13,6 @@ import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.activity.jetpack.*
 import com.zkp.breath.component.activity.weight.*
-import com.zkp.breath.jetpack.navigation.NavigationActivity
 import kotlinx.android.synthetic.main.activity_entrance.*
 
 class JetPackActivity : BaseActivity(R.layout.activity_entrance) {
