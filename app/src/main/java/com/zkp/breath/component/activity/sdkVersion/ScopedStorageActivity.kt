@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
-import android.os.Build.VERSION_CODES.Q
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -23,6 +22,9 @@ import java.io.OutputStream
 import java.nio.charset.StandardCharsets
 
 
+/**
+ * https://juejin.cn/post/6844904004032413703#heading-2
+ */
 class ScopedStorageActivity : BaseActivity() {
 
     private lateinit var binding: ActivityScopedStorageBinding
@@ -32,9 +34,8 @@ class ScopedStorageActivity : BaseActivity() {
         binding = ActivityScopedStorageBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-//        innerOrOuterPath()
+        innerOrOuterPath()
 //        innerDemo()
-        util()
     }
 
 
@@ -95,7 +96,7 @@ class ScopedStorageActivity : BaseActivity() {
     //这里的fileName指文件名，不包含路径
     //relativePath 包含某个媒体下的子路径
     private fun insertFileIntoMediaStore(fileName: String, fileType: String, relativePath: String): Uri? {
-        if (Build.VERSION.SDK_INT < Q) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             return null
         }
         val resolver: ContentResolver = this.getContentResolver()
@@ -114,26 +115,6 @@ class ScopedStorageActivity : BaseActivity() {
         val external: Uri = MediaStore.Downloads.EXTERNAL_CONTENT_URI
         //insertUri表示文件保存的uri路径
         return resolver.insert(external, values)
-    }
-
-    private fun util() {
-        // 外部
-        val externalAppFilesPath = PathUtils.getExternalAppFilesPath()
-        val externalAppCachePath = PathUtils.getExternalAppCachePath()
-        // 内部
-        val internalAppFilesPath = PathUtils.getInternalAppFilesPath()
-        val internalAppCachePath = PathUtils.getInternalAppCachePath()
-        println()
-
-        val externalMusicPath = PathUtils.getExternalMusicPath()
-        val externalAppMusicPath = PathUtils.getExternalAppMusicPath()
-        com.blankj.utilcode.util.FileUtils.createOrExistsDir(externalAppMusicPath)
-
-        val downloadCachePath = PathUtils.getDownloadCachePath()
-        val externalDownloadsPath = PathUtils.getExternalDownloadsPath()
-        val externalAppDownloadPath = PathUtils.getExternalAppDownloadPath()
-        com.blankj.utilcode.util.FileUtils.createOrExistsDir(externalAppDownloadPath)
-
     }
 
     private fun innerDemo() {
@@ -158,28 +139,56 @@ class ScopedStorageActivity : BaseActivity() {
         }
     }
 
-    fun innerOrOuterPath() {
-        val filesDir = this.filesDir
-        Log.i(ACTIVITY_TAG, "filesDir: $filesDir");
-
-        val cacheDir = this.cacheDir
-        Log.i(ACTIVITY_TAG, "cacheDir: $cacheDir");
-
-        // 无需权限，且卸载应用时会自动删除
-        val externalCacheDir = this.externalCacheDir
-        Log.i(ACTIVITY_TAG, "externalCacheDir: $externalCacheDir");
-
-        // 无需权限，且卸载应用时会自动删除
-        val externalFilesDir = this.getExternalFilesDir("apk")
-        Log.i(ACTIVITY_TAG, "externalFilesDir: $externalFilesDir")
-
-        val absoluteFile = Environment.getExternalStorageDirectory().absoluteFile
-        Log.i(ACTIVITY_TAG, "absoluteFile: $absoluteFile")
-
-        // 使用Environment.isExternalStorageLegacy()来检查APP的运行模式
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !Environment.isExternalStorageLegacy()) {
-            // 可以在用户升级后，能方便的将用户的数据移动至应用的特定目录
+    /**
+     * 1. 应用内部和外部存储的常用路径（files/cache），因为都是应用自身的目录，所以不需要权限可以直接访问(读写)。
+     * 2. 外部公共目录，需要读写权限，android10及以上需要通过MediaStore访问。
+     */
+    private fun innerOrOuterPath() {
+        // 内部。无需权限，且卸载应用时会自动删除
+        val filesDir = this.filesDir    // 常用
+        val cacheDir = this.cacheDir    // 常用
+        val codeCacheDir = this.codeCacheDir    // 没用过，仅作为了解
+        val noBackupFilesDir = this.noBackupFilesDir    // 没用过，仅作为了解
+        val databaseList = this.databaseList()  // 数据库
+        Log.i("内部存储路径", "filesDir: $filesDir")
+        Log.i("内部存储路径", "cacheDir: $cacheDir")
+        Log.i("内部存储路径", "codeCacheDir: $codeCacheDir")
+        Log.i("内部存储路径", "noBackupFilesDir: $noBackupFilesDir")
+        for (path in databaseList) {
+            Log.i("内部存储路径", "databaseList: $path")
         }
+
+        // 外部应用存储。无需权限，且卸载应用时会自动删除
+        val externalCacheDir = this.externalCacheDir    // 常用
+        val externalFilesDir = this.getExternalFilesDir(null)   // 常用
+        // 常用，其实就是在files文件下再分文件夹
+        val externalFilesMusicDir = this.getExternalFilesDir(Environment.DIRECTORY_MUSIC)
+        Log.i("外部存储路径", "externalCacheDir: $externalCacheDir")
+        Log.i("外部存储路径", "externalFilesDir: $externalFilesDir")
+        Log.i("外部存储路径", "externalFilesDir: $externalFilesMusicDir")
+
+        fun util() {
+            // 外部
+            val externalAppFilesPath = PathUtils.getExternalAppFilesPath()
+            val externalAppCachePath = PathUtils.getExternalAppCachePath()
+            Log.i("工具类应用外部", "externalAppFilesPath: $externalAppFilesPath")
+            Log.i("工具类应用外部", "externalAppCachePath: $externalAppCachePath")
+
+            // 内部
+            val internalAppFilesPath = PathUtils.getInternalAppFilesPath()
+            val internalAppCachePath = PathUtils.getInternalAppCachePath()
+            Log.i("工具类应用内部", "internalAppFilesPath: $internalAppFilesPath")
+            Log.i("工具类应用内部", "internalAppCachePath: $internalAppCachePath")
+
+            // 外部files文件夹下的分包示例
+            val externalAppMusicPath = PathUtils.getExternalAppMusicPath()
+            val externalAppDownloadPath = PathUtils.getExternalAppDownloadPath()
+
+            // 外部公共目录，需要权限，android10及以上需要通过MediaStore访问。
+            val externalMusicPath = PathUtils.getExternalMusicPath()
+            val externalDownloadsPath = PathUtils.getExternalDownloadsPath()
+        }
+        util()
     }
 
 }
