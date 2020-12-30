@@ -126,13 +126,82 @@ class ScopedStorageActivity : BaseActivity() {
             Log.i("工具类外部公共目录_目录下的文件", "s: ${s}, " + "是否存在： ${File(s).exists()}")
         } else {
             scanMusic()
+            scanVideo()
+            scanImage()
         }
     }
 
+    private fun scanImage() {
+        val IMAGE_PROJECTION = arrayOf(
+                MediaStore.Images.Media.DATA,
+                MediaStore.Images.Media.DISPLAY_NAME,
+                MediaStore.Images.Media._ID,
+                MediaStore.Images.Media.BUCKET_ID,
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+
+        val imageCursor: Cursor? = contentResolver.query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                IMAGE_PROJECTION, null, null, IMAGE_PROJECTION[0] + " DESC")
+
+        if (imageCursor != null && imageCursor.moveToFirst()) {
+            do {
+                var path = imageCursor.getString(imageCursor.getColumnIndexOrThrow(IMAGE_PROJECTION[0]))
+                val name = imageCursor.getString(imageCursor.getColumnIndexOrThrow(IMAGE_PROJECTION[1]))
+                val id = imageCursor.getInt(imageCursor.getColumnIndexOrThrow(IMAGE_PROJECTION[2]))
+                val folderPath = imageCursor.getString(imageCursor.getColumnIndexOrThrow(IMAGE_PROJECTION[3]))
+                val folderName = imageCursor.getString(imageCursor.getColumnIndexOrThrow(IMAGE_PROJECTION[4]))
+
+                Log.i("音乐信息", "path:$path, name:$name, id:$id," +
+                        " folderPath:$folderPath, folderPath:$folderPath, folderName:$folderName")
+
+                //Android Q 公有目录只能通过Content Uri，以前的File路径全部无效，如果是Video，记得换成MediaStore.Videos
+                path = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        .buildUpon()
+                        .appendPath(id.toString())
+                        .build()
+                        .toString()
+                Log.i("Content Uri", "path: $path")
+
+            } while (imageCursor.moveToNext())
+        }
+    }
+
+    private fun scanVideo() {
+        val contentResolver: ContentResolver = contentResolver
+        val videoUri: Uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+        val videoCursor: Cursor? = contentResolver.query(videoUri,
+                null, null, null, null)
+
+        if (videoCursor != null && videoCursor.moveToFirst()) {
+            // 标题
+            val titleColumnIndex = videoCursor.getColumnIndex(MediaStore.Video.Media.TITLE)
+            // id
+            val idColumnIndex = videoCursor.getColumnIndex(MediaStore.Video.Media._ID)
+            // 创建音频文件的艺术家（如果有），即作者
+            val artistColumnIndex = videoCursor.getColumnIndex(MediaStore.Video.Media.ARTIST)
+            // 磁盘上媒体项的绝对文件系统路径
+            val dataColumnIndex = videoCursor.getColumnIndex(MediaStore.Video.Media.DATA)
+            // 时长
+            val durationColumnIndex = videoCursor.getColumnIndex(MediaStore.Video.Media.DURATION)
+
+            do {
+                val id = if (idColumnIndex != -1) videoCursor.getLong(idColumnIndex) else -1L
+                val title = if (titleColumnIndex != -1) videoCursor.getString(titleColumnIndex) else ""
+                val artist = if (artistColumnIndex != -1) videoCursor.getString(artistColumnIndex) else ""
+                val data = if (dataColumnIndex != -1) videoCursor.getString(dataColumnIndex) else ""
+                val duration = if (durationColumnIndex != -1) videoCursor.getString(durationColumnIndex) else ""
+
+                Log.i("视频信息", "id:$id, title:$title, artist:$artist, data:$data, duration:$duration")
+
+            } while (videoCursor.moveToNext())
+        }
+        videoCursor?.close()
+    }
+
     private fun scanMusic() {
-        val musicResolver: ContentResolver = contentResolver
+        val contentResolver: ContentResolver = contentResolver
         val musicUri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        val musicCursor: Cursor? = musicResolver.query(musicUri,
+        val musicCursor: Cursor? = contentResolver.query(musicUri,
                 null, null, null, null)
 
         if (musicCursor != null && musicCursor.moveToFirst()) {
