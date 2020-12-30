@@ -10,9 +10,9 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import com.blankj.utilcode.util.FileIOUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityScopedStorageBinding
 import java.io.File
@@ -24,6 +24,8 @@ import java.nio.charset.StandardCharsets
 
 /**
  * https://juejin.cn/post/6844904004032413703#heading-2
+ * https://juejin.cn/post/6844904073024503822
+ * https://zhuanlan.zhihu.com/p/128558892
  */
 class ScopedStorageActivity : BaseActivity() {
 
@@ -35,61 +37,8 @@ class ScopedStorageActivity : BaseActivity() {
         setContentView(binding.root)
 
         innerOrOuterAppPath()
+        externalStoragePublicDir()
 //        innerDemo()
-    }
-
-
-    private fun scanMusic() {
-
-        val s = PathUtils.getExternalStoragePath() + "/xiami/"
-        if (FileUtils.isFileExists(s)) {
-            val listFilesInDir = FileUtils.listFilesInDir(s)
-            Log.i("ssd", "scanMusic: ")
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ToastUtils.showShort("sdk 29")
-        }
-
-        val musicResolver: ContentResolver = contentResolver
-        val musicUri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        val musicCursor: Cursor? = musicResolver.query(musicUri,
-                null, null, null, null)
-
-        if (musicCursor != null && musicCursor.moveToFirst()) {
-            // 标题
-            val titleColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)
-            // id
-            val idColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media._ID)
-            // 创建音频文件的艺术家（如果有），即作者
-            val artistColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)
-            // 音频文件来自的专辑的ID（如果有）
-            val albumIdColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
-            // 磁盘上媒体项的绝对文件系统路径
-            val dataColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA)
-            // 音频文件的录制年份（如果有）
-            val yearColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.YEAR)
-            // 时长
-            val durationColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.DURATION)
-            // 是否音乐
-            val isMusicColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC)
-
-            do {
-                val id = if (idColumnIndex != -1) musicCursor.getLong(idColumnIndex) else -1L
-                val title = if (titleColumnIndex != -1) musicCursor.getString(titleColumnIndex) else ""
-                val artist = if (artistColumnIndex != -1) musicCursor.getString(artistColumnIndex) else ""
-                val albumId = if (albumIdColumnIndex != -1) musicCursor.getLong(albumIdColumnIndex) else -1L
-                val data = if (dataColumnIndex != -1) musicCursor.getString(dataColumnIndex) else ""
-                val year = if (yearColumnIndex != -1) musicCursor.getString(yearColumnIndex) else ""
-                val duration = if (durationColumnIndex != -1) musicCursor.getString(durationColumnIndex) else ""
-                val isMusic = if (isMusicColumnIndex != -1) musicCursor.getString(isMusicColumnIndex) else ""
-
-                Log.i("音乐信息", "id:$id, title:$title, artist:$artist," +
-                        " albumId:$albumId, data:$data, year:$year, duration:$duration, isMusic:$isMusic")
-
-            } while (musicCursor.moveToNext())
-        }
-        musicCursor?.close()
     }
 
 
@@ -140,18 +89,92 @@ class ScopedStorageActivity : BaseActivity() {
     }
 
     /**
-     * 外部公共目录，不需要读写权限，android10及以上需要通过MediaStore访问。
+     * 1. Android Q开始，针对外部公有目录的File API失效(可能是因为国内厂商的问题，File的exists()是有效的，反正
+     *    就把File全部的Api都看成是无效的)，当进行创建或者读取操作时无论是否开启权限都会返回"Permission denied"
+     *    异常信息。
+     * 2. 对于图片，视频，影频等媒体资源需要使用MediaStore进行操作。如果是自己应用创建文件或者访问应用自己创建文件，
+     *    不需要申请存储权限；如果是访问其他应用创建的则需要申请权限，未申请存储权限，通过ContentResolver查询不到
+     *    文件Uri，即使通过其他方式获取到文件Uri，读取或创建文件会抛出异常。建议始终申请权限，避免判断是否为自身应用
+     *    的文件。
+     * 3. 非媒体文件(pdf、office、doc、txt等)只能够通过Storage Access Framework方式访问，不需要申请权限。
+     *
+     *  测试：
+     *    a应用写入一个文件，b应用访问是否需要权限
+     *    a应用写入一个文件，a应用访问是否需要权限
      */
     private fun externalStoragePublicDir() {
-        // 外部公共目录，android10及以上需要通过MediaStore访问。
         val externalMusicPath = PathUtils.getExternalMusicPath()
         val externalDownloadsPath = PathUtils.getExternalDownloadsPath()
-        Log.i("工具类外部公共目录", "externalMusicPath: $externalMusicPath")
-        Log.i("工具类外部公共目录", "externalDownloadsPath: $externalDownloadsPath")
+        Log.i("工具类外部公共目录", "externalMusicPath: ${externalMusicPath}, " +
+                "是否存在： ${File(externalMusicPath).exists()}")
+        Log.i("工具类外部公共目录", "externalDownloadsPath: ${externalDownloadsPath}, " +
+                "是否存在： ${File(externalDownloadsPath).exists()}")
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            val musicPath = "$externalMusicPath/无畏.mp3"
+            // exists()有效
+            Log.i("工具类外部公共目录_目录下的文件", "musicPath: ${musicPath}, " +
+                    "是否存在： ${File(musicPath).exists()}")
+            // 如果在Q及以上版本进行下面的读取操作, 将会抛出以下异常：
+            // "/storage/emulated/0/Music/无畏.mp3: open failed: EACCES (Permission denied)"
+            val readFile2BytesByStream = FileIOUtils.readFile2BytesByStream(musicPath)
+
+            // 如果在Q及以上版本进行下面的创建操作, 将会抛出以下异常：
+            // "java.io.IOException: Permission denied"
+            val s = "$externalDownloadsPath/1024.txt"
+            FileUtils.createOrExistsFile(s)
+            Log.i("工具类外部公共目录_目录下的文件", "s: ${s}, " + "是否存在： ${File(s).exists()}")
+        } else {
+            scanMusic()
+        }
     }
 
+    private fun scanMusic() {
+        val musicResolver: ContentResolver = contentResolver
+        val musicUri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        val musicCursor: Cursor? = musicResolver.query(musicUri,
+                null, null, null, null)
+
+        if (musicCursor != null && musicCursor.moveToFirst()) {
+            // 标题
+            val titleColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)
+            // id
+            val idColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media._ID)
+            // 创建音频文件的艺术家（如果有），即作者
+            val artistColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)
+            // 音频文件来自的专辑的ID（如果有）
+            val albumIdColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
+            // 磁盘上媒体项的绝对文件系统路径
+            val dataColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA)
+            // 音频文件的录制年份（如果有）
+            val yearColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.YEAR)
+            // 时长
+            val durationColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.DURATION)
+            // 是否音乐
+            val isMusicColumnIndex = musicCursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC)
+
+            do {
+                val id = if (idColumnIndex != -1) musicCursor.getLong(idColumnIndex) else -1L
+                val title = if (titleColumnIndex != -1) musicCursor.getString(titleColumnIndex) else ""
+                val artist = if (artistColumnIndex != -1) musicCursor.getString(artistColumnIndex) else ""
+                val albumId = if (albumIdColumnIndex != -1) musicCursor.getLong(albumIdColumnIndex) else -1L
+                val data = if (dataColumnIndex != -1) musicCursor.getString(dataColumnIndex) else ""
+                val year = if (yearColumnIndex != -1) musicCursor.getString(yearColumnIndex) else ""
+                val duration = if (durationColumnIndex != -1) musicCursor.getString(durationColumnIndex) else ""
+                val isMusic = if (isMusicColumnIndex != -1) musicCursor.getString(isMusicColumnIndex) else ""
+
+                Log.i("音乐信息", "id:$id, title:$title, artist:$artist," +
+                        " albumId:$albumId, data:$data, year:$year, duration:$duration, isMusic:$isMusic")
+
+            } while (musicCursor.moveToNext())
+        }
+        musicCursor?.close()
+    }
+
+
     /**
-     * 应用内部和外部存储的常用路径（files/cache），因为都是应用自身的目录，所以不需要权限可以直接访问(读写)。
+     * 1. 应用内部和外部存储的常用路径（files/cache），不需要申请储存空间读写权限，且卸载应用时会自动删除。
+     * 2. 应用内部和外部在Android Q及以上，File API还是生效。
      */
     private fun innerOrOuterAppPath() {
         // 内部。无需权限，且卸载应用时会自动删除
@@ -160,7 +183,7 @@ class ScopedStorageActivity : BaseActivity() {
         val codeCacheDir = this.codeCacheDir    // 没用过，仅作为了解
         val noBackupFilesDir = this.noBackupFilesDir    // 没用过，仅作为了解
         val databaseList = this.databaseList()  // 数据库
-        Log.i("内部存储路径", "filesDir: $filesDir")
+        Log.i("内部存储路径", "filesDir: ${filesDir}, 是否存在： ${filesDir.exists()}")
         Log.i("内部存储路径", "cacheDir: $cacheDir")
         Log.i("内部存储路径", "codeCacheDir: $codeCacheDir")
         Log.i("内部存储路径", "noBackupFilesDir: $noBackupFilesDir")
@@ -168,14 +191,24 @@ class ScopedStorageActivity : BaseActivity() {
             Log.i("内部存储路径", "databaseList: $path")
         }
 
+        val createFilePath = "$cacheDir/1024.txt"
+        FileUtils.createOrExistsFile(createFilePath)
+        Log.i("内部存储路径_用户创建", "createFilePath: ${createFilePath}, " +
+                "是否存在： ${File(createFilePath).exists()}")
+
         // 外部应用存储。无需权限，且卸载应用时会自动删除
         val externalCacheDir = this.externalCacheDir    // 常用
         val externalFilesDir = this.getExternalFilesDir(null)   // 常用
         // 常用，其实就是在files文件下再分文件夹
         val externalFilesMusicDir = this.getExternalFilesDir(Environment.DIRECTORY_MUSIC)
-        Log.i("外部存储路径", "externalCacheDir: $externalCacheDir")
+        Log.i("外部存储路径", "externalCacheDir: ${externalCacheDir}, 是否存在：${externalCacheDir?.exists()}")
         Log.i("外部存储路径", "externalFilesDir: $externalFilesDir")
         Log.i("外部存储路径", "externalFilesDir: $externalFilesMusicDir")
+
+        val externalCreateFilePath = "$externalCacheDir/1024.txt"
+        FileUtils.createOrExistsFile(externalCreateFilePath)
+        Log.i("外部存储路径_用户创建", "createFilePath: ${externalCreateFilePath}, " +
+                "是否存在： ${File(externalCreateFilePath).exists()}")
 
         fun util() {
             // 外部
