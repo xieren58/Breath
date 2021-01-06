@@ -2,6 +2,8 @@ package com.zkp.breath.component.activity.sdkVersion
 
 import android.content.ContentResolver
 import android.content.ContentValues
+import android.content.Context
+import android.content.res.AssetFileDescriptor
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
@@ -10,15 +12,11 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
-import com.blankj.utilcode.util.FileIOUtils
-import com.blankj.utilcode.util.FileUtils
-import com.blankj.utilcode.util.PathUtils
-import com.zkp.breath.component.activity.base.BaseActivity
+import android.view.View
+import com.blankj.utilcode.util.*
+import com.zkp.breath.component.activity.base.ClickBaseActivity
 import com.zkp.breath.databinding.ActivityScopedStorageBinding
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
+import java.io.*
 import java.nio.charset.StandardCharsets
 
 
@@ -26,8 +24,9 @@ import java.nio.charset.StandardCharsets
  * https://juejin.cn/post/6844904004032413703#heading-2
  * https://juejin.cn/post/6844904073024503822
  * https://zhuanlan.zhihu.com/p/128558892
+ *
  */
-class ScopedStorageActivity : BaseActivity() {
+class ScopedStorageActivity : ClickBaseActivity() {
 
     private lateinit var binding: ActivityScopedStorageBinding
 
@@ -38,55 +37,163 @@ class ScopedStorageActivity : BaseActivity() {
 
         innerOrOuterAppPath()
         externalStoragePublicDir()
-//        innerDemo()
+
+        varargSetClickListener(binding.tvMediaSave, binding.tvDownloadSave)
     }
 
-
-    //这里的fileName指文件名，不包含路径
-    //relativePath 包含某个媒体下的子路径
-    private fun insertFileIntoMediaStore(fileName: String, fileType: String, relativePath: String): Uri? {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            return null
+    override fun onDebouncingClick(v: View) {
+        if (v == binding.tvMediaSave) {
+            // 示例将应用内部存储文件插入到公共媒体目录
+            val internalAppFilesPath = PathUtils.getInternalAppFilesPath() + "/ic_test.png"
+            ResourceUtils.copyFileFromAssets("ic_test.png", internalAppFilesPath)
+            val saveImageWithAndroidQ = saveImageWithAndroidQ(this, File(internalAppFilesPath), "testQ.png")
+            ToastUtils.showShort("保存: $saveImageWithAndroidQ")
+            return
         }
-        val resolver: ContentResolver = this.getContentResolver()
-        //设置文件参数到ContentValues中
-        val values = ContentValues()
-        //设置文件名
-        values.put(MediaStore.Downloads.DISPLAY_NAME, fileName)
-        //设置文件描述，这里以文件名为例子
-//        values.put(MediaStore.Downloads.DESCRIPTION, fileName)
-        //设置文件类型
-        values.put(MediaStore.Downloads.MIME_TYPE, "application/vnd.android.package-archive")
-        //注意RELATIVE_PATH需要targetVersion=29
-        //故该方法只可在Android10的手机上执行
-        values.put(MediaStore.Downloads.RELATIVE_PATH, relativePath)
-        //EXTERNAL_CONTENT_URI代表外部存储器
-        val external: Uri = MediaStore.Downloads.EXTERNAL_CONTENT_URI
-        //insertUri表示文件保存的uri路径
-        return resolver.insert(external, values)
+
+        if (v == binding.tvDownloadSave) {
+            // 示例将应用内部存储文件插入到公共目录Download
+            val internalAppFilesPath = PathUtils.getInternalAppFilesPath() + "/ic_test.png"
+            ResourceUtils.copyFileFromAssets("ic_test.png", internalAppFilesPath)
+            val copyToDownloadAndroidQ = copyToDownloadAndroidQ(this, internalAppFilesPath, "testQ.png")
+            ToastUtils.showShort("保存: $copyToDownloadAndroidQ")
+            return
+        }
     }
 
-    private fun innerDemo() {
-        val apkFilePath: String? = this.getExternalFilesDir("apk")?.absolutePath
-        // 会报错误
-        // java.lang.IllegalArgumentException: Primary directory  not allowed for content://media/external_primary/file; allowed directories are [Download, Documents]
-//        val apkFilePath: String? =Environment.getExternalStorageDirectory().absoluteFile.toString()
-        val newFile = File(apkFilePath + File.separator.toString() + "temp.apk")
-        var os: OutputStream? = null
+    /**
+     * 判断公有目录文件是否存在，自Android Q开始，公有目录File API都失效，不能直接通过new File(path).exists();
+     * 判断公有目录文件是否存在.
+     */
+    private fun isAndroidQFileExists(context: Context, path: String?): Boolean {
+        if (Build.VERSION.SDK_INT < 29) {
+            return false
+        }
+
+        var afd: AssetFileDescriptor? = null
+        val cr = context.contentResolver
         try {
-            os = FileOutputStream(newFile)
-            os.write("file is created".toByteArray(StandardCharsets.UTF_8))
-            os.flush()
-        } catch (e: IOException) {
-
-        } finally {
-            try {
-                os?.close()
-            } catch (e1: IOException) {
-
+            val uri = Uri.parse(path)
+            afd = cr.openAssetFileDescriptor(uri, "r")
+            if (afd == null) {
+                return false
+            } else {
+                afd.close()
             }
+        } catch (e: FileNotFoundException) {
+            return false
+        } finally {
+            afd?.close()
         }
+        return true
     }
+
+
+    /**
+     * 保存资源到Download公共目录
+     */
+    private fun copyToDownloadAndroidQ(context: Context,
+                                       sourcePath: String,
+                                       fileName: String?,
+                                       saveDirName: String = ""): Boolean {
+
+        // 以下api需要sdk>=Q
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            return false
+        }
+
+        val values = ContentValues()
+        values.put(MediaStore.Downloads.DISPLAY_NAME, fileName)
+//        values.put(MediaStore.Downloads.MIME_TYPE, "application/vnd.android.package-archive") // apk类型
+        values.put(MediaStore.Downloads.MIME_TYPE, "image/png")
+        values.put(MediaStore.Downloads.RELATIVE_PATH, "Download/$saveDirName")
+        val external = MediaStore.Downloads.EXTERNAL_CONTENT_URI
+        val resolver = context.contentResolver
+        val insertUri = resolver.insert(external, values) ?: return false
+        val mFilePath = insertUri.toString()
+        var `is`: InputStream? = null
+        var os: OutputStream? = null
+        var result = false
+        try {
+            os = resolver.openOutputStream(insertUri)
+            if (os == null) {
+                return result
+            }
+            var read: Int
+            val sourceFile = File(sourcePath)
+            if (sourceFile.exists()) { // 文件存在时
+                `is` = FileInputStream(sourceFile) // 读入原文件
+                val buffer = ByteArray(1024 * 4)
+                while (`is`.read(buffer).also { read = it } != -1) {
+                    os.write(buffer, 0, read)
+                }
+            }
+            result = true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            result = false
+        } finally {
+            `is`?.close()
+            os?.close()
+        }
+        return result
+    }
+
+
+    /**
+     * 通过MediaStore保存，兼容AndroidQ，保存成功自动添加到相册数据库，无需再发送广播告诉系统插入相册。
+     *
+     * @param context      context
+     * @param sourceFile   源文件
+     * @param saveFileName 保存的文件名
+     * @param saveDirName  picture子目录,可以
+     * @return 成功或者失败
+     */
+    private fun saveImageWithAndroidQ(context: Context,
+                                      sourceFile: File,
+                                      saveFileName: String?,
+                                      saveDirName: String = ""): Boolean {
+
+        // 以下api需要sdk>=Q
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            return false
+        }
+
+        val values = ContentValues()
+//        values.put(MediaStore.Images.Media.DESCRIPTION, "This is an image")   // 可忽略
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, saveFileName)
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/png")
+//        values.put(MediaStore.Images.Media.TITLE, "Image.png")    // 可忽略
+        values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/$saveDirName")
+        val external = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val resolver: ContentResolver = context.contentResolver
+        val insertUri = resolver.insert(external, values)
+        var inputStream: BufferedInputStream? = null
+        var os: OutputStream? = null
+        var result = false
+        try {
+            inputStream = BufferedInputStream(FileInputStream(sourceFile))
+            if (insertUri != null) {
+                os = resolver.openOutputStream(insertUri)
+            }
+            if (os != null) {
+                val buffer = ByteArray(1024 * 4)
+                var len: Int
+                while (inputStream.read(buffer).also { len = it } != -1) {
+                    os.write(buffer, 0, len)
+                }
+                os.flush()
+            }
+            result = true
+        } catch (e: IOException) {
+            result = false
+        } finally {
+            os?.close()
+            inputStream?.close()
+        }
+        return result
+    }
+
 
     /**
      * 1. Android Q开始，针对外部公有目录的File API失效(可能是因为国内厂商的问题，File的exists()是有效的，反正
