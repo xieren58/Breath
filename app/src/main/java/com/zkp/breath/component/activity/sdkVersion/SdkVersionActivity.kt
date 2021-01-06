@@ -11,8 +11,6 @@ import com.zkp.breath.R
 import com.zkp.breath.adpter.EntranceAdapter
 import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.base.BaseActivity
-import com.zkp.breath.component.activity.jetpack.*
-import com.zkp.breath.component.activity.weight.*
 import kotlinx.android.synthetic.main.activity_entrance.*
 
 class SdkVersionActivity : BaseActivity(R.layout.activity_entrance) {
@@ -41,7 +39,7 @@ class SdkVersionActivity : BaseActivity(R.layout.activity_entrance) {
     private val onItemChildClickListener = OnItemClickListener { _, _, position ->
         when (val type = listOf[position]) {
             "ScopedStorage" -> {
-                ActivityUtils.startActivity(ScopedStorageActivity::class.java)
+                ActivityUtils.startActivity(ScopedStorageQ10Activity::class.java)
                 return@OnItemClickListener
             }
             "Toast" -> {

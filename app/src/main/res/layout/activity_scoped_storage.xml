@@ -10,8 +10,9 @@
         android:id="@+id/tv_media_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:background="@color/colorFFFFFFFF"
-        android:padding="5dp"
+        android:padding="10dp"
         android:text="SDK_Q公共目录媒体资源保存示例"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -21,12 +22,25 @@
         android:id="@+id/tv_download_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:background="@color/colorFFFFFFFF"
-        android:padding="5dp"
+        android:padding="10dp"
         android:text="SDK_Q公共目录Download保存示例"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_media_save" />
+
+    <TextView
+        android:id="@+id/tv_apk_install"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorFFFFFFFF"
+        android:padding="10dp"
+        android:text="SDK_Q公共目录Download安装apk"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_download_save" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
