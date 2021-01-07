@@ -3,7 +3,6 @@ package com.zkp.breath.component.activity.sdkVersion
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
-import android.content.res.AssetFileDescriptor
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
@@ -212,9 +211,8 @@ class ScopedStorageQ10Activity : ClickBaseActivity() {
 
 
     /**
-     * 1. Android Q开始，针对外部公有目录的File API失效(可能是因为国内厂商的问题，File的exists()是有效的，反正
-     *    就把File全部的Api都看成是无效的)，当进行创建或者读取操作时无论是否开启权限都会返回"Permission denied"
-     *    异常信息。
+     * 1. Android Q开始，针对外部公有目录的File API失效，当进行创建或者读取操作时无论是否开启权限都会
+     *    回"Permission denied"异常信息。
      * 2. 对于图片，视频，影频等媒体资源需要使用MediaStore进行操作。如果是自己应用创建文件或者访问应用自己创建文件，
      *    不需要申请存储权限；如果是访问其他应用创建的则需要申请权限，未申请存储权限，通过ContentResolver查询不到
      *    文件Uri，即使通过其他方式获取到文件Uri，读取或创建文件会抛出异常。建议始终申请权限，避免判断是否为自身应用
@@ -278,11 +276,16 @@ class ScopedStorageQ10Activity : ClickBaseActivity() {
                         " folderPath:$folderPath, folderPath:$folderPath, folderName:$folderName")
 
                 //Android Q 公有目录只能通过Content Uri，以前的File路径全部无效，如果是Video，记得换成MediaStore.Videos
+
+                // 其实和下面的写法一样，就是内部做了个封装
+//                 val uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id.toString())
+
                 path = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                         .buildUpon()
                         .appendPath(id.toString())
                         .build()
                         .toString()
+
                 Log.i("Content Uri", "path: $path")
 
             } while (imageCursor.moveToNext())
