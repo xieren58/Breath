@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_entrance.*
 class SdkVersionActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val listOf = mutableListOf(
-            "ScopedStorage", "Toast", "HttpClearText"
+            "ScopedStorage", "Toast", "HttpClearText", "Clipboard"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +48,10 @@ class SdkVersionActivity : BaseActivity(R.layout.activity_entrance) {
             }
             "HttpClearText" -> {
                 ActivityUtils.startActivity(HttpClearTextActivity::class.java)
+                return@OnItemClickListener
+            }
+            "Clipboard" -> {
+                ActivityUtils.startActivity(ClipboardQ10Activity::class.java)
                 return@OnItemClickListener
             }
             else -> {

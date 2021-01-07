@@ -159,6 +159,7 @@
 
         <activity android:name=".component.activity.sdkVersion.SdkVersionActivity" />
         <activity android:name=".component.activity.sdkVersion.ScopedStorageQ10Activity" />
+        <activity android:name=".component.activity.sdkVersion.ClipboardQ10Activity" />
         <activity android:name=".component.activity.sdkVersion.ToastR11Activity" />
         <activity android:name=".component.activity.sdkVersion.HttpClearTextActivity" />
 
