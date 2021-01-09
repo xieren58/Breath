@@ -2,7 +2,6 @@ package com.zkp.breath.designpattern.strategy;
 
 /**
  * Created b Zwp on 2019/7/17.
- *
  * 动画策略接口</p>
  */
 public interface IAnimStrategy {
