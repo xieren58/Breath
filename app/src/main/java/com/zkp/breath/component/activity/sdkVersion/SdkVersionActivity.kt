@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_entrance.*
 class SdkVersionActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val listOf = mutableListOf(
-            "ScopedStorage", "Toast", "HttpClearText", "Clipboard"
+            "ScopedStorage", "Toast", "HttpClearText", "Clipboard", "Location", "DeviceInfo"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +52,14 @@ class SdkVersionActivity : BaseActivity(R.layout.activity_entrance) {
             }
             "Clipboard" -> {
                 ActivityUtils.startActivity(ClipboardQ10Activity::class.java)
+                return@OnItemClickListener
+            }
+            "Location" -> {
+                ActivityUtils.startActivity(LocationQ10Activity::class.java)
+                return@OnItemClickListener
+            }
+            "DeviceInfo" -> {
+                ActivityUtils.startActivity(DeviceInfoQ10Activity::class.java)
                 return@OnItemClickListener
             }
             else -> {
