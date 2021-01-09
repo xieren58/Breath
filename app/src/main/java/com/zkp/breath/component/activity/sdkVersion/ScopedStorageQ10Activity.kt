@@ -1,6 +1,7 @@
 package com.zkp.breath.component.activity.sdkVersion
 
 import android.content.ContentResolver
+import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -20,6 +21,8 @@ import java.io.*
 
 
 /**
+ * 分区存储
+ *
  * https://juejin.cn/post/6844904004032413703#heading-2
  * https://juejin.cn/post/6844904073024503822
  * https://zhuanlan.zhihu.com/p/128558892
@@ -279,6 +282,7 @@ class ScopedStorageQ10Activity : ClickBaseActivity() {
 
                 // 其实和下面的写法一样，就是内部做了个封装
 //                 val uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id.toString())
+//                val imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id.toLong())
 
                 path = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                         .buildUpon()
