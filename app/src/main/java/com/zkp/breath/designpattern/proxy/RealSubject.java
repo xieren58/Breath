@@ -5,7 +5,7 @@ import android.util.Log;
 /**
  * Created b Zwp on 2019/7/17.
  */
-public class RealISubject implements ISubject {
+public class RealSubject implements ISubject {
 
     @Override
     public void function() {
