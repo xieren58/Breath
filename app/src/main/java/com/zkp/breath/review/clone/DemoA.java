@@ -4,6 +4,9 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * 浅克隆和深克隆的例子
+ * <p>
+ * 当变量为引用类型的时候，要实现深拷贝则引用类型也需要实现Cloneable接口，且引用类型所在类的clone方法
+ * 内部也需要调用该变量的clone方法，否则为浅拷贝。
  */
 public class DemoA {
 

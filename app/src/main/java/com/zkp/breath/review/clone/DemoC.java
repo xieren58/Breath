@@ -39,7 +39,7 @@ public class DemoC {
             C clo = null;
             try {
                 clo = (C) super.clone();
-                // 父类存在变量，所以也要clone
+                // 实现深度拷贝
                 clo.setA(super.a.clone());
 //                clo.setA(super.getA().clone());   // 和上面的方法一样
 //                clo.setA(getA().clone());     // 和上面的方法一样
