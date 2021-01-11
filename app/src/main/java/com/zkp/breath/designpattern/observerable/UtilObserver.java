@@ -3,6 +3,9 @@ package com.zkp.breath.designpattern.observerable;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * 观察者工具类
+ */
 public class UtilObserver implements Observer {
 
     private String name;
@@ -15,16 +18,12 @@ public class UtilObserver implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        //判断o是否是JournalData的一个实例
         if (o instanceof UtilObservable) {
-            //强制转化为JournalData类型
             UtilObservable journalData = (UtilObservable) o;
-            //拉取数据
             this.edition = journalData.getEdition();
             this.cost = journalData.getCost();
             buy();
         }
-
     }
 
     public void buy() {

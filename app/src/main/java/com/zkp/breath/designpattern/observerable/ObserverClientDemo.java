@@ -1,13 +1,17 @@
 package com.zkp.breath.designpattern.observerable;
 
 /**
- * https://www.jianshu.com/p/3459188bc8f9
- * 难点：不要看名字。这里不能以中文名字的方式去理解，因为观察者反而是被动触发的，而被观察者是主动触发的。
- * 这里以广播发送者-广播接收者去理解就行，接收者注册在发送者里面，发送者有消息就会调起接收者，接收者也就相当于被动收到了信息。
+ * 观察者模式：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动
+ * 更新，属于行为型模式。
  * <p>
- * 其实java有内置的观察者模板工具类：java.util.Observerable（线程安全，存储的集合是Vector，相当于双重锁，不推荐）和java.util.Observer
+ * 难点：不要看名字。这里不能以中文名字的方式去理解，因为观察者反而是被动触发的，而被观察者是主动触发的。这里以
+ * 广播发送者-广播接收者去理解就行，接收者注册在发送者里面，发送者有消息就会调起接收者，接收者也就相当于被动收
+ * 到了信息。
+ * <p>
+ * 其实java有内置的观察者模板工具类：java.util.Observerable（大部分方法都使用synchronized线程同步机制，存储
+ * 的集合是Vector，相当于双重锁，不推荐）和java.util.Observer
  */
-public class ObserverPatternDemo {
+public class ObserverClientDemo {
 
     public static void main(String[] args) {
         cus();
@@ -33,6 +37,7 @@ public class ObserverPatternDemo {
     private static void cus() {
         //创建被观察者
         ObserverableImp magazine = new ObserverableImp();
+
         //创建三个不同的观察者
         ObserverImp customerA = new ObserverImp("A");
         ObserverImp customerB = new ObserverImp("B");
