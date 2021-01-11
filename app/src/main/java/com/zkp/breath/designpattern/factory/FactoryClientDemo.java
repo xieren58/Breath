@@ -30,7 +30,13 @@ public class FactoryClientDemo {
         instance.function();
     }
 
-    // 抽象工厂模式
+    /**
+     * 抽象工厂模式：围绕一个超级工厂创建其他工厂，该超级工厂又称为其他工厂的工厂。
+     * 系统的产品有多于一个的产品族，而系统只消费其中某一族的产品。
+     * <p>
+     * 优点：便于交换产品系列。（比如有一个Circle工厂类，一个Rect工厂类，这是两个产品族，客户端可以根据需要选择
+     * 其中的一个产品族进行操作）
+     */
     private static void abstracts() {
         AbstractFactory languageAbstractFactory = AbstractFactoryContext.getFactory(1);
         assert languageAbstractFactory != null;
