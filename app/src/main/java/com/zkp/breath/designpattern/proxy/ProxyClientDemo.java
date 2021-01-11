@@ -20,7 +20,7 @@ public class ProxyClientDemo {
     // 静态代理
     private static void staticProxy() {
         // 代理，既有保护目标对象的作用(保护被代理者，如果要修改可以只改变代理者)，也有扩展的作用（扩展也只扩展代理者）
-        ISubject iSubject = new ProxyISubject(new RealSubject());
+        ISubject iSubject = new ProxyISubject();
         iSubject.function();
     }
 

@@ -9,8 +9,11 @@ public class ProxyISubject implements ISubject {
 
     private ISubject mISubject;
 
-    public ProxyISubject(ISubject iSubject) {
-        mISubject = iSubject;
+    /**
+     * 代理类内部主动创建被代理类
+     */
+    public ProxyISubject() {
+        mISubject = new RealSubject();
     }
 
     @Override
