@@ -9,6 +9,6 @@ public class TargetImp implements ITarget {
 
     @Override
     public void request(String s) {
-        Log.i("ITarget", "request: " + s);
+        System.out.println("TargetImp_request: " + s);
     }
 }

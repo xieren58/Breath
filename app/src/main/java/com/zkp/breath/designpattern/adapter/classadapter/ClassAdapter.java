@@ -11,7 +11,7 @@ public class ClassAdapter extends Adaptee implements ITarget {
 
     @Override
     public void request(String s) {
-        Log.i("ITarget", "request: " + filter(s));
+        System.out.println("ClassAdapter_request: " + filter(s));
     }
 
 }
