@@ -16,12 +16,12 @@ public class Composite extends Component {
 
     @Override
     public void add(Component component) {
-        children.add(component)
+        children.add(component);
     }
 
     @Override
     public void remove(Component component) {
-        children.remove(component)
+        children.remove(component);
     }
 
     @Override

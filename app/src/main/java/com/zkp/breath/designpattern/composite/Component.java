@@ -1,6 +1,6 @@
 package com.zkp.breath.designpattern.composite;
 
-public class Component {
+public abstract class Component {
     protected String name;
 
     public Component(String name) {
