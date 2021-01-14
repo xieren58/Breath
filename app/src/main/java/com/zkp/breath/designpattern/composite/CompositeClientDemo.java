@@ -2,6 +2,7 @@ package com.zkp.breath.designpattern.composite;
 
 /**
  * 组合模式：将对象组合成树形结构表示“部分-整体”的层次结构。使得用于对单个对象和组合对象的使用具有一致性。
+ * 透明方式和安全方式
  */
 class CompositeClientDemo {
 
