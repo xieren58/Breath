@@ -1,0 +1,24 @@
+接口地址，房间公聊屏IM地址：UriProvider
+
+web地址：WebUrl
+
+登录页面：LoginActivity
+    -> sms方式登录页：SmsCodeLoginActivity
+
+第三方key：AppKey
+
+接口请求类：OkHttpManager
+    -> 接口请求公共参数：CommonParamUtil
+    -> 日志打印tag：request_info
+
+mvp:
+    v：IMvpBaseView
+    p：AbstractMvpPresenter （v层一定要使用CreatePresenter注解）
+
+    1. activity不直接持有p实例（符合依赖倒装原则）
+    2. activity持有BaseMvpProxy实例
+    3. BaseMvpProxy持有PresenterMvpFactory（通过PresenterMvpFactory持有p实例）
+    4. PresenterMvpFactory持有p的class
+
+
+
