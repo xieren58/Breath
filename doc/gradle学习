@@ -1,4 +1,7 @@
 1. 工程build.gradle文件中buildscript和allprojects中的repositories的区别？
    https://www.cnblogs.com/caoxinyu/p/10568473.html
 
+每一个build.grade文件代表着一个project，每个project有至少一个tasks
+
 https://segmentfault.com/a/1190000004229002
+https://www.jianshu.com/p/5fcf42c66a9f
