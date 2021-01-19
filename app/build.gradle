@@ -5,6 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'com.didi.dokit'
+apply plugin: 'walle'
 
 kapt {
     arguments {
@@ -284,4 +285,15 @@ dependencies {
     def nav_version = "2.3.2"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    implementation "com.meituan.android.walle:library:$walle_version"
+}
+
+walle {
+    // 指定渠道包的输出路径
+    apkOutputFolder = new File("${project.buildDir}/outputs/channels")
+    // 定制渠道包的APK的文件名称
+    apkFileNameFormat = '${appName}-${channel}-${buildType}-v${versionName}-${versionCode}.apk'
+    // 渠道配置文件
+    channelFile = new File("${project.getProjectDir()}/channel.txt")
 }
