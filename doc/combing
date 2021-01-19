@@ -11,6 +11,11 @@ web地址：WebUrl
     -> 接口请求公共参数：CommonParamUtil
     -> 日志打印tag：request_info
 
+房间：HomePartyRoomFragment
+
+私聊：P2PMessageActivity
+    -> MessageFragment
+
 mvp:
     v：抽象类：AbstractMvpActivity，AbstractMvpFragment
     p：AbstractMvpPresenter （v层一定要使用CreatePresenter注解）
