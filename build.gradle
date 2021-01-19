@@ -16,12 +16,15 @@ buildscript {
     }
 
     repositories {
-        google()
-//        jcenter()
-        jcenter { url 'https://maven.aliyun.com/repository/jcenter' }
-        maven { url "https://jitpack.io" }
-        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
+        maven { url "https://jitpack.io" }
+//        google()
+//        jcenter()
+//        mavenCentral()
+
         maven { url 'https://dl.bintray.com/umsdk/release' }
     }
     dependencies {
@@ -37,13 +40,15 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
-//        jcenter()
-        jcenter { url 'https://maven.aliyun.com/repository/jcenter' }
-        mavenCentral()
-        maven { url "https://jitpack.io" }
-        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
+        maven { url "https://jitpack.io" }
+//        google()
+//        jcenter()
+//        mavenCentral()
+
         maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 }
