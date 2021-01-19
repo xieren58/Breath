@@ -1,6 +1,7 @@
 package com.zkp.breath.component.activity
 
-import com.didichuxing.doraemonkit.kit.core.BaseActivity
+import com.zkp.breath.component.activity.base.BaseActivity
+
 
 /**
  * https://www.bilibili.com/video/BV1CA41177Se
