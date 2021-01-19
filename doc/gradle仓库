@@ -1,0 +1,11 @@
+镜像：可以认为是一个资源压缩包，即资源副本（可以无限次解压得到资源副本）。
+
+国外仓库：jcenter，mavenCentral，google。（需要梯子，构建基本都会失败，还很浪费时间）
+    -> jcenter和mavenCentral的区别：
+       早期版本的Android Studio使用了mavenCentral()，后来换成了jcenter，因为jcenter()在性能和内存占用方
+       面优于mavenCentral()。
+
+阿里云云效 Maven ：https://maven.aliyun.com/mvn/guide （国外仓库的国内代理仓库）
+    -> 不要使用新版的阿里云仓库地址：https://blog.csdn.net/yadesyoung/article/details/112521881
+
+
