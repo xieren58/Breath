@@ -12,8 +12,10 @@ web地址：WebUrl
     -> 日志打印tag：request_info
 
 mvp:
-    v：IMvpBaseView
+    v：抽象类：AbstractMvpActivity，AbstractMvpFragment
     p：AbstractMvpPresenter （v层一定要使用CreatePresenter注解）
+    p通知v的接口：IMvpBaseView
+    v通知p的手段：BaseMvpProxy
 
     1. activity不直接持有p实例（符合依赖倒装原则）
     2. activity持有BaseMvpProxy实例
@@ -21,4 +23,18 @@ mvp:
     4. PresenterMvpFactory持有p的class
 
 
+费马：
+   测试环境：
+        服务器  http://47.114.183.123
+        im     ws://47.114.183.123:3016
+
+    yx：
+        -netEaseAppKey=a09fff8642460fecd9fdb899bcba114c
+        -netEaseAppSecret=6c979ac40f7c
+        -netEaseSmsAppKey=a09fff8642460fecd9fdb899bcba114c
+        -netEaseSmsAppSecret=6c979ac40f7c
+        +netEaseAppKey=44f7c4c71b45879f4ffac816feb91ae7
+        +netEaseAppSecret=41c0a69bbb68
+        +netEaseSmsAppKey=44f7c4c71b45879f4ffac816feb91ae7
+        +netEaseSmsAppSecret=41c0a69bbb68
 
