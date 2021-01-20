@@ -1,7 +1,15 @@
-1. 工程build.gradle文件中buildscript和allprojects中的repositories的区别？
+> 工程build.gradle文件中buildscript和allprojects中的repositories的区别？
    https://www.cnblogs.com/caoxinyu/p/10568473.html
+
+> AndroidStudio之Gradle配置详解
+   https://www.jianshu.com/p/5fcf42c66a9f
+
+> 模块的buildTypes的shrinkResources开关跟随minifyEnabled，否则会构建失败：Removing unused resources
+   requires unused code shrinking to be turned o。
+
+> gradle-wrapper.properties:用于在构建项目时决定使用哪个 Gradle 版本
+> 用来配置全局键值对数据的，可用于存放敏感数据，比如签名密钥信息
 
 每一个build.grade文件代表着一个project，每个project有至少一个tasks
 
 https://segmentfault.com/a/1190000004229002
-https://www.jianshu.com/p/5fcf42c66a9f
