@@ -14,6 +14,7 @@ kapt {
 }
 
 android {
+
     signingConfigs {
         release {
             storeFile file('signature/breath.jks')
@@ -28,6 +29,7 @@ android {
             keyPassword '123456'
         }
     }
+
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.zkp.breath"
@@ -37,6 +39,7 @@ android {
         versionName "1.0"
         // 添加多dex分包支持
         multiDexEnabled true
+        // 表明要使用AndroidJUnitRunner进行单元测试
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -56,16 +59,29 @@ android {
         checkReleaseBuilds false
     }
 
+    // 设置打包配置
     buildTypes {
         release {
-            // 混淆
+            // 是否支持断点调试 (需要关闭minifyEnabled和shrinkResources)
+            debuggable false
+            // 是否开启混淆
             minifyEnabled true
-            // 移除无用的resource文件
+            // 是否移除无用的resource文件
             shrinkResources true
+            // 是否对APK包执行ZIP对齐优化，减小zip体积，增加运行效率
+            zipAlignEnabled true
+            // 指定混淆的规则文件
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // 设置签名配置
             signingConfig signingConfigs.release
         }
+
         debug {
+            // 自定义的配置在对应模块的BuildConfig
+            buildConfigField("boolean", "LOG_DEBUG", "false")
+            buildConfigField("String", "URL_PERFIX", "\"https://www.baidu.com/\"")
+            resValue "string", "hidden_entrance", "隐藏入口"
+
             minifyEnabled false
             signingConfig signingConfigs.debug
         }
