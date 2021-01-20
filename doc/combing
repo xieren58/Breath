@@ -11,6 +11,9 @@ web地址：WebUrl
     -> 接口请求公共参数：CommonParamUtil
     -> 日志打印tag：request_info
 
+声音控制类: RtcEngineManager
+   -> RtcAudioRoomManager
+
 云信im登录：IMLoginCoreImpl
 
 房间：HomePartyRoomFragment
