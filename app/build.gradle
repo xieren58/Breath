@@ -15,6 +15,7 @@ kapt {
 
 android {
 
+    // 签名配置
     signingConfigs {
         release {
             storeFile file('signature/breath.jks')
@@ -55,7 +56,9 @@ android {
         }
     }
 
+    // 代码扫描分析配置
     lintOptions {
+        // 打包release版本的时候是否进行检测
         checkReleaseBuilds false
     }
 
@@ -129,7 +132,7 @@ android {
         //targetGenDirTests 'src/androidTest/java'
     }
 
-    // MVVM框架所需，进行v和vm的双向自动响应的绑定
+    // v和vm的双向自动响应的绑定
     dataBinding {
         enabled true
     }
@@ -140,6 +143,8 @@ android {
 }
 
 dependencies {
+
+    //本地jar包依赖，表示将libs目录下所有.jar后缀的文件都添加到项目的构建路径当中
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
