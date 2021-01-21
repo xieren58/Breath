@@ -21,6 +21,13 @@ web地址：WebUrl
 私聊：P2PMessageActivity
     -> MessageFragment
 
+单例： CoreFactory (基本都是通过CoreManager间接调用，搞不懂的设计)
+
+回调： CoreManager（）
+      1. 页面调用CoreManager.addClient进行注册（内部寻找注解在页面的方法然后进行缓存）
+      2. 观察者继承AbstractBaseCore（一般都是存放在CoreFactory的单例），通过notifyClients方法进行回调被观察者（activity）
+      3. 页面调用CoreManager.removeClient进行注销
+
 mvp:
     v：抽象类：AbstractMvpActivity，AbstractMvpFragment
     p：AbstractMvpPresenter （v层一定要使用CreatePresenter注解）
@@ -31,4 +38,6 @@ mvp:
     2. activity持有BaseMvpProxy实例
     3. BaseMvpProxy持有PresenterMvpFactory（通过PresenterMvpFactory持有p实例）
     4. PresenterMvpFactory持有p的class
+
+
 
