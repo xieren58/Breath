@@ -21,6 +21,9 @@ web地址：WebUrl
 私聊：P2PMessageActivity
     -> MessageFragment
 
+主页：MainActivity
+    -> 房间页:HomeFragment
+
 单例： CoreFactory (基本都是通过CoreManager间接调用，搞不懂的设计)
 
 回调： CoreManager（）
