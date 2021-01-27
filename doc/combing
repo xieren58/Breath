@@ -44,3 +44,7 @@ mvp:
 
 
 
+
+问题解决：
+1. 删除tinker，防止影响到autosize适配库。
+原因：InitProvider会获取当前的application，当tinker存在是会默认获取到TinkerApplicationLike，内部的DisplayMetrics是错误的
