@@ -23,6 +23,7 @@ web地址：WebUrl
 
 主页：MainActivity
     -> 房间页:HomeFragment
+       -> HomeHeaderView (banner，四个分类入口，弹幕)
 
 单例： CoreFactory (基本都是通过CoreManager间接调用，搞不懂的设计)
 
