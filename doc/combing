@@ -15,6 +15,9 @@ web地址：WebUrl
    -> RtcAudioRoomManager
 
 云信im登录：IMLoginCoreImpl
+    聊天的更多定制 -> MainActivity # initP2PSessionCustomization()
+    消息的基Holder -> MsgViewHolderBase
+    
 
 房间：HomePartyRoomFragment
 
