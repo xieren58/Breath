@@ -15,6 +15,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper
 import com.umeng.message.PushAgent
 import me.jessyan.autosize.AutoSizeConfig
 
@@ -48,6 +49,8 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) : AppCompatActi
         ARouter.getInstance().inject(this)
         Log.i(ACTIVITY_TAG, "onCreate(savedInstanceState: Bundle?)")
 //        hideTitleBarAndStateBar()
+        // 沉浸式状态栏
+        QMUIStatusBarHelper.translucent(this)
 
         // 该方法是【友盟+】Push后台进行日活统计及多维度推送的必调用方法，请务必调用！
         PushAgent.getInstance(this).onAppStart()
