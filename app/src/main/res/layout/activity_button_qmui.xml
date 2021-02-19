@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--
+    <declare-styleable name="QMUIRoundButton">
+        <attr name="qmui_backgroundColor"/> // 背景色
+        <attr name="qmui_borderColor"/>     // 边框颜色
+        <attr name="qmui_borderWidth"/>     // 边框粗细
+        <attr name="qmui_isRadiusAdjustBounds"/>    // 圆角为短边的一半
+        <attr name="qmui_radius"/>  // 圆角半径，设置0和无设置都默认都默认为一半
+        <attr name="qmui_radiusTopLeft"/>   // 左上角，效果等同上面
+        <attr name="qmui_radiusTopRight"/>  // 右上角，效果等同上面
+        <attr name="qmui_radiusBottomLeft"/>    // 左下角，效果等同上面
+        <attr name="qmui_radiusBottomRight"/>   // 右下角，效果等同上面
+    </declare-styleable>
+
+    -->
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/round_btn"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:text="QMUIRoundButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:qmui_backgroundColor="#ffffffff" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

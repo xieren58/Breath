@@ -22,7 +22,7 @@ class WeightActivity : BaseActivity(R.layout.activity_entrance) {
             "ViewEvent",
             "Coordinator", "Svga", "Lottie", "ScrollView", "ConstraintLayout",
             "TabLayout", "TextView", "Button", "Switch", "ImageViewAdjustViewBounds",
-            "ImageViewScaleType", "MotionLayout", "EditText"
+            "ImageViewScaleType", "MotionLayout", "EditText", "QMUI"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,6 +98,10 @@ class WeightActivity : BaseActivity(R.layout.activity_entrance) {
             }
             "EditText" -> {
                 ActivityUtils.startActivity(EditTextActivity::class.java)
+                return@OnItemClickListener
+            }
+            "QMUI" -> {
+                ActivityUtils.startActivity(QMUIActivity::class.java)
                 return@OnItemClickListener
             }
             else -> {
