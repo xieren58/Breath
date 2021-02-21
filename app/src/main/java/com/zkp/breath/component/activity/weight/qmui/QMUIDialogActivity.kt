@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.blankj.utilcode.util.ClickUtils
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog
+import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityQmuiDialogBinding
 
@@ -24,7 +25,8 @@ class QMUIDialogActivity : BaseActivity() {
                 override fun onDebouncingClick(v: View?) {
                     when (v) {
                         binding.rBtn -> {
-                            builtInDialog()
+//                            builtInDialog()
+                            customDialog()
                             return
                         }
                     }
@@ -43,10 +45,13 @@ class QMUIDialogActivity : BaseActivity() {
     }
 
     private fun customDialog() {
-//        QMUITipDialog.CustomBuilder(this)
-//                .setContent()
-//                .create()
-//                .show()
+        val create = QMUITipDialog.CustomBuilder(this)
+                .setContent(R.layout.dialog_qmui_custom)
+                .create()
+
+        create.setCancelable(true)  // 是否点击返回键取消弹框
+        create.setCanceledOnTouchOutside(true)  // 是否点击非内容区取消弹框
+        create.show()
     }
 
 }
