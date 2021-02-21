@@ -1,4 +1,4 @@
-package com.zkp.breath.component.activity.weight
+package com.zkp.breath.component.activity.weight.qmui
 
 import android.os.Bundle
 import android.view.View
@@ -10,10 +10,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.zkp.breath.R
 import com.zkp.breath.adpter.EntranceAdapter
 import com.zkp.breath.adpter.decoration.EntranceItemDecoration
-import com.zkp.breath.component.activity.EventActivity
 import com.zkp.breath.component.activity.base.BaseActivity
-import com.zkp.breath.component.activity.jetpack.*
-import com.zkp.breath.component.activity.weight.*
 import kotlinx.android.synthetic.main.activity_entrance.*
 
 class QMUIActivity : BaseActivity(R.layout.activity_entrance) {
@@ -46,7 +43,8 @@ class QMUIActivity : BaseActivity(R.layout.activity_entrance) {
                 return@OnItemClickListener
             }
             "QMUIDialog" -> {
-
+                ActivityUtils.startActivity(QMUIDialogActivity::class.java)
+                return@OnItemClickListener
             }
             else -> {
                 ToastUtils.showShort(type)

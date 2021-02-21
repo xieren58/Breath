@@ -12,8 +12,7 @@ import com.zkp.breath.adpter.EntranceAdapter
 import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.EventActivity
 import com.zkp.breath.component.activity.base.BaseActivity
-import com.zkp.breath.component.activity.jetpack.*
-import com.zkp.breath.component.activity.weight.*
+import com.zkp.breath.component.activity.weight.qmui.QMUIActivity
 import kotlinx.android.synthetic.main.activity_entrance.*
 
 class WeightActivity : BaseActivity(R.layout.activity_entrance) {

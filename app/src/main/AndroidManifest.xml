@@ -100,9 +100,9 @@
         <activity android:name=".component.activity.weight.LottieActivity" />
         <activity android:name=".component.activity.weight.SvgaActivity" />
         <activity android:name=".component.activity.weight.EditTextActivity" />
-        <activity android:name=".component.activity.weight.QMUIActivity" />
-        <activity android:name=".component.activity.weight.QMUIButtonActivity" />
-        <activity android:name=".component.activity.weight.QMUIDialogActivity" />
+        <activity android:name=".component.activity.weight.qmui.QMUIActivity" />
+        <activity android:name=".component.activity.weight.qmui.QMUIButtonActivity" />
+        <activity android:name=".component.activity.weight.qmui.QMUIDialogActivity" />
 
         <activity android:name=".component.activity.mvx.MvcActivity">
             <intent-filter>
