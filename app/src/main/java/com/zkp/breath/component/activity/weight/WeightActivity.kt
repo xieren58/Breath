@@ -19,9 +19,9 @@ class WeightActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val listOf = mutableListOf(
             "ViewEvent",
-            "Coordinator", "Svga", "Lottie", "ScrollView", "ConstraintLayout",
+            "Coordinator", "QMUI", "Svga", "Lottie", "ScrollView", "ConstraintLayout",
             "TabLayout", "TextView", "Button", "Switch", "ImageViewAdjustViewBounds",
-            "ImageViewScaleType", "MotionLayout", "EditText", "QMUI"
+            "ImageViewScaleType", "MotionLayout", "EditText"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
