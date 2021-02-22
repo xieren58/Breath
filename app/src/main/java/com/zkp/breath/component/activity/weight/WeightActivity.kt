@@ -51,6 +51,10 @@ class WeightActivity : BaseActivity(R.layout.activity_entrance) {
                 ActivityUtils.startActivity(CoordinatorActivity::class.java)
                 return@OnItemClickListener
             }
+            "QMUI" -> {
+                ActivityUtils.startActivity(QMUIActivity::class.java)
+                return@OnItemClickListener
+            }
             "Svga" -> {
                 ActivityUtils.startActivity(SvgaActivity::class.java)
                 return@OnItemClickListener
@@ -97,10 +101,6 @@ class WeightActivity : BaseActivity(R.layout.activity_entrance) {
             }
             "EditText" -> {
                 ActivityUtils.startActivity(EditTextActivity::class.java)
-                return@OnItemClickListener
-            }
-            "QMUI" -> {
-                ActivityUtils.startActivity(QMUIActivity::class.java)
                 return@OnItemClickListener
             }
             else -> {
