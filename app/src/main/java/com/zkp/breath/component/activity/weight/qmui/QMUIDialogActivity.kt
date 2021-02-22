@@ -1,9 +1,16 @@
 package com.zkp.breath.component.activity.weight.qmui
 
+import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import com.blankj.utilcode.util.ClickUtils
+import com.qmuiteam.qmui.skin.QMUISkinManager
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog.CustomBuilder
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialogView
 import com.zkp.breath.R
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityQmuiDialogBinding
@@ -44,14 +51,59 @@ class QMUIDialogActivity : BaseActivity() {
                 .show()
     }
 
+    /**
+     * 自定义示例，自定义的view其实就是作为子view被添加到QMUITipDialogView中，而QMUITipDialogView有默认
+     * 样式，而 QMUITipDialog.CustomBuilder没有相关方法提供取消QMUITipDialogView默认样式的设置，所以只能
+     * 自己获取到QMUITipDialogView然后进行修改。
+     */
     private fun customDialog() {
-        val create = QMUITipDialog.CustomBuilder(this)
+//        val create = QMUITipDialog.CustomBuilder(this)
+        val create = SubCustomBuilder(this)
                 .setContent(R.layout.dialog_qmui_custom)
                 .create()
+
+        val decorView = create.window?.findViewById<ViewGroup>(android.R.id.content)?.getChildAt(0)
+        if (decorView is QMUITipDialogView) {
+            decorView.background = null
+            decorView.setWidthLimit(com.blankj.utilcode.util.ScreenUtils.getAppScreenWidth())
+            decorView.setHeightLimit(com.blankj.utilcode.util.ScreenUtils.getAppScreenHeight())
+        }
 
         create.setCancelable(true)  // 是否点击返回键取消弹框
         create.setCanceledOnTouchOutside(true)  // 是否点击非内容区取消弹框
         create.show()
+    }
+
+    private class SubCustomBuilder {
+
+        private var mContext: Context? = null
+        private var mContentLayoutId = 0
+        private var mSkinManager: QMUISkinManager? = null
+
+        constructor(context: Context) {
+            mContext = context
+        }
+
+        fun setSkinManager(skinManager: QMUISkinManager?): SubCustomBuilder {
+            mSkinManager = skinManager
+            return this
+        }
+
+        fun setContent(@LayoutRes layoutId: Int): SubCustomBuilder {
+            mContentLayoutId = layoutId
+            return this
+        }
+
+        fun create(): QMUITipDialog {
+            val dialog = QMUITipDialog(mContext)
+            dialog.setSkinManager(mSkinManager)
+            val dialogContext = dialog.context
+//            val tipDialogView = QMUITipDialogView(dialogContext)
+//            LayoutInflater.from(dialogContext).inflate(mContentLayoutId, tipDialogView, true)
+            dialog.setContentView(LayoutInflater.from(dialogContext).inflate(mContentLayoutId, null))
+            return dialog
+        }
+
     }
 
 }
