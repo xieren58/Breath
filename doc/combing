@@ -25,15 +25,30 @@ web地址：WebUrl
 抢广播：SquareActivity -> SquareFragment
 
 DialogFragment示例：HeadlinesRuleDialog
+Core示例：IMakeFriendCore
+
 
 编辑个人资料：UserInfoModifyActivity
 
 编辑资料(首次注册登录)：AddUserInfoActivity
 
+个人资料：UserInfoActivity
+
 房间：HomePartyRoomFragment
+    -> 排行榜: BigListDataDialog
+    -> 房间私聊弹窗(消息、广场): RoomPrivateMsgDialog
+    -> 房间单人私聊页面弹窗: RoomPrivateChatDialog
+    -> 在线人数：ListDataDialog
+    -> 房间用户资料页：UserInfoDialog
+    -> 房间更多功能弹框: RoomFunctionDialog
+    -> 房间设置：RoomSettingActivity
+    -> 房间玩法(去别人房间): RoomPlayInfoDialog
+    -> 发红包：RedPacketSettingDialog
+    -> 音乐播放器：MusicPlayerView
 
 私聊：P2PMessageActivity
     -> MessageFragment
+最近联系人列表：RecentContactsFragment
 
 主页：MainActivity
     -> 房间页:HomeFragment
