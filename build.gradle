@@ -3,9 +3,9 @@
 buildscript {
 
     ext {
-        kotlin_version = '1.4.0'
+        kotlin_version = '1.4.31'
         kotlin_coroutines = '1.4.1'
-        gradle_version = '3.6.3'
+        gradle_version = '4.0.0'
         lifecycle_version = "2.2.0"
         room_version = "2.2.5"
         work_version = "2.4.0"
@@ -13,6 +13,7 @@ buildscript {
         paging_version = "2.1.2"
         butterknife_version = "10.2.3"
         walle_version = "1.1.7"
+        dokitx_version = "3.3.5"
     }
 
     repositories {
@@ -21,7 +22,7 @@ buildscript {
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
         maven { url "https://jitpack.io" }
-//        google()
+        google()
 //        jcenter()
 //        mavenCentral()
 
@@ -32,8 +33,8 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath "com.jakewharton:butterknife-gradle-plugin:$butterknife_version"
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.5'
+//        classpath 'org.greenrobot:greendao-gradle-plugin:3.3.0'
+        classpath "com.didichuxing.doraemonkit:dokitx-plugin:$dokitx_version"
         classpath "com.meituan.android.walle:plugin:$walle_version"
     }
 }

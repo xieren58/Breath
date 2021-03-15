@@ -106,8 +106,6 @@ class BaseApplication : MultiDexApplication() {
      */
     private fun initDoraemonKit() {
         DoraemonKit.install(this)
-        DoraemonKit.disableUpload()
-        DoraemonKit.setAwaysShowMainIcon(true)
     }
 
     /**

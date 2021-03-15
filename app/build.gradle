@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'org.greenrobot.greendao'
+//apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'com.didi.dokit'
 apply plugin: 'walle'
 
@@ -119,18 +119,18 @@ android {
         }
     }
 
-    greendao {
-        //数据库版本号
-        schemaVersion 1
-        // 设置DaoMaster、DaoSession、Dao 包名
-        daoPackage 'com.zkp.breath.database.greendao'
-        //设置DaoMaster、DaoSession、Dao目录,请注意，这里路径用/不要用.
-        targetGenDir 'src/main/java'
-        //设置为true以自动生成单元测试。
-        generateTests false
-        //应存储生成的单元测试的基本目录。默认为 src / androidTest / java。
-        //targetGenDirTests 'src/androidTest/java'
-    }
+//    greendao {
+//        //数据库版本号
+//        schemaVersion 1
+//        // 设置DaoMaster、DaoSession、Dao 包名
+//        daoPackage 'com.zkp.breath.database.greendao'
+//        //设置DaoMaster、DaoSession、Dao目录,请注意，这里路径用/不要用.
+//        targetGenDir 'src/main/java'
+//        //设置为true以自动生成单元测试。
+//        generateTests false
+//        //应存储生成的单元测试的基本目录。默认为 src / androidTest / java。
+//        //targetGenDirTests 'src/androidTest/java'
+//    }
 
     // v和vm的双向自动响应的绑定
     dataBinding {
@@ -222,7 +222,7 @@ dependencies {
     kapt "com.jakewharton:butterknife-compiler:$butterknife_version"
     implementation "com.jakewharton:butterknife:$butterknife_version"
 
-    implementation 'org.greenrobot:greendao:3.2.2'
+//    implementation 'org.greenrobot:greendao:3.3.0'
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
@@ -255,9 +255,8 @@ dependencies {
     // 内存泄露检验工具
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
 
-    // DoKit(3.1.6有坑，不要升到这个版本)
-    debugImplementation "com.didichuxing.doraemonkit:doraemonkit:3.1.5"
-    releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.5"
+    debugImplementation "com.didichuxing.doraemonkit:dokitx:$dokitx_version"
+    releaseImplementation "com.didichuxing.doraemonkit:dokitx-no-op:$dokitx_version"
 
     // 友盟基础组件库（所有友盟业务SDK都依赖基础组件库）
     implementation "com.umeng.umsdk:common:2.1.0"

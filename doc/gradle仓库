@@ -5,7 +5,11 @@
        早期版本的Android Studio使用了mavenCentral()，后来换成了jcenter，因为jcenter()在性能和内存占用方
        面优于mavenCentral()。
 
+JCenter 代码库现已弃用，并将于 2022 年 2 月 1 日停止服务 (https://developer.android.google.cn/studio/build/jcenter-migration)
+
 阿里云云效 Maven ：https://maven.aliyun.com/mvn/guide （国外仓库的国内代理仓库）
     -> 不要使用新版的阿里云仓库地址：https://blog.csdn.net/yadesyoung/article/details/112521881
 
+gradle插件下载地址（gradle版本和对应gradle插件版本）：https://developer.android.google.cn/studio/releases/gradle-plugin#versioning-update
+gradle插件下载失败解决方案：https://xiangzhihong.blog.csdn.net/article/details/109238936
 
