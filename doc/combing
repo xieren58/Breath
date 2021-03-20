@@ -1,5 +1,8 @@
 接口地址，房间公聊屏IM地址：UriProvider
 
+
+指定圆角的imageview：com.makeramen.roundedimageview.RoundedImageView
+
 web地址：WebUrl
 
 登录页面：LoginActivity
@@ -22,7 +25,7 @@ web地址：WebUrl
        -> 金币页: ChargeActivity -> ChargeFragment
        -> 钻石页: IncomeActivity -> WithDrawFragment
 
-抢广播：SquareActivity -> SquareFragment
+抢广播（广场）：SquareActivity -> SquareFragment
 
 DialogFragment示例：HeadlinesRuleDialog
 Core示例：IMakeFriendCore
@@ -71,6 +74,7 @@ mvp:
     2. activity持有BaseMvpProxy实例
     3. BaseMvpProxy持有PresenterMvpFactory（通过PresenterMvpFactory持有p实例）
     4. PresenterMvpFactory持有p的class
+
 
 
 
