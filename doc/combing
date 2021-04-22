@@ -52,6 +52,7 @@ Core示例：IMakeFriendCore
 私聊：P2PMessageActivity
     -> MessageFragment
 最近联系人列表：RecentContactsFragment
+消息基础vh：MsgViewHolderBase
 
 主页：MainActivity
     -> 房间页:HomeFragment
