@@ -39,7 +39,7 @@ public class ProxyClientDemo {
         public Object bind(Object tar) {
             this.tar = tar;
             //绑定该类实现的所有接口，取得代理类
-            // 参数一：被代理对象的类的加载器
+            // 参数一：被代理对象的类的加载器（固定写法，不需要关注这个参数）
             // 参数二：被代理对象的所有接口
             // 参数三：InvocationHandler
             return Proxy.newProxyInstance(tar.getClass().getClassLoader(),
