@@ -23,3 +23,11 @@ Google:
 MAD Skills（Modern Android Development）: https://madskills.hi-dhl.com/#/
 
 设计模式：https://blog.csdn.net/itachi85/article/details/50491657
+
+
+retofit:
+1. 请求方法只能定义在接口中，接口及其父接口不能声明泛型
+2. 严格的检查机制，不能是默认方法（java8的接口新特性就不能用了）
+3. 错误快速暴露（方便测试，调试），默认情况下接口的方法在首次被调用会被检查，后续重复调用不再检查；
+   Retofit#validateEagerly变量（默认不开启）会在执行Retofit#create()对接口的每个方法进行检查，这种比较耗时。
+4. 核心设计模式：动态代理
