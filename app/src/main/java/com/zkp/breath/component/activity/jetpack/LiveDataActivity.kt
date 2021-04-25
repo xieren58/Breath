@@ -16,6 +16,7 @@ import com.zkp.breath.jetpack.livedata.JetPackLiveDataViewModel
 /**
  * https://developer.android.google.cn/topic/libraries/architecture/livedata#kotlin
  * https://juejin.cn/post/6844904111112978439
+ * https://juejin.cn/post/6915222252506054663#heading-1
  *
  * LiveData 具有生命周期感知能力的可观察的数据存储器类。（响应生命周期，数据存储器，可观察）
  *
