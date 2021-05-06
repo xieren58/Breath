@@ -31,3 +31,5 @@ retofit:
 3. 错误快速暴露（方便测试，调试），默认情况下接口的方法在首次被调用会被检查，后续重复调用不再检查；
    Retofit#validateEagerly变量（默认不开启）会在执行Retofit#create()对接口的每个方法进行检查，这种比较耗时。
 4. 核心设计模式：动态代理
+5. 是对okhttp进行了一层封装。如enqueue()方法其实内部调用了okhttp的enqueue()方法
+6. 内部使用Executor开辟线程进行网络请求，请求结果使用主Looper的Handle调用回调。
