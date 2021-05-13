@@ -12,6 +12,7 @@ import com.zkp.breath.adpter.EntranceAdapter
 import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.EventActivity
 import com.zkp.breath.component.activity.base.BaseActivity
+import com.zkp.breath.component.activity.weight.custom.CustomViewActivity
 import com.zkp.breath.component.activity.weight.qmui.QMUIActivity
 import kotlinx.android.synthetic.main.activity_entrance.*
 
@@ -21,7 +22,7 @@ class WeightActivity : BaseActivity(R.layout.activity_entrance) {
             "ViewEvent",
             "Coordinator", "QMUI", "Svga", "Lottie", "ScrollView", "ConstraintLayout",
             "TabLayout", "TextView", "Button", "Switch", "ImageViewAdjustViewBounds",
-            "ImageViewScaleType", "MotionLayout", "EditText"
+            "ImageViewScaleType", "MotionLayout", "EditText", "CustomViewActivity"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,6 +104,11 @@ class WeightActivity : BaseActivity(R.layout.activity_entrance) {
                 ActivityUtils.startActivity(EditTextActivity::class.java)
                 return@OnItemClickListener
             }
+            "CustomViewActivity" -> {
+                ActivityUtils.startActivity(CustomViewActivity::class.java)
+                return@OnItemClickListener
+            }
+
             else -> {
                 ToastUtils.showShort(type)
             }
