@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorFFFFFFFF">
 
-    <com.zkp.breath.weight.DashBoardView
+    <com.zkp.breath.weight.custom.DashBoardView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -1,11 +1,9 @@
-package com.zkp.breath.weight
+package com.zkp.breath.weight.custom
 
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import com.airbnb.lottie.parser.ColorParser
-import me.jessyan.autosize.AutoSize
 import me.jessyan.autosize.utils.AutoSizeUtils
 import kotlin.math.cos
 import kotlin.math.sin
