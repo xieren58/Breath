@@ -37,7 +37,7 @@ class XfermodeView(context: Context, attrs: AttributeSet? = null) : View(context
     init {
         /**
          * 我们画的东西都是存放在指定的Bitmap上的。canvas只是起到一个中介的作用，它承载了画的方法（
-         * 比如drawLine，drawCircle等） 会画线，画圆保存到bitmap中。
+         * 比如drawLine，drawCircle等） 会画线，画圆保存到bitmap中。没有画的区域为透明区域
          */
         val canvas = Canvas(circleBmp)  // 构造一个带有给定bitmap的画布，画东西到bitmap里面去。
         paint.setColor(Color.parseColor("#D81B60"))
