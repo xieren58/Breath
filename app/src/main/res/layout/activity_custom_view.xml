@@ -7,7 +7,18 @@
     android:layout_height="match_parent"
     android:background="@color/colorFFFFFFFF">
 
-    <com.zkp.breath.weight.custom.DashBoardView
+<!--    &lt;!&ndash; 仪表盘 &ndash;&gt;-->
+<!--    <com.zkp.breath.weight.custom.DashBoardView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
+<!--    &lt;!&ndash; 饼图 &ndash;&gt;-->
+<!--    <com.zkp.breath.weight.custom.PieView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
+    <!-- xfermode -->
+    <com.zkp.breath.weight.custom.XfermodeView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

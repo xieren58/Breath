@@ -15,6 +15,16 @@ class XfermodeView(context: Context, attrs: AttributeSet? = null) : View(context
     // 抗锯齿
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
+    private val px200 = AutoSizeUtils.dp2px(context, 200f).toFloat()
+    private val px50 = AutoSizeUtils.dp2px(context, 50f).toFloat()
+    private val px300 = AutoSizeUtils.dp2px(context, 300f).toFloat()
+    private val px150 = AutoSizeUtils.dp2px(context, 150f).toFloat()
+    private val px100 = AutoSizeUtils.dp2px(context, 100f).toFloat()
+    private val px250 = AutoSizeUtils.dp2px(context, 250f).toFloat()
+
+    private val circleBmp = Bitmap.createBitmap(px150.toInt(), px150.toInt(), Bitmap.Config.ARGB_8888)
+    private val squareBmp = Bitmap.createBitmap(px150.toInt(), px150.toInt(), Bitmap.Config.ARGB_8888)
+
     private val imgPadding = AutoSizeUtils.dp2px(context, 20f).toFloat()
     private val imgWidth = AutoSizeUtils.dp2px(context, 200f).toFloat()
 
@@ -24,9 +34,44 @@ class XfermodeView(context: Context, attrs: AttributeSet? = null) : View(context
     // 离屏缓冲的区域大小，这里和展示的图片大小一致
     private val bounds = RectF(0f, 0f, imgWidth, imgWidth)
 
+    init {
+        /**
+         * 我们画的东西都是存放在指定的Bitmap上的。canvas只是起到一个中介的作用，它承载了画的方法（
+         * 比如drawLine，drawCircle等） 会画线，画圆保存到bitmap中。
+         */
+        val canvas = Canvas(circleBmp)  // 构造一个带有给定bitmap的画布，画东西到bitmap里面去。
+        paint.setColor(Color.parseColor("#D81B60"))
+        canvas.drawOval(px50, 0f, px150, px100, paint)
+
+        paint.setColor(Color.parseColor("#2196F3"))
+        canvas.setBitmap(squareBmp)
+        canvas.drawRect(px100, px50, px200, px150, paint)
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        circleAvatat(canvas)
+//        circleAvatat(canvas)
+        testXfermode(canvas)
+    }
+
+    /**
+     * 演示官方展示的xfermode效果
+     *
+     * 注意！！！！
+     * 官方demo的方形和圆形图是存在透明区域的，如果我们只画圆形和方形那么得出的效果和官方demo是不一致的，
+     * 所以我们也要构造类似的效果。
+     */
+    private fun testXfermode(canvas: Canvas) {
+        val bounds = RectF(0f, 0f, width.toFloat(), height.toFloat())
+        val saveLayer = canvas.saveLayer(bounds, null)
+
+        canvas.drawBitmap(circleBmp, px150, px150, paint)
+
+        paint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.SRC_IN))
+        canvas.drawBitmap(squareBmp, px150, px150, paint)
+        paint.setXfermode(null) // 取消Xfermode
+
+        canvas.restoreToCount(saveLayer)
     }
 
     /**
