@@ -59,7 +59,7 @@ class XfermodeView(context: Context, attrs: AttributeSet? = null) : View(context
      *
      * 注意！！！！
      * 官方demo的方形和圆形图是存在透明区域的，如果我们只画圆形和方形那么得出的效果和官方demo是不一致的，
-     * 所以我们也要构造类似的效果。
+     * 所以我们也要构造类似的效果（使用bitmap实现）。
      */
     private fun testXfermode(canvas: Canvas) {
         val bounds = RectF(0f, 0f, width.toFloat(), height.toFloat())
