@@ -93,7 +93,7 @@ class SportView(context: Context, attrs: AttributeSet? = null) : View(context, a
          * 动态计算，适合变化的内容的测量。
          * 获取到相对中间的区域，即核心文字的顶和底。
          */
-        paint.getFontMetrics(fontMetrics)
+        paint.getFontMetrics(fontMetrics)  // 和绘制的内容无关，只和字体有关
         canvas.drawText("abaq", width / 2f, height / 2f - (fontMetrics.ascent + fontMetrics.descent) / 2f, paint)
     }
 
