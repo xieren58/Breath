@@ -7,20 +7,28 @@
     android:layout_height="match_parent"
     android:background="@color/colorFFFFFFFF">
 
-<!--    &lt;!&ndash; 仪表盘 &ndash;&gt;-->
-<!--    <com.zkp.breath.weight.custom.DashBoardView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" />-->
+    <!--    &lt;!&ndash; 仪表盘 &ndash;&gt;-->
+    <!--    <com.zkp.breath.weight.custom.DashBoardView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent" />-->
 
-<!--    &lt;!&ndash; 饼图 &ndash;&gt;-->
-<!--    <com.zkp.breath.weight.custom.PieView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" />-->
+    <!--    &lt;!&ndash; 饼图 &ndash;&gt;-->
+    <!--    <com.zkp.breath.weight.custom.PieView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent" />-->
 
-    <!-- xfermode -->
-    <com.zkp.breath.weight.custom.XfermodeView
+    <!--    &lt;!&ndash; xfermode &ndash;&gt;-->
+    <!--    <com.zkp.breath.weight.custom.XfermodeView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent" />-->
+
+    <!--    <com.zkp.breath.weight.custom.SportView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"/>-->
+
+    <com.zkp.breath.weight.custom.MultilineTextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
