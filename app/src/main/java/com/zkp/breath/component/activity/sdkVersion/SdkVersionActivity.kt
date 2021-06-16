@@ -16,7 +16,8 @@ import kotlinx.android.synthetic.main.activity_entrance.*
 class SdkVersionActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val listOf = mutableListOf(
-            "ScopedStorage", "Toast", "HttpClearText", "Clipboard", "Location", "DeviceInfo"
+            "ScopedStorage", "Toast", "HttpClearText", "Clipboard", "Location", "DeviceInfo",
+            "Notification"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +39,10 @@ class SdkVersionActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val onItemChildClickListener = OnItemClickListener { _, _, position ->
         when (val type = listOf[position]) {
+            "Notification" -> {
+                ActivityUtils.startActivity(NotificationActivity::class.java)
+                return@OnItemClickListener
+            }
             "ScopedStorage" -> {
                 ActivityUtils.startActivity(ScopedStorageQ10Activity::class.java)
                 return@OnItemClickListener

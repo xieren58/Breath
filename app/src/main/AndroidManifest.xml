@@ -173,6 +173,7 @@
         <activity android:name=".component.activity.sdkVersion.ClipboardQ10Activity" />
         <activity android:name=".component.activity.sdkVersion.ToastR11Activity" />
         <activity android:name=".component.activity.sdkVersion.HttpClearTextActivity" />
+        <activity android:name=".component.activity.sdkVersion.NotificationActivity" />
 
         <activity android:name=".component.activity.arouter.ARouterActivity" />
         <activity android:name=".component.activity.arouter.Test1ArouterActivity" />
