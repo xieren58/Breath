@@ -26,9 +26,13 @@
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="match_parent"/>-->
 
-    <com.zkp.breath.weight.custom.MultilineTextView
+    <!--    <com.zkp.breath.weight.custom.MultilineTextView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <com.zkp.breath.weight.custom.CameraView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
