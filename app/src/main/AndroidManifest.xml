@@ -273,6 +273,13 @@
                 tools:node="remove" />
         </provider>
 
+
+        <receiver android:name=".component.activity.sdkVersion.NotificationActivity$NotificationBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.xxx.xxx.cancel" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
