@@ -17,6 +17,9 @@ import com.zkp.breath.component.activity.debugs.DebugActivity
 import com.zkp.breath.component.activity.jetpack.*
 import com.zkp.breath.component.activity.kotlin.CoroutinesActivity
 import com.zkp.breath.component.activity.sdkVersion.SdkVersionActivity
+import com.zkp.breath.component.activity.third.GlideActivity
+import com.zkp.breath.component.activity.third.MMKVActivity
+import com.zkp.breath.component.activity.third.RxJava3Activity
 import com.zkp.breath.component.activity.weight.*
 import com.zkp.breath.databinding.ActivityEntranceBinding
 import kotlin.system.exitProcess

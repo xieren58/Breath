@@ -1,15 +1,6 @@
-package com.zkp.breath.component.activity
+package com.zkp.breath.component.activity.third
 
-import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.blankj.utilcode.util.ToastUtils
-import com.zkp.breath.R
-import com.zkp.breath.adpter.DataBaseAdapter
-import com.zkp.breath.database.greendao.entity.Student
-import com.zkp.breath.database.greendao.manager.GreenDaoManager
 
 /**
  * GreenDao例子

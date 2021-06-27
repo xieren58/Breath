@@ -1,4 +1,4 @@
-package com.zkp.breath.component.activity
+package com.zkp.breath.component.activity.third
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable

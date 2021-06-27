@@ -1,16 +1,12 @@
-package com.zkp.breath.component.activity
+package com.zkp.breath.component.activity.third
 
-import android.os.*
-import android.util.Log
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Switch
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
-import com.zkp.breath.R
 import com.zkp.breath.adpter.CoordinatorAdapter
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityMaterialDialogBinding

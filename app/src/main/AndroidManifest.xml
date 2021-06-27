@@ -119,7 +119,7 @@
         </activity>
 
 
-        <activity android:name=".component.activity.DatabaseActivity">
+        <activity android:name=".component.activity.third.DatabaseActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -161,7 +161,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.RxJava3Activity">
+        <activity android:name=".component.activity.third.RxJava3Activity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -199,11 +199,11 @@
 
         <activity android:name=".component.activity.AudioRecordActivity" />
 
-        <activity android:name=".component.activity.MaterialDialogsActivity" />
+        <activity android:name=".component.activity.third.MaterialDialogsActivity" />
 
-        <activity android:name=".component.activity.GlideActivity" />
+        <activity android:name=".component.activity.third.GlideActivity" />
 
-        <activity android:name=".component.activity.MMKVActivity" />
+        <activity android:name=".component.activity.third.MMKVActivity" />
 
         <activity android:name=".component.activity.ComponentActivity" />
         <activity android:name=".component.activity.fragment.FragmentDemoActivity" />
