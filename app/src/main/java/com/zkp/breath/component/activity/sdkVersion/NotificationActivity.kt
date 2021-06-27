@@ -7,7 +7,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.*
 import android.view.View
 import androidx.core.app.NotificationCompat
@@ -25,6 +24,9 @@ import com.zkp.breath.databinding.ActivityNotificationBinding
  * https://www.jianshu.com/p/cb8426620e74
  * https://www.jianshu.com/p/e1e20e0ee18c
  * https://www.jianshu.com/p/99bc32cd8ad6
+ *
+ * 注意：小米新系统miui12测试得知，如果没有接入小米推送渠道，那么过滤规则是“系统推荐”，这时候推送的消息会被归为
+ * 不重要，如果接入小米推送渠道，那么过滤规则“全部设为重要”。
  */
 class NotificationActivity : ClickBaseActivity() {
 
@@ -83,10 +85,10 @@ class NotificationActivity : ClickBaseActivity() {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         builder = NotificationCompat.Builder(this)
-        builder.setSmallIcon(R.mipmap.ic_launcher)//设置小图标，否则通知不会显示
-                .setLargeIcon(ImageUtils.getBitmap(R.drawable.ic_yq))
+        builder.setSmallIcon(R.mipmap.ic_launcher)//设置小图标（左边），否则通知不会显示
+                .setLargeIcon(ImageUtils.getBitmap(R.drawable.ic_yq))// 设置大图标（右边）
                 .setContentTitle("我是通知的标题")//设置通知标题
-                .setContentText("我是一个通知：" + position)//设置通知内容
+                .setContentText("我是一个通知：$position")//设置通知内容
                 .setContentIntent(clickPI)// 设置pendingIntent,点击通知时就会用到
                 .setAutoCancel(true)//设为true，点击后通知栏移除通知，setAutoCancel需要和setContentIntent一起使用，否则无效
                 .setDeleteIntent(cacelPI)//设置pendingIntent,左滑右滑通知时就会用到。
@@ -117,24 +119,18 @@ class NotificationActivity : ClickBaseActivity() {
 //                 */
 //                .setProgress(100, currentProgress, false)
 
-
-//        style()
-
+        style()
 
         val extras = Bundle()
         extras.putString("key", "value")
 
-        /**
-         * 关于 setSmallIcon() 与 setLargeIcon()。在 NotificationCompat.Builder 中有设置通知的大小图标
-         * 的两个方法。这两个方法有什么区别呢？当 setSmallIcon() 与 setLargeIcon() 同时存在时, smallIcon 显示在通知的右下角, largeIcon 显示在左侧；当只设置 setSmallIcon() 时, smallIcon 显示在左侧。看下图你就明白了。对于部分 ROM ，可能修改过源码，如 MIUI 上通知的大图标和小图标是没有区别的。
-         */
         builder
 //                .addExtras(extras)
 //                .addAction()
 //                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setNumber(2121)
 //                .setLights(Color.RED, 2000, Color.BLUE)
-                .setSubText("我是一个SubText")
+                .setSubText("我是一个SubText")  // 现在只有官方模拟器有显示，国内厂商系统都没显示
                 /**
                  * VISIBILITY_PUBLIC 任何情况都会显示通知
                  * VISIBILITY_PRIVATE 只有在没有锁屏时会显示通知
@@ -152,12 +148,23 @@ class NotificationActivity : ClickBaseActivity() {
 //                .setColor(Color.RED)
 
 
-        /**
-         * Android 8.0以上新增了通知渠道这个概念，如果没有设置，则通知无法在Android8.0的机器上显示
-         *
-         * NotificationChannel是通知渠道的意思，channelID为通知渠道ID，channelName为通知渠道名称
-         * ，NotificationManager.IMPORTANCE_HIGH为通知渠道的优先级。
-         */
+        channel(notificationManager)
+
+        val build = builder.build()
+        // id相同的会互相覆盖
+        notificationManager.notify(position, build)
+
+        position++
+        currentProgress += 10
+    }
+
+    /**
+     * Android 8.0以上新增了通知渠道这个概念，如果没有设置，则通知无法在Android8.0的机器上显示
+     *
+     * NotificationChannel是通知渠道的意思，channelID为通知渠道ID，channelName为通知渠道名称
+     * ，NotificationManager.IMPORTANCE_HIGH为通知渠道的优先级。
+     */
+    private fun channel(notificationManager: NotificationManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelID = "DemoChannelId"
             val channelName = "DemoChannelName" // 在“通知管理”-“通知类型”中就有对应的名字
@@ -175,10 +182,10 @@ class NotificationActivity : ClickBaseActivity() {
             val channel = NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH)
             channel.setDescription("我是DemoChannelName的描述")//设置渠道的描述信息
 
-//            channel.setSound(Uri.parse("android.resource://" + packageName + "/" + R.raw.calling),
-//                    Notification.AUDIO_ATTRIBUTES_DEFAULT)
-            channel.enableLights(true)//设置通知出现时的闪灯（如果 android 设备支持的话）,有些手机呼吸灯只支持一种颜色。
-            channel.setLightColor(Color.RED)
+            //            channel.setSound(Uri.parse("android.resource://" + packageName + "/" + R.raw.calling),
+            //                    Notification.AUDIO_ATTRIBUTES_DEFAULT)
+            //            channel.enableLights(true)//设置通知出现时的闪灯（如果 android 设备支持的话）,有些手机呼吸灯只支持一种颜色。
+            //            channel.setLightColor(Color.RED)
 
             channel.enableVibration(true)// 设置通知出现时的震动（如果 android 设备支持的话）
             channel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
@@ -187,43 +194,40 @@ class NotificationActivity : ClickBaseActivity() {
 
             //创建通知时指定channelID
             builder.setChannelId(channelID)
-            //builder.setTimeoutAfter(5000);//设置超时时间，超时之后自动取消（Android8.0有效）
         }
-
-        val build = builder.build()
-        // id相同的会互相覆盖
-        notificationManager.notify(position, build)
-
-        position++
-        currentProgress += 10
     }
 
+    /**
+     * 类似于二级内容，在放大下显示的内容。
+     */
     private fun style() {
+        // 大图类型
 //        val bigPictureStyle = NotificationCompat.BigPictureStyle()
-//        bigPictureStyle.setBigContentTitle("我是BigPictureStyle设置的Title")   // 会覆盖setContentTitle的内容
-//        bigPictureStyle.setSummaryText("我是BigPictureStyle设置的SummaryText！")    // 不知道有什么用
+//        bigPictureStyle.setBigContentTitle("我是BigPictureStyle设置的Title")
+//        bigPictureStyle.setSummaryText("我是BigPictureStyle设置的SummaryText")
 //        bigPictureStyle.bigPicture(BitmapFactory.decodeResource(resources, R.drawable.ic_wh_1_1))
 //        builder.setStyle(bigPictureStyle)
 
-//        val bigTextStyle = NotificationCompat.BigTextStyle()
-//        bigTextStyle.setBigContentTitle("我是BigTextStyle设置的标题")// 会覆盖setContentTitle的内容
-//        bigTextStyle.setSummaryText("我是BigTextStyle设置的SummaryText！")    // 不知道有什么用
-//        bigTextStyle.bigText("我是BigTextStyle设置的bigText")// 会覆盖setContentText的内容。但是在悬浮通知的时候还是显示setContentText的内容
-//        builder.setStyle(bigTextStyle)
+        // 大标题类型
+        val bigTextStyle = NotificationCompat.BigTextStyle()
+        bigTextStyle.setBigContentTitle("我是BigTextStyle设置的Title")
+        bigTextStyle.setSummaryText("我是BigTextStyle设置的SummaryText") // 在模拟器和手机上都看到效果
+        bigTextStyle.bigText("我是BigTextStyle设置的bigText")
+        builder.setStyle(bigTextStyle)
 
-        val inboxStyle = NotificationCompat.InboxStyle()
-        inboxStyle.addLine("第一行")
-        inboxStyle.addLine("第二行")
-        inboxStyle.addLine("第三行")
-        inboxStyle.addLine("第四行")
-        inboxStyle.addLine("第五行")
-        inboxStyle.addLine("第六行")
-        inboxStyle.addLine("第七行")
-        inboxStyle.addLine("第八行")
-        inboxStyle.addLine("第九行")
-        inboxStyle.setBigContentTitle(title)
-        inboxStyle.setSummaryText("我是InboxStyle设置的SummaryText！")// 不知道有什么用
-        builder.setStyle(inboxStyle)
+//        val inboxStyle = NotificationCompat.InboxStyle()
+//        inboxStyle.addLine("第一行")
+//        inboxStyle.addLine("第二行")
+//        inboxStyle.addLine("第三行")
+//        inboxStyle.addLine("第四行")
+//        inboxStyle.addLine("第五行")
+//        inboxStyle.addLine("第六行")
+//        inboxStyle.addLine("第七行")
+//        inboxStyle.addLine("第八行")
+//        inboxStyle.addLine("第九行")
+//        inboxStyle.setBigContentTitle(title)
+//        inboxStyle.setSummaryText("我是InboxStyle设置的SummaryText！")// 不知道有什么用
+//        builder.setStyle(inboxStyle)
     }
 
     class NotificationBroadcastReceiver : BroadcastReceiver() {
