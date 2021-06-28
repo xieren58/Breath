@@ -74,24 +74,28 @@ class NotificationActivity : ClickBaseActivity() {
     fun notification() {
         // 点击事件
         val clickIntent = Intent(this, ClipboardQ10Activity::class.java)
-        val clickPI = PendingIntent.getActivity(this, 1, clickIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+        val clickPI =
+            PendingIntent.getActivity(this, 1, clickIntent, PendingIntent.FLAG_CANCEL_CURRENT)
 
         // 通知消失时触发的回调
         val cacelIntent = Intent(this, NotificationBroadcastReceiver::class.java)
         cacelIntent.setAction("com.xxx.xxx.cancel")
-        val cacelPI = PendingIntent.getBroadcast(this, 2, cacelIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+        val cacelPI =
+            PendingIntent.getBroadcast(this, 2, cacelIntent, PendingIntent.FLAG_CANCEL_CURRENT)
 
         // 获取NotificationManager
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         builder = NotificationCompat.Builder(this)
         builder.setSmallIcon(R.mipmap.ic_launcher)//设置小图标（左边），否则通知不会显示
-                .setLargeIcon(ImageUtils.getBitmap(R.drawable.ic_yq))// 设置大图标（右边）
-                .setContentTitle("我是通知的标题")//设置通知标题
-                .setContentText("我是一个通知：$position")//设置通知内容
-                .setContentIntent(clickPI)// 设置pendingIntent,点击通知时就会用到
-                .setAutoCancel(true)//设为true，点击后通知栏移除通知，setAutoCancel需要和setContentIntent一起使用，否则无效
-                .setDeleteIntent(cacelPI)//设置pendingIntent,左滑右滑通知时就会用到。
+            .setLargeIcon(ImageUtils.getBitmap(R.drawable.ic_yq))// 设置大图标（右边）
+            .setContentTitle("我是通知的标题")//设置通知标题
+            .setContentText("我是一个通知：$position")//设置通知内容
+            .setNumber(2121) //桌面图片右上角显示的数字。需要开启“通知权限-桌面图标角标权限”
+            .setContentIntent(clickPI)// 设置pendingIntent,点击通知时就会用到
+            .setAutoCancel(true)//设为true，点击后通知栏移除通知，setAutoCancel需要和setContentIntent一起使用，否则无效
+            .setDeleteIntent(cacelPI)//设置pendingIntent,左滑右滑通知时就会用到。
 //                .setTimeoutAfter(5000)//设置超时时间，超时之后自动取消（Android8.0有效）
 //                .setSortKey(position.toString())//设置针对一个包内的通知进行排序的键值，键值是一个字符串，通知会按照键值的顺序排列。
 //                /**
@@ -128,19 +132,18 @@ class NotificationActivity : ClickBaseActivity() {
 //                .addExtras(extras)
 //                .addAction()
 //                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setNumber(2121)
 //                .setLights(Color.RED, 2000, Color.BLUE)
-                .setSubText("我是一个SubText")  // 现在只有官方模拟器有显示，国内厂商系统都没显示
-                /**
-                 * VISIBILITY_PUBLIC 任何情况都会显示通知
-                 * VISIBILITY_PRIVATE 只有在没有锁屏时会显示通知
-                 * VISIBILITY_SECRET 在安全锁和没有锁屏的情况下显示通知
-                 *
-                 * 有些手机对通知做了很大的处理
-                 * 必须开启顶端通知的开关才能显示悬挂通知(就是挂在屏幕顶端的通知)；
-                 * 必须开启锁屏通知的开关才能在锁屏的情况下显示通知。
-                 */
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setSubText("我是一个SubText")  // 现在只有官方模拟器有显示，国内厂商系统都没显示
+            /**
+             * VISIBILITY_PUBLIC 任何情况都会显示通知
+             * VISIBILITY_PRIVATE 只有在没有锁屏时会显示通知
+             * VISIBILITY_SECRET 在安全锁和没有锁屏的情况下显示通知
+             *
+             * 有些手机对通知做了很大的处理
+             * 必须开启顶端通知的开关才能显示悬挂通知(就是挂在屏幕顶端的通知)；
+             * 必须开启锁屏通知的开关才能在锁屏的情况下显示通知。
+             */
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 //                /**
 //                 * 设置通知栏颜色，目前测试大多测试机没有效果，目前因为定制机的影响，setColor作用不是很大了。
 //                 * 建议还是不要设置颜色值为好。
@@ -179,7 +182,8 @@ class NotificationActivity : ClickBaseActivity() {
              * NotificationManager.IMPORTANCE_MIN：低。没声音提示，没悬挂通知，有通知但是通知样式很简陋，状态栏中无显示
              * IMPORTANCE_NONE 关闭通知
              */
-            val channel = NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH)
+            val channel =
+                NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH)
             channel.setDescription("我是DemoChannelName的描述")//设置渠道的描述信息
 
             //            channel.setSound(Uri.parse("android.resource://" + packageName + "/" + R.raw.calling),
@@ -209,12 +213,13 @@ class NotificationActivity : ClickBaseActivity() {
 //        builder.setStyle(bigPictureStyle)
 
         // 大标题类型
-        val bigTextStyle = NotificationCompat.BigTextStyle()
-        bigTextStyle.setBigContentTitle("我是BigTextStyle设置的Title")
-        bigTextStyle.setSummaryText("我是BigTextStyle设置的SummaryText") // 在模拟器和手机上都看到效果
-        bigTextStyle.bigText("我是BigTextStyle设置的bigText")
-        builder.setStyle(bigTextStyle)
+//        val bigTextStyle = NotificationCompat.BigTextStyle()
+//        bigTextStyle.setBigContentTitle("我是BigTextStyle设置的Title")
+//        bigTextStyle.setSummaryText("我是BigTextStyle设置的SummaryText") // 在模拟器和手机上都看不到效果
+//        bigTextStyle.bigText("我是BigTextStyle设置的bigText")
+//        builder.setStyle(bigTextStyle)
 
+        // 收件箱类型（和ListView一样）
 //        val inboxStyle = NotificationCompat.InboxStyle()
 //        inboxStyle.addLine("第一行")
 //        inboxStyle.addLine("第二行")
@@ -222,12 +227,15 @@ class NotificationActivity : ClickBaseActivity() {
 //        inboxStyle.addLine("第四行")
 //        inboxStyle.addLine("第五行")
 //        inboxStyle.addLine("第六行")
-//        inboxStyle.addLine("第七行")
-//        inboxStyle.addLine("第八行")
-//        inboxStyle.addLine("第九行")
-//        inboxStyle.setBigContentTitle(title)
-//        inboxStyle.setSummaryText("我是InboxStyle设置的SummaryText！")// 不知道有什么用
+//        inboxStyle.setBigContentTitle("我是BigTextStyle设置的Title")
+//        inboxStyle.setSummaryText("我是InboxStyle设置的SummaryText") // 模拟器和手机都看不到效果
 //        builder.setStyle(inboxStyle)
+
+        // 消息类型（没怎么用过）
+//        val messagingStyle = NotificationCompat.MessagingStyle("用户显示名")
+//        messagingStyle.addMessage("发送的内容", System.currentTimeMillis(), "发送者")
+//        messagingStyle.setConversationTitle("消息标题")
+//        builder.setStyle(messagingStyle)
     }
 
     class NotificationBroadcastReceiver : BroadcastReceiver() {
