@@ -231,6 +231,8 @@
         <activity android:name=".component.activity.jetpack.ResultsApiActivity$ResultsApiSecondActivity" />
         <activity android:name=".component.activity.jetpack.NavigationActivity" />
 
+        <activity android:name=".component.activity.BackForegroundActivity" />
+
         <service
             android:name=".component.service.IntentServiceA"
             android:exported="false" />
