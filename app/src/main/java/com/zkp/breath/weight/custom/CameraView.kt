@@ -41,7 +41,7 @@ class CameraView(context: Context, attrs: AttributeSet? = null) : View(context, 
      * camera的轴心是不能改变的（x0，y0，z0），所以想要达到理想效果，只能对canvas进行调整
      */
     private val camera = Camera().apply {
-        rotate(30f, 0f, 0f)
+        rotate(40f, 0f, 0f)
         /**
          * 设置 camera 位置，这个⽅法⼀般前两个参数都填 0 (没有想到使用的场景，主要是沿z轴)，第三个参数为负值(默认值-8)。
          * 第三个参数单位不是像素，是英寸（1英寸 ≈ 72像素 ），如果绘制的内容过大，当它翻转起来的时候，就有可能出现图像
@@ -62,7 +62,30 @@ class CameraView(context: Context, attrs: AttributeSet? = null) : View(context, 
         super.onDraw(canvas)
 //        clip(canvas)
 //        camera(canvas)
+        combination(canvas)
+    }
 
+    /**
+     * clip和camera组合实现
+     * 翻页效果(折叠效果)
+     */
+    private fun combination(canvas: Canvas) {
+        // 上半部分
+        canvas.save()
+        canvas.translate((bitmapPadding + bitmapSize / 2), (bitmapPadding + bitmapSize / 2)) // 4
+        canvas.clipRect(-bitmapSize / 2f, -bitmapSize / 2f, bitmapSize / 2f, 0f)
+        canvas.translate(-(bitmapPadding + bitmapSize / 2), -(bitmapPadding + bitmapSize / 2)) //2
+        canvas.drawBitmap(bitmap, bitmapPadding, bitmapPadding, paint)  // 1
+        canvas.restore()
+
+        // 下半部分
+        canvas.save()
+        canvas.translate((bitmapPadding + bitmapSize / 2), (bitmapPadding + bitmapSize / 2)) // 4
+        camera.applyToCanvas(canvas) //3
+        canvas.clipRect(-bitmapSize / 2f, 0f, bitmapSize / 2f, bitmapSize / 2f)
+        canvas.translate(-(bitmapPadding + bitmapSize / 2), -(bitmapPadding + bitmapSize / 2)) //2
+        canvas.drawBitmap(bitmap, bitmapPadding, bitmapPadding, paint)  // 1
+        canvas.restore()
     }
 
     /**
