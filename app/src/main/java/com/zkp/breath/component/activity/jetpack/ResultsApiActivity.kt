@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,6 +18,7 @@ import com.zkp.breath.databinding.ActivityResultsApiBinding
 import com.zkp.breath.databinding.ActivityResultsApiSecondBinding
 import com.zkp.breath.jetpack.results.CustomActivityResultContract
 import com.zkp.breath.jetpack.results.ResultApiLifecycleObserver
+import com.zkp.breath.utils.getVideoDuration
 import java.io.File
 
 /**
@@ -33,6 +35,10 @@ import java.io.File
  * 2.ActivityResultContracts定义了常用的result协议，基本满足日常需求。
  */
 class ResultsApiActivity : ClickBaseActivity() {
+
+    companion object {
+        val PICK_VIDEO_REQ_CODE = 66
+    }
 
     private val binding by viewbind<ActivityResultsApiBinding>()
     private lateinit var observer: ResultApiLifecycleObserver
@@ -53,60 +59,64 @@ class ResultsApiActivity : ClickBaseActivity() {
 
     private fun action() {
         QMUIBottomSheet.BottomListSheetBuilder(this)
-                .setGravityCenter(true)
-                .addItem("Custom_ActivityResultContract")
-                .addItem("startActivityForResult_Contract")
-                .addItem("requestPermissionContract")
-                .addItem("requestMultiplePermissionContract")
-                .addItem("takePicturePreviewContract")
-                .addItem("takePictureContract")
-                .addItem("takeVideoContract")
-                .addItem("pickContract")
-                .addItem("contentContract")
-                .addItem("multipleContentContract")
-                .addItem("createDocumentContract")
-                .addItem("LifecycleObserver")
-                .setOnSheetItemClickListener { dialog, itemView, position, tag ->
-                    when (tag) {
-                        "Custom_ActivityResultContract" -> {
-                            customContract()
-                        }
-                        "startActivityForResult_Contract" -> {
-                            startActivityForResultContract()
-                        }
-                        "requestPermissionContract" -> {
-                            requestPermissionContract()
-                        }
-                        "requestMultiplePermissionContract" -> {
-                            requestMultiplePermissionContract()
-                        }
-                        "takePicturePreviewContract" -> {
-                            takePicturePreviewContract()
-                        }
-                        "takePictureContract" -> {
-                            takePictureContract()
-                        }
-                        "takeVideoContract" -> {
-                            takeVideoContract()
-                        }
-                        "pickContract" -> {
-                            pickContract()
-                        }
-                        "contentContract" -> {
-                            contentContract()
-                        }
-                        "multipleContentContract" -> {
-                            multipleContentContract()
-                        }
+            .setGravityCenter(true)
+            .addItem("Custom_ActivityResultContract")
+            .addItem("startActivityForResult_Contract")
+            .addItem("requestPermissionContract")
+            .addItem("requestMultiplePermissionContract")
+            .addItem("takePicturePreviewContract")
+            .addItem("takePictureContract")
+            .addItem("takeVideoContract")
+            .addItem("pickContract")
+            .addItem("contentContract")
+            .addItem("onActivityResultPickVideo")
+            .addItem("multipleContentContract")
+            .addItem("createDocumentContract")
+            .addItem("LifecycleObserver")
+            .setOnSheetItemClickListener { dialog, itemView, position, tag ->
+                when (tag) {
+                    "Custom_ActivityResultContract" -> {
+                        customContract()
+                    }
+                    "startActivityForResult_Contract" -> {
+                        startActivityForResultContract()
+                    }
+                    "requestPermissionContract" -> {
+                        requestPermissionContract()
+                    }
+                    "requestMultiplePermissionContract" -> {
+                        requestMultiplePermissionContract()
+                    }
+                    "takePicturePreviewContract" -> {
+                        takePicturePreviewContract()
+                    }
+                    "takePictureContract" -> {
+                        takePictureContract()
+                    }
+                    "takeVideoContract" -> {
+                        takeVideoContract()
+                    }
+                    "pickContract" -> {
+                        pickContract()
+                    }
+                    "contentContract" -> {
+                        contentContract()
+                    }
+                    "onActivityResultPickVideo" -> {
+                        onActivityResultPickVideo(this, PICK_VIDEO_REQ_CODE)
+                    }
+                    "multipleContentContract" -> {
+                        multipleContentContract()
+                    }
 //                        "createDocumentContract" -> {
 //                        }
-                        "LifecycleObserver" -> {
-                            observer.selectImage()
-                        }
+                    "LifecycleObserver" -> {
+                        observer.selectImage()
                     }
                 }
-                .build()
-                .show()
+            }
+            .build()
+            .show()
     }
 
     /**
@@ -129,6 +139,37 @@ class ResultsApiActivity : ClickBaseActivity() {
         registerForActivityResult(ActivityResultContracts.GetContent()) { result ->
             Log.i("contentContract", "Uri: $result")
         }.launch("image/*")
+    }
+
+    /**
+     * 配合onActivityResult，选择本地相册的视频的demo
+     */
+    fun onActivityResultPickVideo(context: Activity, requestCode: Int) {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "video/*")
+        context.startActivityForResult(intent, requestCode)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_VIDEO_REQ_CODE) {
+            val selectedVideo = data?.data
+            val filePathColumn = arrayOf(MediaStore.Video.Media.DATA)
+            val cursor = contentResolver.query(
+                selectedVideo!!, filePathColumn, null, null, null
+            )
+            cursor?.moveToFirst()
+            val columnIndex = cursor!!.getColumnIndex(filePathColumn[0])
+            val videoPath = cursor!!.getString(columnIndex)
+            cursor!!.close()
+            val size = FileUtils.getSize(videoPath)
+            val localVideoDuration: Long = getVideoDuration(videoPath)
+            Log.i(
+                "视频选择",
+                "videoPath: ${videoPath}, size: ${size}, localVideoDuration: ${localVideoDuration}"
+            )
+        }
     }
 
     /**
@@ -157,21 +198,24 @@ class ResultsApiActivity : ClickBaseActivity() {
         val file2Uri = UriUtils.file2Uri(file)
 
         PermissionUtils.permission(PermissionConstants.CAMERA)
-                .rationale { activity, shouldRequest ->
-                    Log.i("ResultsApiActivity_tag", "rationale")
-                    shouldRequest.again(true)
+            .rationale { activity, shouldRequest ->
+                Log.i("ResultsApiActivity_tag", "rationale")
+                shouldRequest.again(true)
+            }
+            .callback(object : PermissionUtils.FullCallback {
+                override fun onGranted(granted: MutableList<String>) {
+                    registerForActivityResult(ActivityResultContracts.TakeVideo()) { result ->
+                        Log.i("takeVideoContract", "result: $result")
+                    }.launch(null)
                 }
-                .callback(object : PermissionUtils.FullCallback {
-                    override fun onGranted(granted: MutableList<String>) {
-                        registerForActivityResult(ActivityResultContracts.TakeVideo()) { result ->
-                            Log.i("takeVideoContract", "result: $result")
-                        }.launch(null)
-                    }
 
-                    override fun onDenied(deniedForever: MutableList<String>, denied: MutableList<String>) {
+                override fun onDenied(
+                    deniedForever: MutableList<String>,
+                    denied: MutableList<String>
+                ) {
 
-                    }
-                }).request()
+                }
+            }).request()
     }
 
     /**
@@ -192,23 +236,26 @@ class ResultsApiActivity : ClickBaseActivity() {
         val file2Uri = UriUtils.file2Uri(file)
 
         PermissionUtils.permission(PermissionConstants.CAMERA)
-                .rationale { activity, shouldRequest ->
-                    Log.i("ResultsApiActivity_tag", "rationale")
-                    shouldRequest.again(true)
+            .rationale { activity, shouldRequest ->
+                Log.i("ResultsApiActivity_tag", "rationale")
+                shouldRequest.again(true)
+            }
+            .callback(object : PermissionUtils.FullCallback {
+                override fun onGranted(granted: MutableList<String>) {
+                    registerForActivityResult(ActivityResultContracts.TakePicture()) { result ->
+                        if (result != null) {
+                            Log.i("takePictureContract", "file: $file")
+                        }
+                    }.launch(file2Uri)
                 }
-                .callback(object : PermissionUtils.FullCallback {
-                    override fun onGranted(granted: MutableList<String>) {
-                        registerForActivityResult(ActivityResultContracts.TakePicture()) { result ->
-                            if (result != null) {
-                                Log.i("takePictureContract", "file: $file")
-                            }
-                        }.launch(file2Uri)
-                    }
 
-                    override fun onDenied(deniedForever: MutableList<String>, denied: MutableList<String>) {
+                override fun onDenied(
+                    deniedForever: MutableList<String>,
+                    denied: MutableList<String>
+                ) {
 
-                    }
-                }).request()
+                }
+            }).request()
     }
 
     /**
@@ -216,23 +263,26 @@ class ResultsApiActivity : ClickBaseActivity() {
      */
     private fun takePicturePreviewContract() {
         PermissionUtils.permission(PermissionConstants.CAMERA)
-                .rationale { activity, shouldRequest ->
-                    Log.i("ResultsApiActivity_tag", "rationale")
-                    shouldRequest.again(true)
+            .rationale { activity, shouldRequest ->
+                Log.i("ResultsApiActivity_tag", "rationale")
+                shouldRequest.again(true)
+            }
+            .callback(object : PermissionUtils.FullCallback {
+                override fun onGranted(granted: MutableList<String>) {
+                    registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { result ->
+                        if (result != null) {
+                            ToastUtils.showShort("拍照: 预览")
+                        }
+                    }.launch(null)
                 }
-                .callback(object : PermissionUtils.FullCallback {
-                    override fun onGranted(granted: MutableList<String>) {
-                        registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { result ->
-                            if (result != null) {
-                                ToastUtils.showShort("拍照: 预览")
-                            }
-                        }.launch(null)
-                    }
 
-                    override fun onDenied(deniedForever: MutableList<String>, denied: MutableList<String>) {
+                override fun onDenied(
+                    deniedForever: MutableList<String>,
+                    denied: MutableList<String>
+                ) {
 
-                    }
-                }).request()
+                }
+            }).request()
     }
 
     /**
