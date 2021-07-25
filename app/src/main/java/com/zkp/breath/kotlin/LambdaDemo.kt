@@ -7,8 +7,9 @@ package com.zkp.breath.kotlin
  * java的lambda和kt的lambda不是同一个概念。
  * lambda和普通函数的区别：普通函数是准备好了逻辑，差参数；lambda是准备好了参数，差逻辑。
  *
+ * 0. Kotlin 中的 Lambda 是函数类型的对象
  * 1. lambda表达式分类:普通的lambda表达式;带接收者的lambda表达式。
- * 2. lambda表达式返回值总是返回函数体内部最后一行表达式的值。
+ * 2. lambda 表达式的最后一行就是其返回值。
  * 3. 可以使用typealias关键字给Lambda类型命名。
  * 4. 替代原有匿名内部类，但是需要注意一点就是只能替代含有单抽象方法的类。
  * 5. Kotlin和Java内部类或lambda访问局部变量的区别,java但匿名内部类或者lambda访问但局部变量必须需要final修饰，
@@ -151,6 +152,20 @@ fun <T, R> List<T>.cusMap(transform: (T) -> R): List<R> {
     }
     return result
 }
+
+
+/**
+ * 除了ax能自动推导函数类型，其余都不能。
+ */
+val a: () -> Unit = { }
+val b: (Int) -> String = { i -> "" }
+val c: (Int, String) -> Int = { i, s -> 1 }
+val d: (Int) -> ((Int) -> Unit) = { i -> {} }
+//val ax = { }
+//val bx = { 2 -> "" }
+//val cx = { i, s -> 1 }
+//val dx = { i -> {} }
+
 
 fun main() {
 
