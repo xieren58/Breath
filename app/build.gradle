@@ -307,11 +307,6 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     implementation "com.meituan.android.walle:library:$walle_version"
-
-    // SpiderMan崩溃日志收集器
-    def spider_man = "v1.1.8"
-    debugImplementation "com.github.simplepeng.SpiderMan:spiderman:${spider_man}"
-    releaseImplementation "com.github.simplepeng.SpiderMan:spiderman-no-op:${spider_man}"
 }
 
 walle {
