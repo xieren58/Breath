@@ -59,6 +59,7 @@ class LiveDataActivity : BaseActivity() {
         binding = ActivityLivedataBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
+        // ViewModelProvider ViewModel提供者，实例化指定的ViewModel。
         viewModel = ViewModelProvider(this).get(JetPackLiveDataViewModel::class.java)
 
         observe()
