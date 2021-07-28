@@ -46,7 +46,7 @@ import com.zkp.breath.jetpack.livedata.JetPackLiveDataViewModel
  *    有时候Fragment只是进行视图销毁和重建（onDestroyView()和onCreateView()），由于Fragment没有真正的销毁(
  *    onDestroy()), 所以LiveData并不会执行移除观察者，这就导致在下次重建视图(onCreateView())又添加了一个LiveData
  *    观察者，往返多次会添加多个，那么就会造成回调多次（可能发生多次ui刷新），所以应该传入getViewLifecycleOwner()
- *    感知的是Fragment的视图的生命周期。
+ *    感知的是Fragment的视图的生命周期。该问题的核心是 fragment 拥有两个生命周期：fragment 自身和 fragment 内部 view 的生命周期
  */
 class LiveDataActivity : BaseActivity() {
 
