@@ -61,6 +61,12 @@ fun main() {
     takeDemo()
     repeatDemo()
 
+    // let 的执行上下文遵循了 就近原则 的demo
+    printIt(-1)
+    print(",")
+    printIt(1)
+    print(",")
+    printIt(0)
 }
 
 private fun repeatDemo() {
@@ -197,4 +203,55 @@ private fun letDemo() {
         println(it)
         it  // 返回值
     }
+}
+
+/**
+ * let 的执行上下文遵循了 就近原则。
+ * 理解为就近最近的一个if-else块
+ */
+fun printIt(num: Int) {
+    // 打印结果 ,positive,zero
+    if (num < 0) {
+        "negative"
+    } else if (num > 0) {
+        "positive"
+    } else {
+        "zero"
+    }.let {
+        print(it + "")
+    }
+
+    // 下面的代码等价上面的代码
+//    if (num < 0) {
+//        "negative"
+//    } else {
+//        if (num > 0) {
+//            "positive"
+//        } else {
+//            "zero"
+//        }.let {
+//            print(it + "")
+//        }
+//    }
+
+
+    // 如果想要都打印，可以如下书写
+    // 方法1
+//    (if (num < 0) {
+//        "negative"
+//    } else if (num > 0) {
+//        "positive"
+//    } else {
+//        "zero"
+//    }).let { print(it) }
+
+    // 方法2
+//    val result = if (num < 0) {
+//        "negative"
+//    } else if (num > 0) {
+//        "positive"
+//    } else {
+//        "zero"
+//    }
+//    result.let { print(it) }
 }

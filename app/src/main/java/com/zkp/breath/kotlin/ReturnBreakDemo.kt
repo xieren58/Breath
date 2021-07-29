@@ -15,6 +15,26 @@ fun main() {
 //    foo5()
 }
 
+/**
+ * 1. Kotlin 会自动推导函数返回值类型，但显式 return 也必须显式声明返回值类型
+ * 2. 使用 = 定义函数可以省略函数返回值类型
+ */
+fun hello() = "Hello World"
+fun hello2(): String {
+    return "Hello World"
+}
+
+/**
+ * 这里自动推到函数的返回值类型是 Lambda 表达式
+ * 3等价4
+ */
+fun hello3() = {
+    println("Hello World !")
+}
+fun hello4(): () -> Unit {
+    return { println("Hello World !") }
+}
+
 
 /**
  * 标签的格式:自定标识符名 + @。

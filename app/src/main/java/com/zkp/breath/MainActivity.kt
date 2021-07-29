@@ -18,7 +18,6 @@ import com.zkp.breath.component.activity.jetpack.*
 import com.zkp.breath.component.activity.kotlin.CoroutinesActivity
 import com.zkp.breath.component.activity.sdkVersion.SdkVersionActivity
 import com.zkp.breath.component.activity.third.GlideActivity
-import com.zkp.breath.component.activity.third.MMKVActivity
 import com.zkp.breath.component.activity.third.RxJava3Activity
 import com.zkp.breath.component.activity.weight.*
 import com.zkp.breath.databinding.ActivityEntranceBinding
@@ -64,7 +63,8 @@ class MainActivity : BaseActivity() {
     private val onItemChildClickListener = OnItemClickListener { _, _, position ->
         when (val type = listOf[position]) {
             "MMKV" -> {
-                ActivityUtils.startActivity(MMKVActivity::class.java)
+//                ActivityUtils.startActivity(MMKVActivity::class.java)
+                val i = 1 / 0
                 return@OnItemClickListener
             }
             "Handler" -> {
