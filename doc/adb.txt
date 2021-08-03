@@ -1,4 +1,4 @@
-启动耗时命令（注意启动的Activity要在清单文件 <intent-filter>的<action>）：
+1. 启动耗时命令（注意启动的Activity要在清单文件 <intent-filter>的<action>）：
 adb shell am start -S -W 包名/启动类的全限定名。 （-S 表示重启当前应用）
 结果解释：
 ThisTime : 最后一个 Activity 的启动耗时(例如从 LaunchActivity - >MainActivity「adb命令输入的Activity」,只统计 MainActivity 的启动耗时)
@@ -7,3 +7,6 @@ WaitTime : 应用进程的创建过程 + TotalTime.
 
 系统日志统计:必须在logcat视图中禁用过滤器(No Filters)，因为这个是系统的日志输出，而不是应用程序的。使用这个的话
             你也可以查看其它应用程序的启动耗时。（相当于知道其它应用的包名和页面名，推荐）
+
+2. 命令安装apk：
+adb install -r  [apk完整路径]
