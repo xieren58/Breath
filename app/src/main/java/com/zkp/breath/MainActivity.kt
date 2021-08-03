@@ -13,6 +13,7 @@ import com.zkp.breath.adpter.decoration.EntranceItemDecoration
 import com.zkp.breath.component.activity.*
 import com.zkp.breath.component.activity.arouter.ARouterActivity
 import com.zkp.breath.component.activity.base.BaseActivity
+import com.zkp.breath.component.activity.blankj.BlankjActivity
 import com.zkp.breath.component.activity.debugs.DebugActivity
 import com.zkp.breath.component.activity.jetpack.*
 import com.zkp.breath.component.activity.kotlin.CoroutinesActivity
@@ -29,9 +30,9 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityEntranceBinding
 
     private val listOf = mutableListOf(
-            "MMKV", "Handler", "Weight", "SdkVersion", "ARoute",
-            "Coroutines", "Debug",
-            "Rxjava3", "Glide4", "Component", "JetPack"
+        "MMKV", "Handler", "Weight", "SdkVersion", "ARoute", "BlankjActivity",
+        "Coroutines", "Debug",
+        "Rxjava3", "Glide4", "Component", "JetPack"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,6 +90,10 @@ class MainActivity : BaseActivity() {
             }
             "ARoute" -> {
                 ActivityUtils.startActivity(ARouterActivity::class.java)
+                return@OnItemClickListener
+            }
+            "BlankjActivity" -> {
+                ActivityUtils.startActivity(BlankjActivity::class.java)
                 return@OnItemClickListener
             }
             "Rxjava3" -> {
