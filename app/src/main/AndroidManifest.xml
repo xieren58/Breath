@@ -236,6 +236,9 @@
 
         <activity android:name=".component.activity.BackForegroundActivity" />
 
+        <activity android:name=".component.activity.blankj.BlankjActivity" />
+        <activity android:name=".component.activity.blankj.LogActivity" />
+
         <service
             android:name=".component.service.IntentServiceA"
             android:exported="false" />
