@@ -14,6 +14,8 @@ class Repository {
     }
 
     fun getMapData(): LiveData<String> {
+        // 一对一的静态转换（map）
+        // 第一个参数为 LiveData 源，第二个参数是一个转换函数。
         return Transformations.map(liveData) {
             "我是Transformations.map_".plus(it)
         }
@@ -25,12 +27,12 @@ class Repository {
 
     fun getSwitchMapData(boolean: Boolean): LiveData<String> {
         return Transformations.switchMap(if (boolean) liveData1 else liveData2,
-                object : Function<Int, LiveData<String>> {
-                    override fun apply(input: Int?): LiveData<String> {
-                        liveData3.value = "我是Transformations.switchMap_".plus(input)
-                        return liveData3
-                    }
-                })
+            object : Function<Int, LiveData<String>> {
+                override fun apply(input: Int?): LiveData<String> {
+                    liveData3.value = "我是Transformations.switchMap_".plus(input)
+                    return liveData3
+                }
+            })
     }
 
 

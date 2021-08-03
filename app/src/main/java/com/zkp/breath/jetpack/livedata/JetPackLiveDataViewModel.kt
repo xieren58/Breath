@@ -10,6 +10,9 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.internal.disposables.ListCompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
+/**
+ * 一言以蔽之，尽量不要在 var 中使用 Livedata，以免因为实例发生更改，监听收不到。
+ */
 class JetPackLiveDataViewModel : ViewModel() {
     private val mTasks: ListCompositeDisposable = ListCompositeDisposable()
 
@@ -21,11 +24,13 @@ class JetPackLiveDataViewModel : ViewModel() {
     /**
      * MediatorLiveData 允许您将一个或多个数据源添加到单个可观察的 LiveData 中，当任何一个数据源变化时，
      * result 会更新。（即是观察者，也是被观察者）
+     *
+     * 数据并不是合并，MediatorLiveData 只是处理通知
      */
-    var mediatorLiveData: MediatorLiveData<String> = MediatorLiveData()
-    private var liveData1 = MutableLiveData<String>()
-    private var liveData2 = MutableLiveData<String>()
-    private var liveData3 = MutableLiveData<String>()
+    val mediatorLiveData: MediatorLiveData<String> = MediatorLiveData()
+    private val liveData1 = MutableLiveData<String>()
+    private val liveData2 = MutableLiveData<String>()
+    private val liveData3 = MutableLiveData<String>()
 
 
     init {
@@ -57,27 +62,27 @@ class JetPackLiveDataViewModel : ViewModel() {
                 it.onNext("初始化数据")
                 it.onComplete()
             }.subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(object : io.reactivex.rxjava3.core.Observer<String> {
-                        override fun onComplete() {
-                        }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : io.reactivex.rxjava3.core.Observer<String> {
+                    override fun onComplete() {
+                    }
 
-                        override fun onSubscribe(d: Disposable?) {
-                            mTasks.add(d)
-                        }
+                    override fun onSubscribe(d: Disposable?) {
+                        mTasks.add(d)
+                    }
 
-                        override fun onNext(t: String?) {
-                            data?.value = t
+                    override fun onNext(t: String?) {
+                        data?.value = t
 
-                            liveData1.value = "1"
+                        liveData1.value = "1"
 //                            liveData2.value = "2"
 //                            liveData3.value = "3"
-                        }
+                    }
 
-                        override fun onError(e: Throwable?) {
-                        }
+                    override fun onError(e: Throwable?) {
+                    }
 
-                    })
+                })
         }
         return data
     }
@@ -93,23 +98,23 @@ class JetPackLiveDataViewModel : ViewModel() {
             it.onNext("更新数据")
             it.onComplete()
         }.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : io.reactivex.rxjava3.core.Observer<String> {
-                    override fun onComplete() {
-                    }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : io.reactivex.rxjava3.core.Observer<String> {
+                override fun onComplete() {
+                }
 
-                    override fun onSubscribe(d: Disposable?) {
-                        mTasks.add(d)
-                    }
+                override fun onSubscribe(d: Disposable?) {
+                    mTasks.add(d)
+                }
 
-                    override fun onNext(t: String?) {
-                        data?.value = t
-                    }
+                override fun onNext(t: String?) {
+                    data?.value = t
+                }
 
-                    override fun onError(e: Throwable?) {
-                    }
+                override fun onError(e: Throwable?) {
+                }
 
-                })
+            })
         return data
     }
 
