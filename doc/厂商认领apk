@@ -1,0 +1,7 @@
+厂商认领apk的步骤：（厂商认领apk的命令解释.jpg）
+1. 桌面新建文件夹
+1. 将厂商给的空白apk放到1指定的文件夹中
+2. 将应用的签名放到1指定的文件夹中
+3. 输入下面的命令行，修改对应的命令
+
+jarsigner -verbose -keystore  /Users/mac/Desktop/未命名文件夹/twxyy.jks -signedjar /Users/mac/Desktop/未命名文件夹/yyb_sing.apk  /Users/mac/De/tap_unsign.apk twxyy
