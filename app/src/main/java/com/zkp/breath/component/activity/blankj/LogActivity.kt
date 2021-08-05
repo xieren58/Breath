@@ -14,7 +14,11 @@ class LogActivity : BaseActivity() {
         binding = ActivityBlankjLogBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val config = LogUtils.getConfig()
+//        val config = LogUtils.getConfig()
+//                .setLogSwitch(true)//设置 log 总开关
+//                .setDir(PathUtils.getInternalAppFilesPath())//设置 log 文件存储目录
+//                .setFilePrefix("test_")//设置 log 文件前缀
+
 
         LogUtils.dTag("测试Tag", "测试内容")
     }
