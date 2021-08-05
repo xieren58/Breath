@@ -12,6 +12,7 @@ import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.Utils
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.zkp.breath.mmkv.template.AppConfiguration
+import com.zkp.breath.utils.HookUtils
 import com.zkp.breath.utils.UmUtils
 
 /**
@@ -24,6 +25,7 @@ class BaseApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         if (ProcessUtils.isMainProcess()) {
+            HookUtils.hookMacAddress("违规获取mac的Tag", this)
             // 初始化工具库
             Utils.init(this)
             initARouter()
