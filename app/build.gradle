@@ -69,11 +69,11 @@ android {
             debuggable false
             // 是否开启混淆
             minifyEnabled true
-            // 是否移除无用的resource文件
+            // 启用资源压缩，需配合 minifyEnabled=true 使用
             shrinkResources true
             // 是否对APK包执行ZIP对齐优化，减小zip体积，增加运行效率
             zipAlignEnabled true
-            // 指定混淆的规则文件
+            // 指定混淆的规则文件，getDefaultProguardFile是Android 系统为我们提供的默认混淆规则文件,而 proguard-rules.pro 则是我们想要自定义的混淆规则
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             // 设置签名配置
             signingConfig signingConfigs.release

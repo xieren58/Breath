@@ -5,7 +5,7 @@
    https://www.jianshu.com/p/5fcf42c66a9f
 
 > 模块的buildTypes的shrinkResources开关跟随minifyEnabled，否则会构建失败：Removing unused resources
-   requires unused code shrinking to be turned o。
+   requires unused code shrinking to be turned on。
 
 > gradle-wrapper.properties:用于在构建项目时决定使用哪个 Gradle 版本
 > 用来配置全局键值对数据的，可用于存放敏感数据，比如签名密钥信息
@@ -13,3 +13,15 @@
 每一个build.grade文件代表着一个project，每个project有至少一个tasks
 
 https://segmentfault.com/a/1190000004229002
+
+>混淆：https://juejin.cn/post/6844903876961943560#heading-5
+混淆黑名单：
+1. 枚举（Android 系统默认的混淆规则中已经添加了对于枚举类的处理，我们无需再去做额外工作）
+2. 被反射的元素
+3. 实体类
+4. 四大组件
+5. JNI 调用的Java 方法
+6. 自定义控件不需要被混淆
+7. JavaScript 调用 Java 的方法不应混淆
+8. Java 的 native 方法不应该被混淆
+
