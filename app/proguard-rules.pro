@@ -20,9 +20,10 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--obfuscationdictionary ./dictionary
--classobfuscationdictionary ./dictionary
--packageobfuscationdictionary ./dictionary
+# 自定义混淆字典配置
+-obfuscationdictionary ./dictionary.txt
+-classobfuscationdictionary ./dictionary.txt
+-packageobfuscationdictionary ./dictionary.txt
 
 # greendao
 -keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
