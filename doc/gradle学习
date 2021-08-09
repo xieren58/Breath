@@ -14,7 +14,9 @@
 
 https://segmentfault.com/a/1190000004229002
 
->混淆：https://juejin.cn/post/6844903876961943560#heading-5
+>混淆：
+https://juejin.cn/post/6844903876961943560#heading-5
+https://juejin.cn/post/6930648501311242248#heading-5
 混淆黑名单：
 1. 枚举（Android 系统默认的混淆规则中已经添加了对于枚举类的处理，我们无需再去做额外工作）
 2. 被反射的元素

@@ -25,6 +25,20 @@
 -classobfuscationdictionary ./dictionary.txt
 -packageobfuscationdictionary ./dictionary.txt
 
+# 输出编译项目时应用的所有规则的完整报告（多个ProGuard规则文件组合而成）
+-printconfiguration build/intermediates/proguard-files/full-config.txt
+
+# 实体类，最好实现Parcelable或Serializable，否则需要指定文件夹进行keep
+-keepclassmembers class * implements android.os.Parcelable {
+    static ** CREATOR;
+    <fields>;
+    <methods>;
+}
+-keep class * implements java.io.Serializable {*;}
+
+# 保留源文件名和具体代码行号，提升 StackSource 查找效率（发生异常的时候可以知道在哪个类的哪一行）
+-keepattributes SourceFile,LineNumberTable
+
 # greendao
 -keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
 public static java.lang.String TABLENAME;
@@ -70,14 +84,3 @@ public static java.lang.String TABLENAME;
 -keep public class com.zkp.breath.R$*{
 public static final int *;
 }
-
-# 实体类，最好实现Parcelable或Serializable，否则需要指定文件夹进行keep
--keepclassmembers class * implements android.os.Parcelable {
-    static ** CREATOR;
-    <fields>;
-    <methods>;
-}
--keep class * implements java.io.Serializable {*;}
-
-# 保留源文件名和具体代码行号，提升 StackSource 查找效率（发生异常的时候可以知道在哪个类的哪一行）
--keepattributes SourceFile,LineNumberTable

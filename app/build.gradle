@@ -67,9 +67,9 @@ android {
         release {
             // 是否支持断点调试 (需要关闭minifyEnabled和shrinkResources)
             debuggable false
-            // 是否开启混淆
+            // 是否启用代码压缩、优化和混淆（由R8或者ProGuard执行）
             minifyEnabled true
-            // 启用资源压缩，需配合 minifyEnabled=true 使用
+            // 启用资源压缩，需配合 minifyEnabled=true 使用（由Android Gradle plugin执行）
             shrinkResources true
             // 是否对APK包执行ZIP对齐优化，减小zip体积，增加运行效率
             zipAlignEnabled true
