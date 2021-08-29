@@ -8,7 +8,13 @@
    requires unused code shrinking to be turned on。
 
 > gradle-wrapper.properties:用于在构建项目时决定使用哪个 Gradle 版本
-> 用来配置全局键值对数据的，可用于存放敏感数据，比如签名密钥信息
+  用来配置全局键值对数据的，可用于存放敏感数据，比如签名密钥信息
+
+> 获取签名jks的md5
+  1. gradle -> Tasks -> android -> signingReport （https://juejin.cn/post/6987711958979969032）
+     （会打印不同配置的md5，查看Variant: release 和 Config: release 的md5）
+  2. windows： 打开cmd，输入: keytool -list -v -keystore "【jks的完整路径】"
+
 
 每一个build.grade文件代表着一个project，每个project有至少一个tasks
 
