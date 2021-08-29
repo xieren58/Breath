@@ -1,0 +1,27 @@
+bugly符号表：
+
+自动上传：
+1. 目前2.2.1版本只支持<gradle5.1。就是Bugly符号表插件里， 用了“<< ”，但是Gradle5.1 不支持了，所以得删了这个插件，
+等官方更新吧(https://cloud.tencent.com/developer/ask/198403)
+
+手动上传：
+1. 目前工具只支持java1.8 （https://cloud.tencent.com/developer/ask/244253）
+
+java -jar buglyqq-upload-symbol.jar -appid <APP ID>
+                                    -appkey<APP KEY>
+                                    -bundleid <App BundleID>
+                                    -version <App Version>
+                                    -platform <App Platform>
+                                    -inputSymbol <Original Symbol File Path>
+                                    -inputMapping <mapping file>
+
+示例：java -jar buglyqq-upload-symbol.jar -appid e61aeb432d
+                                        -appkey 23d88492-9e5c-439e-97e9-dff774697166
+                                        -bundleid com.ykwl.mchat
+                                        -version 1.0.0
+                                        -platform Android
+                                        -inputSymbol D:\AndroidStudio\GitWorkSpace\mchatandroid\app\build\outputs\mapping\release\mapping.txt
+                                        -inputMapping D:\AndroidStudio\GitWorkSpace\mchatandroid\app\build\outputs\mapping\release\mapping.txt
+
+ 友盟：
+ 1. 可视化点击目前不能使用，会造成页面卡顿。因为一直在遍历视图树，寻找可点击的view
