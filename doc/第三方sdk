@@ -5,7 +5,7 @@ bugly符号表：
 等官方更新吧(https://cloud.tencent.com/developer/ask/198403)
 
 手动上传：
-1. 目前工具只支持java1.8 （https://cloud.tencent.com/developer/ask/244253）
+1. 目前工具只支持java1.8 （https://cloud.tencent.com/developer/ask/244253），
 
 java -jar buglyqq-upload-symbol.jar -appid <APP ID>
                                     -appkey<APP KEY>
@@ -15,13 +15,15 @@ java -jar buglyqq-upload-symbol.jar -appid <APP ID>
                                     -inputSymbol <Original Symbol File Path>
                                     -inputMapping <mapping file>
 
-示例：java -jar buglyqq-upload-symbol.jar -appid e61aeb432d
+windows示例（可以有多余空格，jar不需要完整路径）：java -jar /Users/ykwl/Desktop/tools/bugly/buglyqq-upload-symbol/buglyqq-upload-symbol.jar -appid e61aeb432d
                                         -appkey 23d88492-9e5c-439e-97e9-dff774697166
                                         -bundleid com.ykwl.mchat
                                         -version 1.0.0
                                         -platform Android
-                                        -inputSymbol D:\AndroidStudio\GitWorkSpace\mchatandroid\app\build\outputs\mapping\release\mapping.txt
-                                        -inputMapping D:\AndroidStudio\GitWorkSpace\mchatandroid\app\build\outputs\mapping\release\mapping.txt
+                                        -inputSymbol /Users/ykwl/AndroidStudioProjects/mchatandroid/app/build/outputs/mapping/release/mapping.txt
+                                        -inputMapping /Users/ykwl/AndroidStudioProjects/mchatandroid/app/build/outputs/mapping/release/mapping.txt
+
+mac示例（不能有多余空格，jar需要输入完整路径） ：java -jar /Users/ykwl/Desktop/tools/bugly/buglyqq-upload-symbol/buglyqq-upload-symbol.jar  -appid e61aeb432d -appkey 23d88492-9e5c-439e-97e9-dff774697166 -bundleid com.ykwl.mchat -version 1.0.0 -platform Android -inputSymbol  /Users/ykwl/AndroidStudioProjects/mchatandroid/app/build/outputs/mapping/release/mapping.txt  -inputMapping /Users/ykwl/AndroidStudioProjects/mchatandroid/app/build/outputs/mapping/release/mapping.txt
 
  友盟：
  1. 可视化点击目前不能使用，会造成页面卡顿。因为一直在遍历视图树，寻找可点击的view
