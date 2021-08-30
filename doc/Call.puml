@@ -5,29 +5,33 @@ autonumber
 skinparam responseMessageBelowArrow true
 
 activate 发起者
-发起者 -> 服务器: ask
+发起者 -> 服务器: ask/missionAsk（速配）
+note left: 当前速配模式只有视频玩法，且速配模式不显示等待ui
 activate 接收者
-服务器 -> 接收者: ask_im
+服务器 -> 接收者: Mchat:CallInvite/Mchat:CallMission(速配)
 发起者 -> 发起者 :cancel定时器，播放对方视频/图片+铃声
 接收者 -> 接收者: deny定时器，播放对方视频/图片+铃声
 ====
 
-服务器 -> 接收者 : cancel_im（定时时间到，或者发起者主动取消）
+服务器 -> 接收者 : Mchat:CancelInvite（定时时间到，或者发起者主动取消）
 deactivate 接收者
-服务器 --> 发起者 : deny_im（定时时间到，或者接收者主动取消）
+服务器 --> 发起者 : Mchat:DenyInvite（定时时间到，或者接收者主动取消）
 deactivate 发起者
 ====
 
-接收者 --> 发起者: 接收者接通，声网下发回调给服务端
+接收者 --> 发起者: 接收者接通(调用声网joinChannel())
 activate 发起者
 activate 接收者
-接收者 -> 接收者: 移除deny定时器，开启30秒轮询spend
+发起者 -> 发起者: 收到声网下发onUserJoined,\nonRemoteVideoStateChanged回调通知
 发起者 -> 发起者: 移除cancel定时器，开启start，开启30秒轮询spend
+接收者 -> 接收者: 收到声网下发onUserJoined,\nonRemoteVideoStateChanged回调通知
+接收者 -> 接收者: 移除deny定时器，开启30秒轮询spend
 ====
 
 发起者 -> 服务器: 挂断end
-note left: end接口不会返回1300,任何接口返回\n1300都要调用end，否则就直接finish
-发起者 -> 发起者: 跳转评价页，finish
+note left: end接口不会返回1300c错误码,任何接口返回\n1300都要调用end，其余错误码就直接finish
+发起者 -> 发起者: finish，跳转评价页，调用income显示收益，
+note left: 主动挂断调用income一定要保证在end后面执行
 deactivate 发起者
 接收者 -> 接收者: 声网下发onRemoteUserOffline()回调。\n1. 远端正常退出，跳转评价页，finish；\n2.远端异常退出，调用end，跳转评价页，finish。
 deactivate 接收者
