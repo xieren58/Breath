@@ -10,6 +10,10 @@
 > gradle-wrapper.properties:用于在构建项目时决定使用哪个 Gradle 版本
   用来配置全局键值对数据的，可用于存放敏感数据，比如签名密钥信息
 
+> 执行gradle命令出现 "command not found"
+  Mac系统下Android Studio配置Gradle，（https://www.jianshu.com/p/b78d0eec430a）
+  如果" /Applications/Android Studio.app/Contents/"没有gradle文件夹，可以创建gradle文件夹然后自行下载gradle版本解压放入此目录下。
+
 > 获取签名jks的md5
   1. gradle -> Tasks -> android -> signingReport （https://juejin.cn/post/6987711958979969032）
      （会打印不同配置的md5，查看Variant: release 和 Config: release 的md5）
