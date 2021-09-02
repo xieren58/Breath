@@ -19,6 +19,8 @@
      （会打印不同配置的md5，查看Variant: release 和 Config: release 的md5）
   2. windows： 打开cmd，输入: keytool -list -v -keystore 【jks的完整路径】
 
+> 使用 allowInsecureProtocol 属性解决 gradle 的仓库地址不安全警告 (redirect to a secure protocol (like HTTPS) or allow insecure protocols)
+https://www.cnblogs.com/langkyeSir/p/14877709.html
 
 每一个build.grade文件代表着一个project，每个project有至少一个tasks
 
