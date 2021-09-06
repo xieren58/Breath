@@ -43,6 +43,7 @@ android {
         multiDexEnabled true
         // 表明要使用AndroidJUnitRunner进行单元测试
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        flavorDimensions "versionCode"
 
         ndk {
             // 设置支持的SO库架构('x86'是针对虚拟器使用的)
@@ -117,6 +118,15 @@ android {
     sourceSets {
         main {
             java.srcDirs = ['src/main/java', 'src/main/aidl']
+//            manifest.srcFile 'src/main/AndroidManifest.xml'
+        }
+        productA {
+            java.srcDirs = ['src/productA/java', 'src/productA/aidl']
+//            manifest.srcFile 'src/productA/AndroidManifest.xml'
+        }
+        productB {
+            java.srcDirs = ['src/productB/java', 'src/productB/aidl']
+//            manifest.srcFile 'src/productB/AndroidManifest.xml'
         }
     }
 
@@ -179,6 +189,30 @@ android {
          * 默认值为“SHA-1”
          **/
         // digestalg = "SHA-256"
+    }
+
+    // 差异化（可实现马甲包）
+    productFlavors {
+
+        productApp {
+            applicationId "com.zkp.breath"
+            versionCode 1
+            versionName "1.0"
+        }
+
+        productA {
+            // 这里定义产品A的特性
+            applicationId "com.zkp.product.a"
+            versionCode 11
+            versionName "1.0.1"
+        }
+
+        productB {
+            // 这里定义产品B的特性
+            applicationId "com.zkp.product.b"
+            versionCode 21
+            versionName "2.0.1"
+        }
     }
 
     // v和vm的双向自动响应的绑定
