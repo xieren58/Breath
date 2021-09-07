@@ -16,22 +16,6 @@ kapt {
 
 android {
 
-    // 签名配置
-    signingConfigs {
-        release {
-            storeFile file('signature/breath.jks')
-            storePassword '123456'
-            keyAlias = 'key'
-            keyPassword '123456'
-        }
-        debug {
-            storeFile file('signature/breath.jks')
-            storePassword '123456'
-            keyAlias = 'key'
-            keyPassword '123456'
-        }
-    }
-
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.zkp.breath"
@@ -64,8 +48,35 @@ android {
         checkReleaseBuilds false
     }
 
-    // 设置打包配置
+    // 签名配置(可以定义多套签名规则)
+    signingConfigs {
+
+        productBreath {
+            storeFile file('signature/breath.jks')
+            storePassword '123456'
+            keyAlias = 'key'
+            keyPassword '123456'
+        }
+
+        productA {
+            storeFile file('signature/productA.jks')
+            storePassword '123456'
+            keyAlias = 'productA'
+            keyPassword '123456'
+        }
+
+        productB {
+            storeFile file('signature/productB.jks')
+            storePassword '123456'
+            keyAlias = 'productB'
+            keyPassword '123456'
+        }
+
+    }
+
+    // 设置打包配置，结合productFlavors配置会在as的Build Variants的Active Build Variant (定义公共的配置，具体的签名配置在productFlavors下指定)
     buildTypes {
+
         release {
             // 是否支持断点调试 (需要关闭minifyEnabled和shrinkResources)
             debuggable false
@@ -78,7 +89,7 @@ android {
             // 指定混淆的规则文件，getDefaultProguardFile是Android 系统为我们提供的默认混淆规则文件,而 proguard-rules.pro 则是我们想要自定义的混淆规则
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             // 设置签名配置
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
 
         debug {
@@ -88,8 +99,9 @@ android {
             resValue "string", "hidden_entrance", "隐藏入口"
 
             minifyEnabled false
-            signingConfig signingConfigs.debug
+//            signingConfig signingConfigs.release
         }
+
     }
 
     applicationVariants.all { variant ->
@@ -121,8 +133,8 @@ android {
 //            manifest.srcFile 'src/main/AndroidManifest.xml'
         }
         productA {
-            java.srcDirs = ['src/productA/java', 'src/productA/aidl']
-//            manifest.srcFile 'src/productA/AndroidManifest.xml'
+            java.srcDirs = ['src/productA.jks/java', 'src/productA.jks/aidl']
+//            manifest.srcFile 'src/productA.jks/AndroidManifest.xml'
         }
         productB {
             java.srcDirs = ['src/productB/java', 'src/productB/aidl']
@@ -191,13 +203,20 @@ android {
         // digestalg = "SHA-256"
     }
 
-    // 差异化（可实现马甲包）
+    /**
+     *  差异化（可实现马甲包）
+     * 1.defaultConfig属于基本配置，下面的配置默认继承defaultConfig
+     * 2.在下面需要配置原来主包的信息，否则只有差异化的包，打包是找不到主包的
+     * 3.
+     */
     productFlavors {
 
-        productApp {
+        productBreath {
             applicationId "com.zkp.breath"
             versionCode 1
             versionName "1.0"
+
+            signingConfig signingConfigs.productBreath
         }
 
         productA {
@@ -205,6 +224,8 @@ android {
             applicationId "com.zkp.product.a"
             versionCode 11
             versionName "1.0.1"
+
+            signingConfig signingConfigs.productA
         }
 
         productB {
@@ -212,6 +233,8 @@ android {
             applicationId "com.zkp.product.b"
             versionCode 21
             versionName "2.0.1"
+
+            signingConfig signingConfigs.productB
         }
     }
 
