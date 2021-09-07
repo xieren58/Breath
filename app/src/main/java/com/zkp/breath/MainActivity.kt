@@ -30,7 +30,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityEntranceBinding
 
     private val listOf = mutableListOf(
-        "MMKV", "Handler", "Weight", "SdkVersion", "ARoute", "BlankjActivity",
+        "计算入口m5", "MMKV", "Handler", "Weight", "SdkVersion", "ARoute", "BlankjActivity",
         "Coroutines", "Debug",
         "Rxjava3", "Glide4", "Component", "JetPack"
     )
@@ -64,6 +64,10 @@ class MainActivity : BaseActivity() {
      */
     private val onItemChildClickListener = OnItemClickListener { _, _, position ->
         when (val type = listOf[position]) {
+            "计算入口m5" -> {
+                ActivityUtils.startActivity(LLM5Activity::class.java)
+                return@OnItemClickListener
+            }
             "MMKV" -> {
                 ActivityUtils.startActivity(MMKVActivity::class.java)
                 return@OnItemClickListener

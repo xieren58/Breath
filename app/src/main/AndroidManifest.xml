@@ -239,6 +239,8 @@
         <activity android:name=".component.activity.blankj.BlankjActivity" />
         <activity android:name=".component.activity.blankj.LogActivity" />
 
+        <activity android:name=".component.activity.LLM5Activity" />
+
         <service
             android:name=".component.service.IntentServiceA"
             android:exported="false" />

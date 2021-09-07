@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/et1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:background="@color/colorFFFFFFFF"
+        android:gravity="start"
+        android:hint="userId"
+        android:inputType="number"
+        android:maxLength="30"
+        android:padding="15dp"
+        android:textColor="#ff333333"
+        android:textColorHint="#ffcccccc"
+        android:textCursorDrawable="@drawable/shape_edit_cursor"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/et2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorFFFFFFFF"
+        android:gravity="start"
+        android:hint="channel"
+        android:inputType="text"
+        android:maxLength="30"
+        android:padding="15dp"
+        android:textColor="#ff333333"
+        android:textColorHint="#ffcccccc"
+        android:textCursorDrawable="@drawable/shape_edit_cursor"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et1" />
+
+
+    <TextView
+        android:id="@+id/tv_clipboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorFFFFFFFF"
+        android:padding="10dp"
+        android:text="m5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et2" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
