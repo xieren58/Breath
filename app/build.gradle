@@ -88,7 +88,8 @@ android {
             zipAlignEnabled true
             // 指定混淆的规则文件，getDefaultProguardFile是Android 系统为我们提供的默认混淆规则文件,而 proguard-rules.pro 则是我们想要自定义的混淆规则
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            // 设置签名配置
+            // 设置签名配置，如果productFlavors使用的签名都是一致的话，那么可以在此处开启signingConfig即可，但一般不推荐，防止一些第三方sdk是和签名绑定的。
+            // 注意：此处的优先级高于productFlavors下的设置，所以如果两处都有设置，那么此处一定会覆盖productFlavors的设置。
 //            signingConfig signingConfigs.release
         }
 
@@ -99,6 +100,8 @@ android {
             resValue "string", "hidden_entrance", "隐藏入口"
 
             minifyEnabled false
+            // 设置签名配置，如果productFlavors使用的签名都是一致的话，那么可以在此处开启signingConfig即可，但一般不推荐，防止一些第三方sdk是和签名绑定的。
+            // 注意：此处的优先级高于productFlavors下的设置，所以如果两处都有设置，那么此处一定会覆盖productFlavors的设置。
 //            signingConfig signingConfigs.release
         }
 
@@ -128,14 +131,19 @@ android {
     }
 
     sourceSets {
+        // main文件夹
         main {
+            // java代码目录
             java.srcDirs = ['src/main/java', 'src/main/aidl']
+            // 清单文件路径
 //            manifest.srcFile 'src/main/AndroidManifest.xml'
         }
+        // productA文件夹
         productA {
-            java.srcDirs = ['src/productA.jks/java', 'src/productA.jks/aidl']
-//            manifest.srcFile 'src/productA.jks/AndroidManifest.xml'
+            java.srcDirs = ['src/productA/java', 'src/productA.jks/aidl']
+//            manifest.srcFile 'src/productA/AndroidManifest.xml'
         }
+        // productB文件夹
         productB {
             java.srcDirs = ['src/productB/java', 'src/productB/aidl']
 //            manifest.srcFile 'src/productB/AndroidManifest.xml'
