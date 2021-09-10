@@ -11,6 +11,7 @@ import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.Utils
 import com.didichuxing.doraemonkit.DoraemonKit
+import com.simple.spiderman.SpiderMan
 import com.zkp.breath.mmkv.template.AppConfiguration
 import com.zkp.breath.utils.HookUtils
 import com.zkp.breath.utils.UmUtils
@@ -29,7 +30,7 @@ class BaseApplication : MultiDexApplication() {
             // 初始化工具库
             Utils.init(this)
             initARouter()
-            initDoraemonKit()
+            initAssistKit()
             // 初始化mmkv
             AppConfiguration.getDefault(this)
             initUmAnalytics()
@@ -103,11 +104,11 @@ class BaseApplication : MultiDexApplication() {
         }
     }
 
-    /**
-     * 初始化滴滴研发助手
-     */
-    private fun initDoraemonKit() {
+    private fun initAssistKit() {
+        // 初始化滴滴研发助手
         DoraemonKit.install(this)
+        // 初始化崩溃可视化小工具
+        SpiderMan.init(this)
     }
 
     /**
