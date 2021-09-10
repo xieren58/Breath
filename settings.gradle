@@ -1,1 +1,1 @@
-include ':app', ':zkplib', ':httpprotocol'
+include ':app', ':zkplib', ':httpprotocol', ':networkmonitor'

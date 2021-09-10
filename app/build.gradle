@@ -316,6 +316,7 @@ dependencies {
 
     implementation project(':zkplib')
     implementation project(':httpprotocol')
+    implementation project(':networkmonitor')
 
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
