@@ -5,12 +5,22 @@ autonumber
 skinparam responseMessageBelowArrow true
 
 activate 发起者
-发起者 -> 服务器: ask/missionAsk（速配）
-note left: 当前速配模式只有视频玩法，且速配模式不显示等待ui
+发起者 -> 发起者: ask，发起者为用户且余额不足，会进入虚假充值页自动弹出充值弹框\n否则进入正常的通话页面
+发起者 -> 发起者: missionAsk，发起者为用户且余额不足，自动弹出充值弹框\n否则进入正常的通话页面。
+note left: 当前速配模式只有视频玩法，且速配模式不显示等待ui。
+发起者 -> 服务器: ask，发起者为用户且余额足够 或者 发起者为主播
+发起者 -> 服务器: missionAsk，发起者为用户且余额足够 或者 发起者为主播
+
+'发起者 -> 服务器: ask/missionAsk（速配）
+'发起者 -> 发起者: ask，发起者为用户且余额不足，会进入虚假充值页自动弹出充值弹框\n否则进入正常的通话页面
+'发起者 -> 发起者: missionAsk，发起者为用户且余额不足，自动弹出充值弹框\n否则进入正常的通话页面。
+
 activate 接收者
 服务器 -> 接收者: Mchat:CallInvite/Mchat:CallMission(速配)
-发起者 -> 发起者 :cancel定时器，播放对方视频/图片+铃声
-接收者 -> 接收者: deny定时器，播放对方视频/图片+铃声
+发起者 -> 发起者 :视频或者语音模式下，cancel定时器，播放对方视频/图片+铃声；\n速配模式下，发起一个15秒的有效性检测
+note left: 速配的检测是防止后台检测对方状态失败或者无检查导致只有一端进入，\n15秒到达后判断远端uid的是否有效
+接收者 -> 接收者: ask，接收者为用户且余额不足，会进入虚假充值页，点击接听按钮弹出充值弹框
+接收者 -> 接收者: deny定时器，播放对方视频/图片+铃声；\n速配模式下，发起一个15秒的有效性检测
 ====
 
 服务器 -> 接收者 : Mchat:CancelInvite（定时时间到，或者发起者主动取消）
@@ -22,9 +32,11 @@ deactivate 发起者
 接收者 --> 发起者: 接收者接通(调用声网joinChannel())
 activate 发起者
 activate 接收者
-发起者 -> 发起者: 收到声网下发onUserJoined,\nonRemoteVideoStateChanged回调通知
+发起者 -> 发起者: 收到声网下发onUserJoined或者\nonRemoteVideoStateChanged回调通知
+note left: 语音模式通过onUserJoined进行接通，视频或者速配通过\nonRemoteVideoStateChanged进行接通
 发起者 -> 发起者: 移除cancel定时器，开启start，开启30秒轮询spend
-接收者 -> 接收者: 收到声网下发onUserJoined,\nonRemoteVideoStateChanged回调通知
+接收者 -> 接收者: 收到声网下发onUserJoined或者\nonRemoteVideoStateChanged回调通知
+note left: 语音模式通过onUserJoined进行接通，视频或者速配通过\nonRemoteVideoStateChanged进行接通
 接收者 -> 接收者: 移除deny定时器，开启30秒轮询spend
 ====
 
