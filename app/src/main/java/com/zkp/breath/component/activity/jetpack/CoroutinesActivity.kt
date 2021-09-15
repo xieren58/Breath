@@ -18,7 +18,7 @@ import kotlin.coroutines.ContinuationInterceptor
  * https://www.zhihu.com/people/bennyhuo/posts
  * https://blog.csdn.net/NJP_NJP/article/details/103513537
  *
- * 什么是协程（一个线程框架）：
+ * 什么是协程（一个线程框架，由kotlin官方提供的线程api，借助kotlin的语言优势比java的线程框架更加方便）：
  * 1.用同步（顺序）的方式写异步的代码：能够在同一个代码块进行多次线程切换而不会导致多级嵌套（死亡回调），只形成上下级
  *   关系。再者，多线程常用于并发开发，而java的并发写法比较难写以及不直观，而协程可以用少量且直观的代码实现并发需求，
  *   从这一方面也就能说明协程其实就是一个线程框架。
