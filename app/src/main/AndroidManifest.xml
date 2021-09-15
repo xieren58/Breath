@@ -214,8 +214,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.kotlin.CoroutinesActivity" />
-
         <activity android:name=".component.activity.AudioRecordActivity" />
 
         <activity android:name=".component.activity.third.MaterialDialogsActivity" />
@@ -235,6 +233,7 @@
         <activity android:name=".component.activity.HandlerActivity" />
 
         <activity android:name=".component.activity.jetpack.JetPackActivity" />
+        <activity android:name=".component.activity.jetpack.CoroutinesActivity" />
         <activity android:name=".component.activity.jetpack.ViewModelActivity" />
         <activity android:name=".component.activity.jetpack.LifecycleActivity" />
         <activity android:name=".component.activity.jetpack.ProcessLifecycleActivity" />
