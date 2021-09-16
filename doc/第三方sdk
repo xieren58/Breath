@@ -23,8 +23,12 @@ windows示例（可以有多余空格，jar不需要完整路径）：java -jar 
                                         -inputSymbol /Users/ykwl/AndroidStudioProjects/mchatandroid/app/build/outputs/mapping/release/mapping.txt
                                         -inputMapping /Users/ykwl/AndroidStudioProjects/mchatandroid/app/build/outputs/mapping/release/mapping.txt
 
-mac示例（不能有多余空格，jar需要输入完整路径） ：java -jar /Users/ykwl/Desktop/tools/bugly/buglyqq-upload-symbol/buglyqq-upload-symbol.jar  -appid e61aeb432d -appkey 23d88492-9e5c-439e-97e9-dff774697166 -bundleid com.ykwl.mchat -version 1.0.0 -platform Android -inputSymbol  /Users/ykwl/AndroidStudioProjects/mchatandroid/app/build/outputs/mapping/release/mapping.txt  -inputMapping /Users/ykwl/AndroidStudioProjects/mchatandroid/app/build/outputs/mapping/release/mapping.txt
 mac示例（不能有多余空格，jar需要输入完整路径） ：java -jar /Users/ykwl/Desktop/tools/bugly/buglyqq-upload-symbol/buglyqq-upload-symbol.jar  -appid e61aeb432d -appkey 23d88492-9e5c-439e-97e9-dff774697166 -bundleid com.ykwl.mchat -version 1.0.1 -platform Android -inputSymbol  /Users/ykwl/Desktop/mapping.txt  -inputMapping /Users/ykwl/Desktop/mapping.txt
 
  友盟：
  1. 可视化点击目前不能使用，会造成页面卡顿。因为一直在遍历视图树，寻找可点击的view
+
+ 分包（原理：美团打包 + 数据上报）：
+ https://bytedance.feishu.cn/docs/doccnWHO1ZOWn3YrZVblvoEw4th#
+ https://open.oceanengine.com/doc/index.html?key=ad&type=api&id=1696710651039744
+ https://blog.csdn.net/FireworksFlower/article/details/112211791
