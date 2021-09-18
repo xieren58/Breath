@@ -3,6 +3,8 @@ package com.zkp.breath.component.activity.jetpack
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import com.blankj.utilcode.util.DeviceUtils
+import com.blankj.utilcode.util.ThreadUtils
 import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityCoroutinesBinding
 import kotlinx.coroutines.*
@@ -37,11 +39,11 @@ import kotlin.coroutines.ContinuationInterceptor
  * 2. suspend关键字的作用：提醒调用者要在协程或者另一个suspend函数中调用。为什么会有这种调用限制呢，因为挂起
  *   结束后需要恢复回原来的线程，而恢复的功能是协程的，这样就能保证 suspend 函数是直接或间接在协程中调用。
  *
- * 3. 挂起的操作实际上是靠挂起函数方法内「协程自带的且实现协程挂起」的方法（如withContext()）。
+ * 3. 挂起的操作实际上是靠挂起函数方法内「协程自带的且实现协程挂起」的方法（如withContext()，而这个方法其实也是一个壳，确切来说需要有协程实现的挂起逻辑）。
  *
  * 4. 怎么自定义一个挂起函数？
  *    > 什么时候自定义？
- *      原则：耗时。（包括等待这种行为）
+ *      原则：耗时，一般指存在io行为或者计算行为。（包括等待这种行为）
  *    > 怎么写？
  *      suspend关键字修饰函数，然后用withContext()把函数内容包住。
  *
@@ -67,8 +69,8 @@ import kotlin.coroutines.ContinuationInterceptor
  * Dispatchers.Unconfined：非限制的调度器，指定的线程可能会随着挂起的函数发生变化。
  *
  * CoroutineStart(启动模式)，只需要掌握下面两个即可:
- * 1. DEFAULT  饿汉式启动，launch 调用后，会立即进入待调度状态，一旦调度器(线程池) OK 就可以开始执行。
- * 2. LAZY	懒汉式启动， launch 后并不会有任何调度行为，协程体也自然不会进入执行状态，直到我们需要它执行的时候。
+ * 1. DEFAULT  饿汉式（自动）启动，launch 调用后，会立即进入待调度状态，一旦调度器(线程池) OK 就可以开始执行。
+ * 2. LAZY	懒汉式（手动）启动， launch 后并不会有任何调度行为，协程体也自然不会进入执行状态，直到我们需要它执行的时候。
  *      > 调用 Job.start，主动触发协程的调度执行。（参考Thread的start()方法，开启任务但不保证马上执行）
  *      > 调用 Job.join，隐式的触发协程的调度执行。（参考Thread的join()方法，一定优先于某个协程执行完）
  */
@@ -82,11 +84,11 @@ class CoroutinesActivity : BaseActivity() {
         binding = ActivityCoroutinesBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 //        init()
-//        asyncDemo()
+        asyncDemo()
 //        runBlockingDemo()
 //        coroutineStartStrategyDemo()
 
-        delayDemo()
+//        delayDemo()
     }
 
 
@@ -106,15 +108,28 @@ class CoroutinesActivity : BaseActivity() {
         }
     }
 
+    // 132
     private fun delayDemo() {
         Log.i("delayDemo", "1:" + Thread.currentThread().name)
         GlobalScope.launch {
-            delay(2000L)
             Log.i("delayDemo", "2:" + Thread.currentThread().name)
+            delay(2000L)
+            Log.i("delayDemo", "3:" + Thread.currentThread().name)
         }
-        Log.i("delayDemo", "3:" + Thread.currentThread().name)
+        Log.i("delayDemo", "4:" + Thread.currentThread().name)
+
+        // 等同于下面的代码
+//        Log.i("delayDemo", "1:" + Thread.currentThread().name)
+//        ThreadUtils.getMainHandler().post({
+//            Log.i("delayDemo", "2:" + Thread.currentThread().name)
+//            ThreadUtils.getMainHandler().postDelayed({
+//                Log.i("delayDemo", "3:" + Thread.currentThread().name)
+//            }, 2000L)
+//        })
+//        Log.i("delayDemo", "4:" + Thread.currentThread().name)
     }
 
+    // 7  1 3 5 2 4 6
     private fun asyncDemo() {
         mainScope.launch {
             Log.i(ACTIVITY_TAG, "asyncDemo: 1: " + Thread.currentThread().name)
@@ -130,7 +145,7 @@ class CoroutinesActivity : BaseActivity() {
             }
             Log.i(ACTIVITY_TAG, "asyncDemo: 5")
             // await会挂起执行该方法所处的协程（这里指MainScope），等待await所属的协程完成(这里指one和two，即Deferred)。
-            Log.i(ACTIVITY_TAG, "asyncDemo: " + (one.await() + two.await()).toString())
+            Log.i(ACTIVITY_TAG, "asyncDemo结果: " + (one.await() + two.await()).toString())
             Log.i(ACTIVITY_TAG, "asyncDemo: 6")
         }
         Log.i(ACTIVITY_TAG, "asyncDemo: 7")
@@ -181,8 +196,6 @@ class CoroutinesActivity : BaseActivity() {
             Log.i(ACTIVITY_TAG, "thread: ${Thread.currentThread().name}")
         }
 
-        // 挂起函数后并不会往下继续执行，只有等挂起函数执行完毕才能接着往下执行，但这个挂起不是暂停，而是脱离的意思，
-        // 脱离到其他线程执行完毕再切换原有线程继续往下执行。
         GlobalScope.launch(Dispatchers.Main) {
             // 1
             withContext(Dispatchers.IO) {
@@ -205,6 +218,24 @@ class CoroutinesActivity : BaseActivity() {
 
         // 0
         Log.i("GlobalScope_Demo", "main_out: ${Thread.currentThread().name}")
+
+        // 等同于下面的代码
+//        ThreadUtils.getMainHandler().post {
+//            thread {
+//                Log.i("GlobalScope_Demo", "launch_IO1: ${Thread.currentThread().name}")
+//                thread {
+//                    Log.i("GlobalScope_Demo", "launch_IO2: ${Thread.currentThread().name}")
+//                    thread {
+//                        Log.i("GlobalScope_Demo", "extractWithContext_IO3: ${Thread.currentThread().name}")
+//                        ThreadUtils.getMainHandler().postDelayed({
+//                            Log.i("GlobalScope_Demo", "extractDelay: ${Thread.currentThread().name}")
+//                            Log.i("GlobalScope_Demo", "launch_Main: ${Thread.currentThread().name}")
+//                        }, 1000L)
+//                    }
+//                }
+//            }
+//        }
+//        Log.i("GlobalScope_Demo", "main_out: ${Thread.currentThread().name}")
 
     }
 
@@ -236,7 +267,7 @@ class CoroutinesActivity : BaseActivity() {
      */
     private fun defaultStrategyDemo() {
         Log.i("defaultStrategyDemo", "1")
-        GlobalScope.launch() {    // 默认调度器
+        GlobalScope.launch() {    // 注意这里是默认调度器！！！
             val job = coroutineContext[Job]
             Log.i("defaultStrategyDemo", "2")
         }
