@@ -1,11 +1,13 @@
 package com.zkp.breath
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
-import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.ColorUtils
-import com.blankj.utilcode.util.ToastUtils
+import com.blankj.utilcode.constant.PermissionConstants
+import com.blankj.utilcode.util.*
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.umeng.analytics.MobclickAgent
 import com.zkp.breath.adpter.EntranceAdapter
@@ -44,6 +46,39 @@ class MainActivity : BaseActivity() {
 
         umEvent()
         initRcv()
+        requestPermission()
+    }
+
+    private fun requestPermission() {
+        PermissionUtils.permission(PermissionConstants.STORAGE, PermissionConstants.MICROPHONE)
+            .rationale { activity, shouldRequest ->
+                Log.i(ACTIVITY_TAG, "rationale")
+                shouldRequest?.again(true)
+            }
+            .callback(object : PermissionUtils.FullCallback {
+                override fun onGranted(granted: MutableList<String>) {
+                    Log.i(ACTIVITY_TAG, "onGranted")
+                }
+
+                override fun onDenied(deniedForever: MutableList<String>, denied: MutableList<String>) {
+                    Log.i(ACTIVITY_TAG, "onDenied")
+                    if (deniedForever.isNotEmpty()) {
+                        // 防止title和message无显示
+                        val builder: AlertDialog.Builder = AlertDialog.Builder(
+                            this@MainActivity,
+                            R.style.Theme_AppCompat_Light_Dialog_Alert
+                        )
+                        builder.setCancelable(false)
+                        val alertDialog = builder.setTitle("提示！")
+                            .setMessage("请前往设置->应用->权限中打开读写相关权限，否则功能无法正常运行！")
+                            .setPositiveButton("确定") { dialog: DialogInterface?, which: Int ->
+                                dialog?.dismiss()
+                                AppUtils.launchAppDetailsSettings()
+                            }
+                            .show()
+                    }
+                }
+            }).request()
     }
 
     private fun initRcv() {
@@ -138,7 +173,7 @@ class MainActivity : BaseActivity() {
             ToastUtils.showShort("再按一次退出程序")
             exitTime = System.currentTimeMillis()
         } else {
-            exitProcess(0)
+            ActivityUtils.finishAllActivities()
         }
     }
 
