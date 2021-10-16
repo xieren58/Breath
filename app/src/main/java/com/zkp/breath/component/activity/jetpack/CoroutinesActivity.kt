@@ -3,9 +3,11 @@ package com.zkp.breath.component.activity.jetpack
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.ThreadUtils
 import com.zkp.breath.component.activity.base.BaseActivity
+import com.zkp.breath.component.activity.base.ClickBaseActivity
 import com.zkp.breath.databinding.ActivityCoroutinesBinding
 import kotlinx.coroutines.*
 import kotlin.concurrent.thread
@@ -73,8 +75,13 @@ import kotlin.coroutines.ContinuationInterceptor
  * 2. LAZY	懒汉式（手动）启动， launch 后并不会有任何调度行为，协程体也自然不会进入执行状态，直到我们需要它执行的时候。
  *      > 调用 Job.start，主动触发协程的调度执行。（参考Thread的start()方法，开启任务但不保证马上执行）
  *      > 调用 Job.join，隐式的触发协程的调度执行。（参考Thread的join()方法，一定优先于某个协程执行完）
+ * 3. ATOMIC  只有配合 cancel 的时候才有意义，一定会被启动，实际上在遇到第一个挂起点之前，它的执行是不会停止的，需要注意的是，cancel 调用一定会将该 job 的状态置为
+ *    cancelling，只不过 ATOMIC 模式的协程在启动时无视了这一状态。使用的方法需要添加ExperimentalCoroutinesApi，表示目前是测试api。
+ *    注意：我们使用线程的时候，想要让线程里面的任务停止执行也会面临类似的问题，但遗憾的是线程中看上去与 cancel 相近的 stop 接口已经被废弃，因为存在一些安全的问题。
+ *          不过随着我们不断地深入探讨，你就会发现协程的 cancel 某种意义上更像线程的 interrupt。
+ * 4. UNDISPATCHED模式，协程在这种模式下会直接开始在当前线程下执行协程体，直到第一个挂起点，当然遇到挂起点之后的执行就取决于挂起点本身的逻辑以及上下文当中的调度器了。
  */
-class CoroutinesActivity : BaseActivity() {
+class CoroutinesActivity : ClickBaseActivity() {
 
     private lateinit var binding: ActivityCoroutinesBinding
     val mainScope = MainScope()
@@ -84,11 +91,19 @@ class CoroutinesActivity : BaseActivity() {
         binding = ActivityCoroutinesBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 //        init()
-        asyncDemo()
+//        asyncDemo()
 //        runBlockingDemo()
-//        coroutineStartStrategyDemo()
-
 //        delayDemo()
+
+        varargSetClickListener(binding.tvCoroutineStartType)
+    }
+
+    override fun onDebouncingClick(v: View) {
+        when (v) {
+            binding.tvCoroutineStartType -> {
+                coroutineStartStrategyDemo()
+            }
+        }
     }
 
 
@@ -257,6 +272,48 @@ class CoroutinesActivity : BaseActivity() {
     private fun coroutineStartStrategyDemo() {
         defaultStrategyDemo()
 //        lazyStrategyDemo()
+//        atomicStrategyDemo()
+//        undispatchedStrategyDemo()
+    }
+
+    /**
+     * UNDISPATCHED模式，协程在这种模式下会直接开始在当前线程下执行协程体，直到第一个挂起点，当然遇到挂起点之后的执行就取决于挂起点本身的逻辑以及上下文当中的调度器了。
+     *
+     * 自我理解：设置了这种模式，其实相当于在执行launch()方法的时候，第一个挂起点的任务我们理解为a回调，这个a回调放在launch()方法执行所处线程执行；而第一个挂起点后
+     *          的任务则在launch()方法设置的调度器（线程）中执行。
+     *
+     */
+    @ExperimentalCoroutinesApi
+    private fun undispatchedStrategyDemo() {
+        Log.i("undispatchedStrategyDemo", "1")
+        val job = GlobalScope.launch(context = Dispatchers.IO, start = CoroutineStart.UNDISPATCHED) {
+            // 在第一个挂起点之前，即便指定调度器为IO，也只会在launch方法执行所处的线程下执行，所以一定先于4
+            Log.i("undispatchedStrategyDemo", "2，thread: ${Thread.currentThread().name}")
+            delay(1)
+            Log.i("undispatchedStrategyDemo", "3，thread: ${Thread.currentThread().name}")
+        }
+        Log.i("undispatchedStrategyDemo", "4")
+    }
+
+    /**
+     * ATOMIC模式，只有配合 cancel 的时候才有意义，一定会被启动，实际上在遇到第一个挂起点之前，它的执行是不会停止的。
+     */
+    @ExperimentalCoroutinesApi
+    private fun atomicStrategyDemo() {
+        Log.i("atomicStrategyDemo", "1")
+        /**
+         * 如果是 DEFAULT 模式，在第一次调度该协程时如果 cancel 就已经调用，那么协程就会直接被 cancel 而不会有任何调用，
+         * 当然也有可能协程开始时尚未被 cancel，那么它就可以正常启动了。所以前面的例子如果改用 DEFAULT 模式，那么 2 有可能会输出，也可能不会。
+         */
+        val job = GlobalScope.launch(start = CoroutineStart.ATOMIC) {
+            Log.i("atomicStrategyDemo", "2")
+            delay(1)
+            Log.i("atomicStrategyDemo", "5")//如果执行了cancel，那么但是5是不会输出的
+        }
+        //一般来说，线程都没那么快就后去到cpu执行权，所以这里的操作逻辑一般是快于线程中的内容的。
+        Log.i("atomicStrategyDemo", "3")
+        job.cancel()// 1324，1342
+        Log.i("atomicStrategyDemo", "4")
     }
 
     /**
