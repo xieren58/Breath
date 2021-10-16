@@ -11,11 +11,14 @@ import kotlin.concurrent.thread
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.ContinuationInterceptor
 import kotlinx.coroutines.CoroutineName
+import kotlin.coroutines.suspendCoroutine
 
 
 /**
  * https://www.bilibili.com/video/BV1KJ41137E9
  * https://www.bilibili.com/video/BV1JE411R7hp/?spm_id_from=333.788.videocard.0
+ *
+ * https://blog.csdn.net/c10WTiybQ1Ye3/article/details/114956973
  *
  * https://www.jianshu.com/p/2979732fb6fb
  * https://www.zhihu.com/people/bennyhuo/posts
@@ -95,6 +98,7 @@ class CoroutinesActivity : ClickBaseActivity() {
 //        runBlockingDemo()
 //        delayDemo()
         interceptorDemo()
+        dispatcherDemo()
 
         varargSetClickListener(binding.tvCoroutineStartType)
     }
@@ -147,6 +151,23 @@ class CoroutinesActivity : ClickBaseActivity() {
                 Log.i("interceptorDemo", "5, result: $await")
             }.join()
             Log.i("interceptorDemo", "6")
+        }
+    }
+
+    /**
+     * Dispatchers.Unconfined调度器模式下，协程启动的线程为launch()方法执行所处的线程，只到遇到挂起点，协程所处的线程会跟随挂起函数指定的线程
+     */
+    private fun dispatcherDemo() {
+        GlobalScope.launch(Dispatchers.Unconfined) {
+            Log.i("dispatcherDemo", "1:" + Thread.currentThread().name) // main
+            withContext(Dispatchers.IO) {
+                Log.i("dispatcherDemo", "2:" + Thread.currentThread().name) //io
+            }
+            Log.i("dispatcherDemo", "3:" + Thread.currentThread().name) // io
+            withContext(Dispatchers.Main) {
+                Log.i("dispatcherDemo", "4:" + Thread.currentThread().name) //mian
+            }
+            Log.i("dispatcherDemo", "5:" + Thread.currentThread().name) // mian
         }
     }
 
