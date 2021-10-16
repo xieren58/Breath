@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import com.blankj.utilcode.util.DeviceUtils
-import com.blankj.utilcode.util.ThreadUtils
-import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.activity.base.ClickBaseActivity
 import com.zkp.breath.databinding.ActivityCoroutinesBinding
 import kotlinx.coroutines.*
 import kotlin.concurrent.thread
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.ContinuationInterceptor
+import kotlinx.coroutines.CoroutineName
+
 
 /**
  * https://www.bilibili.com/video/BV1KJ41137E9
@@ -64,11 +63,11 @@ import kotlin.coroutines.ContinuationInterceptor
  *               会造成空指针或者内存泄漏,所以仍不适用于业务开发。
  * 2.自定义作用域：自定义协程的作用域，不会造成内存泄漏。
  *
- * 调度器（将协程限制在特定的线程执行）：
- * Dispatchers.Main：指定执行的线程是主线程。
- * Dispatchers.IO：指定执行的线程是 IO 线程。
- * Dispatchers.Default：默认的调度器，适合执行 CPU 密集性的任务。（在没指定调度器或者ContinuationInterceptor）
- * Dispatchers.Unconfined：非限制的调度器，指定的线程可能会随着挂起的函数发生变化。
+ * 调度器（将协程限制在特定的线程执行，调度器》拦截器》上下文）：
+ * Dispatchers.Main：指定执行的线程是UI线程。
+ * Dispatchers.IO：线程池，与default共享线程池，偏向io类型的任务
+ * Dispatchers.Default：默认的调度器，线程池，与default共享线程池，偏向CPU密集性的任务
+ * Dispatchers.Unconfined：非限制的调度器，协程所处的线程可能会随着挂起的函数发生变化。
  *
  * CoroutineStart(启动模式)，只需要掌握下面两个即可:
  * 1. DEFAULT  饿汉式（自动）启动，launch 调用后，会立即进入待调度状态，一旦调度器(线程池) OK 就可以开始执行。
@@ -90,10 +89,12 @@ class CoroutinesActivity : ClickBaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCoroutinesBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+
 //        init()
 //        asyncDemo()
 //        runBlockingDemo()
 //        delayDemo()
+        interceptorDemo()
 
         varargSetClickListener(binding.tvCoroutineStartType)
     }
@@ -106,9 +107,8 @@ class CoroutinesActivity : ClickBaseActivity() {
         }
     }
 
-
     /**
-     * 自定义拦截器
+     * 自定义拦截器(也是一个协程上下文)
      */
     class MyContinuationInterceptor : ContinuationInterceptor {
         override val key = ContinuationInterceptor
@@ -117,9 +117,36 @@ class CoroutinesActivity : ClickBaseActivity() {
 
     class MyContinuation<T>(val continuation: Continuation<T>) : Continuation<T> {
         override val context = continuation.context
+
+        /**
+         * 1. 所有协程启动的时候会触发，都会有一次 Continuation.resumeWith 的操作，这也是调度器将协程调度到其它线程的关键之处。
+         * 2. 所有挂起点会触发
+         *
+         */
         override fun resumeWith(result: Result<T>) {
             Log.i("自定义拦截起", "<MyContinuation> $result")
             continuation.resumeWith(result)
+        }
+    }
+
+    /**
+     * 自定义拦截器demo
+     */
+    private fun interceptorDemo() {
+        GlobalScope.launch {
+            GlobalScope.launch(MyContinuationInterceptor()) {
+                Log.i("interceptorDemo", "1")
+                val job = async {
+                    Log.i("interceptorDemo", "2")
+                    delay(1000)
+                    Log.i("interceptorDemo", "3")
+                    "Hello"
+                }
+                Log.i("interceptorDemo", "4")
+                val await = job.await()
+                Log.i("interceptorDemo", "5, result: $await")
+            }.join()
+            Log.i("interceptorDemo", "6")
         }
     }
 
@@ -211,7 +238,8 @@ class CoroutinesActivity : ClickBaseActivity() {
             Log.i(ACTIVITY_TAG, "thread: ${Thread.currentThread().name}")
         }
 
-        GlobalScope.launch(Dispatchers.Main) {
+        // CoroutineName为协程添加名称
+        GlobalScope.launch(Dispatchers.Main + CoroutineName("Hello")) {
             // 1
             withContext(Dispatchers.IO) {
                 Log.i("GlobalScope_Demo", "launch_IO1: ${Thread.currentThread().name}")
@@ -325,7 +353,8 @@ class CoroutinesActivity : ClickBaseActivity() {
     private fun defaultStrategyDemo() {
         Log.i("defaultStrategyDemo", "1")
         GlobalScope.launch() {    // 注意这里是默认调度器！！！
-            val job = coroutineContext[Job]
+            // 这里的 Job 实际上是对它的 companion object 的引用, 相当于Job.Key
+            val job = this.coroutineContext[Job]
             Log.i("defaultStrategyDemo", "2")
         }
         Log.i("defaultStrategyDemo", "3")
