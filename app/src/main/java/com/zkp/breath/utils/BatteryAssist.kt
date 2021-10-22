@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 /**
  * 忽略电池优化（电池优化其实就是限制后台运行，减少后台运行的进程来达到省电的目的）
+ * 需要添加以下权限：<uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
  */
 fun ignoreBatteryOptimization(activity: Context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
