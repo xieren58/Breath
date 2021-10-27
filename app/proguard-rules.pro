@@ -84,3 +84,36 @@ public static java.lang.String TABLENAME;
 -keep public class com.zkp.breath.R$*{
 public static final int *;
 }
+
+
+#oaid混淆规则 start
+-keep class XI.CA.XI.**{*;}
+-keep class XI.K0.XI.**{*;}
+-keep class XI.XI.K0.**{*;}
+-keep class XI.xo.XI.XI.**{*;}
+-keep class com.asus.msa.SupplementaryDID.**{*;}
+-keep class com.asus.msa.sdid.**{*;}
+-keep class com.bun.lib.**{*;}
+-keep class com.bun.miitmdid.**{*;}
+-keep class com.huawei.hms.ads.identifier.**{*;}
+-keep class com.samsung.android.deviceidservice.**{*;}
+-keep class com.zui.opendeviceidlibrary.**{*;}
+-keep class org.json.**{*;}
+-keep public class com.netease.nis.sdkwrapper.Utils {public
+<methods>;}
+#msa sdk 混淆配置
+-keep class com.bun.** {*;}
+-keep class com.asus.msa.** {*;}
+-keep class com.heytap.openid.** {*;}
+-keep class com.huawei.android.hms.pps.** {*;}
+-keep class com.meizu.flyme.openidsdk.** {*;}
+-keep class com.samsung.android.deviceidservice.** {*;}
+-keep class com.zui.** {*;}
+-keep class com.huawei.hms.ads.** {*; }
+-keep interface com.huawei.hms.ads.** {*; }
+-keepattributes *Annotation*
+-keep @android.support.annotation.Keep class **{
+@android.support.annotation.Keep <fields>;
+@android.support.annotation.Keep <methods>;
+}
+#oaid混淆规则 end
