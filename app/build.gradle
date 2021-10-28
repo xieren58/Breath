@@ -319,7 +319,7 @@ dependencies {
     implementation project(':networkmonitor')
     implementation project(':spiderman')
 
-    implementation(name: 'oaid_sdk_1.0.25', ext: 'aar')
+    implementation files('libs/oaid_sdk_1.0.25.aar')
 
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'

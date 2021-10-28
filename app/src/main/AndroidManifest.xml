@@ -81,7 +81,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -200,6 +201,7 @@
         <activity android:name=".component.activity.sdkVersion.ToastR11Activity" />
         <activity android:name=".component.activity.sdkVersion.HttpClearTextActivity" />
         <activity android:name=".component.activity.sdkVersion.NotificationActivity" />
+        <activity android:name=".component.activity.sdkVersion.ImeiQ10Activity" />
 
         <activity android:name=".component.activity.arouter.ARouterActivity" />
         <activity android:name=".component.activity.arouter.Test1ArouterActivity" />
