@@ -40,3 +40,9 @@ https://github.com/shwenzhang/AndResGuard
 7. JavaScript 调用 Java 的方法不应混淆
 8. Java 的 native 方法不应该被混淆
 
+
+> gradle配置
+defaultConfig：https://blog.csdn.net/weixin_37625173/article/details/100641538
+buildTypes：https://blog.csdn.net/weixin_37625173/article/details/100824010
+flavorDimensions和productFlavors：https://juejin.cn/post/6844903968204652551
+

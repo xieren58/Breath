@@ -30,7 +30,15 @@
     <!--电池-->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
-
+    <!--
+        label,icon,roundIcon,theme等在风味包下的对应配置：
+        1. 配置相当同的资源文件，注意名字保持一致，只改变value。例如label的配置，在main和productA中都有一份
+           string.xml文件，里面都有名字app_name为key的存在，只是value不相同，这样在切换不同的风味包后显示
+           的app名就是不一样的。
+        2. 或者在对应模块的gradle文件中的进行manifestPlaceholders配置，然后清单文件文件指向该配置。例如
+           配置 APP_NAME  : "乐聊"，然后下面的清单文件中配置  android:label="${APP_NAME}" 也能达到不同
+           风味包有各自app名的效果。
+    -->
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
