@@ -102,6 +102,8 @@ android {
             // 自定义的配置在对应模块的BuildConfig（type，name，value）
             buildConfigField("boolean", "LOG_DEBUG", "false")
             buildConfigField("String", "URL_PERFIX", "\"https://www.baidu.com/\"")
+
+            // 添加 value 资源。添加到res/value，通过R.string.hidden_entrance获取
             resValue "string", "hidden_entrance", "隐藏入口"
 
             minifyEnabled false
