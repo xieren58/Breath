@@ -14,10 +14,15 @@ kapt {
     }
 }
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
+        // applicationId 会替换 AndroidManifest.xml 中的 manifest 标签下 package 的 value
         applicationId "com.zkp.breath"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -28,6 +33,7 @@ android {
         multiDexEnabled true
         // 表明要使用AndroidJUnitRunner进行单元测试
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        // 风味维度，是需要结合 “产品风味（即productFlavors）” 来一起使用的。
         flavorDimensions "versionCode"
 
         ndk {
@@ -55,10 +61,6 @@ android {
 
     // 签名配置(可以定义多套签名规则)
     signingConfigs {
-
-        def keystorePropertiesFile = rootProject.file("keystore.properties")
-        def keystoreProperties = new Properties()
-        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
         productBreath {
             storeFile file(keystoreProperties['storeFile'])
@@ -231,13 +233,14 @@ android {
     productFlavors {
 
         productBreath {
+            // applicationId 应用的包名，会覆盖 defaultConfig 中的 applicationId
+            // applicationId 会替换 AndroidManifest.xml 中的 manifest 标签下 package 的 value
             applicationId "com.zkp.breath"
             versionCode 1
             versionName "1.0"
 
             signingConfig signingConfigs.productBreath
 
-            // 配置可以在 AndroidManifest.xml 中替换的参数，一般用于多渠道中使用，不会在 defaultConfig 中使用。
             // 配置可以在 AndroidManifest.xml 中替换的参数，一般用于多渠道中使用，不会在 defaultConfig 中使用。
             manifestPlaceholders = [
                     APP_NAME  : "Breath",
