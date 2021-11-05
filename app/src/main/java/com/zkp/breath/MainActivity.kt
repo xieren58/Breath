@@ -25,7 +25,8 @@ import com.zkp.breath.component.activity.third.MMKVActivity
 import com.zkp.breath.component.activity.third.RxJava3Activity
 import com.zkp.breath.component.activity.weight.*
 import com.zkp.breath.databinding.ActivityEntranceBinding
-import kotlin.system.exitProcess
+import com.meituan.android.walle.WalleChannelReader
+
 
 class MainActivity : BaseActivity() {
 
@@ -100,6 +101,8 @@ class MainActivity : BaseActivity() {
     private val onItemChildClickListener = OnItemClickListener { _, _, position ->
         when (val type = listOf[position]) {
             "计算入口m5" -> {
+                val channel = WalleChannelReader.getChannel(this.applicationContext)
+                ToastUtils.showShort("渠道: $channel")
                 ActivityUtils.startActivity(LLM5Activity::class.java)
                 return@OnItemClickListener
             }
