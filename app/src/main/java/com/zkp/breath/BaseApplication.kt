@@ -18,6 +18,7 @@ import com.zkp.breath.utils.UmUtils
 
 /**
  * Created b Zwp on 2019/7/25.
+ * 继承MultiDexApplication或者MultiDex.install(this);
  */
 class BaseApplication : MultiDexApplication() {
 

@@ -14,19 +14,26 @@ kapt {
     }
 }
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
+        // applicationId 会替换 AndroidManifest.xml 中的 manifest 标签下 package 的 value
         applicationId "com.zkp.breath"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        // 添加多dex分包支持
+        // 添加多dex分包支持，因为安卓中方法索引值为两个字节，四位十六进制的一个数值，即[0, 0xffff]，
+        // 所以最大方法数为65536个。一旦超出了，就需要进行分包，所以我们就需要开启这个参数。
         multiDexEnabled true
         // 表明要使用AndroidJUnitRunner进行单元测试
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        // 风味维度，是需要结合 “产品风味（即productFlavors）” 来一起使用的。
         flavorDimensions "versionCode"
 
         ndk {
@@ -34,12 +41,16 @@ android {
             abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86'
         }
 
+        // 配置编译时 java 的一些参数
         javaCompileOptions {
             annotationProcessorOptions {
+                // ARouter
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
+                // room
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+
     }
 
     // 代码扫描分析配置
@@ -52,24 +63,24 @@ android {
     signingConfigs {
 
         productBreath {
-            storeFile file('signature/breath.jks')
-            storePassword '123456'
-            keyAlias = 'key'
-            keyPassword '123456'
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias = keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
         }
 
         productA {
-            storeFile file('signature/productA.jks')
-            storePassword '123456'
-            keyAlias = 'productA'
-            keyPassword '123456'
+            storeFile file(keystoreProperties['productA_storeFile'])
+            storePassword keystoreProperties['productA_storePassword']
+            keyAlias = keystoreProperties['productA_keyAlias']
+            keyPassword keystoreProperties['productA_keyPassword']
         }
 
         productB {
-            storeFile file('signature/productB.jks')
-            storePassword '123456'
-            keyAlias = 'productB'
-            keyPassword '123456'
+            storeFile file(keystoreProperties['productB_storeFile'])
+            storePassword keystoreProperties['productB_storePassword']
+            keyAlias = keystoreProperties['productB_keyAlias']
+            keyPassword keystoreProperties['productB_keyPassword']
         }
 
     }
@@ -94,9 +105,11 @@ android {
         }
 
         debug {
-            // 自定义的配置在对应模块的BuildConfig
+            // 自定义的配置在对应模块的BuildConfig（type，name，value）
             buildConfigField("boolean", "LOG_DEBUG", "false")
             buildConfigField("String", "URL_PERFIX", "\"https://www.baidu.com/\"")
+
+            // 添加 value 资源。添加到res/value，通过R.string.hidden_entrance获取
             resValue "string", "hidden_entrance", "隐藏入口"
 
             minifyEnabled false
@@ -220,11 +233,20 @@ android {
     productFlavors {
 
         productBreath {
+            // applicationId 应用的包名，会覆盖 defaultConfig 中的 applicationId
+            // applicationId 会替换 AndroidManifest.xml 中的 manifest 标签下 package 的 value
             applicationId "com.zkp.breath"
             versionCode 1
             versionName "1.0"
 
             signingConfig signingConfigs.productBreath
+
+            // 配置可以在 AndroidManifest.xml 中替换的参数，一般用于多渠道中使用，不会在 defaultConfig 中使用。
+            manifestPlaceholders = [
+                    APP_NAME  : "Breath",
+                    ICON      : "@mipmap/ic_launcher",
+                    ROUND_ICON: "@mipmap/ic_launcher_round"
+            ]
         }
 
         productA {
@@ -312,6 +334,7 @@ dependencies {
     // datastore  （和协程依赖有冲突，可能是alpha版本的问题）
     implementation "androidx.datastore:datastore-preferences:1.0.0-alpha01"
 
+    // 分包库
     implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation project(':zkplib')

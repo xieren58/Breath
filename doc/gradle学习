@@ -40,3 +40,19 @@ https://github.com/shwenzhang/AndResGuard
 7. JavaScript 调用 Java 的方法不应混淆
 8. Java 的 native 方法不应该被混淆
 
+
+> gradle配置
+defaultConfig：https://blog.csdn.net/weixin_37625173/article/details/100641538
+buildTypes：https://blog.csdn.net/weixin_37625173/article/details/100824010
+flavorDimensions和productFlavors：https://juejin.cn/post/6844903968204652551
+
+
+compileSdkVersion,minSdkVersion,targetSdkVersion的区别:（一般配置都是minSdkVersion <= targetSdkVersion == compileSdkVersion ）
+
+1. compileSdkVersion ： 不会被包含到 APK 中，它纯粹只是在编译的时候使用。谷歌强烈推荐你总是使用最新的 SDK 进行编译，
+    ，避免新弃用的 API ，并且为使用新的 API 做好准备。
+2. minSdkVersion ：判断用户设备是否可以安装某个应用的标志之一。
+3. targetSdkVersion：Android 系统提供前向兼容的主要手段，只要 APK 的 targetSdkVersion 不变，即使这个 APK 安装在
+    新 Android 系统上，其行为还是保持老的系统上的行为，这样就保证了系统对老应用的前向兼容性。比如android11版本上某个api
+    的参数发生了改变，而我们指定的targetSdkVersion是android10，如果这时候指向的是android11的新api，那么一定会发生错误，
+    这时候就理解为即便在新的安卓系统上，我们运行的rom环境依旧是targetSdkVersion指定的环境。
