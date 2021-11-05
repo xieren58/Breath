@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.zkp.breath">
-    <!-- R 文件的路径是根据这个 package 来生成的。-->
+    <!-- R 文件的路径是根据这个 package 来生成的。下面的四大组件注册的name因此可以使用缩写-->
 
     <!--  Manifest提示GoogleAppIndexingWarning  https://www.jianshu.com/p/ba43bf1ba7c2-->
 
