@@ -27,19 +27,7 @@ https://www.cnblogs.com/langkyeSir/p/14877709.html
 https://segmentfault.com/a/1190000004229002
 
 >混淆：
-https://juejin.cn/post/6844903876961943560#heading-5
-https://juejin.cn/post/6930648501311242248#heading-5
-https://github.com/shwenzhang/AndResGuard
-混淆黑名单：
-1. 枚举（Android 系统默认的混淆规则中已经添加了对于枚举类的处理，我们无需再去做额外工作）
-2. 被反射的元素
-3. 实体类
-4. 四大组件
-5. JNI 调用的Java 方法
-6. 自定义控件不需要被混淆
-7. JavaScript 调用 Java 的方法不应混淆
-8. Java 的 native 方法不应该被混淆
-
+https://mp.weixin.qq.com/s/qawywKLqie4QUoeTf8HCDA
 
 > gradle配置
 defaultConfig：https://blog.csdn.net/weixin_37625173/article/details/100641538
@@ -47,8 +35,7 @@ buildTypes：https://blog.csdn.net/weixin_37625173/article/details/100824010
 flavorDimensions和productFlavors：https://juejin.cn/post/6844903968204652551
 
 
-compileSdkVersion,minSdkVersion,targetSdkVersion的区别:（一般配置都是minSdkVersion <= targetSdkVersion == compileSdkVersion ）
-
+> compileSdkVersion,minSdkVersion,targetSdkVersion的区别:（一般配置都是minSdkVersion <= targetSdkVersion == compileSdkVersion ）
 1. compileSdkVersion ： 不会被包含到 APK 中，它纯粹只是在编译的时候使用。谷歌强烈推荐你总是使用最新的 SDK 进行编译，
     ，避免新弃用的 API ，并且为使用新的 API 做好准备。
 2. minSdkVersion ：判断用户设备是否可以安装某个应用的标志之一。
