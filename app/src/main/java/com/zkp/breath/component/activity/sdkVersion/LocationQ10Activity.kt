@@ -35,15 +35,15 @@ class LocationQ10Activity : ClickBaseActivity() {
     private fun location() {
         //获取系统的LocationManager对象
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val location: Location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        val location: Location? = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
 
         val stringBuilder = StringBuilder()
         //获取经度、纬度、等属性值
         stringBuilder.append("您的位置信息：\n")
         stringBuilder.append("经度：")
-        stringBuilder.append(location.longitude)
+        stringBuilder.append(location?.longitude)
         stringBuilder.append("\n纬度：")
-        stringBuilder.append(location.latitude)
+        stringBuilder.append(location?.latitude)
 
         Log.i("获取Location", "stringBuilder: $stringBuilder")
     }
