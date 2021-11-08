@@ -8,10 +8,9 @@ import com.zkp.breath.component.activity.base.ClickBaseActivity
 import com.zkp.breath.databinding.ActivityCoroutinesBinding
 import kotlinx.coroutines.*
 import kotlin.concurrent.thread
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.ContinuationInterceptor
 import kotlinx.coroutines.CoroutineName
-import kotlin.coroutines.suspendCoroutine
+import java.lang.NullPointerException
+import kotlin.coroutines.*
 
 
 /**
@@ -99,6 +98,7 @@ class CoroutinesActivity : ClickBaseActivity() {
 //        delayDemo()
         interceptorDemo()
         dispatcherDemo()
+        coroutineExceptionHandler()
 
         varargSetClickListener(binding.tvCoroutineStartType)
     }
@@ -399,10 +399,38 @@ class CoroutinesActivity : ClickBaseActivity() {
         }
     }
 
+    /**
+     * 为协程的异常捕获器
+     * 1.功能相当于Thread.setUncaughtExceptionHandler进行异常的全局自定义处理
+     * 2.相当于ContinuationInterceptor拦截器，二者都是一个上下文，只是拦截输出的内容不一样。
+     */
+    private fun coroutineExceptionHandler() {
+        val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+            Log.i("异常捕获器", "coroutineExceptionHandler: ${throwable.message}")
+        }
+
+        // 测试发现，在同一个协程内，该捕获器是有效果的，反正无效。
+        //
+        GlobalScope.launch(exceptionHandler) {
+            Log.i("内存地址测试", "coroutineExceptionHandler1111: $this")
+//            GlobalScope.launch {
+            launch {
+                Log.i("内存地址测试", "coroutineExceptionHandler2222: $this")
+                throw  NullPointerException("协程异常捕获器测试")
+            }
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
         mainScope.cancel()
+    }
+
+
+    interface Callback<T> {
+        fun onSuccess(value: T)
+
+        fun onError(t: Throwable)
     }
 
 }

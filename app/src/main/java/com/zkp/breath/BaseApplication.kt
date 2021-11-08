@@ -160,7 +160,7 @@ class BaseApplication : MultiDexApplication() {
     private fun initAssistKit() {
         // 初始化滴滴研发助手
         DoraemonKit.install(this)
-        // 初始化崩溃可视化小工具
+        // 初始化崩溃可视化小工具，需要放在bugly初始化前面，bugly源码会在finally里面会将处理权下放
         SpiderMan.init(this)
     }
 
