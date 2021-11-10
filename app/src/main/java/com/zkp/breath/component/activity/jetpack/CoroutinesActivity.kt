@@ -5,11 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import com.zkp.breath.component.activity.base.ClickBaseActivity
+import com.zkp.breath.coroutines.coroutineExceptionHandlerDemo
+import com.zkp.breath.coroutines.suspendCoroutineDemo
 import com.zkp.breath.databinding.ActivityCoroutinesBinding
 import kotlinx.coroutines.*
 import kotlin.concurrent.thread
 import kotlinx.coroutines.CoroutineName
-import java.lang.NullPointerException
 import kotlin.coroutines.*
 
 
@@ -99,6 +100,8 @@ class CoroutinesActivity : ClickBaseActivity() {
         interceptorDemo()
         dispatcherDemo()
         coroutineExceptionHandler()
+
+        suspendCoroutineDemo()
 
         varargSetClickListener(binding.tvCoroutineStartType)
     }
@@ -399,27 +402,71 @@ class CoroutinesActivity : ClickBaseActivity() {
         }
     }
 
-    /**
-     * 为协程的异常捕获器
-     * 1.功能相当于Thread.setUncaughtExceptionHandler进行异常的全局自定义处理
-     * 2.相当于ContinuationInterceptor拦截器，二者都是一个上下文，只是拦截输出的内容不一样。
-     */
-    private fun coroutineExceptionHandler() {
-        val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
-            Log.i("异常捕获器", "coroutineExceptionHandler: ${throwable.message}")
-        }
 
-        // 测试发现，在同一个协程内，该捕获器是有效果的，反正无效。
-        //
-        GlobalScope.launch(exceptionHandler) {
-            Log.i("内存地址测试", "coroutineExceptionHandler1111: $this")
-//            GlobalScope.launch {
-            launch {
-                Log.i("内存地址测试", "coroutineExceptionHandler2222: $this")
-                throw  NullPointerException("协程异常捕获器测试")
-            }
-        }
+    private fun coroutineExceptionHandler() {
+//        val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+//            Log.i("异常捕获器", "coroutineExceptionHandler: ${throwable.message}")
+//        }
+//
+//        GlobalScope.launch(exceptionHandler) {
+//            Log.i("内存地址测试", "coroutineExceptionHandler1111: $this")
+////            GlobalScope.launch {//捕获不了，指定了新的作用域
+//            launch {//可以捕获，遵从默认作用域
+//                Log.i("内存地址测试", "coroutineExceptionHandler2222: $this")
+//                throw  NullPointerException("协程异常捕获器测试")
+//            }
+//        }
+
+//        GlobalScope.async(exceptionHandler) {
+//            throw  NullPointerException("协程异常捕获器测试 async")
+//        }
+
+        coroutineExceptionHandlerDemo()
     }
+
+    private fun log(i: Int) {
+        Log.i("日记打印", "log: $i")
+    }
+
+
+    private fun log(i: String) {
+        Log.i("日记打印", "log: $i")
+    }
+
+    suspend fun main() {
+        log(1)
+        try {
+            coroutineScope { //①
+                log(2)
+                launch { // ②
+                    log(3)
+                    launch { // ③
+                        log(4)
+                        delay(100)
+                        throw ArithmeticException("Hey!!")
+                    }
+                    log(5)
+                }
+                log(6)
+                val job = launch { // ④
+                    log(7)
+                    delay(1000)
+                }
+                try {
+                    log(8)
+                    job.join()
+                    log("9")
+                } catch (e: Exception) {
+                    log("10. $e")
+                }
+            }
+            log(11)
+        } catch (e: Exception) {
+            log("12. $e")
+        }
+        log(13)
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
