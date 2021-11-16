@@ -1,8 +1,10 @@
 package com.zkp.breath.coroutines
 
 import android.util.Log
+import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.*
 import okhttp3.internal.wait
+import java.lang.NullPointerException
 
 /**
  * 协程的异常处理
@@ -15,19 +17,59 @@ import okhttp3.internal.wait
  */
 fun coroutineExceptionHandlerDemo() {
 
-    launchMistake()
+//    launchMistake()
 //    asyncMistake()
+    coroutineScopeMistake()
 }
 
+fun coroutineScopeMistake() {
 
+}
+
+/**
+ * launch和async协程中未捕获的异常会立即在作业层次结构中传播。但是，如果顶层Coroutine是从launch启动的，则异常将由CoroutineExceptionHandler
+ * 处理或传递给线程的未捕获异常处理程序。如果顶级协程以async方式启动，则异常封装在Deferred返回类型中，并在调用.await（）时重新抛出。
+ */
 private fun asyncMistake() {
 
 
-    val async = GlobalScope.async {
-        suspendCoroutineExceptionTask()
+    fun topCoroutine() {
+        val coroutineScope = CoroutineScope(Job())
+        val async = coroutineScope.async {
+            Log.i("async异常捕获", "asyncMistake: ")
+            suspendCoroutineExceptionTask()
+        }
+
+        /**
+         * launch没有返回值，async可以获取携程的结果，如果异步协程失败，则将该异常封装在Deferred返回类型中，
+         * 并在我们调用suspend函数.await（）来检索其结果值时将其重新抛出。如果没有调用await，那么上面执行后程序是不会崩溃的。
+         */
+        GlobalScope.launch {
+            try {
+                async.await()
+            } catch (exception: Exception) {
+                Log.i("async异常捕获", "asyncMistake: ")
+            }
+        }
+
     }
 
+    /**
+     * 如果async协程是顶级协程，则会将异常封装在Deferred中,等待调用await才会抛出异常。否则，该异常将立即传播到Job层次结构中，
+     * 并由CoroutineExceptionHandler处理，甚至传递给线程的未捕获异常处理程序，即使不对其调用.await（），如以下示例所示：
+     */
+    fun noTopCoroutine() {
+        val coroutineScope = CoroutineScope(Job())
+        coroutineScope.launch(exceptionHandler) {
+            async {
+                Log.i("async异常捕获", "asyncMistake: ")
+                suspendCoroutineExceptionTask()
+            }
+        }
+    }
 
+//    topCoroutine()
+    noTopCoroutine()
 }
 
 /**
@@ -51,7 +93,7 @@ private fun launchMistake() {
         }
     }
 
-    // 错误的try-catch，需要在对应协程内处理。
+    // 错误的try-catch，需要在对应协程内处理，和作用域无关
     fun tryCatchMistake() {
         GlobalScope.launch {
             try {
@@ -65,7 +107,7 @@ private fun launchMistake() {
     }
 
     // 不同作用域，正确的CoroutineExceptionHandler设置
-    fun exceptionHandlerCorrect() {
+    fun differentScopeCorrect() {
         GlobalScope.launch {
             GlobalScope.launch(exceptionHandler) {
                 suspendCoroutineExceptionTask()
@@ -73,17 +115,17 @@ private fun launchMistake() {
         }
     }
 
-    // 不同作用域，错误的CoroutineExceptionHandler设置
-    fun exceptionHandlerMistake() {
+    // GlobalScope，同一个作用域，正确的CoroutineExceptionHandler设置
+    fun sameScopeCorrect() {
         GlobalScope.launch(exceptionHandler) {
-            GlobalScope.launch {
+            launch {
                 suspendCoroutineExceptionTask()
             }
         }
     }
 
-    // 同一个作用域，正确的CoroutineExceptionHandler设置
-    fun coroutineScopeCorrect() {
+    // 自定义CoroutineScope，同一个作用域，正确的CoroutineExceptionHandler设置
+    fun sameScopeCorrect1() {
         val topLevelScope = CoroutineScope(Job())
         topLevelScope.launch(exceptionHandler) {
             launch {
@@ -92,36 +134,11 @@ private fun launchMistake() {
         }
     }
 
-    // 同一个作用域，错误的CoroutineExceptionHandler设置
-    fun coroutineScopeMistake() {
-        val topLevelScope = CoroutineScope(Job())
-        topLevelScope.launch {
-            launch(exceptionHandler) {
-                throw RuntimeException("RuntimeException in nested coroutine")
-            }
-        }
-    }
-
-    fun coroutineScopeCorrect22() {
-        val topLevelScope = CoroutineScope(Job())
-        topLevelScope.launch(exceptionHandler) {
-            topLevelScope.launch {
-                throw RuntimeException("RuntimeException in nested coroutine")
-            }
-        }
-    }
-
-    // GlobalScope的例子
 //    tryCatchCorrect()
 //    tryCatchMistake()
-//    exceptionHandlerCorrect()
-//    exceptionHandlerMistake()
-
-
-    // CoroutineScope的例子
-//    coroutineScopeCorrect()
-//    coroutineScopeMistake()
-    coroutineScopeCorrect22()
+//    differentScopeCorrect()
+//    sameScopeCorrect()
+//    sameScopeCorrect1()
 }
 
 

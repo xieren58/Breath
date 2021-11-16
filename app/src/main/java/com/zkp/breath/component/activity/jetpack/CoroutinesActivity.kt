@@ -82,6 +82,10 @@ import kotlin.coroutines.*
  *    注意：我们使用线程的时候，想要让线程里面的任务停止执行也会面临类似的问题，但遗憾的是线程中看上去与 cancel 相近的 stop 接口已经被废弃，因为存在一些安全的问题。
  *          不过随着我们不断地深入探讨，你就会发现协程的 cancel 某种意义上更像线程的 interrupt。
  * 4. UNDISPATCHED模式，协程在这种模式下会直接开始在当前线程下执行协程体，直到第一个挂起点，当然遇到挂起点之后的执行就取决于挂起点本身的逻辑以及上下文当中的调度器了。
+ *
+ * 协程关系：
+ * 1.使用同一个上下文创建的协程是兄弟协程
+ * 2.使用一个协程的context发起的协程，是一个子协程
  */
 class CoroutinesActivity : ClickBaseActivity() {
 
@@ -99,8 +103,8 @@ class CoroutinesActivity : ClickBaseActivity() {
 //        delayDemo()
         interceptorDemo()
         dispatcherDemo()
-        coroutineExceptionHandler()
 
+        coroutineExceptionHandlerDemo()
         suspendCoroutineDemo()
 
         varargSetClickListener(binding.tvCoroutineStartType)
@@ -401,72 +405,6 @@ class CoroutinesActivity : ClickBaseActivity() {
             Log.i("defaultStrategyDemo", "4")
         }
     }
-
-
-    private fun coroutineExceptionHandler() {
-//        val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
-//            Log.i("异常捕获器", "coroutineExceptionHandler: ${throwable.message}")
-//        }
-//
-//        GlobalScope.launch(exceptionHandler) {
-//            Log.i("内存地址测试", "coroutineExceptionHandler1111: $this")
-////            GlobalScope.launch {//捕获不了，指定了新的作用域
-//            launch {//可以捕获，遵从默认作用域
-//                Log.i("内存地址测试", "coroutineExceptionHandler2222: $this")
-//                throw  NullPointerException("协程异常捕获器测试")
-//            }
-//        }
-
-//        GlobalScope.async(exceptionHandler) {
-//            throw  NullPointerException("协程异常捕获器测试 async")
-//        }
-
-        coroutineExceptionHandlerDemo()
-    }
-
-    private fun log(i: Int) {
-        Log.i("日记打印", "log: $i")
-    }
-
-
-    private fun log(i: String) {
-        Log.i("日记打印", "log: $i")
-    }
-
-    suspend fun main() {
-        log(1)
-        try {
-            coroutineScope { //①
-                log(2)
-                launch { // ②
-                    log(3)
-                    launch { // ③
-                        log(4)
-                        delay(100)
-                        throw ArithmeticException("Hey!!")
-                    }
-                    log(5)
-                }
-                log(6)
-                val job = launch { // ④
-                    log(7)
-                    delay(1000)
-                }
-                try {
-                    log(8)
-                    job.join()
-                    log("9")
-                } catch (e: Exception) {
-                    log("10. $e")
-                }
-            }
-            log(11)
-        } catch (e: Exception) {
-            log("12. $e")
-        }
-        log(13)
-    }
-
 
     override fun onDestroy() {
         super.onDestroy()
