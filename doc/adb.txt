@@ -15,3 +15,9 @@ WaitTime : 应用进程的创建过程 + TotalTime.
 
 2. 命令安装apk：
 adb install -r  [apk完整路径]
+
+3. 查看Android设备的CPU架构信息
+    1) adb shell
+    2) cat  /proc/cpuinfo
+
+   打印信息中的关键信息： CPU architecture：7表示arm-v7，8表示arm-v8。AArch64是ARMv8 架构的一种执行状态。
