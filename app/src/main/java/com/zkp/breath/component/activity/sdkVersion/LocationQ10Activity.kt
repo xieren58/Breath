@@ -16,7 +16,17 @@ import com.blankj.utilcode.util.PermissionUtils
 import com.zkp.breath.component.activity.base.ClickBaseActivity
 import com.zkp.breath.databinding.ActivityLocationBinding
 
-
+/**
+ * 1.Android 10 之前只有ACCESS_FINE_LOCATION和ACCESS_COARSE_LOCATION；
+ * 2.Android 10 新增加了后台定位权限：ACCESS_BACKGROUND_LOCATION，该权限对应始终允许；老的权限：ACCESS_FINE_LOCATION和ACCESS_COARSE_LOCATION代表仅前台使用允许；
+ * 3.应用的targetSdkVersion<Q，谷歌提供了兼容性方案，只要应用申请了老的位置权限ACCESS_FINE_LOCATION或者ACCESS_COARSE_LOCATION，
+ *   会默认请求ACCESS_BACKGROUND_LOCATION权限，动态授权弹框参考下面第一个图。
+ * 4.应用的TargetSdkVersion>=Q，如果应用必须要始终定位，可以只申请ACCESS_BACKGROUND_LOCATION即可，权限弹框参考下面第三个图；
+ *   如果应用只需要申请前台定位，则只需要申请老的定位权限即可，具体授权弹框参考第二个图。如果都申请则出现三态权限弹框，参考下面第一个图。
+ *
+ * https://lbs.amap.com/api/android-location-sdk/guide/utilities/permision_10
+ *   https://lbs.amap.com/api/android-location-sdk/guide/utilities/permision_11
+ */
 class LocationQ10Activity : ClickBaseActivity() {
 
     private lateinit var binding: ActivityLocationBinding
@@ -52,22 +62,22 @@ class LocationQ10Activity : ClickBaseActivity() {
     private fun requestPermission() {
 //        PermissionUtils.permission(PermissionConstants.LOCATION)
         PermissionUtils.permission(permission.ACCESS_FINE_LOCATION, permission.ACCESS_COARSE_LOCATION)
-                .rationale { activity, shouldRequest ->
-                    Log.i(ACTIVITY_TAG, "rationale")
-                    shouldRequest.again(true)
+            .rationale { activity, shouldRequest ->
+                Log.i(ACTIVITY_TAG, "rationale")
+                shouldRequest.again(true)
+            }
+            .callback(object : PermissionUtils.FullCallback {
+
+                override fun onGranted(granted: MutableList<String>) {
+                    Log.i(ACTIVITY_TAG, "onGranted")
+                    ActivityUtils.startHomeActivity()
+                    handler.postDelayed({ location() }, 1000L)
                 }
-                .callback(object : PermissionUtils.FullCallback {
 
-                    override fun onGranted(granted: MutableList<String>) {
-                        Log.i(ACTIVITY_TAG, "onGranted")
-                        ActivityUtils.startHomeActivity()
-                        handler.postDelayed({ location() }, 1000L)
-                    }
-
-                    override fun onDenied(deniedForever: MutableList<String>, denied: MutableList<String>) {
-                        Log.i(ACTIVITY_TAG, "onDenied")
-                    }
-                }).request()
+                override fun onDenied(deniedForever: MutableList<String>, denied: MutableList<String>) {
+                    Log.i(ACTIVITY_TAG, "onDenied")
+                }
+            }).request()
     }
 
     override fun onDebouncingClick(v: View) {
