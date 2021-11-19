@@ -17,6 +17,9 @@ import com.zkp.breath.component.activity.BackForegroundActivity
 /**
  * 音视频采集的前台服务
  *
+ * android 8 (O,26)及其以上，启动的服务都是前台服务Context # startForegroundService()，启动后五秒内需要调用Service # startForeground()
+ *
+ *
  * 为什么 Android 9 应用锁屏或切后台后采集音视频无效？
  * https://docs.agora.io/cn/All/faq/android_background
  */
