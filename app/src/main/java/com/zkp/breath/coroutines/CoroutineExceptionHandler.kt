@@ -23,7 +23,18 @@ fun coroutineExceptionHandlerDemo() {
 }
 
 fun coroutineScopeMistake() {
-
+    val topLevelScope = CoroutineScope(Job())
+    topLevelScope.launch {
+        try {
+            coroutineScope {
+                launch {
+                    suspendCoroutineExceptionTask()
+                }
+            }
+        } catch (exception: Exception) {
+            println("Handle $exception in try/catch")
+        }
+    }
 }
 
 /**
