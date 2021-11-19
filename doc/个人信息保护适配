@@ -1,0 +1,10 @@
+https://juejin.cn/post/7028835103589531678
+https://toutiao.io/posts/3nlnrs1/preview
+https://mp.weixin.qq.com/s/fsSHkumgON9DZe1awFTQ0g
+
+核心：
+1.让用户和平台知道我们更新了条款；（弹框或者在消息中心进行提示）
+2.在用户不同意的时候，不能不给用，只能不收集；（要做游客模式，第三方sdk需要改动）
+3.要准备好个人信息的导出支持；（参考微信，美团）
+
+参考：美团，微信
