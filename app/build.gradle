@@ -8,6 +8,9 @@ apply plugin: 'com.didi.dokit'
 apply plugin: 'walle'
 apply plugin: 'AndResGuard'
 
+apply from: '../flavor.gradle'
+
+
 kapt {
     arguments {
         arg("AROUTER_MODULE_NAME", project.getName())
@@ -26,20 +29,11 @@ android {
         applicationId "com.zkp.breath"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
         // 添加多dex分包支持，因为安卓中方法索引值为两个字节，四位十六进制的一个数值，即[0, 0xffff]，
         // 所以最大方法数为65536个。一旦超出了，就需要进行分包，所以我们就需要开启这个参数。
         multiDexEnabled true
         // 表明要使用AndroidJUnitRunner进行单元测试
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        // 风味维度，是需要结合 “产品风味（即productFlavors）” 来一起使用的。
-        flavorDimensions "versionCode"
-
-        ndk {
-            // 设置支持的SO库架构('x86'是针对虚拟器使用的)
-            abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86'
-        }
 
         // 配置编译时 java 的一些参数
         javaCompileOptions {
@@ -74,13 +68,6 @@ android {
             storePassword keystoreProperties['productA_storePassword']
             keyAlias = keystoreProperties['productA_keyAlias']
             keyPassword keystoreProperties['productA_keyPassword']
-        }
-
-        productB {
-            storeFile file(keystoreProperties['productB_storeFile'])
-            storePassword keystoreProperties['productB_storePassword']
-            keyAlias = keystoreProperties['productB_keyAlias']
-            keyPassword keystoreProperties['productB_keyPassword']
         }
 
     }
@@ -228,7 +215,6 @@ android {
      *  差异化（可实现马甲包）
      * 1.defaultConfig属于基本配置，下面的配置默认继承defaultConfig
      * 2.在下面需要配置原来主包的信息，否则只有差异化的包，打包是找不到主包的
-     * 3.
      */
     productFlavors {
 
@@ -236,8 +222,6 @@ android {
             // applicationId 应用的包名，会覆盖 defaultConfig 中的 applicationId
             // applicationId 会替换 AndroidManifest.xml 中的 manifest 标签下 package 的 value
             applicationId "com.zkp.breath"
-            versionCode 1
-            versionName "1.0"
 
             signingConfig signingConfigs.productBreath
 
@@ -252,20 +236,10 @@ android {
         productA {
             // 这里定义产品A的特性
             applicationId "com.zkp.product.a"
-            versionCode 11
-            versionName "1.0.1"
 
             signingConfig signingConfigs.productA
         }
 
-        productB {
-            // 这里定义产品B的特性
-            applicationId "com.zkp.product.b"
-            versionCode 21
-            versionName "2.0.1"
-
-            signingConfig signingConfigs.productB
-        }
     }
 
     // v和vm的双向自动响应的绑定

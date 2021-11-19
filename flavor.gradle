@@ -1,0 +1,62 @@
+android {
+
+    defaultConfig {
+        // 风味维度，是需要结合 “产品风味（即productFlavors）” 来一起使用的。
+        flavorDimensions('product', 'abi')
+    }
+
+    productFlavors {
+
+        productBreath {
+            dimension 'product'
+
+            versionCode 1
+            versionName "1.0.0"
+
+            buildTypes {
+                release {
+                    buildConfigField "String", "BUGLY_APP_KEY", "\"xxxxx\""
+                }
+
+                debug {
+                    buildConfigField "String", "BUGLY_APP_KEY", "\"yyyyy\""
+                }
+            }
+        }
+
+        productA {
+            dimension 'product'
+
+            versionCode 2
+            versionName "1.0.1"
+
+            buildTypes {
+                release {
+                    buildConfigField "String", "BUGLY_APP_KEY", "\"zzzzzz\""
+                }
+
+                debug {
+                    buildConfigField "String", "BUGLY_APP_KEY", "\"nnnnnnn\""
+                }
+            }
+        }
+
+        armV8 {
+            dimension 'abi'
+
+            ndk {
+                abiFilters 'arm64-v8a'
+            }
+        }
+
+        armV7 {
+            dimension 'abi'
+
+            ndk {
+                abiFilters 'armeabi-v7a'
+            }
+        }
+
+    }
+
+}
