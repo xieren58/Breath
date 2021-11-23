@@ -14,6 +14,10 @@ android {
             versionName "1.0.0"
 
             buildTypes {
+
+                // java代码中可用于区分风味包的自定义你字段
+                buildConfigField "String", "FLAVORS_TYPE", "\"1\""
+
                 release {
                     buildConfigField "String", "BUGLY_APP_KEY", "\"xxxxx\""
                 }
@@ -31,6 +35,10 @@ android {
             versionName "1.0.1"
 
             buildTypes {
+
+                // java代码中可用于区分风味包的自定义你字段
+                buildConfigField "String", "FLAVORS_TYPE", "\"2\""
+
                 release {
                     buildConfigField "String", "BUGLY_APP_KEY", "\"zzzzzz\""
                 }

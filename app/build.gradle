@@ -8,15 +8,10 @@ apply plugin: 'com.didi.dokit'
 apply plugin: 'walle'
 apply plugin: 'AndResGuard'
 
-apply from: '../flavor.gradle'
+apply from: '../flavor.gradle'  // 引用自定义的.gradle文件
 
 
-kapt {
-    arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
-    }
-}
-
+// 读取指定的properties文件，一般用于拆分gradle文件，让gradle文件职能单一以及组件化
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
@@ -25,7 +20,7 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        // applicationId 会替换 AndroidManifest.xml 中的 manifest 标签下 package 的 value
+        // applicationId 会替换 AndroidManifest.xml 中的 manifest 标签下 package 的 value。在风味包配置下这里也必须有一个applicationId，否则编译报错
         applicationId "com.zkp.breath"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -42,6 +37,13 @@ android {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
                 // room
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+
+        // 配置编译时 kotlin 的一些参数
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
 
@@ -133,14 +135,15 @@ android {
     sourceSets {
         // main文件夹
         main {
-            // java代码目录
+            // java代码目录，如果存在aidl则一定要指明，否则编译不通过
             java.srcDirs = ['src/main/java', 'src/main/aidl']
             // 清单文件路径
 //            manifest.srcFile 'src/main/AndroidManifest.xml'
         }
         // productA文件夹
         productA {
-            java.srcDirs = ['src/productA/java', 'src/productA/aidl']
+            // aidl使用main包下面的
+            java.srcDirs = ['src/productA/java', 'src/main/aidl']
 //            manifest.srcFile 'src/productA/AndroidManifest.xml'
         }
     }
