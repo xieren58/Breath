@@ -34,6 +34,8 @@ defaultConfig：https://blog.csdn.net/weixin_37625173/article/details/100641538
 buildTypes：https://blog.csdn.net/weixin_37625173/article/details/100824010
 flavorDimensions和productFlavors：https://juejin.cn/post/6844903968204652551
 
+> Gradle从入门到实战 - Groovy基础
+https://juejin.cn/post/6844903488686817293
 
 > compileSdkVersion,minSdkVersion,targetSdkVersion的区别:（一般配置都是minSdkVersion <= targetSdkVersion == compileSdkVersion ）
 1. compileSdkVersion ： 不会被包含到 APK 中，它纯粹只是在编译的时候使用。谷歌强烈推荐你总是使用最新的 SDK 进行编译，
