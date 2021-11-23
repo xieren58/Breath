@@ -140,13 +140,8 @@ android {
         }
         // productA文件夹
         productA {
-            java.srcDirs = ['src/productA/java', 'src/productA.jks/aidl']
+            java.srcDirs = ['src/productA/java', 'src/productA/aidl']
 //            manifest.srcFile 'src/productA/AndroidManifest.xml'
-        }
-        // productB文件夹
-        productB {
-            java.srcDirs = ['src/productB/java', 'src/productB/aidl']
-//            manifest.srcFile 'src/productB/AndroidManifest.xml'
         }
     }
 
