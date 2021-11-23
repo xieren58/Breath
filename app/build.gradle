@@ -112,11 +112,9 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.all {
             def time = new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("UTC"))
-            if (variant.buildType.name == 'release') {
-                outputFileName = "Breath_" + "${variant.mergedFlavor.versionName}_release.apk"
-            } else if (variant.buildType.name == 'debug') {
-                outputFileName = "Breath_" + "${variant.mergedFlavor.versionName}_debug.apk"
-            }
+            def name = variant.productFlavors[0].name   // 风味包维度1（y轴）
+            def flavors = variant.productFlavors[1].name    // 风味包维度2（x轴）
+            outputFileName = "${name}_${flavors}_${variant.mergedFlavor.versionName}_${variant.buildType.name}_${time}.apk"
         }
     }
 
