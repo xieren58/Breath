@@ -21,3 +21,16 @@ adb install -r  [apk完整路径]
     2) cat  /proc/cpuinfo
 
    打印信息中的关键信息： CPU architecture：7表示arm-v7，8表示arm-v8。AArch64是ARMv8 架构的一种执行状态。
+
+4. Android 11 的无线调试简直不要太好用 : https://juejin.cn/post/6905723052693127176
+
+    查看adb版本 ： adb --version
+    示例：
+    // adb版本
+    Android Debug Bridge version 1.0.41
+    // android sdk platform tools 版本 (as设置 -> Apperance&Behavior -> System Settings -> Android SDK -> SDK Tools -> Android Sdk Platform-Tools)
+    Version 31.0.3-7562133
+    //  adb存放的路径
+    Installed as /Users/ykwl/Library/Android/sdk/platform-tools/adb
+
+    获取连接adb成功的设备列表：adb devices -l
