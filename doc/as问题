@@ -3,3 +3,7 @@
 
 2. File -> Power Save Mode
     省电模式，开启后代码无高亮显示
+
+3. 自动导包或者自动删除无效导包
+   File –> Settings –> Editor –> General –> Auto Import
+   选中Optimizes imports on the fly(自动删除无效导包)，和Add unambiguous imports on the fly（自动导包）即可。
