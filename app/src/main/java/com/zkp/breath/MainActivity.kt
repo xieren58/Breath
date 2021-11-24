@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.*
 import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.meituan.android.walle.WalleChannelReader
 import com.umeng.analytics.MobclickAgent
 import com.zkp.breath.adpter.EntranceAdapter
 import com.zkp.breath.adpter.decoration.EntranceItemDecoration
@@ -18,14 +19,12 @@ import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.component.activity.blankj.BlankjActivity
 import com.zkp.breath.component.activity.debugs.DebugActivity
 import com.zkp.breath.component.activity.jetpack.*
-import com.zkp.breath.component.activity.jetpack.CoroutinesActivity
 import com.zkp.breath.component.activity.sdkVersion.SdkVersionActivity
 import com.zkp.breath.component.activity.third.GlideActivity
 import com.zkp.breath.component.activity.third.MMKVActivity
 import com.zkp.breath.component.activity.third.RxJava3Activity
 import com.zkp.breath.component.activity.weight.*
 import com.zkp.breath.databinding.ActivityEntranceBinding
-import com.meituan.android.walle.WalleChannelReader
 
 
 class MainActivity : BaseActivity() {
