@@ -52,6 +52,17 @@ import java.io.File
  *   //清空磁盘缓存，要求在后台线程中执行
  *   Glide.get(this).clearDiskCache()
  *
+ *
+ *  Glide的缓存机制（https://juejin.cn/post/6844903583280791559#heading-18）：重点在于Lru内存缓存和弱引用内存缓存。
+ *
+ *  写入：
+ *  1. 当 acquired变量 > 0，说明图片正在使用，该图片缓存继续存放到activeResources弱引用缓存中
+ *  2. 当 acquired变量 = 0，说明图片不再被使用，就将该图片的缓存Key从 activeResources弱引用缓存中移除，并存放到LruResourceCache缓存中
+ *
+ *  读取：
+ *  1. loadFromCache()：从 使用了 LruCache算法机制的内存缓存获取 缓存
+ *  2. loadFromActiveResources()：从 使用了 弱引用机制的内存缓存获取 缓存
+ *
  */
 class GlideActivity : BaseActivity() {
 
@@ -67,11 +78,11 @@ class GlideActivity : BaseActivity() {
 
     private fun initView() {
         val arrayListOf = arrayListOf(
-                "https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/1a3eb8b7背景.png",
-                "https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/b01eb218背景5.png",
-                "https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/49d209e3背景2.png",
-                "https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/f6620121背景7.png",
-                "https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/5da173a0背景10.png"
+            "https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/1a3eb8b7背景.png",
+            "https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/b01eb218背景5.png",
+            "https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/49d209e3背景2.png",
+            "https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/f6620121背景7.png",
+            "https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/5da173a0背景10.png"
         )
 
         val viewpager2 = binding.vp2
@@ -92,44 +103,56 @@ class GlideActivity : BaseActivity() {
     // 预加载，提前加载图片。测试的时候先清除内存缓存和本地缓存，然后开启这个方法去加载，关闭网络再去加载这条url后显示出来，如果能显示则证明有效。
     private fun onpreload() {
         Glide.with(this)
-                .load("https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/1a3eb8b7背景.png")
-                // 这个监听只是为了查看数据是否下载完成
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                        // 如果return true，则不会再回调Target的onLoadFailed（也就是不再往下传递）。
-                        return false
-                    }
+            .load("https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/1a3eb8b7背景.png")
+            // 这个监听只是为了查看数据是否下载完成
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                    // 如果return true，则不会再回调Target的onLoadFailed（也就是不再往下传递）。
+                    return false
+                }
 
-                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                        // 如果return true，则不会再回调Target的onResourceReady（也就是不再往下传递），imageView也就不会显示加载到的图片了。
-                        return true
-                    }
-                })
-                .preload()
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    // 如果return true，则不会再回调Target的onResourceReady（也就是不再往下传递），imageView也就不会显示加载到的图片了。
+                    return true
+                }
+            })
+            .preload()
     }
 
     // 下载完的file是存放在glide指定的路径下，然后使用copy文件的方法移植到你的目标路径。
     fun downloadThenCopy() {
         GlobalScope.launch(Dispatchers.IO) {
             val submit = Glide.with(this@GlideActivity)
-                    .asFile()
-                    .load("https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/1a3eb8b7背景.png")
-                    .listener(object : RequestListener<File> {
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<File>?, isFirstResource: Boolean): Boolean {
-                            return false
-                        }
+                .asFile()
+                .load("https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/1a3eb8b7背景.png")
+                .listener(object : RequestListener<File> {
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<File>?, isFirstResource: Boolean): Boolean {
+                        return false
+                    }
 
-                        override fun onResourceReady(resource: File?, model: Any?, target: Target<File>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            val s = PathUtils.getExternalStoragePath() + "/glideBitmap1.png"
-                            FileUtils.copy(resource.toString(), s)
-                            LogUtils.i("resource路径:" + resource.toString())
-                            return true
-                        }
+                    override fun onResourceReady(
+                        resource: File?,
+                        model: Any?,
+                        target: Target<File>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        val s = PathUtils.getExternalStoragePath() + "/glideBitmap1.png"
+                        FileUtils.copy(resource.toString(), s)
+                        LogUtils.i("resource路径:" + resource.toString())
+                        return true
+                    }
 
-                    })
-                    //加载原图大小
-                    //也可以指定大小，内部会以最短边计算比例后下载。
-                    .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                })
+                //加载原图大小
+                //也可以指定大小，内部会以最短边计算比例后下载。
+                .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
         }
     }
 
@@ -137,26 +160,32 @@ class GlideActivity : BaseActivity() {
     fun downloadBitmap() {
         GlobalScope.launch(Dispatchers.IO) {
             Glide.with(this@GlideActivity)
-                    .asBitmap()
-                    .load("https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/1a3eb8b7背景.png")
-                    .listener(object : RequestListener<Bitmap> {
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
-                            LogUtils.i()
-                            return false
-                        }
+                .asBitmap()
+                .load("https://friendshipout.oss-cn-shenzhen.aliyuncs.com/backgroundPicture/1a3eb8b7背景.png")
+                .listener(object : RequestListener<Bitmap> {
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                        LogUtils.i()
+                        return false
+                    }
 
-                        override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            val bitmap2Bytes = ImageUtils.bitmap2Bytes(resource)
-                            val path = PathUtils.getExternalStoragePath() + "/glideBitmap.png"
-                            val writeFileFromBytesByStream = FileIOUtils.writeFileFromBytesByStream(path, bitmap2Bytes)
-                            LogUtils.i("是否写入成功:$writeFileFromBytesByStream")
-                            return true
-                        }
+                    override fun onResourceReady(
+                        resource: Bitmap?,
+                        model: Any?,
+                        target: Target<Bitmap>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        val bitmap2Bytes = ImageUtils.bitmap2Bytes(resource)
+                        val path = PathUtils.getExternalStoragePath() + "/glideBitmap.png"
+                        val writeFileFromBytesByStream = FileIOUtils.writeFileFromBytesByStream(path, bitmap2Bytes)
+                        LogUtils.i("是否写入成功:$writeFileFromBytesByStream")
+                        return true
+                    }
 
-                    })
-                    //加载原图大小
-                    //也可以指定大小，内部会以最短边计算比例后下载。
-                    .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                })
+                //加载原图大小
+                //也可以指定大小，内部会以最短边计算比例后下载。
+                .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
         }
     }
 
