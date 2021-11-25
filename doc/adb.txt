@@ -34,3 +34,5 @@ adb install -r  [apk完整路径]
     Installed as /Users/ykwl/Library/Android/sdk/platform-tools/adb
 
     获取连接adb成功的设备列表：adb devices -l
+
+5. 使用adb收集log：adb logcat -v time >日志的绝对路径（比如/Users/ykwl/Desktop/rongyun.log）
