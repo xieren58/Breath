@@ -18,8 +18,9 @@ import kotlinx.android.synthetic.main.activity_entrance.*
 class JetPackActivity : BaseActivity(R.layout.activity_entrance) {
 
     private val listOf = mutableListOf(
-            "StartUp", "ViewModel", "ViewBinding", "Lifecycle", "ProcessLifecycle",
-            "LiveData", "DataBinding", "Paging", "Room", "DataStore", "ResultsApi", "Navigation"
+        "StartUp", "ViewModel", "ViewBinding", "Lifecycle", "ProcessLifecycle",
+        "LiveData", "DataBinding", "Paging", "Room", "DataStore", "ResultsApi", "Navigation",
+        "Coil"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,6 +88,10 @@ class JetPackActivity : BaseActivity(R.layout.activity_entrance) {
             }
             "Navigation" -> {
                 ActivityUtils.startActivity(NavigationActivity::class.java)
+                return@OnItemClickListener
+            }
+            "Coil" -> {
+                ActivityUtils.startActivity(CoilActivity::class.java)
                 return@OnItemClickListener
             }
             else -> {

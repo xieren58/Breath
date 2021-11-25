@@ -264,6 +264,7 @@
         <activity android:name=".component.activity.jetpack.ResultsApiActivity" />
         <activity android:name=".component.activity.jetpack.ResultsApiActivity$ResultsApiSecondActivity" />
         <activity android:name=".component.activity.jetpack.NavigationActivity" />
+        <activity android:name=".component.activity.jetpack.CoilActivity" />
 
         <activity android:name=".component.activity.BackForegroundActivity" />
 

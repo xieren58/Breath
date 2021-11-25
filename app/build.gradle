@@ -302,7 +302,7 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     // coil (和glide差不多)
-    implementation "io.coil-kt:coil:1.1.1"
+    implementation "io.coil-kt:coil:1.4.0"
 
     // datastore  （和协程依赖有冲突，可能是alpha版本的问题）
     implementation "androidx.datastore:datastore-preferences:1.0.0-alpha01"
