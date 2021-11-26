@@ -7,3 +7,7 @@
 3. 自动导包或者自动删除无效导包
    File –> Settings –> Editor –> General –> Auto Import
    选中Optimizes imports on the fly(自动删除无效导包)，和Add unambiguous imports on the fly（自动导包）即可。
+
+4. as使用github的token登录github
+   登录github -> Settings -> Developer settings -> Personal access tokens -> Generate new token
+
