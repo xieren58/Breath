@@ -28,6 +28,9 @@ MAD Skills（Modern Android Development）: https://madskills.hi-dhl.com/#/
 
 设计模式：https://blog.csdn.net/itachi85/article/details/50491657
 
+这15个Android开源库，只有经常逛Github的才知道：
+https://juejin.cn/post/6856637313964441614
+
 
 retofit:
 1. 请求方法只能定义在接口中，接口及其父接口不能声明泛型
