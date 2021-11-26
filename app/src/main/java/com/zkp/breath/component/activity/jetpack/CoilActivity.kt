@@ -2,7 +2,6 @@ package com.zkp.breath.component.activity.jetpack
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import coil.ImageLoader
 import coil.load
 import coil.transform.GrayscaleTransformation
 import com.zkp.breath.R
@@ -10,8 +9,11 @@ import com.zkp.breath.component.activity.base.BaseActivity
 import com.zkp.breath.databinding.ActivityCoilBinding
 
 /**
- * 核心：ImageLoader，相当于GlideOptions（Glide），基本上所有的配置都在这个类进行
+ * https://juejin.cn/post/6844904159527829518#heading-8
  *
+ * 优势：纯kotlin，语法糖能代码更加简洁。
+ *
+ * 核心：ImageLoader，相当于GlideOptions（Glide），基本上所有的配置都在这个类进行
  */
 class CoilActivity : BaseActivity() {
 
@@ -43,28 +45,5 @@ class CoilActivity : BaseActivity() {
 //            .build()
 //        imageLoader.enqueue(request)// 真正发起请求
     }
-
-
-    private fun requests() {
-//        val imageLoader = Coil.imageLoader(this)
-//        val request = LoadRequest.Builder(context)
-//            .data("https://www.example.com/image.jpg")
-//            .target { drawable ->
-//                // Handle the result.
-//            }
-//            .build()
-//        imageLoader.execute(request)
-    }
-
-    /**
-     * 相当于GlideOptions，一般建议只创建一个 ImageLoader 并在 App 中进行共享，这样性能是最优的。这是因为每个 ImageLoader 都有自己的内存缓存和 Bitmap 缓存池。
-     */
-    private fun imageLoader() {
-        val imageLoader = ImageLoader.Builder(this)
-            .availableMemoryPercentage(0.25)
-            .crossfade(true)
-            .build()
-    }
-
 
 }
