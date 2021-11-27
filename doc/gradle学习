@@ -35,6 +35,9 @@ https://github.com/zincPower/GradleStudy
 > flavorDimensions前提下，buildTypes的debug模式设置的签名无效的解决方案
 https://blog.csdn.net/liuyu0915/article/details/90485863
 
+> 配置splits的abi，生成不同名字的apk（或者不自定义outputFileName使用默认，否则可能会因为名字重复造成打包失败）
+https://www.jianshu.com/p/3a31065478bb
+
 > Gradle从入门到实战 - Groovy基础
 https://juejin.cn/post/6844903488686817293
 
