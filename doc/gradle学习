@@ -30,9 +30,10 @@ https://segmentfault.com/a/1190000004229002
 https://mp.weixin.qq.com/s/qawywKLqie4QUoeTf8HCDA
 
 > gradle配置
-defaultConfig：https://blog.csdn.net/weixin_37625173/article/details/100641538
-buildTypes：https://blog.csdn.net/weixin_37625173/article/details/100824010
-flavorDimensions和productFlavors：https://juejin.cn/post/6844903968204652551
+https://github.com/zincPower/GradleStudy
+
+> flavorDimensions前提下，buildTypes的debug模式设置的签名无效的解决方案
+https://blog.csdn.net/liuyu0915/article/details/90485863
 
 > Gradle从入门到实战 - Groovy基础
 https://juejin.cn/post/6844903488686817293
