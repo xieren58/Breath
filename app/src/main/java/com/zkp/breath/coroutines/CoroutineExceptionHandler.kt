@@ -1,12 +1,12 @@
 package com.zkp.breath.coroutines
 
 import android.util.Log
-import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.*
-import okhttp3.internal.wait
-import java.lang.NullPointerException
 
 /**
+ *
+ * https://juejin.cn/post/6844904163424337934
+ *
  * 协程的异常处理
  *
  * 0.只能捕获对应协程内未捕获的异常
