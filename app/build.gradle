@@ -239,6 +239,13 @@ android {
                     ICON      : "@mipmap/ic_launcher",
                     ROUND_ICON: "@mipmap/ic_launcher_round"
             ]
+
+            // 在productFlavors下，debug环境要设置为null，否则使用的是默认的签名，会导致应用过程中一些第三方发生签名校验失败。
+            buildTypes {
+                debug {
+                    signingConfig null
+                }
+            }
         }
 
         productA {
@@ -246,6 +253,13 @@ android {
             applicationId "com.zkp.product.a"
 
             signingConfig signingConfigs.productA
+
+            // 在productFlavors下，debug环境要设置为null，否则使用的是默认的签名，会导致应用过程中一些第三方发生签名校验失败。
+            buildTypes {
+                debug {
+                    signingConfig null
+                }
+            }
         }
 
     }
