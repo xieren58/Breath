@@ -82,7 +82,9 @@
             android:name="xposedminversion"
             android:value="54" />
 
-        <activity android:name=".component.activity.ActivitySplash">
+        <activity
+            android:name=".component.activity.ActivitySplash"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -91,31 +93,40 @@
 
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.EventActivity">
+        <activity
+            android:name=".component.activity.EventActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.ActivityB">
+        <activity
+            android:name=".component.activity.ActivityB"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.ServiceDemoActivity">
+        <activity
+            android:name=".component.activity.ServiceDemoActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.weight.CoordinatorActivity">
+        <activity
+            android:name=".component.activity.weight.CoordinatorActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -140,62 +151,82 @@
         <activity android:name=".component.activity.weight.qmui.QMUIButtonActivity" />
         <activity android:name=".component.activity.weight.qmui.QMUIDialogActivity" />
 
-        <activity android:name=".component.activity.mvx.MvcActivity">
+        <activity
+            android:name=".component.activity.mvx.MvcActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.mvx.MvpActivity">
+        <activity
+            android:name=".component.activity.mvx.MvpActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
 
-        <activity android:name=".component.activity.third.DatabaseActivity">
+        <activity
+            android:name=".component.activity.third.DatabaseActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.performance.MemoryShakeActivity">
+        <activity
+            android:name=".component.activity.performance.MemoryShakeActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.performance.LeakCanaryActivity">
+        <activity
+            android:name=".component.activity.performance.LeakCanaryActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.performance.BlockCanaryActivity">
+        <activity
+            android:name=".component.activity.performance.BlockCanaryActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.animator.LayoutTransitionActivity">
+        <activity
+            android:name=".component.activity.animator.LayoutTransitionActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.animator.ViewPropertyAnimatorActivity">
+        <activity
+            android:name=".component.activity.animator.ViewPropertyAnimatorActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.animator.CircularRevealActivity">
+        <activity
+            android:name=".component.activity.animator.CircularRevealActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".component.activity.third.RxJava3Activity">
+        <activity
+            android:name=".component.activity.third.RxJava3Activity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -218,7 +249,9 @@
         <activity android:name=".component.activity.arouter.Test4ArouterActivity" />
         <activity android:name=".component.activity.arouter.Test5ArouterActivity" />
         <activity android:name=".component.activity.arouter.TestWebviewActivity" />
-        <activity android:name=".component.activity.arouter.SchemeFilterActivity">
+        <activity
+            android:name=".component.activity.arouter.SchemeFilterActivity"
+            android:exported="true">
             <intent-filter>
                 <data
                     android:host="m.aliyun.com"
@@ -321,7 +354,9 @@
         </provider>
 
 
-        <receiver android:name=".component.activity.sdkVersion.NotificationActivity$NotificationBroadcastReceiver">
+        <receiver
+            android:name=".component.activity.sdkVersion.NotificationActivity$NotificationBroadcastReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.xxx.xxx.cancel" />
             </intent-filter>
