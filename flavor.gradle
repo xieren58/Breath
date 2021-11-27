@@ -5,7 +5,7 @@ android {
         flavorDimensions('product')
     }
 
-    // 注意要把outputFileName
+    // 注意，outputFileName要么区分abi，要么不自定义使用系统默认，否则会因为命名相同而打包失败
     splits {
         abi {
             // 是否开启 abi 分包，默认不开启
