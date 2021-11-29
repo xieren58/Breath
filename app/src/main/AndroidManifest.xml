@@ -82,9 +82,10 @@
             android:name="xposedminversion"
             android:value="54" />
 
+        <!-- action为android.intent.action.MAIN的activity的exported必须设置为true，表示可以其它应用打开，否则应用可以安装，但是会提示"你的手机上未安装应用程序" -->
         <activity
             android:name=".component.activity.ActivitySplash"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
