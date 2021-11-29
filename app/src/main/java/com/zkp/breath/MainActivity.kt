@@ -23,6 +23,7 @@ import com.zkp.breath.component.activity.sdkVersion.SdkVersionActivity
 import com.zkp.breath.component.activity.third.GlideActivity
 import com.zkp.breath.component.activity.third.MMKVActivity
 import com.zkp.breath.component.activity.third.RxJava3Activity
+import com.zkp.breath.component.activity.web.H5WakeAppActivity
 import com.zkp.breath.component.activity.weight.*
 import com.zkp.breath.databinding.ActivityEntranceBinding
 
@@ -32,9 +33,8 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityEntranceBinding
 
     private val listOf = mutableListOf(
-        "计算入口m5", "MMKV", "Handler", "Weight", "SdkVersion", "ARoute", "BlankjActivity",
-        "Coroutines", "Debug",
-        "Rxjava3", "Glide4", "Component", "JetPack"
+        "计算入口m5", "Component", "JetPack", "Handler", "Weight", "SdkVersion", "ARoute", "BlankjActivity",
+        "Coroutines", "Debug", "MMKV", "Rxjava3", "Glide4", "web"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -151,6 +151,10 @@ class MainActivity : BaseActivity() {
             }
             "JetPack" -> {
                 ActivityUtils.startActivity(JetPackActivity::class.java)
+                return@OnItemClickListener
+            }
+            "web" -> {
+                ActivityUtils.startActivity(H5WakeAppActivity::class.java)
                 return@OnItemClickListener
             }
             else -> {

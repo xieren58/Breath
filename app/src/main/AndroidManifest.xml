@@ -90,6 +90,20 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- 模拟外部浏览器h5唤起app的配置 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- 这部分要和h5的配置一致-->
+                <data
+                    android:host="splash"
+                    android:scheme="cundong" />
+            </intent-filter>
+
         </activity>
 
         <activity
@@ -304,6 +318,8 @@
 
         <activity android:name=".component.activity.blankj.BlankjActivity" />
         <activity android:name=".component.activity.blankj.LogActivity" />
+
+        <activity android:name=".component.activity.web.H5WakeAppActivity" />
 
         <activity android:name=".component.activity.LLM5Activity" />
 
