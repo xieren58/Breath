@@ -10,8 +10,8 @@ import com.zkp.breath.coroutines.suspendCoroutineDemo
 import com.zkp.breath.databinding.ActivityCoroutinesBinding
 import kotlinx.coroutines.*
 import kotlin.concurrent.thread
-import kotlinx.coroutines.CoroutineName
-import kotlin.coroutines.*
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.ContinuationInterceptor
 
 
 /**
@@ -61,7 +61,7 @@ import kotlin.coroutines.*
  * 3.async：启动一个新的协程，之后返回一个 Deferred<T>对象（Job的子类），Deferred#await()可以获取到返回值，await
  *          是一个挂起函数。
  *
- * 协程作用域（理解为生命周期）：
+ * 协程作用域（理解为生命周期，实际上也是一个协程上下文）：
  * 1.GlobalScope：全局协程作用域（GlobalScope是一个饿汉式单例），可以在整个应用的声明周期中操作，且不能取消，
  *               会造成空指针或者内存泄漏,所以仍不适用于业务开发。
  * 2.自定义作用域：自定义协程的作用域，不会造成内存泄漏。

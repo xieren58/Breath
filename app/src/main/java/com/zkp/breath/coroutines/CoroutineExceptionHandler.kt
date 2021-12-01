@@ -7,8 +7,22 @@ import kotlinx.coroutines.*
  *
  * https://juejin.cn/post/6844904163424337934
  *
- * 协程的异常处理
+ * 一般而言，协程发生异常，会做以下几件事：
+ * 1. 异常传播给它的父协程
+ * 2. 父协程取消其它子协程
+ * 3. 父协程取消自己
+ * 4. 递归第1步
  *
+ * Job和SupervisorJob ：
+ * 0. 两者都是一个协程上下文
+ * 1. 如果想让子协程的失败不会影响其他的子协程，那么在创建CoroutineScope的CoroutineContext的时候，可以选择SupervisorJob。其实就是不传播异常到父协程，但是需要对应
+ *    的子协程处理异常， 可以提供异常处理器 CoroutineExceptionHandler。
+ * 2. 如果使用的是CoroutineContext使用的是Job，异常也是会传播到父协程，那么即便你在对应的子协程使用CoroutineExceptionHandler也不能处理异常，这时就应该要在父协程进行处理。
+ * 3. 无论你使用哪种类型的 Job，未捕获异常最终都会被抛出。如果不知道在那一层设置CoroutineExceptionHandler，那么可以在感觉会有问题的协程的协程体中进行try-catch。
+ * 4. 警告：SupervisorJob 仅在属于下面两种作用域时才起作用：使用 supervisorScope 或者 CoroutineScope(SupervisorJob()) 创建的作用域。
+ *
+ *
+ * 协程的异常处理
  * 0.只能捕获对应协程内未捕获的异常
  * 1.功能相当于Thread.setUncaughtExceptionHandler进行异常的全局自定义处理
  * 2.相当于ContinuationInterceptor拦截器，二者都是一个协程上下文，只是拦截输出的内容不一样。
@@ -19,8 +33,28 @@ fun coroutineExceptionHandlerDemo() {
 
 //    launchMistake()
 //    asyncMistake()
-    coroutineScopeMistake()
+//    coroutineScopeMistake()
+
+
+    val scope = CoroutineScope(Job())
+    scope.launch(exceptionHandler) {
+        launch {
+            launch {
+                // Child 1
+                delay(1000L)
+                Log.i("测试是否被取消", "111111: ")
+                throw  NullPointerException()
+            }
+            launch {
+                // Child
+                delay(2000L)
+                Log.i("测试是否被取消", "coroutineExceptionHandlerDemo: ")
+            }
+        }
+    }
+
 }
+
 
 fun coroutineScopeMistake() {
     val topLevelScope = CoroutineScope(Job())

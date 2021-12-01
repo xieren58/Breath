@@ -33,8 +33,8 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityEntranceBinding
 
     private val listOf = mutableListOf(
-        "计算入口m5", "Component", "JetPack", "Handler", "Weight", "SdkVersion", "ARoute", "BlankjActivity",
-        "Coroutines", "Debug", "MMKV", "Rxjava3", "Glide4", "web"
+        "计算入口m5", "Component", "JetPack", "Handler", "Coroutines", "Weight", "SdkVersion", "ARoute", "BlankjActivity",
+        "Debug", "MMKV", "Rxjava3", "Glide4", "web"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
