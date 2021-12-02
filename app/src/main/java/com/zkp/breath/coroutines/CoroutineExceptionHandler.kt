@@ -141,14 +141,14 @@ fun exceptionHandle() {
 
     fun launchSuperScope2() {
         val scope = CoroutineScope(Job())
-        scope.launch {//1
+        scope.launch {
             supervisorScope {
-                launch(exceptionHandler) {//2，和1是兄弟协程
+                launch(exceptionHandler) {
                     delay(1000L)
                     Log.i("launchSuperScope2", "测试是否被取消111")
                     throw  NullPointerException()
                 }
-                launch {//3，和1是兄弟协程
+                launch {
                     delay(2000L)
                     Log.i("launchSuperScope2", "测试是否被取消222")
                 }
@@ -158,12 +158,34 @@ fun exceptionHandle() {
         }
     }
 
+    fun launchSuperScope3() {
+        val scope = CoroutineScope(Job())
+        scope.launch {//1
+            supervisorScope {
+                launch(exceptionHandler) {
+                    launch {
+                        delay(3000L)
+                        Log.i("launchSuperScope2", "测试是否被取消333")
+                    }
+                    delay(1000L)
+                    Log.i("launchSuperScope2", "测试是否被取消111")
+                    throw  NullPointerException()
+                }
+                launch {//3，和1是兄弟协程
+                    delay(2000L)
+                    Log.i("launchSuperScope2", "测试是否被取消222")
+                }
+            }
+        }
+    }
+
 //    launchJobTry()
 //    launchJobHandler()
 //    launchSuperJobHandlerFs()
 //    launchSuperJobHandlerBr()
 //    launchSuperScope1()
 //    launchSuperScope2()
+    launchSuperScope3()
 }
 
 
