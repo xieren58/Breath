@@ -105,6 +105,9 @@ android {
             // 设置签名配置，如果productFlavors使用的签名都是一致的话，那么可以在此处开启signingConfig即可，但一般不推荐，防止一些第三方sdk是和签名绑定的。
             // 注意：此处的优先级高于productFlavors下的设置，所以如果两处都有设置，那么此处一定会覆盖productFlavors的设置。
 //            signingConfig signingConfigs.release
+
+            // 在productFlavors下，debug环境要设置为null，否则使用的是默认的签名，会导致应用过程中一些第三方发生签名校验失败。
+            signingConfig null
         }
 
     }
@@ -240,12 +243,6 @@ android {
                     ROUND_ICON: "@mipmap/ic_launcher_round"
             ]
 
-            // 在productFlavors下，debug环境要设置为null，否则使用的是默认的签名，会导致应用过程中一些第三方发生签名校验失败。
-            buildTypes {
-                debug {
-                    signingConfig null
-                }
-            }
         }
 
         productA {
@@ -253,13 +250,6 @@ android {
             applicationId "com.zkp.product.a"
 
             signingConfig signingConfigs.productA
-
-            // 在productFlavors下，debug环境要设置为null，否则使用的是默认的签名，会导致应用过程中一些第三方发生签名校验失败。
-            buildTypes {
-                debug {
-                    signingConfig null
-                }
-            }
         }
 
     }

@@ -25,19 +25,9 @@ android {
             versionCode 1
             versionName "1.0.0"
 
-            buildTypes {
-
-                // java代码中可用于区分风味包的自定义你字段
-                buildConfigField "String", "FLAVORS_TYPE", "\"1\""
-
-                release {
-                    buildConfigField "String", "BUGLY_APP_KEY", "\"xxxxx\""
-                }
-
-                debug {
-                    buildConfigField "String", "BUGLY_APP_KEY", "\"yyyyy\""
-                }
-            }
+            // java代码中可用于区分风味包的自定义字段
+            buildConfigField "String", "FLAVORS_TYPE", "\"1\""
+            buildConfigField "String", "BUGLY_APP_KEY", isReleaseBuildType() ? "\"xxxxx\"" : "\"yyyyy\""
         }
 
         productA {
@@ -46,21 +36,23 @@ android {
             versionCode 2
             versionName "1.0.1"
 
-            buildTypes {
-
-                // java代码中可用于区分风味包的自定义你字段
-                buildConfigField "String", "FLAVORS_TYPE", "\"2\""
-
-                release {
-                    buildConfigField "String", "BUGLY_APP_KEY", "\"zzzzzz\""
-                }
-
-                debug {
-                    buildConfigField "String", "BUGLY_APP_KEY", "\"nnnnnnn\""
-                }
-            }
+            // java代码中可用于区分风味包的自定义字段
+            buildConfigField "String", "FLAVORS_TYPE", "\"2\""
+            buildConfigField "String", "BUGLY_APP_KEY", isReleaseBuildType() ? "\"zzzzzz\"" : "\"nnnnnnn\""
         }
 
     }
 
 }
+
+boolean isReleaseBuildType() {
+    for (String s : gradle.startParameter.taskNames) {
+        if (s.contains("Release") | s.contains("release")) {
+            println("正式环境release")
+            return true
+        }
+    }
+    println("测试环境debug")
+    return false
+}
+
