@@ -1,7 +1,9 @@
-package com.zkp.httpprotocol;
+package com.zkp.httpprotocol.interceptor;
 
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.zkp.httpprotocol.BuildConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;

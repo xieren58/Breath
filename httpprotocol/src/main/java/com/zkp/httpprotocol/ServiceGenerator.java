@@ -3,6 +3,7 @@ package com.zkp.httpprotocol;
 
 import com.zkp.httpprotocol.converter.CommonConverterFactory;
 import com.zkp.httpprotocol.converter.TgzyConverterFactory;
+import com.zkp.httpprotocol.interceptor.LoggerInterceptor;
 
 import java.util.concurrent.TimeUnit;
 

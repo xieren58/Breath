@@ -1,8 +1,10 @@
-package com.zkp.httpprotocol;
+package com.zkp.httpprotocol.interceptor;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+
+import com.zkp.httpprotocol.BuildConfig;
 
 import java.io.IOException;
 
