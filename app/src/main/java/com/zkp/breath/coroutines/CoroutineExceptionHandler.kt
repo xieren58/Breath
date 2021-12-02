@@ -7,7 +7,11 @@ import kotlinx.coroutines.*
  *
  * https://juejin.cn/post/6844904163424337934
  *
- * 一般而言，协程发生异常，会做以下几件事：
+ * 协程异常：
+ * 1. 异常是否会传递，和Job和SupervisorJob这两个有关
+ * 2. 异常的处理，不同协程构建器处理不同，launch和async。
+ *
+ *  * 一般而言，协程发生异常，会做以下几件事：。/。(只适用于coroutineScope)
  * 1. 异常传播给它的父协程
  * 2. 父协程取消其它子协程
  * 3. 父协程取消自己
@@ -36,23 +40,130 @@ fun coroutineExceptionHandlerDemo() {
 //    coroutineScopeMistake()
 
 
-    val scope = CoroutineScope(Job())
-    scope.launch(exceptionHandler) {
-        launch {
-            launch {
-                // Child 1
-                delay(1000L)
-                Log.i("测试是否被取消", "111111: ")
-                throw  NullPointerException()
-            }
-            launch {
-                // Child
-                delay(2000L)
-                Log.i("测试是否被取消", "coroutineExceptionHandlerDemo: ")
+    exceptionHandle()
+}
+
+fun exceptionHandle() {
+
+    fun launchJobTry() {
+        // 使用Job，异常会传递
+        val scope = CoroutineScope(Job())
+        scope.launch {  // 1
+            launch {    // 2，1的子协程
+                launch {    // 3，2的子协程
+                    delay(1000L)    // 延迟，提高执行4的机会
+                    Log.i("launchJobTry", "测试是否被取消111")
+                    // 使用try捕获处理了异常，内部已经消化了这个异常，那么异常就不会抛出，不会抛出则不会发生传递。
+                    try {
+                        throw  NullPointerException()
+                    } catch (e: Exception) {
+                        Log.i("launchJobTry", "捕获到了异常")
+                    }
+                }
+                launch {     // 4，2的子协程
+                    delay(2000L)    // 延迟，提高执行3的机会
+                    Log.i("launchJobTry", "测试是否被取消222")
+                }
             }
         }
     }
 
+    /**
+     * 下面这个例子中，CoroutineExceptionHandler要在存在父子关系层级中最顶级那一层进行设置（1处），否则无效，异常最终还是会被抛出。
+     * 如果重新创建一个CoroutineScope，然后在2处使用，这时候1和2不存在父子关系，那么CoroutineExceptionHandler放在2处即可。
+     */
+    fun launchJobHandler() {
+        // 使用Job，异常会传递
+        val scope = CoroutineScope(Job())
+        scope.launch(exceptionHandler) {  // 1
+            launch {    // 2，1的子协程
+                launch {    // 3，2的子协程
+                    delay(1000L)    // 延迟，提高执行4的机会
+                    Log.i("launchJobHandler", "测试是否被取消111")
+                    throw  NullPointerException()   // 没有及时处理，异常抛出
+                }
+                launch {     // 4，2的子协程
+                    delay(2000L)    // 延迟，提高执行3的机会
+                    Log.i("launchJobHandler", "测试是否被取消222")
+                }
+            }
+        }
+    }
+
+    fun launchSuperJobHandlerFs() {
+        // 需要注意的是2是1的子协程，但是2这里的的其实还是一个新的job
+        val scope = CoroutineScope(SupervisorJob())
+        scope.launch(exceptionHandler) { //1
+            launch {//2
+                delay(1000L)    // 延迟，提高执行4的机会
+                Log.i("launchSuperJobHandlerFs", "测试是否被取消111")
+                throw  NullPointerException()   // 没有及时处理，异常抛出
+            }
+            launch {
+                delay(2000L)    // 延迟，提高执行3的机会
+                Log.i("launchSuperJobHandlerFs", "测试是否被取消222")
+            }
+        }
+    }
+
+    fun launchSuperJobHandlerBr() {
+        // 2和1是兄弟关系，因为2用的也是SupervisorJob的CoroutineScope。（SupervisorJob，异常不会传递，需要子协程自己设置exceptionHandler）
+        val scope = CoroutineScope(SupervisorJob())
+        scope.launch {//1
+            scope.launch(exceptionHandler) {//2
+                delay(1000L)    // 延迟，提高执行4的机会
+                Log.i("launchSuperJobHandlerBr", "测试是否被取消111")
+                throw  NullPointerException()   // 没有及时处理，异常抛出
+            }
+            scope.launch {
+                delay(2000L)    // 延迟，提高执行3的机会
+                Log.i("launchSuperJobHandlerBr", "测试是否被取消222")
+            }
+        }
+    }
+
+    fun launchSuperScope1() {
+        val scope = CoroutineScope(Job())
+        scope.launch {//1
+            supervisorScope {
+                scope.launch(exceptionHandler) {//2，和1是兄弟协程，虽然在supervisorScope里面，但是这里但CoroutineScope还是Job
+                    delay(1000L)
+                    Log.i("launchSuperScope", "测试是否被取消111")
+                    throw  NullPointerException()
+                }
+                scope.launch {//3，和1是兄弟协程，虽然在supervisorScope里面，但是这里但CoroutineScope还是Job
+                    delay(2000L)
+                    Log.i("launchSuperScope", "测试是否被取消222")
+                }
+            }
+        }
+    }
+
+    fun launchSuperScope2() {
+        val scope = CoroutineScope(Job())
+        scope.launch {//1
+            supervisorScope {
+                launch(exceptionHandler) {//2，和1是兄弟协程
+                    delay(1000L)
+                    Log.i("launchSuperScope2", "测试是否被取消111")
+                    throw  NullPointerException()
+                }
+                launch {//3，和1是兄弟协程
+                    delay(2000L)
+                    Log.i("launchSuperScope2", "测试是否被取消222")
+                }
+            }
+            delay(4000L)
+            Log.i("launchSuperScope2", "测试是否被取消333")
+        }
+    }
+
+//    launchJobTry()
+//    launchJobHandler()
+//    launchSuperJobHandlerFs()
+//    launchSuperJobHandlerBr()
+//    launchSuperScope1()
+//    launchSuperScope2()
 }
 
 
