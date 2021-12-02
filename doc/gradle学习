@@ -28,6 +28,12 @@ https://segmentfault.com/a/1190000004229002
 
 >混淆：
 https://mp.weixin.qq.com/s/qawywKLqie4QUoeTf8HCDA
+> Android 反编译利器，jadx 的高级技巧：
+https://juejin.cn/post/6844903516968845319
+>AGP默认提供的混淆规则文件有:
+proguard-android-optimize.txt，proguard-android.txt，proguard-defaults.txt。可通过 getDefaultProguardFile 选择其中一个进行设置，不过建议还是使用
+proguard-android-optimize.txt这个文件(多了些优化配置)。以gradle版本7.0为例，在app模块的 "build -> intermediates-> default_proguard_files -> global"
+这个路径下就能找到这三份文件，不同gradle版本的最后两层路径可能不同，但只要在intermediates搜索proguard就能找到相关文件夹。
 
 > gradle配置
 https://github.com/zincPower/GradleStudy
