@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import com.zkp.breath.component.activity.base.ClickBaseActivity
 import com.zkp.breath.coroutines.coroutineExceptionHandlerDemo
-import com.zkp.breath.coroutines.suspendCoroutineDemo
 import com.zkp.breath.databinding.ActivityCoroutinesBinding
 import kotlinx.coroutines.*
 import kotlin.concurrent.thread
@@ -101,11 +100,11 @@ class CoroutinesActivity : ClickBaseActivity() {
 //        asyncDemo()
 //        runBlockingDemo()
 //        delayDemo()
-        interceptorDemo()
-        dispatcherDemo()
+//        interceptorDemo()
+//        dispatcherDemo()
 
         coroutineExceptionHandlerDemo()
-        suspendCoroutineDemo()
+//        suspendCoroutineDemo()
 
         varargSetClickListener(binding.tvCoroutineStartType)
     }
