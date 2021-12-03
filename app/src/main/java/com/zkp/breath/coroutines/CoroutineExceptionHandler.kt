@@ -6,6 +6,11 @@ import kotlinx.coroutines.*
 /**
  *
  * https://juejin.cn/post/6844904163424337934
+ * https://juejin.cn/post/6909276222895685640#heading-3
+ * https://juejin.cn/post/6930881112415666184
+ * https://juejin.cn/post/6901956626324914184#heading-3
+ * https://juejin.cn/post/6988876911338323981
+ *
  *
  * 协程异常：
  * 1. 异常是否会传递，和Job和SupervisorJob这两个有关
