@@ -2,6 +2,7 @@ package com.zkp.breath.coroutines
 
 import android.util.Log
 import kotlinx.coroutines.*
+import okhttp3.internal.wait
 
 /**
  *
@@ -38,17 +39,83 @@ import kotlinx.coroutines.*
  * 3.通过 async 启动的协程出现未捕获的异常时会忽略 CoroutineExceptionHandler，这与 launch 的设计思路是不同的。
  * 4.异常传播和协程作用域相关
  */
+
 fun coroutineExceptionHandlerDemo() {
-
-//    launchMistake()
-//    asyncMistake()
-//    coroutineScopeMistake()
-
-
-    exceptionHandle()
+    lanchExceptionHandle()
+    asyncExceptionHandle()
 }
 
-fun exceptionHandle() {
+fun asyncExceptionHandle() {
+
+    /**
+     * 当async在根协程CoroutineScope实例使用时，异常不会被自动抛出，而是直到你调用 .await() 时才抛出。
+     */
+    fun asyncRootAnyJob() {
+        // 这里的CoroutineScope的CoroutineContext无论是Job还是SupervisorJob
+        val scope = CoroutineScope(SupervisorJob())
+        scope.async {
+            Log.i("asyncAnyJobRoot", "测试是否被取消111")
+            throw  NullPointerException()
+        }
+
+        // 这个的sync也是在根协程CoroutineScope实例使用，所以异常不会被自动抛出
+//        val scope = CoroutineScope(Job())
+//        scope.launch {
+//            val scope1 = CoroutineScope(Job())
+//            scope1.async {
+//                throw  NullPointerException()
+//            }
+//        }
+    }
+
+    fun asyncRootAnyJobTry() {
+        val scope = CoroutineScope(Job())
+        val async = scope.async {
+            Log.i("asyncRootAnyJobTry", "测试是否被取消111")
+            throw  NullPointerException()
+        }
+
+        scope.launch {
+            try {
+                async.wait()
+            } catch (e: Exception) {
+                Log.i("asyncRootAnyJobTry", "try住了异常")
+            }
+        }
+    }
+
+    fun asyncJobTry() {
+        val scope = CoroutineScope(Job())
+        scope.launch {
+            // CoroutineScope的CoroutineContext为Job，
+            val deferred = async {
+                Log.i("asyncJobTry", "测试是否被取消111")
+                try {
+                    throw  NullPointerException()
+                } catch (e: Exception) {
+                }
+            }
+        }
+    }
+
+    fun asyncJobHandler() {
+        val scope = CoroutineScope(Job())
+        scope.launch(exceptionHandler) {
+            val deferred = async {
+                Log.i("asyncJobHandler", "测试是否被取消111")
+                throw  NullPointerException()
+            }
+        }
+    }
+
+//    asyncRootAnyJob()
+//    asyncRootAnyJobTry()
+//    asyncJobTry()
+//    asyncJobHandler()
+
+}
+
+fun lanchExceptionHandle() {
 
     fun launchJobTry() {
         // 使用Job，异常会传递
@@ -165,22 +232,26 @@ fun exceptionHandle() {
 
     fun launchSuperScope3() {
         val scope = CoroutineScope(Job())
-        scope.launch {//1
+        scope.launch {
             supervisorScope {
                 launch(exceptionHandler) {
                     launch {
                         delay(3000L)
-                        Log.i("launchSuperScope2", "测试是否被取消333")
+                        Log.i("launchSuperScope3", "测试是否被取消333")
                     }
                     delay(1000L)
-                    Log.i("launchSuperScope2", "测试是否被取消111")
+                    Log.i("launchSuperScope3", "测试是否被取消111")
                     throw  NullPointerException()
                 }
                 launch {//3，和1是兄弟协程
                     delay(2000L)
-                    Log.i("launchSuperScope2", "测试是否被取消222")
+                    Log.i("launchSuperScope3", "测试是否被取消222")
                 }
+                delay(4000L)
+                Log.i("launchSuperScope3", "测试是否被取消4444")
             }
+            delay(5000L)
+            Log.i("launchSuperScope3", "测试是否被取消5555")
         }
     }
 
@@ -190,140 +261,8 @@ fun exceptionHandle() {
 //    launchSuperJobHandlerBr()
 //    launchSuperScope1()
 //    launchSuperScope2()
-    launchSuperScope3()
+//    launchSuperScope3()
 }
-
-
-fun coroutineScopeMistake() {
-    val topLevelScope = CoroutineScope(Job())
-    topLevelScope.launch {
-        try {
-            coroutineScope {
-                launch {
-                    suspendCoroutineExceptionTask()
-                }
-            }
-        } catch (exception: Exception) {
-            println("Handle $exception in try/catch")
-        }
-    }
-}
-
-/**
- * launch和async协程中未捕获的异常会立即在作业层次结构中传播。但是，如果顶层Coroutine是从launch启动的，则异常将由CoroutineExceptionHandler
- * 处理或传递给线程的未捕获异常处理程序。如果顶级协程以async方式启动，则异常封装在Deferred返回类型中，并在调用.await（）时重新抛出。
- */
-private fun asyncMistake() {
-
-
-    fun topCoroutine() {
-        val coroutineScope = CoroutineScope(Job())
-        val async = coroutineScope.async {
-            Log.i("async异常捕获", "asyncMistake: ")
-            suspendCoroutineExceptionTask()
-        }
-
-        /**
-         * launch没有返回值，async可以获取携程的结果，如果异步协程失败，则将该异常封装在Deferred返回类型中，
-         * 并在我们调用suspend函数.await（）来检索其结果值时将其重新抛出。如果没有调用await，那么上面执行后程序是不会崩溃的。
-         */
-        GlobalScope.launch {
-            try {
-                async.await()
-            } catch (exception: Exception) {
-                Log.i("async异常捕获", "asyncMistake: ")
-            }
-        }
-
-    }
-
-    /**
-     * 如果async协程是顶级协程，则会将异常封装在Deferred中,等待调用await才会抛出异常。否则，该异常将立即传播到Job层次结构中，
-     * 并由CoroutineExceptionHandler处理，甚至传递给线程的未捕获异常处理程序，即使不对其调用.await（），如以下示例所示：
-     */
-    fun noTopCoroutine() {
-        val coroutineScope = CoroutineScope(Job())
-        coroutineScope.launch(exceptionHandler) {
-            async {
-                Log.i("async异常捕获", "asyncMistake: ")
-                suspendCoroutineExceptionTask()
-            }
-        }
-    }
-
-//    topCoroutine()
-    noTopCoroutine()
-}
-
-/**
- * 异常处理的错误例子
- *
- * 如果协程内部不使用try-catch语句处理异常，则该异常也不会re-thrown，因此不能由外部try-catch语句处理。相反，该异常是“在Job层次结构中传播”，可以由已配置的
- * CoroutineExceptionHandler处理。如果未配置CoroutineExceptionHandler，则异常会到达UncaughtExceptionHandler。
- */
-private fun launchMistake() {
-
-    // 正确的try-catch
-    fun tryCatchCorrect() {
-        GlobalScope.launch {
-            GlobalScope.launch {
-                try {
-                    suspendCoroutineExceptionTask()
-                } catch (e: Exception) {
-                    Log.i("捕获异常的错误例子", "mistake: ")
-                }
-            }
-        }
-    }
-
-    // 错误的try-catch，需要在对应协程内处理，和作用域无关
-    fun tryCatchMistake() {
-        GlobalScope.launch {
-            try {
-                GlobalScope.launch {
-                    suspendCoroutineExceptionTask()
-                }
-            } catch (e: Exception) {
-                Log.i("捕获异常的错误例子", "mistake: ")
-            }
-        }
-    }
-
-    // 不同作用域，正确的CoroutineExceptionHandler设置
-    fun differentScopeCorrect() {
-        GlobalScope.launch {
-            GlobalScope.launch(exceptionHandler) {
-                suspendCoroutineExceptionTask()
-            }
-        }
-    }
-
-    // GlobalScope，同一个作用域，正确的CoroutineExceptionHandler设置
-    fun sameScopeCorrect() {
-        GlobalScope.launch(exceptionHandler) {
-            launch {
-                suspendCoroutineExceptionTask()
-            }
-        }
-    }
-
-    // 自定义CoroutineScope，同一个作用域，正确的CoroutineExceptionHandler设置
-    fun sameScopeCorrect1() {
-        val topLevelScope = CoroutineScope(Job())
-        topLevelScope.launch(exceptionHandler) {
-            launch {
-                throw RuntimeException("RuntimeException in nested coroutine")
-            }
-        }
-    }
-
-//    tryCatchCorrect()
-//    tryCatchMistake()
-//    differentScopeCorrect()
-//    sameScopeCorrect()
-//    sameScopeCorrect1()
-}
-
 
 /**
  * 协程的异常捕获器
