@@ -2,7 +2,6 @@ package com.zkp.breath.coroutines
 
 import android.util.Log
 import kotlinx.coroutines.*
-import okhttp3.internal.wait
 
 /**
  *
@@ -41,7 +40,7 @@ import okhttp3.internal.wait
  */
 
 fun coroutineExceptionHandlerDemo() {
-    lanchExceptionHandle()
+    launchExceptionHandle()
     asyncExceptionHandle()
 }
 
@@ -68,6 +67,9 @@ fun asyncExceptionHandle() {
 //        }
     }
 
+    /**
+     *  当async在根协程CoroutineScope实例使用时，异常不会被自动抛出，而是直到你调用 .await() 时才抛出。
+     */
     fun asyncRootAnyJobTry() {
         val scope = CoroutineScope(Job())
         val async = scope.async {
@@ -77,12 +79,59 @@ fun asyncExceptionHandle() {
 
         scope.launch {
             try {
-                async.wait()
+                async.await()
             } catch (e: Exception) {
                 Log.i("asyncRootAnyJobTry", "try住了异常")
             }
         }
     }
+
+    fun asyncRootJobTryEffectBr() {
+        val scope = CoroutineScope(Job())
+        val deferred = scope.async {//1
+            Log.i("asyncRootAnyJobTryEffectBr", "测试是否被取消111")
+            throw  NullPointerException()//1-1
+        }
+
+        scope.launch {//2，和1是兄弟协程
+            Log.i("asyncRootJobTryEffectBr", "测试是否被取消222")
+            delay(2000L)
+            Log.i("asyncRootJobTryEffectBr", "测试是否被取消3333")// 2-1， 不会执行
+        }
+
+        scope.launch {
+            // 这里try catch 不是捕获抛真正异常发生的地方(1-1)，只能阻止防止程序崩溃而已。
+            // 所以1-1处异常发生的时候会取消协程，而CoroutineScope的参数是Job，所以协同作用域进行双向传播，取消所有协程。
+            try {
+                deferred.await()
+            } catch (e: Exception) {
+                Log.i("asyncRootJobTryEffectBr", "try住了异常")
+            }
+        }
+    }
+
+    fun asyncRootSuperJobTryEffectBr() {
+        val scope = CoroutineScope(SupervisorJob())
+        val deferred = scope.async {//1
+            Log.i("asyncRootAnyJobTryEffectBr", "测试是否被取消111")
+            throw  NullPointerException()
+        }
+
+        scope.launch {//2，和1是兄弟协程
+            Log.i("asyncRootSuperJobTryEffectBr", "测试是否被取消222")
+            delay(2000L)
+            Log.i("asyncRootSuperJobTryEffectBr", "测试是否被取消3333")// 会执行，因为CoroutineScope的参数是SupervisorJob
+        }
+
+        scope.launch {
+            try {
+                deferred.await()
+            } catch (e: Exception) {
+                Log.i("asyncRootSuperJobTryEffectBr", "try住了异常")
+            }
+        }
+    }
+
 
     fun asyncJobTry() {
         val scope = CoroutineScope(Job())
@@ -110,12 +159,15 @@ fun asyncExceptionHandle() {
 
 //    asyncRootAnyJob()
 //    asyncRootAnyJobTry()
+//    asyncRootJobTryEffectBr()
+//    asyncRootSuperJobTryEffectBr()
+
 //    asyncJobTry()
 //    asyncJobHandler()
 
 }
 
-fun lanchExceptionHandle() {
+fun launchExceptionHandle() {
 
     fun launchJobTry() {
         // 使用Job，异常会传递
